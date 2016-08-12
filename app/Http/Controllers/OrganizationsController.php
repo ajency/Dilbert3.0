@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\User;
 use App\Organization;
+use App\Log;
 use App\SocialAccountService;
 
 class OrganizationsController extends Controller
@@ -72,14 +73,22 @@ class OrganizationsController extends Controller
         $org = Organization::where('id',(int)$org_id)->get();
 
         if(count($org) > 0){
-            $users = User::where('org_id',(int)$org_id)->delete();
-            //dd($users);
+            $users = User::where('org_id',(int)$org_id)->get();
             
+            foreach($users as $user){
+                $logs = Log::where('user_id',$user->id)->delete();// delete each user log
+                $user->delete();// delete each user
+            }
+
+            //dd($users);
+            //
             $org = Organization::where('id',(int)$org_id)->delete();
+            
+            auth()->logout();// logout of session
             return redirect('/login');
         }
 
-        return back();
+        //return back();
     }
 
     public function info(Request $request) {
