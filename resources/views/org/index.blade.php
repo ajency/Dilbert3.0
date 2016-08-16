@@ -92,13 +92,14 @@
                                         </div>
                                         <div class="domain">
                                             Domain: <strong> @ {{$account->user['domain']}} </strong>
+                                            <input type="hidden" name="orgdomain" value="{{$account->user['domain']}}"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="defaultTimezones">Default Timezone <span style="color:red">*</span></label>
-                                <input type="text" id="defaultTimezones" class="form-control" placeholder="Type and select timezone"/>
+                                <input type="text" id="defaultTimezones" name="defaulttz" class="form-control" placeholder="Type and select timezone" required/>
                             </div>
                             <div class="form-group">
                                 <label for="allowedTimezones">Allowed Timezone</label>
@@ -125,7 +126,7 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label for="timeidle">Time until Idle <span style="color:red">*</span></label>
-                                        <input type="number" id="timeidle" class="form-control" placeholder="Enter time in minutes">
+                                        <input type="number" id="timeidle" name="idleTime" class="form-control" placeholder="Enter time in minutes" required>
                                     </div>
                                 </div>
                             </div>

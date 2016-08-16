@@ -23,38 +23,40 @@ $(document).ready(function() {
         }
     });
 
-    $('#add_alt_tz').click(function(e) {
+    $('#add_alt_tz').click(function(e) { // for adding new alternate time
         //document.getElementById('added_alt_zones').innerHTML = '<div class="zone"><strong>'+ 'abc' +'</strong><a href="#" class="remove-zone">&times;</a></div>';
-        var div  = document.createElement("div");
-        var text = document.createTextNode($('#allowedTimezones').val());
+        var div = document.createElement("div");
+        var inpHidden = document.createElement("input");
+        var text = document.createTextNode($('#allowedTimezones').val());// get value from 'allowedTimezones' textbox, & assign to TextNode
         var link = document.createElement("a");
         var close = document.createTextNode('×');// -> '&times;'
-        link.appendChild(close);
+        link.appendChild(close);// add close button to link
         link.className = "remove-zone";
         link.href = "#";
-        link.onclick = function(e) {
+        link.onclick = function(e) { // remove option on button click
             this.closest('div').remove();
-            e.preventDefault();
+            e.preventDefault();// prevent page reload, or movement of page
         };
-        //link.addClass("remove-zone");
-        //link.innerHTML = '<a href="#" class="remove-zone" onclick="removeDivAltTimezone(this)">&times;</a>';
         
+        inpHidden.value = $('#allowedTimezones').val();
+        inpHidden.setAttribute("name","alttime[]");// assign name (array) to alt_time_zone
+        inpHidden.setAttribute("type","hidden");
+        div.appendChild(inpHidden);
         div.appendChild(text);
         div.appendChild(link);
-        div.setAttribute("name","alttime[]");
-        div.className = "zone";
+        div.className = "zone";// css class assigned
         document.getElementById('added_alt_zones').appendChild(div);
 
-        e.preventDefault();
+        e.preventDefault();// prevent page reload/movement on Add button click
     });
 
-    $('#addIP').click(function(e) {
-        $("#iprow").clone().appendTo("#iplist");
+    $('#addIP').click(function(e) {// for adding new IP address
+        $("#iprow").clone().appendTo("#iplist");// clone/duplicate the child 'iprow' under the div 'iplist'
     });
 
 });
 
-function removeIP(index) {
-    $(index).closest('#iprow').remove();
-    event.preventDefault();
+function removeIP(index) { // index consist 'this' i.e. the current button position/id
+    $(index).closest('#iprow').remove(); // remove parent 'iprow' from grandparent 'iplist' 
+    event.preventDefault();// prevent page movement on button click
 }

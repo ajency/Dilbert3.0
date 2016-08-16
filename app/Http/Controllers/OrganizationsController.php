@@ -19,12 +19,13 @@ class OrganizationsController extends Controller
 
     public function save(Request $request) {
 
-    	$this->validate($request, [
+        $this->validate($request, [
             'orgname' => 'required',
             'orgdomain' => 'required ',// | regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
             'defaulttz' => 'required',
-            'ip' => 'required|min:2',
-            'ipstatus' => 'required|min:2'
+            'idleTime' => 'required',
+            'ip' => 'required|min:1',
+            'ipstatus' => 'required|min:1'
         ]);
 
     	//dd($request);
@@ -32,16 +33,16 @@ class OrganizationsController extends Controller
     	$ip = array();
     	$ipstatus = array();
     	
-    	if(count($request->alttime) > 1){ // checks if alternate Time zones are selected
-    		for($i = 1;$i < count($request->alttime); $i++){
-    			$alttime[$i - 1] = $request->alttime[$i];
+    	if(count($request->alttime) > 0){ // checks if alternate Time zones are selected
+    		for($i = 0;$i < count($request->alttime); $i++){
+    			$alttime[$i] = $request->alttime[$i];
     		}
     	}
 
-    	if(count($request->ip) > 1){ // 1st value is null of IP
-    		for($i = 1;$i < count($request->ip); $i++ ){
-    			$ip[$i - 1] = $request->ip[$i];
-    			$ipstatus[$i - 1] = $request->ipstatus[$i];
+    	if(count($request->ip) > 0){ // 1st value is null of IP
+    		for($i = 0;$i < count($request->ip); $i++ ){
+    			$ip[$i] = $request->ip[$i];
+    			$ipstatus[$i] = $request->ipstatus[$i];
     		}
     	}
 
@@ -51,6 +52,7 @@ class OrganizationsController extends Controller
     	$org->logo = $request->orglogo;
     	$org->default_tz = $request->defaulttz;
     	$org->alt_tz = $alttime;//serialize($request->alttime);
+        $org->idle_time = $request->idleTime;
     	$org->ip_lists = $ip;//serialize($request->ip);
     	$org->ip_status = $ipstatus;
     	$org->save();
