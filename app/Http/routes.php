@@ -10,9 +10,19 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\User;
+use App\Organization;
 
 Route::get('/', function () {
-    return view('welcome');
+	if(auth()->guest())
+    	return view('welcome');
+    else{
+    	$org_id = User::where('email',auth()->user()->email)->get();
+        
+        $logo = Organization::find($org_id[0]->org_id)->get();
+        $logo = $logo[0]->domain;
+        return view('welcome',compact('logo'));
+    }
 });
 
 Route::auth();

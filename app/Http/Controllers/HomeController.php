@@ -25,18 +25,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() { // 
         $org_id = User::where('email',auth()->user()->email)->get();
         
         $logo = Organization::find($org_id[0]->org_id)->get();
         $logo = $logo[0]->domain;
-        $logs = Log::where([['user_id',auth()->user()->id],['work_date',"2016-08-11"],])->get();
+        $logs = Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
 
         return view('home',compact('logo','logs'));
     }
 
-    public function profile() {
+    public function profile() {// view profile details
         $org_id = User::where('email',auth()->user()->email)->get();
     
         $logo = Organization::find($org_id[0]->org_id)->get();
@@ -46,7 +45,7 @@ class HomeController extends Controller
         return view('profile.index',compact('logo','log'));
     }
 
-    public function newprof(Request $request) {
+    public function newprof(Request $request) { // update profile
         $this->validate($request, [
             'empemail' => 'required',
             'empname' => 'required ',// | regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',

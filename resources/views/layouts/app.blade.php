@@ -51,7 +51,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}" style="color:#FFDF00">
-                    @if (Auth::guest())
+                    @if (Auth::guest() || empty($logo))
                         Dilbert
                     @else
                        <img src="https://www.google.com/a/cpanel/{{ $logo }}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:40px;margin-top:-7px;">
