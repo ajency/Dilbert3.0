@@ -53,7 +53,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button>
-                                <a href="redirect/google"><img src="images/btn_google_signin_dark_web.png" width="160" id="google_btn" alt=""></a>
+                                <a href="redirect/google"><img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt=""></a>
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
                             </div>
                         </div>

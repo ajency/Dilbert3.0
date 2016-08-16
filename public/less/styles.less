@@ -1,0 +1,84 @@
+@import "varsnhelpers";
+@import "elements";
+
+.max-767 {
+	// max-width: 767px;
+	width: 767px;
+	margin: 0 auto;
+}
+
+.header	{
+	border-bottom: 1px solid #ddd;
+	padding: 20px 15px;
+	.logo {
+		margin: 0;
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 21px;
+	}
+}
+
+.page-title {
+	h1 {
+		font-size: 20px;
+		margin: 0;
+		margin-top: 35px;
+		strong {
+			font-weight: 600;
+		}
+	}
+	.sub-title {
+		margin-top: 3px;
+		margin-bottom: 20px;
+		font-size: 13px;
+		color: @bodyGrey;
+		font-weight: 600;
+	}
+}
+
+form {
+	label {
+		font-size: 13px;
+		font-weight: 300;
+		opacity: 0.5;
+	}
+}
+
+.top-row {
+	margin-bottom: 15px;
+}
+
+.setheight {
+	height: 128px;
+}
+.bottom-align {
+	position: absolute;
+	bottom: 0;
+	left: 15px;
+	right: 15px;
+}
+
+.organisation-icon {
+	background: url(../img/company-icon.png) no-repeat center;
+	width: 88px;
+	height: 48px;
+	display: block;
+	margin: 25px auto;
+}
+.rt-text-org {
+	border-left: 1px solid #eee;
+	padding: 1px;
+	padding-left: 25px;
+	h3 {
+		font-size: 18px;
+		font-weight: 400;
+		margin: 25px 0;
+	}
+	.org-expln {
+		padding-bottom: 15px;
+	}
+	p {
+		opacity: 0.5;
+		margin-bottom: 15px;
+	}
+}

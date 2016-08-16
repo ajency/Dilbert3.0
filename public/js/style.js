@@ -1,9 +1,9 @@
 $(document).ready(function(){
 // 	document.getElementById('memberS').addEventListener("change",overrideSelect);
 	$("#google_btn").hover(function(){
-    	$("#google_btn").attr('src',"images/btn_google_signin_light_web.png");
+    	$("#google_btn").attr('src',"img/btn_google_signin_light_web.png");
     }, function(){
-    	$("#google_btn").attr('src',"images/btn_google_signin_dark_web.png");
+    	$("#google_btn").attr('src',"img/btn_google_signin_dark_web.png");
 	});
 
 	$("#tuckshopLink").click(function() {

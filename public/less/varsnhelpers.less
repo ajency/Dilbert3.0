@@ -1,0 +1,58 @@
+@softGrey: #ebebeb;
+@bodyGrey: #828282;
+@googleGrey: #757575;
+@googleRed: #d43f3a;
+
+@titleDark: #545454;
+
+@primary: #8e20d7;
+@secondary: #f7ae12;
+
+@warning: #efda25; // yellow
+@danger: #fb522b; // red
+@info: #1687e7; // blue
+@success: #94d614; // green
+
+@font-primary: 'Roboto', Arial, sans-serif;
+
+
+
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: @font-primary;
+}
+h1, h2, h3, h4, h5, h6 {
+	color: @titleDark;
+}
+p, body {
+	color: @bodyGrey;
+}
+a {
+	color: @primary;
+	text-decoration: none;
+	&:hover, &:active, &:focus {
+		text-decoration: none;
+	}
+}
+
+button, input, textarea {
+	&, &:hover, &:active, &:focus {
+		outline: 0;
+	}
+}
+
+.posrel {
+	position: relative;
+}
+
+.spacer-45 {
+	height: 45px;
+}
+
+[contenteditable=true] {
+	cursor: text;
+}
+[contenteditable=true]:empty:before{
+	content: attr(placeholder);
+	display: block; /* For Firefox */
+	opacity: 0.7;
+}
