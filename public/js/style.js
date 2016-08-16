@@ -11,6 +11,19 @@ $(document).ready(function(){
 	});
 });
 
+function confirmDel(index) {
+	var table = document.getElementById("tableOrg");
+	var pos = $(index).closest('tr').index();
+	
+	var confirmation = confirm("You sure you want to delete the Organization named '" + $(table.rows.item(pos + 1).cells[0]).text() + "' ?");
+	
+	if(confirmation == true){
+		return true;
+	} else {
+		event.preventDefault();
+		return false;
+	}
+}
 
 function addTableRow(){ // adds new row & 5 columns to the table
 	var table = document.getElementById("newTimeTable");
