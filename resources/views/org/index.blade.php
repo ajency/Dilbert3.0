@@ -82,6 +82,14 @@
                                             Upload Logo
                                         </span>
                                     </label>
+                                    <!-- Hide the label set above and show the below set (interchange the 'hidden' classes) -->
+                                    <!-- and show the uploaded image as the src of the below img -->
+                                    <div class="after-image upload-label hidden">
+                                        <span class="image-added">
+                                            <i class="remove-image">&times;</i>
+                                            <img src="http://placehold.it/150x55" alt="">
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col-xs-6 posrel setheight">
                                     <div class="bottom-align">
@@ -115,11 +123,12 @@
                                         <a href="#" class="remove-zone">&times;</a>
                                     </div> -->
                                 </div>
-                                <div class="col-xs-10" style="padding-left:0px">
-                                    <input type="text" id="allowedTimezones" class="form-control" placeholder="Type and select timezones">
-                                </div>
-                                <div class="col-xs-2" style="margin-top:-10px">
-                                    <button type="button" class="btn" id="add_alt_tz"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button type="button" class="btn btn-default nomar within-lab pull-right" id="add_alt_tz"> + </button>
+                                        <input type="text" id="allowedTimezones" class="form-control with-rtbtn pull-left" placeholder="Type and select timezones">
+                                    </div>
+                                    <!-- <div class="col-xs-1 p-a-0 text-right"></div> -->
                                 </div>
                             </div>
                             <div class="row">
@@ -149,21 +158,19 @@
                                             <i class="fa fa-sort noclick"></i>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1" id="ipbtn"> <!-- remove button -->
-                                        <div class="form-group posrel">
-                                            <button class="btn btn-default" style="margin-top:35px" onclick="removeIP(this)"><span aria-hidden="true" style="color:red">&times;</span></button>
-                                        </div>
+                                    <div class="col-xs-1 p-a-0" id="ipbtn"> <!-- remove button -->
+                                        <button class="btn btn-link nomar outof-lab removelink" style="" onclick="removeIP(this)"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 text-right">
-                                    <button type="button" class="btn btn-default" id="addIP" style="margin-top:-10px"> Add new IP address</button>
+                                    <button type="button" class="btn btn-default nomar" id="addIP"> Add new IP address</button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 text-right">
-                                    <button class="btn btn-primary">Create Organisation</button>
+                                    <button class="btn btn-primary finalbtn">Create Organisation</button>
                                 </div>
                             </div>
                         </form>

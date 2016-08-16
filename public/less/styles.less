@@ -39,13 +39,16 @@
 form {
 	label {
 		font-size: 13px;
-		font-weight: 300;
-		opacity: 0.5;
+		font-weight: bold;
+		// opacity: 0.5;
 	}
 }
 
 .top-row {
 	margin-bottom: 15px;
+	.form-group {
+		margin-bottom: 15px;
+	}
 }
 
 .setheight {
@@ -81,4 +84,35 @@ form {
 		opacity: 0.5;
 		margin-bottom: 15px;
 	}
+}
+
+.after-image.upload-label {
+	padding: 33px 15px;
+}
+.image-added {
+	display: block;
+	text-align: center;
+	.remove-image {
+		position: absolute;
+		top: 0;
+		right: 0;
+		color: @titleDark;
+		opacity: 0.3;
+		text-shadow: 1px 1px 1px rgba(255,255,255,0.7);
+		font-style: normal;
+		font-size: 22px;
+		line-height: normal;
+		width: 30px;
+		height: 30px;
+		text-align: center;
+		cursor: pointer;
+	}
+}
+.removelink {
+	opacity: 0.5;
+	font-size: 22px;
+	font-weight: 300;
+}
+.finalbtn {
+	margin: 45px 0;
 }
