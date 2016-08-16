@@ -54,7 +54,7 @@
                     @if (Auth::guest())
                         Dilbert
                     @else
-                       <img src="https://www.google.com/a/cpanel/{{ $logo }}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:200%;margin-top:-7px;">
+                       <img src="https://www.google.com/a/cpanel/{{ $logo }}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:40px;margin-top:-7px;">
                     @endif
                 </a>
             </div>
