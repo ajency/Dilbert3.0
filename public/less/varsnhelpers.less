@@ -29,10 +29,13 @@ p, body {
 }
 a {
 	color: @primary;
-	text-decoration: none;
-	&:hover, &:active, &:focus {
-		text-decoration: none;
-	}
+	text-decoration: underline;
+	// &:hover, &:active, &:focus {
+	// 	text-decoration: none;
+	// }
+}
+.small-link {
+	font-size: 12px;
 }
 
 .p-a-0 {
@@ -60,4 +63,22 @@ button, input, textarea {
 	content: attr(placeholder);
 	display: block; /* For Firefox */
 	opacity: 0.7;
+}
+
+.spacer-40 {
+	height: 40px;
+	&:before, &:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+.mTop-25 {
+	margin-top: 25px;
+}
+.mBtm-25 {
+	margin-bottom: 25px;
+}
+.mBtm-10 {
+	margin-bottom: 10px;
 }
