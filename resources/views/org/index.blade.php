@@ -13,18 +13,30 @@
     <body>
         
         <div class="full-wrapper">
-            <header class="header">
+            <nav class="navbar navbar-default navbar-static-top header">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xs-7">
-                            <h3 class="logo">Dilbert</h3>
-                        </div>
-                        <div class="col-xs-5 text-right">
-                            <a href="#">Contact Us</a>
-                        </div>
+                    <div class="navbar-header">
+
+                        <!-- Collapsed Hamburger -->
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                            <span class="sr-only">Toggle Navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <!-- Branding Image -->
+                        <h3 class="logo navbar-brand">Dilbert</h3>
+                    </div>
+                    <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
                     </div>
                 </div>
-            </header>
+            </nav>
+
+
             <div class="container max-767">
                 <div class="steps-wrapper only-two">
                     <div class="step done">
