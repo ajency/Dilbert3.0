@@ -14,7 +14,11 @@ use App\SocialAccountService;
 class OrganizationsController extends Controller
 {
     public function index() {
-    	return view('org.index');
+        $status = "present";
+        $company = "";
+        $domain = "";
+        $useremail = "";
+    	return view('org.index',compact('status','company','domain','useremail'));
     }
 
     public function save(Request $request) {
@@ -28,7 +32,6 @@ class OrganizationsController extends Controller
             'ipstatus' => 'required|min:1'
         ]);
 
-    	//dd($request);
     	$alttime = array();
     	$ip = array();
     	$ipstatus = array();
@@ -60,6 +63,20 @@ class OrganizationsController extends Controller
     	return redirect('/redirect/google');
     }
 
+    public function domainPresent(Request $request) { // new user but same domain, then asking confirmation
+        try {
+            $org = Organization::where('domain',$request->orgdomain)->get();
+            if(count($org) > 0) { //domain exist in database
+                $org_id = User::where('email',$request->userid)->update(['org_id' => $org[0]->id]);
+                $user = User::where('email',$request->userid)->get();
+                auth()->login($user[0]);
+                return redirect()->to('/home');
+            }
+        } catch (Exception $e) {
+            
+        }
+    }
+
     public function view() {
     	$orgs = Organization::all();
 
@@ -82,20 +99,15 @@ class OrganizationsController extends Controller
                 $user->delete();// delete each user
             }
 
-            //dd($users);
-            //
             $org = Organization::where('id',(int)$org_id)->delete();
             
             auth()->logout();// logout of session
             return redirect('/login');
         }
-
-        //return back();
     }
 
     public function info(Request $request) {
         $org = Organization::where('id',$request->org_id)->get();
-
         return $org;
     }
 }

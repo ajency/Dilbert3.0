@@ -13,7 +13,7 @@ class SocialAccountService
         $user = User::whereEmail($providerUser->getEmail())->first();
 
         $org = Organization::where('domain',$providerUser->user["domain"])->get();
-        
+        $status = "exist";
         if (!$user) { // if the email & info is not present in the list, then create new
             $user = new User;
             $user->email = $providerUser->email;
@@ -24,7 +24,10 @@ class SocialAccountService
             $user->org_id = $org[0]->id;
             $user->role = "admin";
             $user->save();
+
+            $status = "present";
         }
-        return $user;
+
+        return array($user, $status);
     }
 }

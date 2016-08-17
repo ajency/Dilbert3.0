@@ -18,21 +18,24 @@ class SocialAuthController extends Controller {
     public function callback(SocialAccountService $service) {
         try {
             $account = Socialite::driver('google')->user();
-            //dd($account->user["domain"]);
             if(isset($account->user["domain"])){ // checks the presence of domain attribute/object
-                //if($account->domain == "ajency.in")
-                //dd($account);
-                //return response()->json($account);
                 $org = Organization::where('domain',$account->user["domain"])->get();
                 if(count($org) > 0) { //domain exist in database
-                    $user = $service->createOrGetUser($account);
-                    auth()->login($user);
-                    
-                    //return $user;
-                    return redirect()->to('/home');
+                    $arraySocial = $service->createOrGetUser($account);
+                    $user = $arraySocial[0];
+                    $status = $arraySocial[1];
+                    if($status == "exist") {
+                        auth()->login($user);
+                        return redirect()->to('/home');
+                    } else if($status == "present") {// join organization
+                        $company = $org[0]->name;
+                        $domain = $org[0]->domain;
+                        $useremail = $user->email;
+                        return view('org.index',compact('status','company','domain','useremail'));// open Join Organization page
+                    }
                 } else { // add organization
-                    //dd($account->user["domain"]);
-                    return view('org.index',compact('account'));       
+                    $status = "new";
+                    return view('org.index',compact('account','status'));// open new organization page
                 }
             } else { // if no domain
                 return redirect('/login');
@@ -43,7 +46,6 @@ class SocialAuthController extends Controller {
     }
 
     public function logout() { // overrided the default login -> for chrome App
-        //Auth::logout();
         auth()->logout();
         return redirect()->to('/home');
     }

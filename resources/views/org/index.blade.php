@@ -36,8 +36,8 @@
                 </div>
             </nav>
 
-
-            <div class="container max-767 hidden">
+        @if($status == "new")
+            <div class="container max-767">
                 <div class="steps-wrapper only-two">
                     <div class="step done">
                         <span class="step-count">
@@ -203,7 +203,7 @@
             </div>
 
 
-
+        @else
             <!-- Below is the html for Join an organisation -->
             <div class="container max-767">
                 <div class="steps-wrapper only-two">
@@ -240,9 +240,7 @@
 
                 <div class="row">
                     <div class="col-xs-8">
-                        <form action="/org/save" method="post" id="create-organisation">
-                            {{ csrf_field() }}
-
+                        <form action="/orgpresent" method="get" id="create-organisation">
                             <div class="row mTop-25 mBtm-25">
                                 <div class="col-xs-12">
                                     <div class="domain">
@@ -258,8 +256,9 @@
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="domain">
-                                        <strong> Ajency.in </strong>
-                                        <input type="hidden" name="orgname" value="Ajency.in"/>
+                                        <strong> {{$company}} </strong>
+                                        <input type="hidden" name="orgname" value="{{$company}}"/>
+                                        <input type="hidden" name="userid" value="{{$useremail}}"/>
                                     </div>
                                 </div>
                             </div>
@@ -271,8 +270,8 @@
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="domain">
-                                        <strong> @ {{$account->user['domain']}} </strong>
-                                        <input type="hidden" name="orgdomain" value="{{$account->user['domain']}}"/>
+                                        <strong> @ {{$domain}} </strong>
+                                        <input type="hidden" name="orgdomain" value="{{$domain}}"/>
                                     </div>
                                 </div>
                             </div>
@@ -303,6 +302,7 @@
                     </div>
                 </div>
             </div>
+        @endif
         </div>
 
         <script src="../js/jQuery.1.12.2.js"></script>

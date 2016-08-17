@@ -38,14 +38,15 @@ Route::get('/home', 'HomeController@index');
 // add new Organization details
 Route::get('/org', 'OrganizationsController@index');
 Route::post('/org/save','OrganizationsController@save');
+Route::get('/orgpresent','OrganizationsController@domainPresent');
 
 //user info
 Route::get('/user','HomeController@profile');
 Route::patch('/user/edit','HomeController@newprof');
 
 // view different organizations
-Route::get('/orgs','OrganizationsController@view');
-Route::get('/orgs/del/{org_id}','OrganizationsController@remove');
+Route::get('/orgs','OrganizationsController@view');// view all the organizations
+Route::get('/orgs/del/{org_id}','OrganizationsController@remove');// delete organization
 
 // for app
 Route::get('/confirm','SocialAuthController@getConfirm');// verification with db

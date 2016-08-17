@@ -15,12 +15,11 @@ class LogsController extends Controller
     }
 
     public function viewPersonal(Request $request) {
-    	//$log = Log::where('user_id',auth()->user()->id)->get();
     	$logs = Log::where(['user_id'=> $request->user_id])->where('work_date', $request->date)->get();
         return $logs;
     }
 
-    public function newlog(Request $request) {
+    public function newlog(Request $request) { // gets today's Logs
     	$log = new Log;
 
     	$log->work_date = date("Y-m-d");
@@ -35,9 +34,7 @@ class LogsController extends Controller
     }
 
     public function viewAbc() {
-        //$logs = Log::where([['user_id',1],['work_date',"2016-08-11"]])->get();
-        // $logs = Log::where(['user_id'=> '1', 'work_date' => "2016-08-11"])->get();
-        $logs = Log::where(['user_id'=> 1])->where('work_date', "2016-08-11")->get();
+        $logs = Log::where(['user_id'=> 1])->where('work_date', "2016-08-17")->get();
         return $logs;
     }
 }
