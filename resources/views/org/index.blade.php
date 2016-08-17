@@ -37,7 +37,7 @@
             </nav>
 
 
-            <div class="container max-767">
+            <div class="container max-767 hidden">
                 <div class="steps-wrapper only-two">
                     <div class="step done">
                         <span class="step-count">
@@ -183,6 +183,108 @@
                             <div class="row">
                                 <div class="col-xs-12 text-right">
                                     <button class="btn btn-primary finalbtn" onclick="validate()">Create Organisation</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="rt-text-org">
+                            <i class="organisation-icon"></i>
+                            <h3 class="text-center">Organisations</h3>
+                            <div class="org-expln">
+                                <p>Create your organisation with your unique domain name</p>
+                                <p>Manage all your employees and projects in one place</p>
+                                <p>Generate reports for your entire organisation automatically</p>
+                                <p>Create multiple organisations, each with a unique domain name</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Below is the html for Join an organisation -->
+            <div class="container max-767">
+                <div class="steps-wrapper only-two">
+                    <div class="step done">
+                        <span class="step-count">
+                            <i class="fa fa-check icon"></i>
+                            <span class="count">1</span>
+                        </span>
+                        <span class="step-label">Step 1</span>
+                        <span class="step-title">Sign in with Google</span>
+                    </div>
+                    <div class="step current">
+                        <span class="step-count">
+                            <i class="fa fa-check icon"></i>
+                            <span class="count">2</span>
+                        </span>
+                        <span class="step-label">Step 2</span>
+                        <span class="step-title">Join an Organisation</span>
+                    </div>
+                    <div class="step hidden">
+                        <span class="step-count">
+                            <i class="fa fa-check icon"></i>
+                            <span class="count">3</span>
+                        </span>
+                        <span class="step-label">Step 3</span>
+                        <span class="step-title">Add your Personal Details</span>
+                    </div>
+                </div>
+
+                <div class="page-title">
+                    <h1 class="normal">Join <strong>Dilbert</strong></h1>
+                    <h6 class="sub-title">Join an Organisation</h6>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                        <form action="/org/save" method="post" id="create-organisation">
+                            {{ csrf_field() }}
+
+                            <div class="row mTop-25 mBtm-25">
+                                <div class="col-xs-12">
+                                    <div class="domain">
+                                        We found an organisation that matches your domain name. Please verify if this is the organisation you wish to join
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mBtm-10">
+                                <div class="col-xs-4">
+                                    <div class="domain">
+                                        Name
+                                    </div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="domain">
+                                        <strong> Ajency.in </strong>
+                                        <input type="hidden" name="orgname" value="Ajency.in"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mBtm-25">
+                                <div class="col-xs-4">
+                                    <div class="domain">
+                                        Domain
+                                    </div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="domain">
+                                        <strong> @ {{$account->user['domain']}} </strong>
+                                        <input type="hidden" name="orgdomain" value="{{$account->user['domain']}}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="spacer-40"></div>
+
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <a href="#" class="small-link">Not the organisation you were looking for?</a>
+                                </div>
+                                <div class="col-xs-7 text-right">
+                                    <button class="btn btn-primary nomar">Join Organisation</button>
                                 </div>
                             </div>
                         </form>
