@@ -155,13 +155,13 @@
                                 <div class="row ipr" id="iprow">
                                     <div class="col-xs-6" id="iptext"> <!-- type IP address -->
                                         <div class="form-group">
-                                            <label for="ipaddr">IP address <span style="color:red">*</span></label>
+                                            <label for="ipaddr">IP address <!-- <span style="color:red">*</span> --></label>
                                             <input type="text" id="ipaddr" name="ip[]" class="form-control" placeholder="Enter IP address ex. 127.0.0.1">
                                         </div>
                                     </div>
                                      <div class="col-xs-5" id="ipselect"> <!-- select Static or Dynamic IP -->
                                         <div class="form-group posrel">
-                                            <label for="ipadd">Type of IP address  <span style="color:red">*</span></label>
+                                            <label for="ipadd">Type of IP address  <!-- <span style="color:red">*</span> --></label>
                                             <select id="ipadd" class="form-control" name="ipstatus[]" title="Public IP address keeps changing, hence needs to be updated. Private IP remains constant.">
                                                 <option value=""> -- Select Type of IP -- </option>
                                                 <option value="static">Private address (static)</option>

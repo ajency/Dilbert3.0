@@ -1,3 +1,4 @@
+var cntryDetailsFinal = [];
 $(document).ready(function() {
     document.getElementById("timeidle").min = 1;
     $.ajax({
@@ -11,8 +12,7 @@ $(document).ready(function() {
                 var newData = datas[i].split('\t');
                 var cntry = '';
                 cntryDetails[i] = newData[0] + " (" + newData[2] + ')';
-                console.log(newData[0]);
-                console.log(newData[2]);
+                cntryDetailsFinal[i] = cntryDetails[i];
             }
             $("#defaultTimezones").autocomplete({
                 source: cntryDetails
@@ -37,20 +37,23 @@ $(document).ready(function() {
                     var newData = datas[i].split('\t');
                     var cntry = '';
                     cntryDetails[i] = newData[0] + " (" + newData[2] + ')';
-                    console.log(newData[0]);
-                    console.log(newData[2]);
                 }
                 $("#defaultTimezones").autocomplete({
                     source: cntryDetails
                 });
                 var index = cntryDetails.indexOf($("#defaultTimezones").val());
-                var x = cntryDetails.length;
-                for(var j = index; j < x - 1; j++){
-                    cntryDetails[j] = cntryDetails[j + 1];
+                if(index == -1) {
+                    document.getElementById("defaultTimezones").value = '';
+                    alert("Please choose timezone from the list suggested below");
+                } else {
+                    var x = cntryDetails.length;
+                    for(var j = index; j < x - 1; j++){
+                        cntryDetails[j] = cntryDetails[j + 1];
+                    }
+                    $("#allowedTimezones").autocomplete({
+                        source: cntryDetails
+                    });
                 }
-                $("#allowedTimezones").autocomplete({
-                    source: cntryDetails
-                });
             }
         });
     });
@@ -79,8 +82,8 @@ $(document).ready(function() {
                             var newData = datas[i].split('\t');
                             var cntry = '';
                             cntryDetails[i] = newData[0] + " (" + newData[2] + ')';
-                            console.log(newData[0]);
-                            console.log(newData[2]);
+                            /*console.log(newData[0]);
+                            console.log(newData[2]);*/
                         }
                         $("#defaultTimezones").autocomplete({
                             source: cntryDetails
@@ -105,7 +108,6 @@ $(document).ready(function() {
                             }  
                             cntryDetails.pop();// delete last element of array  
                         }
-                        
 
                         $("#allowedTimezones").autocomplete({
                             source: cntryDetails
@@ -137,8 +139,6 @@ $(document).ready(function() {
                         var newData = datas[i].split('\t');
                         var cntry = '';
                         cntryDetails[i] = newData[0] + " (" + newData[2] + ')';
-                        console.log(newData[0]);
-                        console.log(newData[2]);
                     }
                     $("#defaultTimezones").autocomplete({
                         source: cntryDetails
@@ -192,7 +192,64 @@ function removeIP(index) { // index consist 'this' i.e. the current button posit
 }
 
 function validate(e) {
+    var flag = 0, cmpFlag = 3;
+
+    if(document.getElementById("orgName").value !== '')
+        flag++;
+
+    if(document.getElementById("timeidle").value !== '' && !isNaN(document.getElementById("timeidle").value)) { // not empty & not string
+        flag++;
+    } else {
+        document.getElementById("timeidle").value = 1;
+    }
+
+    if($("#defaultTimezones").val() != ''){
+        for(var i = 0; i < cntryDetailsFinal.length; i++){ // checks if default time zone is empty or not
+            if(cntryDetailsFinal[i] == $("#defaultTimezones").val())
+                flag++;
+        }
+    }
+
+    var altValues = document.getElementsByClassName("zone");
+    cmpFlag += altValues.length;
+
+    for(var i = 0; i < altValues.length; i++){
+        for(var j = 0; j < cntryDetailsFinal.length; j++){
+            if(cntryDetailsFinal[j] == altValues[i].getElementsByTagName("input")[0].value){
+                flag++;
+                break; // breaks from inner for loop
+            }
+        }
+    }
+
     console.log(document.getElementsByClassName("ipr").length);
-    //event.preventDefault();
-    //return false;
+    var ipClass = document.getElementsByClassName("ipr");
+    cmpFlag += ipClass.length;
+
+    for(var i = 0;i < ipClass.length; i++) {
+        var ipaddr = ipClass[i].getElementsByTagName("input");
+        var select = ipClass[i].getElementsByTagName("select");
+        
+        if(select[0].selectedIndex > 0 && ipaddr[0].value !== '') {
+            var ipAddrSplit = ipaddr[0].value.split('.');// split a.b.c.d to 4 segments, if it is IP
+            var cnt = 0;
+            for(var j = 0; j < ipAddrSplit.length; j++) {
+                if(!isNaN(ipAddrSplit[j]) && ipAddrSplit[j].length <= 3){ // each slot is number & each has only 3 digit
+                    cnt++;
+                }
+            }
+            if(cnt == 4)
+                flag++;
+        }
+    }
+    
+    if(flag < cmpFlag){
+        console.log("not submitted");
+        alert("Seems like you have not filled the form properly !!");
+        event.preventDefault();
+        return false;
+    } else {
+        console.log("submit");
+        return true;
+    }
 }
