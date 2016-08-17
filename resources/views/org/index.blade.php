@@ -147,12 +147,12 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label for="timeidle">Time until Idle <span style="color:red">*</span></label>
-                                        <input type="number" id="timeidle" name="idleTime" class="form-control" placeholder="Enter time in minutes" required>
+                                        <input type="number" id="timeidle" name="idleTime" min="1" class="form-control" placeholder="Enter time in minutes" required>
                                     </div>
                                 </div>
                             </div>
                             <div id="iplist">
-                                <div class="row" id="iprow">
+                                <div class="row ipr" id="iprow">
                                     <div class="col-xs-6" id="iptext"> <!-- type IP address -->
                                         <div class="form-group">
                                             <label for="ipaddr">IP address <span style="color:red">*</span></label>
@@ -182,7 +182,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 text-right">
-                                    <button class="btn btn-primary finalbtn">Create Organisation</button>
+                                    <button class="btn btn-primary finalbtn" onclick="validate()">Create Organisation</button>
                                 </div>
                             </div>
                         </form>
