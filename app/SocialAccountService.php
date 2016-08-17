@@ -21,7 +21,7 @@ class SocialAccountService
             $user->password = "user";
             $user->avatar = $providerUser->avatar;
             $user->acd = date('Y-m-d');
-            $user->org_id = $org[0]->id;
+            $user->org_id = 0;
             $user->role = "admin";
             $user->save();
 

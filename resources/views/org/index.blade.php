@@ -113,6 +113,7 @@
                                         <div class="domain">
                                             Domain: <strong> @ {{$account->user['domain']}} </strong>
                                             <input type="hidden" name="orgdomain" value="{{$account->user['domain']}}"/>
+                                            <input type="hidden" name="userid" value="{{$useremail}}"/>
                                         </div>
                                     </div>
                                 </div>

@@ -60,7 +60,11 @@ class OrganizationsController extends Controller
     	$org->ip_status = $ipstatus;
     	$org->save();
 
-    	return redirect('/redirect/google');
+        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id]);
+        $user = User::where('email',$request->userid)->get();
+        auth()->login($user[0]);
+        return redirect()->to('/home');
+    	//return redirect('/redirect/google');
     }
 
     public function domainPresent(Request $request) { // new user but same domain, then asking confirmation

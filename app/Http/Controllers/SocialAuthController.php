@@ -34,8 +34,12 @@ class SocialAuthController extends Controller {
                         return view('org.index',compact('status','company','domain','useremail'));// open Join Organization page
                     }
                 } else { // add organization
+                    $arraySocial = $service->createOrGetUser($account);
+                    $user = $arraySocial[0];
+                    $useremail = $user->email;
                     $status = "new";
-                    return view('org.index',compact('account','status'));// open new organization page
+                    
+                    return view('org.index',compact('account','status','useremail'));// open new organization page
                 }
             } else { // if no domain
                 return redirect('/login');
