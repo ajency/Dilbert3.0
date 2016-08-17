@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('avatar');
             $table->date('acd');//account creation date
-            $table->integer('org_id');
-            $table->string('role');
+            $table->integer('org_id')->nullable();
+            $table->string('role')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

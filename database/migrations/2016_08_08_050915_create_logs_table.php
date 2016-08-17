@@ -14,12 +14,12 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('work_date');
-            $table->time('cos');//change of state
-            $table->integer('user_id');// ID of the member/user
-            $table->string('from_state');//state before change
-            $table->string('to_state');//state after change
-            $table->string('ip_addr');// IP address of the system
+            $table->date('work_date')->nullable();
+            $table->time('cos')->nullable();//change of state
+            $table->integer('user_id')->nullable();// ID of the member/user
+            $table->string('from_state')->nullable();//state before change
+            $table->string('to_state')->nullable();//state after change
+            $table->string('ip_addr')->nullable();// IP address of the system
             $table->timestamps();
         });
     }
