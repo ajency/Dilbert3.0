@@ -134,7 +134,7 @@
                 </div>
             </div>
             <div id="state-login" class="out-of-pannel">
-                <p>Haven't connected to Dilbert yet? <a href="#" class="sign-up-trigger">Sign up!</a></p>
+                <p>Haven't connected to Dilbert yet? <a href="{{ url('/register') }}" class="sign-up-trigger">Sign up!</a></p>
             </div>
             <div id="state-signup" class="out-of-pannel hidden">
                 <p>Already have an account on Dilbert? <a href="#" class="sign-in-trigger">Sign in!</a></p>
