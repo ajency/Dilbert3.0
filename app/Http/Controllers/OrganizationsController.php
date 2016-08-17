@@ -48,16 +48,15 @@ class OrganizationsController extends Controller
     			$ipstatus[$i] = $request->ipstatus[$i];
     		}
     	}
-
-    	$org = new Organization;
+        $org = new Organization;
     	$org->name = $request->orgname;
     	$org->domain = $request->orgdomain;
     	$org->logo = $request->orglogo;
     	$org->default_tz = $request->defaulttz;
-    	$org->alt_tz = $alttime;//serialize($request->alttime);
+    	$org->alt_tz = serialize($alttime);//$alttime;//serialize($request->alttime);
         $org->idle_time = $request->idleTime;
-    	$org->ip_lists = $ip;//serialize($request->ip);
-    	$org->ip_status = $ipstatus;
+    	$org->ip_lists = serialize($ip);//serialize($request->ip);
+    	$org->ip_status = serialize($ipstatus);// unserialize() to read from database
     	$org->save();
 
         $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id]);
