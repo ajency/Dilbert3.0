@@ -193,6 +193,6 @@ function removeIP(index) { // index consist 'this' i.e. the current button posit
 
 function validate(e) {
     console.log(document.getElementsByClassName("ipr").length);
-    event.preventDefault();
-    return false;
+    //event.preventDefault();
+    //return false;
 }
