@@ -12,7 +12,7 @@ class AddVotesToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('userss', function (Blueprint $table) {
             //
         });
     }
@@ -24,7 +24,7 @@ class AddVotesToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('userss', function (Blueprint $table) {
             //
         });
     }
