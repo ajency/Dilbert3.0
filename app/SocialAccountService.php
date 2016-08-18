@@ -22,7 +22,7 @@ class SocialAccountService
             $user->avatar = $providerUser->avatar;
             $user->acd = date('Y-m-d');
             $user->org_id = 0;
-            $user->role = "admin";
+            $user->role = "member";
             $user->save();
 
             $status = "present";

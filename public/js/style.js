@@ -15,10 +15,16 @@ function confirmDel(index) {
 	var table = document.getElementById("tableOrg");
 	var pos = $(index).closest('tr').index();
 	
-	var confirmation = confirm("You sure you want to delete the Organization named '" + $(table.rows.item(pos + 1).cells[0]).text() + "' ?");
+	var confirmation = confirm("Are you sure you really want to delete the Organization named '" + $(table.rows.item(pos + 1).cells[0]).text() + "'? Deleting an organization deletes all the data associated with it. This move cannot be reversed.");
 	
 	if(confirmation == true){
-		return true;
+		var validation = prompt("Please confirm your decision by entering the name of your Organization. ");
+		
+		if(validation == $(table.rows.item(pos + 1).cells[0]).text()){
+			return true;
+		}
+		event.preventDefault();
+		return false;
 	} else {
 		event.preventDefault();
 		return false;

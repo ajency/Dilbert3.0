@@ -81,12 +81,14 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <img src="{{ Auth::user()->avatar }}" height="20px" class="img-circle"><span class="caret"></span>
+                                    {{ Auth::user()->name }} <img src="{{ Auth::user()->avatar }}" height="20px" class="img-circle"><input type="hidden" id="uremail" value="{{ Auth::user()->email }}"><span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     @if(Auth::user()->role == "admin")
-                                        <li><a href="/user" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Employee details</a></li>
+                                        <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Employee details</a></li>
                                         <li><a href="/orgs" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                                    @elseif(Auth::user()->role == "moderator")
+                                        <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                                     @endif
                                     <li><a href="/user" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Edit Profile</a></li>
                                     <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>

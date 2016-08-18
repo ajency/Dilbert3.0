@@ -38,8 +38,8 @@ class SocialAuthController extends Controller {
                     $user = $arraySocial[0];
                     $useremail = $user->email;
                     $status = "new";
-                    
-                    return view('org.index',compact('account','status','useremail'));// open new organization page
+                    $ip = $_SERVER['REMOTE_ADDR'];    
+                    return view('org.index',compact('account','status','useremail','ip'));// open new organization page
                 }
             } else { // if no domain
                 return redirect('/login');

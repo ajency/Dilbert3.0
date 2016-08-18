@@ -21,7 +21,7 @@ class OrganizationsController extends Controller
     	return view('org.index',compact('status','company','domain','useremail'));
     }
 
-    public function save(Request $request) {
+    public function save(Request $request) {// create organization
 
         $this->validate($request, [
             'orgname' => 'required',
@@ -59,7 +59,7 @@ class OrganizationsController extends Controller
     	$org->ip_status = serialize($ipstatus);// unserialize() to read from database
     	$org->save();
 
-        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id]);
+        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin']);
         $user = User::where('email',$request->userid)->get();
         auth()->login($user[0]);
         return redirect()->to('/home');

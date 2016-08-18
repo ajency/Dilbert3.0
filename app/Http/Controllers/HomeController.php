@@ -42,21 +42,37 @@ class HomeController extends Controller
         $logo = $logo[0]->domain;
 
         $log = Log::where('user_id',$org_id[0]->id)->get();
-        return view('profile.index',compact('logo','log'));
+        $status = "nil";
+        return view('profile.index',compact('logo','log','status'));
     }
 
     public function newprof(Request $request) { // update profile
+        //dd($request);
         $this->validate($request, [
-            'empemail' => 'required',
             'empname' => 'required ',// | regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
             'emprole' => 'required'
         ]);
+
+        $status = "success";
         $user = User::find($request->empid);
-        $user->name = $request->empname;
-        $user->email = $request->empemail;
-        $user->role = $request->emprole;
-        $user->update();
+
+        if($user->role == $request->emprole) {
+            $status = "nil";
+        } else if($user->role == "admin" && $request->emprole != "admin") {
+            $org_role_cnt = User::where('role',"admin")->count();
+            if($org_role_cnt <= 1){
+                $status = "fail";
+            }
+        }
+
+        if($status == "success"){
+            $user->name = $request->empname;
+            $user->role = $request->emprole;
+            $user->update();
+        }
         //User::where('id',$request->empid)->update()
-        return back();
+        //return view('profile.index',compact('logo','log','status'));
+        return redirect()->back()->with('status',$status);
+        //return back();
     }
 }

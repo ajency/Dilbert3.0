@@ -177,7 +177,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 text-right">
+                                <div class="col-xs-8">
+                                    Your current IP address is <strong>{{$ip}}</strong>
+                                </div>
+                                <div class="col-xs-4 text-right">
                                     <button type="button" class="btn btn-default nomar" id="addIP"> Add new IP address</button>
                                 </div>
                             </div>
