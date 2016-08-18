@@ -14,4 +14,11 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    // this set adds a class landing-page to body tag
+    var bodyclass=document.createAttribute("class");
+    bodyclass.value="landing-page";
+    document.getElementsByTagName("body")[0].setAttributeNode(bodyclass);
+</script>
 @endsection
