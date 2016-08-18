@@ -53,12 +53,9 @@
                             			<option value="moderator">Moderator</option>
                             			<option value="member">Member</option>
                             		@elseif(Auth::user()->role == "moderator")
-                            			<option value="admin">Admin</option>
                             			<option value="moderator" selected>Moderator</option>
                             			<option value="member">Member</option>
                             		@elseif(Auth::user()->role == "member")
-                            			<option value="admin">Admin</option>
-                            			<option value="moderator">Moderator</option>
                             			<option value="member" selected>Member</option>
                             		@else
                             			<option value="admin">Admin</option>
