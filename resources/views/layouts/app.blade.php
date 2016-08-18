@@ -41,7 +41,7 @@
 <body id="app-layout">
     <div class="full-wrapper">
         <nav class="navbar navbar-default navbar-static-top header">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -64,7 +64,7 @@
                     </h3>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <div class="collapse navbar-collapse posrel" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     @if (!(Auth::guest()))
                         <ul class="nav navbar-nav">
@@ -76,8 +76,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
+                            <li class="highlight"><a href="{{ url('/register') }}">Register</a></li>
                             <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -96,12 +96,15 @@
                                 </ul>
                             </li>
                         @endif
+                        <li><a href="#">Contact us</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        @yield('content')
+        <div class="content-wrapper">
+            @yield('content')
+        </div>
 
         <footer class="footer">
             <div class="text-center">by <a href="http://ajency.in" target="_blank">Ajency.in</a></div>
@@ -113,6 +116,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="js/style.js"></script>
+    <script src="js/frontend.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     @yield('footer')
 </body>

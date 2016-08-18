@@ -3,9 +3,10 @@
 @googleGrey: #757575;
 @googleRed: #d43f3a;
 
-@titleDark: #545454;
+@titleDark: #303030;
 
-@primary: #8e20d7;
+// @primary: #8e20d7;
+@primary: #a400d8;
 @secondary: #f7ae12;
 @ajencyYellow: #FFDF00;
 
@@ -81,4 +82,38 @@ button, input, textarea {
 }
 .mBtm-10 {
 	margin-bottom: 10px;
+}
+
+
+.shade-top:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 83%;
+	height: 65px;
+	margin: auto;
+	background: url(../img/shade-top.png) no-repeat top center;
+	background-size: cover;
+	z-index: 5;
+}
+.shade-btm:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 83%;
+	height: 65px;
+	margin: auto;
+	background: url(../img/shade-btm.png) no-repeat bottom center;
+	background-size: cover;
+	z-index: 5;
+}
+@media screen and (max-width: 991px) {
+	.shade-top:before, .shade-btm:after {
+		width: 100%;
+		background-size: contain;
+	}
 }

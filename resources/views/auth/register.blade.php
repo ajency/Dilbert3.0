@@ -102,4 +102,10 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    // this set adds a class landing-page to body tag
+    bodyclass = " signup-page";
+    document.body.className += bodyclass;
+</script>
 @endsection
