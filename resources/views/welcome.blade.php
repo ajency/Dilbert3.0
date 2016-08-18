@@ -7,7 +7,7 @@
         <h1 class="hero-title">Track Time. Record Work.</h1>
         <p class="hero-tag">A complete productivity solution to track your work, your employees’ work and manage projects without any hassle. And the best thing? <strong>It’s totally free!</strong></p>
 
-        <a href="#" class="btn btn-primary btn-hero">Sign up Now!</a>
+        <a href="{{ url('/register') }}" class="btn btn-primary btn-hero">Sign up Now!</a>
 
         <div class="hero-image">
             <img src="img/hero-img.png" class="img-responsive" alt="">
