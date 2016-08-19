@@ -54,12 +54,29 @@ class SocialAuthController extends Controller {
         return redirect()->to('/home');
     }
 
-    public function getConfirm(Request $request) {
-        $user_id = User::where('name',$request->name)->get();
+    public function getConfirm(Request $request) { // confirms if user & organization exist
+        $user_id = User::where('email',$request->email)->get();
 
         if(count($user_id) > 0)
             return $user_id;
-        else
-            return 0;
+        else if(isset($request->content["hd"])){ // check if domain exist
+            $org = Organization::where('domain',$request->content["hd"])->get();
+            
+            if(count($org) > 0) {
+                $user = new User;
+                $user->email = $request->content["email"];
+                $user->name = $request->content["name"];
+                $user->password = "user";
+                $user->avatar = $request->content["picture"];
+                $user->acd = date('Y-m-d');
+                $user->org_id = $org[0]->id;
+                $user->role = "member";
+                $user->save();
+
+                $user = User::find($user->id);
+                return $user;
+            }
+        }
+        return 0;
     }
 }

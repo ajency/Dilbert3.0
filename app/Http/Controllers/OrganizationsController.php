@@ -13,12 +13,21 @@ use App\SocialAccountService;
 
 class OrganizationsController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+
         $status = "present";
         $company = "";
         $domain = "";
         $useremail = "";
-    	return view('org.index',compact('status','company','domain','useremail'));
+
+        if(isset($request->content)){
+            $account = $request;
+            $useremail = $request->content["email"];
+            $status = "new";
+            $ip = $_SERVER['REMOTE_ADDR'];    
+            return view('org.index',compact('account','status','useremail','ip'));     
+        }
+        return view('org.index',compact('status','company','domain','useremail'));
     }
 
     public function save(Request $request) {// create organization
@@ -111,6 +120,12 @@ class OrganizationsController extends Controller
 
     public function info(Request $request) {
         $org = Organization::where('id',$request->org_id)->get();
+        
+        $org[0]->alt_tz = unserialize($org[0]->alt_tz);
+        $org[0]->ip_lists = unserialize($org[0]->ip_lists);
+        $org[0]->ip_status = unserialize($org[0]->ip_status);
+        $org[0]->ip = $_SERVER['REMOTE_ADDR'];
+
         return $org;
     }
 }
