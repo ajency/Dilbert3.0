@@ -342,6 +342,59 @@ select.form-control {
 	}
 }
 
+// the floating button area
+.chrome-float-section {
+	position: fixed;
+	left: 0;
+	right: 0;
+	padding: 35px 0 25px;
+	background: #fff;
+	z-index: 15;
+	// opacity: 0.5;
+	.chrome-float-inner {
+		max-width: 767px;
+		margin: 0 auto;
+	}
+	&.stick-to-top {
+		top: 0;
+		bottom: auto;
+		&:after {
+			content: '';
+			position: absolute;
+			top: auto;
+			left: 0;
+			right: 0;
+			bottom: -61px;
+			width: 83%;
+			height: 65px;
+			margin: auto;
+			background: url(../img/shade-top.png) no-repeat top center;
+			background-size: cover;
+			z-index: 5;
+			pointer-events: none;
+		}
+	}
+	&.stick-to-bottom {
+		top: auto;
+		bottom: 0;
+		&:before {
+			content: '';
+			position: absolute;
+			bottom: auto;
+			left: 0;
+			right: 0;
+			top: -61px;
+			width: 83%;
+			height: 65px;
+			margin: auto;
+			background: url(../img/shade-btm.png) no-repeat bottom center;
+			background-size: cover;
+			z-index: 5;
+			pointer-events: none;
+		}
+	}
+}
+
 @media screen and (max-width: 767px) {
 	.hero {
 		padding-top: 0;
