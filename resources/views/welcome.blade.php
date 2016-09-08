@@ -4,10 +4,10 @@
 <div class="container">
 
     <div class="hero shade-btm">
-        <h1 class="hero-title">Track Time. Record Work.</h1>
-        <p class="hero-tag">A complete productivity solution to track your work, your employees’ work and manage projects without any hassle. And the best thing? <strong>It’s totally free!</strong></p>
+        <h1 class="hero-title"> @lang('lang.hero_title') </h1>
+        <p class="hero-tag">@lang('lang.hero_tag')</p>
 
-        <a href="{{ url('/register') }}" class="btn btn-primary btn-hero">Sign up Now!</a>
+        <a href="{{ url('/register') }}" class="btn btn-primary btn-hero">@lang('lang.sign_up') @lang('lang.now')!</a>
 
         <div class="hero-image">
             <img src="img/hero-img.png" class="img-responsive" alt="">
@@ -21,8 +21,8 @@
             </div>
             <div class="col-md-8 col-sm-7 text-right text-center-xs">
                 <div class="btn-group">
-                    <a href="#" class="btn btn-ghost btn-with-rt-icon nomar">Get the Chrome App <i class="fa fa-angle-right"></i></a>
-                    <a href="#" class="btn btn-ghost btn-with-rt-icon nomar">Get the Chrome Extension <i class="fa fa-angle-right"></i></a>
+                    <a href="#" class="btn btn-ghost btn-with-rt-icon nomar">{{ trans('lang.get_the') }} Chrome App <i class="fa fa-angle-right"></i></a>
+                    <a href="#" class="btn btn-ghost btn-with-rt-icon nomar">{{ trans('lang.get_the') }} Chrome Extension <i class="fa fa-angle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -30,22 +30,19 @@
 
     <div class="why-dilbert shade-top shade-btm">
         <h3 class="hero-title text-center">
-            Why Dilbert?
+            @lang('lang.why') Dilbert?
         </h3>
-        <p class="hero-tag text-center">Tracks your time and work so you can focus with ease</p>
+        <p class="hero-tag text-center">@lang('lang.main_hero_tag')</p>
         <div class="row feature-row">
             <div class="col-xs-12 text-center visible-xs">
                 <img src="img/feat-01.png" alt="" class="feature-img">
             </div>
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
                 <h3 class="why-sub-t">
-                    <span>The</span> Features
+                    @lang('lang.the_features')
                 </h3>
                 <ul class="features">
-                    <li>Accurate time tracking with login and logout timestamps</li>
-                    <li>Detailed, auto-generated timesheets and reports</li>
-                    <li>Activity level tracker</li>
-                    <li>Seamless sync across the website, Chrome app & extenstion</li>
+                    @lang('lang.features')
                 </ul>
             </div>
             <div class="col-md-6 col-sm-5 text-center hidden-xs">
@@ -58,13 +55,10 @@
             </div>
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
                 <h3 class="why-sub-t">
-                    <span>For</span> Employers
+                    @lang('lang.for_employers')
                 </h3>
                 <ul class="features">
-                    <li>Manage your organisation</li>
-                    <li>Keep a track of all your active projects</li>
-                    <li>Help your employees manage their time better</li>
-                    <li>Detailed reporting with accurate timesheets generated daily</li>
+                    @lang('lang.employers')
                 </ul>
             </div>
         </div>
@@ -74,13 +68,10 @@
             </div>
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
                 <h3 class="why-sub-t">
-                    <span>For</span> Employees
+                    @lang('lang.for_employees')
                 </h3>
                 <ul class="features">
-                    <li>Manage all your projects</li>
-                    <li>Keep a track of all the tasks you've done and yet to do</li>
-                    <li>No distractions, increase your productivity</li>
-                    <li>Ensure you meet your daily and weekly goals</li>
+                    @lang('lang.employees')
                 </ul>
             </div>
             <div class="col-md-6 col-sm-6 text-center hidden-xs">
@@ -92,11 +83,11 @@
     <div class="cta">
         <div class="row">
             <div class="col-md-7 col-md-push-1 col-sm-6 text-center-xs">
-                <h3 class="cta-title">Get your own Dilbert now</h3>
-                <div class="cta-sub-title">Just sign in using your Google account and leave the hustle n bustle to us!</div>
+                <h3 class="cta-title">@lang('lang.main_get_title')</h3>
+                <div class="cta-sub-title">@lang('lang.main_get_sub_title')</div>
             </div>
             <div class="col-md-4 col-sm-6 text-right text-center-xs">
-                <a href="#" class="btn btn-primary btn-cta">Sign up for Dilbert now</a>
+                <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a>
             </div>
         </div>
     </div>

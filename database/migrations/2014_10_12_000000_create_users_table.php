@@ -20,7 +20,9 @@ class CreateUsersTable extends Migration
             $table->string('avatar');
             $table->date('acd');//account creation date
             $table->unsignedInteger('org_id')->nullable();
+            $table->string('socket_id')->nullable();
             $table->string('role')->nullable();
+            $table->string('api_token', 60) ->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

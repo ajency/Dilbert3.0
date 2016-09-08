@@ -10,13 +10,13 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,600,700"> --}}
-    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="{{ url('/css/font.css') }}">
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     {{-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> --}}
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url('/css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url('/css/style.css') }}">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -66,18 +66,32 @@
 
                 <div class="collapse navbar-collapse posrel" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    @if (!(Auth::guest()))
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ url('/home') }}">Home</a></li>
-                        </ul>
-                    @endif
+                    <ul class="nav navbar-nav">
+                        @if (!(Auth::guest()))
+                            <li><a href="/home">@lang('lang.home')</a></li>
+                        @endif
+                        <li>
+                            <span style= "color: #828282;font-weight: 600;text-decoration: none;font-size: 13px;">@lang('lang.site_lang') : </span>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style= "margin-top:13px;margin-bottom:5px;font-size:12px">
+                              {{ Config::get('app.locales')[App::getLocale()] }}
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach (Config::get('app.locales') as $lang => $language)
+                                    @if ($lang != App::getLocale())
+                                        <li><a href="{{ route('lang.switch', $lang) }}">{{$language}}</a></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li class="highlight"><a href="{{ url('/register') }}">Register</a></li>
-                            <li><a href="{{ url('/login') }}">Login</a></li>
+                            <li class="highlight"><a href="{{ url('/register') }}">@lang('lang.register')</a></li>
+                            <li><a href="{{ url('/login') }}">@lang('lang.login')</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -85,18 +99,18 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     @if(Auth::user()->role == "admin")
-                                        <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Employee details</a></li>
-                                        <li><a href="/orgs" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                                        <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> @lang('lang.view_emp_det') </a></li>
+                                        <li><a href="{{ url('/orgs') }}" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
                                     @elseif(Auth::user()->role == "moderator")
                                         <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                                     @endif
-                                    <li><a href="/user" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Edit Profile</a></li>
+                                    <li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
                                     <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>
-                                    <li><a href="{{ url('/logout/google') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                    <li><a href="{{ url('/logout/google') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('lang.logout')</a></li>
                                 </ul>
                             </li>
                         @endif
-                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">@lang('lang.contact_us')</a></li>
                     </ul>
                 </div>
             </div>
@@ -107,7 +121,7 @@
         </div>
 
         <footer class="footer">
-            <div class="text-center">by <a href="http://ajency.in" target="_blank">Ajency.in</a></div>
+            <div class="text-center">@lang('lang.by') <a href="http://ajency.in" target="_blank">Ajency.in</a></div>
         </footer>
     </div>
     <!-- JavaScripts -->
@@ -115,8 +129,8 @@
     <script src="js/bootstrap.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="js/style.js"></script>
-    <script src="js/frontend.js"></script>
+    <script src="{{ url('/js/style.js') }}"></script>
+    <script src="{{ url('/js/frontend.js') }}"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     @yield('footer')
 </body>

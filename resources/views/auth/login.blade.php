@@ -9,18 +9,19 @@
                 <div class="panel-body text-center">
 
                     <div class="dilbert-logo">
-                        <img src="img/dilbert.jpg" alt="">
+                        <img src="{{ url('img/dilbert.jpg') }}" alt="">
                         <h3 class="logo">Dilbert</h3>
-                        <div class="sub-title">Track time. Record Work</div>
+                        <div class="sub-title">@lang('lang.hero_title')</div>
                     </div>
 
                     <hr>
 
                     <div id="forlogin" class="login-helper">
 
-                        <h4 class="normal">Have an existing account?</h4>
-                        <div class="sub-title">Sign in and continue where you left off</div>
-
+                        <h4 class="normal">@lang('lang.account_exist')</h4>
+                        <div class="sub-title">@lang('lang.sign_in') @lang('lang.n_cont_whr_u_left_off')</div>
+                        
+                        <!-- Form Login - not used -->
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                             {{ csrf_field() }}
 
@@ -64,7 +65,7 @@
                                 <!-- <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button> -->
-                                <a href="redirect/google" class="btn google-signin">
+                                <a href="{{ url('redirect/google') }}" class="btn google-signin">
                                     <i class="fa fa-google-plus"></i>
                                     Sign in with Google
                                     <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
@@ -72,13 +73,15 @@
                                 <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
                             </div>
                         </form>
+                        <!-- End of From Login -->
                     </div>
 
                     <div id="forsignup" class="login-helper hidden">
 
-                        <h4 class="normal">Have an existing account?</h4>
-                        <div class="sub-title">Sign in and continue where you left off</div>
-
+                        <h4 class="normal">@lang('lang.account_exist')</h4>
+                        <div class="sub-title">@lang('lang.sign_in') @lang('lang.n_cont_whr_u_left_off')</div>
+                        
+                        <!-- Sign up page - not used -->
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                             {{ csrf_field() }}
 
@@ -122,22 +125,24 @@
                                 <!-- <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button> -->
-                                <a href="redirect/google" class="btn google-signin">
+                                <a href="{{ url('redirect/google') }}" class="btn google-signin">
                                     <i class="fa fa-google-plus"></i>
-                                    Sign in with Google
+                                    @lang('lang.sign_in') with Google
                                     <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
                                 </a>
                                 <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
                             </div>
                         </form>
+
+                        <!-- End of Sign up -->
                     </div>
                 </div>
             </div>
             <div id="state-login" class="out-of-pannel">
-                <p>Haven't connected to Dilbert yet? <a href="{{ url('/register') }}" class="sign-up-trigger">Sign up!</a></p>
+                <p> @lang('lang.not_conn_2_dilbert') <a href="{{ url(app()->getLocale().'/register')}}" class="sign-up-trigger">Sign up!</a></p>
             </div>
             <div id="state-signup" class="out-of-pannel hidden">
-                <p>Already have an account on Dilbert? <a href="#" class="sign-in-trigger">Sign in!</a></p>
+                <p> @lang('lang.already_hv_acc_in_dil') <a href="#" class="sign-in-trigger">@lang('lang.sign_in')</a></p>
             </div>
         </div>
     </div>

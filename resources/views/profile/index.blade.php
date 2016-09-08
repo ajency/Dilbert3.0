@@ -38,14 +38,14 @@
                             {{ method_field('PATCH') }}
                             <input type="hidden" name="empid" value="{{ Auth::user()->id }}"/>
                             <div class="form-group">
-                            	Your Name:
+                            	@lang('lang.ur_name'):
                             	<input type="text" name="empname" class="form-control" placeholder="Employee's Name" value="{{ Auth::user()->name }}" required autofocus/>
                             </div>
                             <div class="form-group">
-                            	Your official Email-ID: <strong name="empemail">{{ Auth::user()->email }}</strong>
+                            	@lang('lang.ur_off_email_id'): <strong name="empemail">{{ Auth::user()->email }}</strong>
                             </div>
                             <div class="form-group">
-                            	Your role/permissions:
+                            	@lang('lang.ur_role_permission'):
                             	<select name="emprole" id="emprole" class="form-control">
                             		<option value="">-- Select a role -- </option>
                             		@if(Auth::user()->role == "admin")

@@ -9,17 +9,17 @@
                 <div class="panel-body text-center">
 
                     <div class="dilbert-logo">
-                        <img src="img/dilbert.jpg" alt="">
+                        <img src="{{ url('img/dilbert.jpg') }}" alt="">
                         <h3 class="logo">Dilbert</h3>
-                        <div class="sub-title">Track time. Record Work</div>
+                        <div class="sub-title">@lang('lang.hero_title')</div>
                     </div>
 
                     <hr>
 
                     <div id="forsignup" class="login-helper">
-                        <h4 class="normal">Sign up, change your way of work!</h4>
-                        <div class="sub-title">Just connect your Google account</div>
-
+                        <h4 class="normal">@lang('lang.sign_up')@lang('lang._change_ur_work_way')</h4>
+                        <div class="sub-title">@lang('lang.conn_using_google_acc')</div>
+                        <!-- Form for sign-up - not used -->
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                             {{ csrf_field() }}
 
@@ -82,22 +82,23 @@
                             <div class="form-group hidden">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-btn fa-user"></i> Register
+                                        <i class="fa fa-btn fa-user"></i> @lang('lang.register')
                                     </button>
                                 </div>
                             </div>
 
                             <a href="redirect/google" class="btn google-signin">
                                 <i class="fa fa-google-plus"></i>
-                                Sign in with Google
+                                @lang('lang.sign_in') with Google
                                 <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
                             </a>
                         </form>
+                        <!-- End of signup form - not used -->
                     </div>
                 </div>
             </div>
             <div id="state-signup" class="out-of-pannel">
-                <p>Already have an account on Dilbert? <a href="{{ url('/login') }}" class="sign-in-trigger">Sign in!</a></p>
+                <p>@lang('lang.already_hv_acc_in_dil') <a href="{{ url(app()->getLocale().'/login')}}" class="sign-in-trigger">@lang('sign_in')!</a></p>
             </div>
         </div>
     </div>
