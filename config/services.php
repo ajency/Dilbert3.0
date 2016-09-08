@@ -42,7 +42,7 @@ return [
     'google' => [
         'client_id' => '470996790732-mdr21i3ppgq0ohs4p0vka4tgel0rn4hf.apps.googleusercontent.com',
         'client_secret' => '-VuBIWDK3gsfXcZi4QOKlGal',
-        'redirect' => 'http://localhost:8000/callback/google',
+        'redirect' => 'http://dilbert.ajency.in/callback/google',
     ],
 
 ];
