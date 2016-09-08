@@ -10,6 +10,8 @@ use App\SocialAccountService;
 use App\Organization;
 use App\User;
 
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 class SocialAuthController extends Controller {
     public function redirect() {
         return Socialite::driver('google')->redirect();
@@ -17,11 +19,14 @@ class SocialAuthController extends Controller {
 
     public function callback(SocialAccountService $service) {
         try {
+            //set’s application’s locale
+            //app()->setLocale($locale);
+            
             $account = Socialite::driver('google')->user();
             if(isset($account->user["domain"])){ // checks the presence of domain attribute/object
-                $org = Organization::where('domain',$account->user["domain"])->get();
-                if(count($org) > 0) { //domain exist in database
+                if(Organization::where('domain', '=',$account->user["domain"])->exists()) {
                     $arraySocial = $service->createOrGetUser($account);
+                    $org = Organization::where('domain', '=',$account->user["domain"])->get();
                     $user = $arraySocial[0];
                     $status = $arraySocial[1];
                     if($status == "exist") {
@@ -48,21 +53,31 @@ class SocialAuthController extends Controller {
             
         }
     }
-
+    
     public function logout() { // overrided the default login -> for chrome App
         auth()->logout();
-        return redirect()->to('/home');
+        //return redirect()->to(session('locale').'/home');
+        return redirect('/login');
     }
-
+    
+    // for app
     public function getConfirm(Request $request) { // confirms if user & organization exist
-        $user_id = User::where('email',$request->email)->get();
+        $output = new ConsoleOutput();
 
-        if(count($user_id) > 0)
+        $output->writeln("Confirmation");
+        $user_id = User::where('email',$request->email)->get();
+        
+        if(count($user_id) > 0) {
+            $output->writeln("User exist");
+            $user_id = User::where('email',$request->email)->update(['api_token' => str_random(60)]);
+            $user_id = User::where('email',$request->email)->get();
             return $user_id;
+        }
         else if(isset($request->content["hd"])){ // check if domain exist
+            $output->writeln("User not existing");
             $org = Organization::where('domain',$request->content["hd"])->get();
             
-            if(count($org) > 0) {
+            if(count($org) > 0) { // if organization exist, then create user, & continue
                 $user = new User;
                 $user->email = $request->content["email"];
                 $user->name = $request->content["name"];
@@ -71,12 +86,15 @@ class SocialAuthController extends Controller {
                 $user->acd = date('Y-m-d');
                 $user->org_id = $org[0]->id;
                 $user->role = "member";
+                $user->api_token = str_random(60);
                 $user->save();
-
+                
                 $user = User::find($user->id);
                 return $user;
             }
         }
+
+        $output->writeln("No organization");
         return 0;
     }
 }

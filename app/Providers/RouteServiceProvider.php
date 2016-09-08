@@ -42,6 +42,15 @@ class RouteServiceProvider extends ServiceProvider
         //
     }
 
+    /*public function map(Router $router, Request $request) {
+        $locale = $request->segment(1);
+        $this->app->setLocale($locale);
+
+        $router->group(['namespace' => $this->namespace, 'prefix' => $locale], function($router) {
+            require app_path('Http/routes.php');
+        });
+    }*/
+
     /**
      * Define the "web" routes for the application.
      *

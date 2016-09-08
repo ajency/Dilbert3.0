@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ChangeLocale;
+
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\User;
@@ -26,6 +28,9 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() { // 
+        //set’s application’s locale
+        // app()->setLocale($locale);
+
         $org_id = User::where('email',auth()->user()->email)->get();
         
         $logo = Organization::find($org_id[0]->org_id)->get();
@@ -36,6 +41,9 @@ class HomeController extends Controller
     }
 
     public function profile() {// view profile details
+        //set’s application’s locale
+        // app()->setLocale($locale);
+
         $org_id = User::where('email',auth()->user()->email)->get();
     
         $logo = Organization::find($org_id[0]->org_id)->get();
@@ -48,6 +56,9 @@ class HomeController extends Controller
 
     public function newprof(Request $request) { // update profile
         //dd($request);
+        //set’s application’s locale
+        // app()->setLocale($locale);
+
         $this->validate($request, [
             'empname' => 'required ',// | regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
             'emprole' => 'required'
@@ -75,4 +86,19 @@ class HomeController extends Controller
         return redirect()->back()->with('status',$status);
         //return back();
     }
+
+    /**
+     * Change language.
+     *
+     * @param  App\Jobs\ChangeLocaleCommand $changeLocale
+     * @param  String $lang
+     * @return Response
+     */
+    public function language( $lang, ChangeLocale $changeLocale) {       
+        $lang = in_array($lang, config('app.locales')) ? $lang : config('app.fallback_locale');
+        $changeLocale->lang = $lang;
+        $this->dispatch($changeLocale);
+        return redirect()->back();
+    }
+
 }

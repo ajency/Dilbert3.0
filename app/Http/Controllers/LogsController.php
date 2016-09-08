@@ -8,8 +8,11 @@ use App\Http\Requests;
 
 use App\Log;
 
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 class LogsController extends Controller
 {
+    // for app
     public function index() {
     	return;
     }
@@ -36,5 +39,12 @@ class LogsController extends Controller
     public function viewAbc() {
         $logs = Log::where(['user_id'=> 1])->where('work_date', "2016-08-17")->get();
         return $logs;
+    }
+
+    public function trial() {//Request $request) {
+        $output = new ConsoleOutput();
+        //$output->writeln($request->socket);
+        $output->writeln(str_random(60));
+        //return $request->socket;
     }
 }

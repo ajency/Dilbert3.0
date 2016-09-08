@@ -11,10 +11,17 @@ use App\Organization;
 use App\Log;
 use App\SocialAccountService;
 
+use App\Events\Event;
+use App\Events\EventChrome;
+
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 class OrganizationsController extends Controller
 {
     public function index(Request $request) {
-
+        //set’s application’s locale
+        // app()->setLocale($locale);
+        
         $status = "present";
         $company = "";
         $domain = "";
@@ -31,6 +38,8 @@ class OrganizationsController extends Controller
     }
 
     public function save(Request $request) {// create organization
+        //set’s application’s locale
+        // app()->setLocale($locale);
 
         $this->validate($request, [
             'orgname' => 'required',
@@ -76,6 +85,9 @@ class OrganizationsController extends Controller
     }
 
     public function domainPresent(Request $request) { // new user but same domain, then asking confirmation
+        //set’s application’s locale
+        // app()->setLocale($locale);
+
         try {
             $org = Organization::where('domain',$request->orgdomain)->get();
             if(count($org) > 0) { //domain exist in database
@@ -90,6 +102,9 @@ class OrganizationsController extends Controller
     }
 
     public function view() {
+        //set’s application’s locale
+        // app()->setLocale($locale);
+
     	$orgs = Organization::all();
 
     	$org_id = User::where('email',auth()->user()->email)->get();
@@ -101,10 +116,16 @@ class OrganizationsController extends Controller
     }
 
     public function remove($org_id) {
-        $org = Organization::where('id',(int)$org_id)->get();
+        //set’s application’s locale
+        // app()->setLocale($locale);
 
-        if(count($org) > 0){
+        $output = new ConsoleOutput();
+
+        $org = Organization::where('id',(int)$org_id)->get();
+        //$flag = false;
+        if(count($org) > 0) {
             $users = User::where('org_id',(int)$org_id)->get();
+            $check = User::where('org_id',(int)$org_id)->where('id',auth()->user()->getId())->get();
             
             foreach($users as $user){
                 $logs = Log::where('user_id',$user->id)->delete();// delete each user log
@@ -112,20 +133,49 @@ class OrganizationsController extends Controller
             }
 
             $org = Organization::where('id',(int)$org_id)->delete();
+            $redis_list = array("org_id" => (int)$org_id);
             
-            auth()->logout();// logout of session
-            return redirect('/login');
+            event(new EventChrome(json_decode(json_encode($redis_list), false)));
+
+            if(count($check) > 0){    
+                auth()->logout();// logout of session
+                return redirect('/login');
+            }
+
+            return back();
         }
     }
 
+    //for app
     public function info(Request $request) {
-        $org = Organization::where('id',$request->org_id)->get();
+        $output = new ConsoleOutput();
         
-        $org[0]->alt_tz = unserialize($org[0]->alt_tz);
-        $org[0]->ip_lists = unserialize($org[0]->ip_lists);
-        $org[0]->ip_status = unserialize($org[0]->ip_status);
-        $org[0]->ip = $_SERVER['REMOTE_ADDR'];
+        $output->writeln("Org info");
 
-        return $org;
+        if($request->header('X-API-KEY') !== null) { // if api key is present in Header
+            $output->writeln($request->header('X-API-KEY'));
+            
+            $user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->get();
+
+            $output->writeln(count($user));
+
+            if(count($user) > 0) { // if the user exist
+                $org = Organization::where('id',$request->org_id)->get();
+                if(count($org) > 0){ // if organization exist
+                    $org[0]->alt_tz = unserialize($org[0]->alt_tz);
+                    $org[0]->ip_lists = unserialize($org[0]->ip_lists);
+                    $org[0]->ip_status = unserialize($org[0]->ip_status);
+                    $org[0]->ip = $_SERVER['REMOTE_ADDR'];
+                } else {
+                    return 0;
+                }
+                return $org;
+            } else {
+                return -1; // invalid authentication -> intruder
+            }
+        } else {
+            return -2; // No Api key, seems like user not logged in
+        }
+        return 0;// create organization
     }
 }
