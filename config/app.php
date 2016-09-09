@@ -66,7 +66,7 @@ return [
     */
 
     'locale' => 'en',
-    'locales' => ['en' => 'English', 'fr' => 'Français', 'sv' => 'Swedish'],
+    'locales' => ['en' => 'English', 'fr' => 'Français', 'it' => 'Italiano', 'de' => 'Deutsche', 'sv' => 'Svenska'],// [English, French, Italian, German, Swedish]
     
     /*
     |--------------------------------------------------------------------------
