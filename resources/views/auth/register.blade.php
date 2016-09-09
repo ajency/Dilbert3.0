@@ -89,7 +89,7 @@
 
                             <a href="redirect/google" class="btn google-signin">
                                 <i class="fa fa-google-plus"></i>
-                                @lang('lang.sign_in') with Google
+                                @lang('lang.sign_up') @lang('lang.with_google')
                                 <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
                             </a>
                         </form>

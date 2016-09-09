@@ -67,7 +67,7 @@
                                 </button> -->
                                 <a href="{{ url('redirect/google') }}" class="btn google-signin">
                                     <i class="fa fa-google-plus"></i>
-                                    Sign in with Google
+                                    @lang('lang.sign_in') @lang('lang.with_google')
                                     <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
                                 </a>
                                 <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
