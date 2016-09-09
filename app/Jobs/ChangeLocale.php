@@ -29,6 +29,7 @@ class ChangeLocale extends Job implements ShouldQueue
      * @return void
      */
     public function handle() {
+        //session(['locale' => $this->lang]);
         session()->set('locale', $this->lang);
     }
 }

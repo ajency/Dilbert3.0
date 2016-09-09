@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class LocalizationController extends Controller {
-    public function index(Request $request,$locale){
+    public function index(Request $request, $locale){
       //set’s application’s locale
       app()->setLocale($locale);
       
@@ -25,11 +25,16 @@ class LocalizationController extends Controller {
    public function switchLang($lang) {
         if (array_key_exists($lang, Config::get('app.locales'))) {
             Session::set('locale', $lang);
+            //Config::set('app.locale', $lang);
+            //app()->setLocale($lang);
         }
 
+        //dd(Config::get('app.locales'));
+        //exit();
         /*echo "calling";
         exit();*/
-/*
+        
+        /*
         dd(redirect()->back());
         echo redirect()->back();
 

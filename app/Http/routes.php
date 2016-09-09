@@ -20,6 +20,7 @@ use App\Http\Requests;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 // for website
+//Route::get('localization/{locale}','LocalizationController@index');
 Route::get('lang/{lang}', ['as'=>'lang.switch', 'uses'=>'LocalizationController@switchLang']);
 
 /*Route::get('/', function () {
@@ -126,8 +127,6 @@ Route::get('/org/info','OrganizationsController@info');//information of the orga
 
 //Route::get('/log/new','LogsController@newlog');// insert new log -> online, active, idle, offline -> Ajax Calls
 Route::get('/personal','LogsController@viewPersonal');// get log details for activity log // Ajax calls
-
-Route::get('localization/{locale}','LocalizationController@index');
 
 Route::group(['prefix' => 'api'], function () {
 
