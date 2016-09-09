@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div id="state-signup" class="out-of-pannel">
-                <p>@lang('lang.already_hv_acc_in_dil') <a href="{{ url(app()->getLocale().'/login')}}" class="sign-in-trigger">@lang('sign_in')!</a></p>
+                <p>@lang('lang.already_hv_acc_in_dil') <a href="{{ url(app()->getLocale().'/login')}}" class="sign-in-trigger">@lang('lang.sign_in')!</a></p>
             </div>
         </div>
     </div>
