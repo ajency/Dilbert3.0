@@ -33,8 +33,8 @@
 	  
 	  //main page
 	  'hero_title' => 'Track Time. Record Work',
-	  'hero_tag' => 'A complete productivity solution to track your work, your employees’ work and manage projects without any hassle. And the best thing? <strong>It’s totally free!</strong>',
-	  'get_the' => 'Get the ',
+	  'hero_tag' => 'A complete productivity solution to track your work, your employees work and manage projects without any hassle. And the best thing? <strong>It’s totally free!</strong>',
+	  'get_the' => 'Get the',
 	  'why' => 'Why',
 	  'main_hero_tag' => 'Tracks your time and work so you can focus with ease',
 	  'the_features' => 'The Features',
