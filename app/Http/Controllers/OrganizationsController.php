@@ -14,6 +14,9 @@ use App\SocialAccountService;
 use App\Events\Event;
 use App\Events\EventChrome;
 
+use Config;
+use Illuminate\Support\Facades\Session;
+
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class OrganizationsController extends Controller
@@ -46,6 +49,7 @@ class OrganizationsController extends Controller
             'orgdomain' => 'required ',// | regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
             'defaulttz' => 'required',
             'idleTime' => 'required',
+            'orgdeflang' => 'required',
             'ip' => 'required|min:1',
             'ipstatus' => 'required|min:1'
         ]);
@@ -73,13 +77,17 @@ class OrganizationsController extends Controller
     	$org->default_tz = $request->defaulttz;
     	$org->alt_tz = serialize($alttime);//$alttime;//serialize($request->alttime);
         $org->idle_time = $request->idleTime;
+        $org->default_lang = $request->orgdeflang;
     	$org->ip_lists = serialize($ip);//serialize($request->ip);
     	$org->ip_status = serialize($ipstatus);// unserialize() to read from database
     	$org->save();
 
-        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin','timeZone' => $org->default_tz]);
+        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin','timeZone' => $org->default_tz,'lang' => $org->default_lang]);
         $user = User::where('email',$request->userid)->get();
         auth()->login($user[0]);
+        if (array_key_exists($user[0]->lang, Config::get('app.locales'))) {
+            Session::set('locale', $user[0]->lang);
+        }
         return redirect()->to('/home');
     	//return redirect('/redirect/google');
     }

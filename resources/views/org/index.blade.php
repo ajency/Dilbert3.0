@@ -89,7 +89,7 @@
                             <div class="row top-row">
                                 <div class="col-xs-6">
                                     <label for="logoUpload" class="upload-label">
-                                        <input type="file" id="logoUpload">
+                                        <input type="file" id="logoUpload" disabled>
                                         <span class="upload-text">
                                             <i class="fa fa-camera"></i>
                                             Upload Logo
@@ -151,6 +151,16 @@
                                         <label for="timeidle">Time until Idle <span style="color:red">*</span></label>
                                         <input type="number" id="timeidle" name="idleTime" min="1" class="form-control" placeholder="Enter time in minutes" required>
                                     </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        @lang('lang.user_lang')  <span style="color:red">*</span></label>
+                                        <select class="form-control" name="orgdeflang">
+                                            @foreach (Config::get('app.locales') as $lang => $language)
+                                                <option value="{{$lang}}">{{$language}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>  
                                 </div>
                             </div>
                             <div id="iplist">
