@@ -77,7 +77,7 @@ class OrganizationsController extends Controller
     	$org->ip_status = serialize($ipstatus);// unserialize() to read from database
     	$org->save();
 
-        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin']);
+        $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin','timeZone' => $org->default_tz]);
         $user = User::where('email',$request->userid)->get();
         auth()->login($user[0]);
         return redirect()->to('/home');
