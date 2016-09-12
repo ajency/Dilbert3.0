@@ -10,6 +10,9 @@ use App\User;
 use App\Organization;
 use App\Log;
 
+use Config;
+use Illuminate\Support\Facades\Session;
+
 class HomeController extends Controller
 {
     /**
@@ -27,6 +30,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function setLang($lang) {
+        if (array_key_exists($lang, Config::get('app.locales'))) {
+            Session::set('locale', $lang);
+        }
+    }
+
     public function index() { // 
         //set’s application’s locale
         // app()->setLocale($locale);
@@ -37,6 +47,7 @@ class HomeController extends Controller
         $logo = $logo[0]->domain;
         $logs = Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
 
+        //$this->setLang(auth()->user()->lang);
         return view('home',compact('logo','logs'));
     }
 
@@ -46,12 +57,15 @@ class HomeController extends Controller
 
         $org_id = User::where('email',auth()->user()->email)->get();
     
-        $logo = Organization::find($org_id[0]->org_id)->get();
-        $logo = $logo[0]->domain;
+        $org = Organization::find($org_id[0]->org_id)->get();
+        $logo = $org[0]->domain;
 
         $log = Log::where('user_id',$org_id[0]->id)->get();
+        $timeZones = array($org[0]->default_tz);// default time zone
+        $timeZones = array_merge($timeZones, unserialize($org[0]->alt_tz)); // merge default_tz & alt_tz
+        //dd($timeZones);
         $status = "nil";
-        return view('profile.index',compact('logo','log','status'));
+        return view('profile.index',compact('logo','log','status','timeZones'));
     }
 
     public function newprof(Request $request) { // update profile
@@ -67,11 +81,9 @@ class HomeController extends Controller
         $status = "success";
         $user = User::find($request->empid);
 
-        if($user->role == $request->emprole) {
-            $status = "nil";
-        } else if($user->role == "admin" && $request->emprole != "admin") {
-            $org_role_cnt = User::where('role',"admin")->count();
-            if($org_role_cnt <= 1){
+        if($user->role == "admin" && $request->emprole != "admin") {// if user degrades the role from admin to any other lower role
+            $org_role_cnt = User::where('role',"admin")->count();// check the no of admins
+            if($org_role_cnt <= 1){ // if there is only 1 admin, then reject the request
                 $status = "fail";
             }
         }
@@ -79,7 +91,11 @@ class HomeController extends Controller
         if($status == "success"){
             $user->name = $request->empname;
             $user->role = $request->emprole;
+            $user->lang = $request->emplang;
+            $user->timeZone = $request->emptz;
             $user->update();
+
+            $this->setLang($request->emplang);
         }
         //User::where('id',$request->empid)->update()
         //return view('profile.index',compact('logo','log','status'));

@@ -91,7 +91,7 @@ class OrganizationsController extends Controller
         try {
             $org = Organization::where('domain',$request->orgdomain)->get();
             if(count($org) > 0) { //domain exist in database
-                $org_id = User::where('email',$request->userid)->update(['org_id' => $org[0]->id]);
+                $org_id = User::where('email',$request->userid)->update(['org_id' => $org[0]->id, 'timeZone' => $request->jointz]);
                 $user = User::where('email',$request->userid)->get();
                 auth()->login($user[0]);
                 return redirect()->to('/home');

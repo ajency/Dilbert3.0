@@ -10,14 +10,23 @@ use App\SocialAccountService;
 use App\Organization;
 use App\User;
 
+use Config;
+use Illuminate\Support\Facades\Session;
+
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SocialAuthController extends Controller {
-    public function redirect() {
+    public function setLang($lang) {
+        if (array_key_exists($lang, Config::get('app.locales'))) {
+            Session::set('locale', $lang);
+        }
+    }
+
+    public function redirect() { // for google authentication
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback(SocialAccountService $service) {
+    public function callback(SocialAccountService $service) { // after Google authentication & redirection
         try {
             //set’s application’s locale
             //app()->setLocale($locale);
@@ -31,12 +40,15 @@ class SocialAuthController extends Controller {
                     $status = $arraySocial[1];
                     if($status == "exist") {
                         auth()->login($user);
+                        $this->setLang(auth()->user()->lang);
                         return redirect()->to('/home');
                     } else if($status == "present") {// join organization
                         $company = $org[0]->name;
                         $domain = $org[0]->domain;
                         $useremail = $user->email;
-                        return view('org.index',compact('status','company','domain','useremail'));// open Join Organization page
+                        $timeZones = array($org[0]->default_tz);// default time zone
+                        $timeZones = array_merge($timeZones, unserialize($org[0]->alt_tz));//merge default & alt
+                        return view('org.index',compact('status','company','domain','useremail','timeZones'));// open Join Organization page
                     }
                 } else { // add organization
                     $arraySocial = $service->createOrGetUser($account);
@@ -55,6 +67,10 @@ class SocialAuthController extends Controller {
     }
     
     public function logout() { // overrided the default login -> for chrome App
+        if (array_key_exists(auth()->user()->lang, Config::get('app.locales'))) {
+            Session::set('locale', "en");
+        }
+
         auth()->logout();
         //return redirect()->to(session('locale').'/home');
         return redirect('/login');

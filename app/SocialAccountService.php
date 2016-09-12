@@ -22,9 +22,12 @@ class SocialAccountService
             $user->avatar = $providerUser->avatar;
             $user->acd = date('Y-m-d');
             $user->org_id = 0;
+            $user->lang = "en";
             $user->role = "member";
             $user->save();
 
+            $status = "present";
+        } else if($user->org_id == 0) { // safe-point, just incase user account is created but not linked with any organization, then redirect him/her to Join Organization page
             $status = "present";
         }
 
