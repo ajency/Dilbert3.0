@@ -91,7 +91,7 @@ class SocialAuthController extends Controller {
         }
         else if(isset($request->content["hd"])){ // check if domain exist
             $output->writeln("User not existing");
-            $org = Organization::where('domain',$request->content["hd"])->get();
+            /*$org = Organization::where('domain',$request->content["hd"])->get();
             
             if(count($org) > 0) { // if organization exist, then create user, & continue
                 $user = new User;
@@ -107,7 +107,8 @@ class SocialAuthController extends Controller {
                 
                 $user = User::find($user->id);
                 return $user;
-            }
+            }*/
+            return 1;
         }
 
         $output->writeln("No organization");
