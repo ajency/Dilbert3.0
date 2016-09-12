@@ -30,6 +30,14 @@
 	  'delete' => 'Delete',
 	  'domain' => 'Domain',
 	  'this_week_workout' => 'This week\'s workout',
+	  'sorry' => 'Sorry',
+
+	  //profile page
+	  'user_lang' => 'Language selected by user',
+	  'update_prof' => 'Update Profile',
+	  'update_success' => 'Profile successfully updated!',
+	  'update_fail' => 'You are the only admin for this organization.',
+	  'time_zone' => 'Time zone',
 	  
 	  //main page
 	  'hero_title' => 'Track Time. Record Work',

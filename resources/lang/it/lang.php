@@ -30,7 +30,14 @@
 	  'delete' => 'Cancellare',
 	  'domain' => 'Dominio',
 	  'this_week_workout' => 'Allenamento di questa settimana',
-
+	  'sorry' => 'Scusate',
+	  
+	  // profile page
+	  'user_lang' => 'Dall\'utente lingua selezionata',// user-selected(selezionata) language(lingua)
+	  'update_prof' => 'Aggiorna il profilo',
+	  'update_success' => 'Profilo aggiornata con successo!',// profile updated successfully!
+	  'update_fail' => 'Tu sei l\'unico amministratore per questa organizzazione.',
+	  'time_zone' => 'Fuso orario',
 
 	  //main page
 	  'hero_title' => 'Tempo traccia. Record lavoro',

@@ -6,19 +6,19 @@
     @if (session()->has('status'))
         @if(session('status') == "success")
             <div class="row">
-                <div class="col-lg-offset-2 col-md-offset-3 col-md-6">
+                <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
                     <div class="alert alert-success alert-dismissible alert-fixed" role="alert">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <center><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green;float:left"></span> Profile successfully updated!</center>
+                      <center><span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green;float:left"></span> @lang('lang.update_success')</center>
                     </div>
                 </div>
             </div>
         @elseif(session('status') == "fail")
             <div class="row">
-                <div class="col-lg-offset-2 col-md-offset-3 col-md-6">
+                <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
                     <div class="alert alert-danger alert-dismissible alert-fixed" role="alert">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <center><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" style="color:red;float:left"></span> <strong>Sorry!</strong> You are the only admin for this organization. </center>
+                      <center><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" style="color:red;float:left"></span> <strong>@lang('lang.sorry')!</strong> @lang('lang.update_fail') </center>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,31 @@
                             	</select>
                             </div>
                             <div class="form-group">
-                            	<center><button type="submit" class="btn btn-success"> Update Profile </button></center>
+                                @lang('lang.user_lang'):
+                                <select class="form-control" name="emplang">
+                                    @foreach (Config::get('app.locales') as $lang => $language)
+                                        @if ($lang == Auth::user()->lang)
+                                            <option value="{{$lang}}" selected>{{$language}}</option>
+                                        @else
+                                            <option value="{{$lang}}">{{$language}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                @lang('lang.time_zone'):
+                                <select class="form-control" name="emptz">
+                                    @foreach ($timeZones as $tz)
+                                        @if($tz == Auth::user()->timeZone)
+                                            <option value="{{$tz}}" selected>{{$tz}}</option>
+                                        @else
+                                            <option value="{{$tz}}">{{$tz}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                            	<center><button type="submit" class="btn btn-success"> @lang('lang.update_prof') </button></center>
                             </div>
                         </form>
                     </div>

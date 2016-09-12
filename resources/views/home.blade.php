@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-lg-offset-2 col-md-offset-3 col-md-6">
+        <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
             <div class="alert alert-success alert-dismissible alert-fixed" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <center><strong>@lang('lang.welcome') </strong> {{ Auth::user()->name }} !</center>

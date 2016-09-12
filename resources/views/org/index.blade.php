@@ -37,6 +37,7 @@
             </nav>
 
         @if($status == "new")
+            <!-- The organization does not exist, & needs to be created -->
             <div class="container max-767">
                 <div class="steps-wrapper only-two">
                     <div class="step done">
@@ -253,12 +254,12 @@
                                 </div>
                             </div>
                             <div class="row mBtm-10">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <div class="domain">
-                                        Name
+                                        @lang('lang.name')
                                     </div>
                                 </div>
-                                <div class="col-xs-8">
+                                <div class="col-xs-9">
                                     <div class="domain">
                                         <strong> {{$company}} </strong>
                                         <input type="hidden" name="orgname" value="{{$company}}"/>
@@ -266,16 +267,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mBtm-25">
-                                <div class="col-xs-4">
+                            <div class="row mBtm-10">
+                                <div class="col-xs-3">
                                     <div class="domain">
-                                        Domain
+                                        @lang('lang.domain')
                                     </div>
                                 </div>
-                                <div class="col-xs-8">
+                                <div class="col-xs-9">
                                     <div class="domain">
                                         <strong> @ {{$domain}} </strong>
                                         <input type="hidden" name="orgdomain" value="{{$domain}}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mBtm-25">
+                                <div class="col-xs-3">
+                                    <div class="domain">
+                                        @lang('lang.time_zone')
+                                    </div>
+                                </div>
+                                <div class="col-xs-9">
+                                    <div class="domain">
+                                        <select class="form-control" name="jointz" style="margin-top: -10px;font-size:12px">
+                                            @foreach ($timeZones as $tz)
+                                                <option value="{{$tz}}">{{$tz}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

@@ -30,7 +30,14 @@
 	  'delete' => 'Effacer',
 	  'domain' => 'Domaine',
 	  'this_week_workout' => 'La séance d\'entraînement de cette semaine',
+	  'sorry' => 'Pardon',
 
+	  // profile page
+	  'user_lang' => 'Langue choisie par l\'utilisateur',// language chosen by the user
+	  'update_prof' => 'Mettre à jour le profil',
+	  'update_success' => 'Profil mis à jour avec succès!',
+	  'update_fail' => 'Vous êtes le seul administrateur de l\'organisation.',
+	  'time_zone' => 'Fuseau horaire',
 
 	  //main page
 	  'hero_title' => 'Temps de piste. Fiche de travail',

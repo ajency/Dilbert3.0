@@ -1,3 +1,5 @@
+<!-- Not used, old copy -->
+
 @extends('layouts.app')
 
 @section('header')
