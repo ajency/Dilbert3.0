@@ -139,7 +139,8 @@
                 </div>
             </div>
             <div id="state-login" class="out-of-pannel">
-                <p> @lang('lang.not_conn_2_dilbert') <a href="{{ url(app()->getLocale().'/register')}}" class="sign-up-trigger">Sign up!</a></p>
+               <!-- <p> @lang('lang.not_conn_2_dilbert') <a href="{{ url(app()->getLocale().'/register')}}" class="sign-up-trigger">Sign up!</a></p>-->
+                <p> @lang('lang.not_conn_2_dilbert') <a href="{{ url('/register')}}" class="sign-up-trigger">Sign up!</a></p>
             </div>
             <div id="state-signup" class="out-of-pannel hidden">
                 <p> @lang('lang.already_hv_acc_in_dil') <a href="#" class="sign-in-trigger">@lang('lang.sign_in')</a></p>
