@@ -63,7 +63,7 @@
 	  'sign_up' => 'Inscrivez-vous_fr',
 	  'n_cont_whr_u_left_off' => ' et continuer là où vous l\'avez laissé_fr',
 	  'with_google' => 'avec Google_fr',
-	  '_change_ur_work_way' => _fr', changer votre façon de travailler!_fr',
+	  '_change_ur_work_way' => ', changer votre façon de travailler!_fr',
 	  'already_hv_acc_in_dil' => 'Vous avez déjà un compte sur Dilbert?_fr',
 	  'not_conn_2_dilbert' => 'Vous n\'êtes pas encore connecté à Dilbert ?_fr',
 	  'conn_using_google_acc' => 'Il suffit de connecter votre compte Google_fr',

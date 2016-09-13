@@ -63,7 +63,7 @@
 	  'sign_up' => 'Registrazione_it',
 	  'n_cont_whr_u_left_off' => 'e continuare da dove si era interrotto_it',
 	  'with_google' => 'con Google_it',
-	  '_change_ur_work_way' => _it', cambiare il vostro modo di lavorare !_it',
+	  '_change_ur_work_way' => ', cambiare il vostro modo di lavorare !_it',
 	  'already_hv_acc_in_dil' => 'Già si dispone di un account su Dilbert?_it',
 	  'not_conn_2_dilbert' => 'Non ancora collegato a Dilbert?_it',// Not yet connected to dilbert
 	  'conn_using_google_acc' => 'Basta collegare il tuo account Google_it',
