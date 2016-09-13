@@ -139,12 +139,11 @@ Route::group(['prefix' => 'api'], function () {
         $output = new ConsoleOutput();
 
         $output->writeln("At fire");
-
-        $output->writeln(\Request::header( 'X-API-KEY' ));
-
         $output->writeln("At fire 1");        
         //Redis::flushall();
-        if(\Request::header( 'X-API-KEY' ) !== null) { // if api key is present in Header
+        //$output->writeln("Flush Redis buffer");
+        if(\Request::header( 'X-API-KEY' ) !== "") { // if api key is present in Header
+            $output->writeln("Header Present");
             $output->writeln(\Request::header( 'X-API-KEY' ));
 
             $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
@@ -153,6 +152,7 @@ Route::group(['prefix' => 'api'], function () {
             $output->writeln($request_user_id);
                 
             $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
+            //$user = User::where(['id' => $request_user_id])->get();
             $output->writeln(count($user));
             
             //Redis::flushall(); // clear all the data in queue
@@ -197,6 +197,8 @@ Route::group(['prefix' => 'api'], function () {
                 
                 event(new App\Events\EventChrome(json_decode(json_encode($redis_list), false)));
             }
+        } else {
+            $output->writeln("No API auth");
         }
     });
 });

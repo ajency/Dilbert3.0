@@ -1,6 +1,7 @@
 <?php
 	// English
 	return [
+	  'dashboard' => 'Dashboard',
 	  'welcome' => 'Welcome',
 	  'active' => 'Active',
 	  'idle' => 'Idle',
@@ -33,6 +34,7 @@
 	  'sorry' => 'Sorry',
 
 	  //profile page
+	  'per_details' => 'Personal Details',
 	  'user_lang' => 'Language selected by user',
 	  'update_prof' => 'Update Profile',
 	  'update_success' => 'Profile successfully updated!',

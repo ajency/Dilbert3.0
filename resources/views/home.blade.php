@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">@lang('lang.dashboard')</div>
 
                 <div class="panel-body">
                     @lang('lang.2dy_wrk_hrs_cntrbtd') (min 5 hrs, max 10 hrs).
