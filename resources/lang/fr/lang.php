@@ -1,7 +1,7 @@
 <?php
 	// French
 	return [
-	  'dashboard' => 'tableau de bord_fr',
+	  'dashboard' => 'Tableau de bord_fr',
 	  'welcome' => 'Bonjour_fr',
 	  'active' => 'Actif_fr',
 	  'idle' => 'Tourner au ralenti_fr',
