@@ -26,9 +26,9 @@
     @endif
     <div class="row">
         <div class="col-xs-12 col-md-6 col-md-offset-3">
-            <div class="jumbotron" style="padding-top:10px;background-color:transparent">
+            <div class="jumbotron personal-data">
                 <div class="row">
-                    <center><h3>@lang('lang.per_details')</h3></center>
+                    <center><h3 class="jumbo-title">@lang('lang.per_details')</h3></center>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -44,7 +44,7 @@
                             <div class="form-group">
                             	@lang('lang.ur_off_email_id'): <strong name="empemail">{{ Auth::user()->email }}</strong>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group posrel">
                             	@lang('lang.ur_role_permission'):
                             	<select name="emprole" id="emprole" class="form-control">
                             		<option value="">-- Select a role -- </option>
@@ -63,8 +63,9 @@
                             			<option value="member">Member</option>
                             		@endif
                             	</select>
+                                <i class="fa fa-sort noclick"></i>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group posrel">
                                 @lang('lang.user_lang'):
                                 <select class="form-control" name="emplang">
                                     @foreach (Config::get('app.locales') as $lang => $language)
@@ -75,8 +76,9 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                <i class="fa fa-sort noclick"></i>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group posrel">
                                 @lang('lang.time_zone'):
                                 <select class="form-control" name="emptz">
                                     @foreach ($timeZones as $tz)
@@ -87,9 +89,10 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                <i class="fa fa-sort noclick"></i>
                             </div>
                             <div class="form-group">
-                            	<center><button type="submit" class="btn btn-success"> @lang('lang.update_prof') </button></center>
+                            	<center><button type="submit" class="btn btn-primary"> @lang('lang.update_prof') </button></center>
                             </div>
                         </form>
                     </div>

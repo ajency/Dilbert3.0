@@ -70,11 +70,11 @@
                         @if (!(Auth::guest()))
                             <li><a href="/home">@lang('lang.home')</a></li>
                         @endif
-                        <li>
-                            <span style= "color: #828282;font-weight: 600;text-decoration: none;font-size: 13px;">@lang('lang.site_lang') : </span>
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style= "margin-top:13px;margin-bottom:5px;font-size:12px">
+                        <li class="@if (!(Auth::guest())) haslogo @endif">
+                            <span class="hidden" style= "color: #828282;font-weight: 600;text-decoration: none;font-size: 13px;">@lang('lang.site_lang') : </span>
+                            <button type="button" class="btn btn-default dropdown-toggle language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               {{ Config::get('app.locales')[App::getLocale()] }}
-                              <span class="caret"></span>
+                              <i class="fa fa-angle-down"></i>
                             </button>
                             <ul class="dropdown-menu">
                                 @foreach (Config::get('app.locales') as $lang => $language)
@@ -93,9 +93,11 @@
                             <li class="highlight"><a href="{{ url('/register') }}">@lang('lang.register')</a></li>
                             <li><a href="{{ url('/login') }}">@lang('lang.login')</a></li>
                         @else
-                            <li class="dropdown">
+                            <li class="dropdown userdata">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <img src="{{ Auth::user()->avatar }}" height="20px" class="img-circle"><input type="hidden" id="uremail" value="{{ Auth::user()->email }}"><span class="caret"></span>
+                                    <img src="{{ Auth::user()->avatar }}" height="20px" class="img-circle"><input type="hidden" id="uremail" value="{{ Auth::user()->email }}">
+                                    {{ Auth::user()->name }}
+                                    <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     @if(Auth::user()->role == "admin")

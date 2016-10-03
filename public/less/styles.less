@@ -49,6 +49,30 @@
 		text-decoration: none;
 	}
 }
+.navbar-default .navbar-brand {
+	color: @titleDark;
+}
+
+// dropdown menu
+.dropdown-menu {
+	border: 0;
+	box-shadow: 0 6px 12px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,0.1);
+	border-radius: 3px;
+	li a {
+		padding: 9px 20px;
+		color: @titleDark;
+	}
+}
+.dropdown.userdata {
+	img {
+		display: inline-block;
+		vertical-align: bottom;
+		margin-right: 5px;
+	}
+	i {
+		margin-left: 2px;
+	}
+}
 
 .page-title {
 	h1 {
@@ -343,5 +367,13 @@ form {
 				border-radius: 0 0 2px 2px;
 			}
 		}
+	}
+}
+
+.personal-data {
+	padding-top: 10px;
+	background-color: transparent;
+	.jumbo-title {
+		margin-bottom: 35px;
 	}
 }

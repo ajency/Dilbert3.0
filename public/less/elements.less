@@ -123,6 +123,7 @@
 	color: @bodyGrey;
 	box-shadow: none;
 	border-radius: 0;
+	line-height: normal;
 	transition: all 0.5s;
 	&:hover {
 		border-color: darken(@bodyGrey, 5%);
@@ -276,6 +277,36 @@ select.form-control {
 	&.btn-with-lt-icon {
 		i {margin-right: 8px;}
 	}
+	&.language-selector {
+		padding: 2px 4px;
+		margin: 0;
+		margin-top: 13px;
+		border: 0;
+		border-bottom: 1px dashed #bbb;
+		font-size: 12px;
+		// text-transform: uppercase;
+		// letter-spacing: 1px;
+		opacity: .5;
+		i {
+			margin-left: 3px;
+		}
+		&:hover {
+			opacity: 1;
+			color: @primary;
+			background: transparent;
+			border-color: @primary;
+		}
+	}
+}
+.open>.dropdown-toggle.language-selector:focus,
+.open>.dropdown-toggle.language-selector:hover {
+	opacity: 1;
+	color: @primary;
+	background: transparent;
+	border-color: @primary;
+}
+.haslogo .btn.language-selector {
+	margin-top: 15px;
 }
 
 // panel
