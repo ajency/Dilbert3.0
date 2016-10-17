@@ -52,7 +52,11 @@
                     </div>
                     <!-- <a href="#" class="show-hide-days pull-right"><small>Hide Sundays</small></a> -->
                 </div>
-                <div class="card-body week -view">
+                <!-- Adding/removing the class 'week-view' will toggle the week view div visibility -->
+                <!-- the below 2 line instructions are incase you add some other object inside this div -->
+                <!-- whatever object that needs to be hidden in week view plz add the class 'hide-in-week-view' -->
+                <!-- to show an object in week view plz add class 'show-in-week-view' -->
+                <div class="card-body week-view">
                     <div class="table-view month hscroll-table hide-in-week-view">
                         <div class="table-responsive setpadding">
                             <table class="table first-table">
