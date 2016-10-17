@@ -1,3 +1,4 @@
+// @import "bootstrap/bootstrap";
 @import "varsnhelpers";
 @import "elements";
 
@@ -84,12 +85,24 @@
 		}
 	}
 }
+.dashboard-title {
+	font-size: 28px;
+	color: @titleDark;
+	margin-top: 50px;
+	margin-bottom: 6px;
+	font-weight: 600;
+}
 .sub-title {
 	margin-top: 3px;
 	margin-bottom: 20px;
 	font-size: 13px;
 	color: @bodyGrey;
 	font-weight: 600;
+	&.dash {
+		font-size: 14px;
+		font-weight: 300;
+		margin-bottom: 35px;
+	}
 }
 .dilbert-logo {
 	padding: 15px 0;
@@ -376,4 +389,34 @@ form {
 	.jumbo-title {
 		margin-bottom: 35px;
 	}
+}
+
+.btn-group.change-last-view {
+	.btn {
+		font-size: 16px;
+		border: 0;
+		color: @titleLight;
+	}
+}
+
+.show-hide-days {
+	margin-top: 6px;
+}
+
+
+.fixed-bottom-color {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 500px;
+	background: @ajencyYellow;
+	z-index: -1;
+
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
+	background: @ajencyYellow; /* Old browsers */
+	background: -moz-linear-gradient(45deg,  @ajencyYellow 0%, @ligterYellow 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@ajencyYellow', endColorstr='@ligterYellow',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }

@@ -4,11 +4,13 @@
 @googleRed: #d43f3a;
 
 @titleDark: #303030;
+@titleLight: #626262;
 
 // @primary: #8e20d7;
 @primary: #a400d8;
 @secondary: #f7ae12;
 @ajencyYellow: #FFDF00;
+@ligterYellow: #ffee32;
 
 @warning: #efda25; // yellow
 @danger: #fb522b; // red
@@ -116,4 +118,12 @@ button, input, textarea {
 		width: 100%;
 		background-size: contain;
 	}
+}
+
+
+.small-title {
+	display: block;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: lighten(@bodyGrey, 25%);
 }

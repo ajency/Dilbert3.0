@@ -56,4 +56,54 @@ $(document).ready(function() {
 	$(window).load(function() {
 		$(window).trigger('scroll')
 	});
+
+	// for the tables in the dashboard
+	if ($('.hscroll-table').length) {
+		$('.hscroll-table').each(function() {
+			$headerCol = $(this).find('thead th:last-child').html();
+			$(this).find('thead th:last-child').detach();
+			$bodyCol = [];
+			$(this).find('tbody tr').each(function() {
+				$singleCell = $(this).find('td:last-child').html();
+				$(this).find('td:last-child').detach();
+				$bodyCol.push($singleCell);
+			});
+
+			if ($(this).children().first().is('table')) {
+				$contElement = $(this);
+			} else {
+				$contElement = $(this).children().first();
+			}
+
+			$contElement.append(
+				'<table class="table fixed-right">' +
+					'<thead><tr><th>' + $headerCol + '</th></tr></thead><tbody></tbody>' +
+				'</table>'
+			);
+			for (var i = 0; i < $bodyCol.length; i++) {
+				$contElement.find('.fixed-right').append(
+					'<tr>' +
+						'<td>' + $bodyCol[i] + '</td>' +
+					'</tr>'
+				);
+			}
+		});
+	}
+
+
+	$('[data-toggle="tooltip"]').tooltip()
+	$('.month-view [data-toggle="tooltip"]').each(function() {
+		$day = $(this).find('.th-day').text().trim();
+		$totalTime = $(this).find('.th-total').text().trim();
+		$workTime = $(this).find('.th-work').text().trim();
+		$breakTime = $(this).find('.th-break').text().trim();
+		$(this).attr('data-original-title',
+			'<div class="month-days">' +
+				'<div class="month-date">' + $day + '</div>' +
+				'<div class="month-total">Total time spent<strong>' + $totalTime + '</strong></div>' +
+				'<div class="month-total">Total work done<strong>' + $workTime + '</strong></div>' +
+				'<div class="month-total">Total break taken<strong>' + $breakTime + '</strong></div>' +
+			'</div>'
+		);
+	});
 });

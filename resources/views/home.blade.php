@@ -19,7 +19,345 @@
         </div>
     </div>
 </div>
+
 <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="dashboard-title">Welcome, Strange!</h1>
+            <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
+
+            <div class="last-few-days card">
+                <div class="card-header">
+                    <div class="btn-group change-last-view">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        This Month <span class="fa fa-angle-down"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="show-hide-days pull-right"><small>Hide Sundays</small></a>
+                </div>
+                <div class="card-body">
+                    <div class="month-view hscroll-table">
+                        <div class="table-responsive setpadding">
+                            <table class="table first-table">
+                                <thead>
+                                    <tr>
+                                        <th><span class="th-label small-title">Mon</span></th>
+                                        <th><span class="th-label small-title">Tue</span></th>
+                                        <th><span class="th-label small-title">Wed</span></th>
+                                        <th><span class="th-label small-title">Thu</span></th>
+                                        <th><span class="th-label small-title">Fri</span></th>
+                                        <th><span class="th-label small-title">Sat</span></th>
+                                        <th class="sunday"><span class="th-label small-title">Sun</span></th>
+                                        <th class="total"><span class="th-label small-title">Total</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="current">
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td class="sunday">
+                                            <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a> -->
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td class="sunday">
+                                            <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a> -->
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day total" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td class="sunday">
+                                            <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a> -->
+                                        </td>
+                                        <td>
+                                            <a href="#" class="single-day total" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title">Oct 10</span>
+                                                <span class="th-total">9:30</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">8:30</span> |
+                                                    <span class="th-break">1:00</span>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="stats-view">
+                        <h4 class="card-title">Stats since Oct 01</h4>
+                        <div class="horizontal-stats">
+                            <div class="stat-wrap">
+                                <div class="stat-count">
+                                    <strong>109:20</strong>
+                                    <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
+                                </div>
+                                <div class="stat-title small-title">Total Time</div>
+                            </div>
+                            <div class="stat-wrap">
+                                <div class="stat-count">
+                                    <strong>95:49</strong>
+                                    <span class="stat-dev decrease"><i class="fa fa-caret-down"></i> 1.5%</span>
+                                </div>
+                                <div class="stat-title small-title">Total Work Time</div>
+                            </div>
+                            <div class="stat-wrap">
+                                <div class="stat-count">
+                                    <strong>09:52 <span>AM</span></strong>
+                                    <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
+                                </div>
+                                <div class="stat-title small-title">Avg. Say Start</div>
+                            </div>
+                            <div class="stat-wrap">
+                                <div class="stat-count">
+                                    <strong>0.47</strong>
+                                    <span class="stat-dev decrease"><i class="fa fa-caret-down"></i> 1.5%</span>
+                                </div>
+                                <div class="stat-title small-title">Day start deviates by</div>
+                            </div>
+                            <div class="stat-wrap text-right">
+                                <a href="#" class="more-stats"><small>More stats</small></a>
+                            </div>
+                        </div>
+                        <!-- Please add the line chart here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<div class="fixed-bottom-color"></div>
+
+<!-- Below is the old code -->
+<div class="container hidden">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
