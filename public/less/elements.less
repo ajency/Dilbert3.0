@@ -349,9 +349,9 @@ select.form-control {
 	margin: 10px auto;
 	line-height: 24px;
 	opacity: 0.7;
-	strong {
-		font-weight: 600;
-	}
+	// strong {
+	// 	font-weight: 600;
+	// }
 }
 
 
@@ -442,9 +442,19 @@ select.form-control {
 // card general styles
 .card {
 	background: #fff;
-	border-radius: 3px;
+	border-radius: 4px;
 	box-shadow: 0 0 13px rgba(0,0,0,0.1),0 12px 25px -7px rgba(0,0,0,0.1);
 	padding: 15px;
+	margin-bottom: 25px;
+	&.has-hover {
+		position: relative;
+		top: 0;
+		transition: box-shadow 0.5s, top 0.5s;
+		&:hover {
+			top: -1px;
+			box-shadow: 0 0 18px rgba(0,0,0,0.15),0 35px 25px -20px rgba(0,0,0,0.1);
+		}
+	}
 	.card-title {
 		color: @titleLight;
 		margin-top: 25px;
@@ -480,12 +490,37 @@ select.form-control {
 .dropdown-menu a {
 	text-decoration: none;
 }
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
+	background: @ajencyYellow;
+	color: @titleDark;
+	font-weight: 600;
+}
 
 // dashboard table
-.month-view {
+.table-view {
 	position: relative;
 	border: 1px solid lighten(@bodyGrey, 42%);
 	border-radius: 3px;
+	@media screen and (max-width: 737px) {
+		&:after {
+			content: '';
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			width: 50px;
+			opacity: 0.1;
+			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+1,1+100 */
+			background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 1%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 1%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
+			pointer-events: none;
+		}
+		&.hide-in-week-view:after {
+			right: 90px;
+		}
+	}
 	.table {
 		margin-bottom: 0;
 		border-radius: 3px;
@@ -495,6 +530,7 @@ select.form-control {
 		padding: 0;
 		// width: 12.5%;
 		min-width: 89px;
+		max-width: 89px;
 		border-top: 1px solid lighten(@bodyGrey, 42%);
 	}
 	.table > thead > tr > th {
@@ -504,6 +540,8 @@ select.form-control {
 	.setpadding {
 		margin-right: 90px;
 		width: auto;
+	}
+	.table-responsive {
 		@media screen and (max-width: 767px) {
 			border: 0;
 			margin-bottom: 0;
@@ -514,7 +552,8 @@ select.form-control {
 		color: lighten(@bodyGrey, 25%);
 		text-decoration: none;
 		padding: 12px;
-		&:hover {
+		overflow: hidden;
+		&:hover, &:active, &:focus {
 			background: lighten(@bodyGrey, 45%);
 		}
 		&.current {
@@ -522,12 +561,16 @@ select.form-control {
 				color: @primary;
 			}
 		}
+		& + .tooltip {
+			width: 175px;
+		}
 	}
 	.th-day {
 		// display: block;
 		// font-size: 11px;
 		// text-transform: uppercase;
 		margin-bottom: 5px;
+		white-space: nowrap;
 	}
 	.th-label {
 		font-weight: normal;
@@ -538,6 +581,12 @@ select.form-control {
 		font-size: 18px;
 		font-weight: 600;
 		color: @titleDark;
+		&.work {
+			color: @success;
+		}
+		&.break {
+			color: @midGrey;
+		}
 	}
 	.th-spilt {
 		display: block;
@@ -546,10 +595,10 @@ select.form-control {
 	}
 	.th-work {
 		color: @success;
-		margin-right: 3px;
+		margin-right: 1px;
 	}
 	.th-break {
-		margin-left: 3px;
+		margin-left: 1px;
 	}
 	.first-table {
 		overflow: hidden;
@@ -557,7 +606,7 @@ select.form-control {
 	.first-table tbody tr {
 		opacity: 0.5;
 		&:hover {
-			opacity: 0.8;
+			opacity: 1;
 			box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
 			-webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
 			-moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
@@ -574,7 +623,159 @@ select.form-control {
 		width: 91px;
 		border-left: 1px solid lighten(@bodyGrey, 42%);
 	}
+	.eq {
+		width: 75px;
+		&.last {
+			width: 110px;
+		}
+	}
+	.wide {
+		width: 70%;
+		min-width: 320px;
+	}
+	&.week {
+		th:first-child {
+			width: 130px;
+		}
+		tbody tr td {
+			padding: 12px;
+		}
+		.th-day {
+			big {
+				color: @bodyGrey;
+			}
+		}
+		tbody tr {
+			cursor: pointer;
+		}
+	}
+	.top-meta {
+		font-size: 12px;
+		display: block;
+		// margin-top: -5px;
+		margin-bottom: 3px;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
+	}
+	.progress {
+		height: 8px;
+		margin-bottom: 0;
+	}
+	.current {
+		.th-day {
+			big {
+				color: @titleDark;
+			}
+		}
+		.th-total.total {
+			color: @primary;
+		}
+	}
 }
+.card-body {
+	.hide-in-week-view {
+		display: block;
+	}
+	.show-in-week-view {
+		display: none;
+	}
+}
+// toggle for week view
+.week-view {
+	.hide-in-week-view {
+		display: none;
+	}
+	.show-in-week-view {
+		display: block;
+	}
+}
+// styling the tooltip
+.month-days {
+	padding: 10px;
+	.month-date {
+		font-size: 11px;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #444;
+	}
+	.month {
+		text-align: left;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
+	}
+	strong {
+		font-size: 16px;
+		display: block;
+		margin-bottom: 8px;
+		font-weight: 400;
+		margin-left: 5px;
+	}
+	small {
+		font-weight: 300;
+	}
+	.j-t {
+		float: left;
+		margin-top: 3px;
+	}
+}
+
+// table - week view responsive
+// @media screen and (max-width: 767px) {
+// 	.week-view .table-view {
+// 		table, thead, tbody, tr {
+// 			display: block;
+// 		}
+// 		.table>tbody>tr>td {
+// 			max-width: none;
+// 		}
+// 		thead th {
+// 			&:first-child {
+// 				display: none;
+// 			}
+// 			&.eq {
+// 				width: 33.3%;
+// 				display: inline-block;
+// 				max-width: none;
+// 				margin-right: -4px;
+// 			}
+// 			&:last-child {
+// 				display: none;
+// 			}
+// 		}
+// 		tr td:first-child {
+// 			display: block;
+// 			border: 0;
+// 			padding-bottom: 0;
+// 		}
+// 		.th-day {
+// 			.small-title {
+// 				display: inline-block;
+// 				vertical-align: bottom;
+// 			}
+// 		}
+// 		td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+// 			display: inline-block;
+// 			width: 33.3%;
+// 			margin-right: -4px;
+// 			border: 0;
+// 			padding-top: 0;
+// 		}
+// 		td:last-child {
+// 			display: block;
+// 			width: 100%;
+// 			padding-top: 0;
+// 			border: 0;
+// 			border-bottom: 1px solid lighten(@bodyGrey, 42%);
+// 		}
+// 	}
+// }
 
 
 // stats section
@@ -582,6 +783,9 @@ select.form-control {
 	display: inline-block;
 	width: 20%;
 	margin-right: -4px;
+	&.wide {
+		width: 40%;
+	}
 	.stat-count {
 		font-size: 18px;
 		color: @titleDark;
@@ -605,6 +809,26 @@ select.form-control {
 			color: @danger;
 		}
 	}
+	@media screen and (max-width: 1199px) {
+		width: 25%;
+		&:last-child {
+			width: 100%;
+		}
+	}
+	@media screen and (max-width: 638px) {
+		width: 50%;
+		&:last-child {
+			width: 100%;
+		}
+		.stat-title {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.stat-dev {
+			display: block;
+		}
+	}
 }
 
 // the line chart
@@ -614,13 +838,222 @@ select.form-control {
 	stroke: #000;
 	shape-rendering: crispEdges;
 }
-
 .x.axis path {
 	display: none;
 }
-
 .line {
 	fill: none;
 	stroke: steelblue;
 	stroke-width: 1.5px;
+}
+
+
+// notifications
+.notification {
+	padding: 20px 18px;
+	background: #fff;
+	.noti-icon {
+		position: absolute;
+		left: -5px;
+		top: 0;
+		width: 35px;
+		height: 35px;
+		background: url(../img/notification-icon.png) no-repeat top center;
+	}
+	.card-body {
+		position: relative;
+		padding-left: 40px;
+		padding-right: 40px;
+	}
+	time {
+		display: inline-block;
+		vertical-align: baseline;
+		border-bottom: 1px dashed @midGrey;
+		font-weight: bold;
+	}
+	.noti-close {
+		position: absolute;
+		right: -8px;
+		top: -5px;
+		text-decoration: none;
+		color: @midGrey;
+		font-size: 20px;
+		font-weight: 300;
+		line-height: 11px;
+		padding: 7px;
+	}
+	.card-footer {
+		margin-top: 8px;
+		text-align: right;
+	}
+	.action-link {
+		color: @bodyGrey;
+		font-size: 13px;
+		&:hover {
+			color: @primary;
+		}
+	}
+	@media screen and (max-width: 767px) {
+		padding: 20px 16px;
+		.card-body {
+			padding-left: 35px;
+			padding-right: 35px;
+		}
+		.noti-icon {
+			left: -8px;
+		}
+	}
+}
+
+.card-link {
+	display: block;
+	text-decoration: none;
+	font-weight: 600;
+	position: relative;
+	&:hover {
+		text-decoration: none;
+	}
+	.diagonal-arrow {
+		position: absolute;
+		width: 16px;
+		height: 2px;
+		background: @primary;
+		transform: rotateZ(-45deg);
+		right: 15px;
+		top: 24px;
+		&:before, &:after {
+			content: '';
+			width: 10px;
+			height: 2px;
+			position: absolute;
+			background: @primary;
+		}
+		&:before {
+			transform: rotateZ(45deg);
+			top: -4px;
+			right: 0;
+			left: auto;
+		}
+		&:after {
+			transform: rotateZ(-45deg);
+			bottom: -4px;
+			right: 0;
+			left: auto;
+		}
+	}
+}
+
+// right sidebar with the app like interface
+.the-grid-chart {
+	height: 200px;
+	background: #f5f5f5;
+	position: relative;
+	.centered-text {
+		position: absolute;
+		left: 15px;
+		right: 15px;
+		bottom: 55px;
+		text-align: center;
+	}
+	.g-c-time {
+		font-size: 32px;
+		font-weight: bold;
+		color: @titleDark;
+		small {
+			font-weight: 300;
+			font-size: 50%;
+		}
+	}
+	.g-c-legend {
+		font-weight: 400;
+		display: block;
+		margin-top: -6px;
+		color: @bodyGrey;
+		opacity: 0.7;
+	}
+}
+.app-title {
+	text-align: center;
+	font-size: 22px;
+	font-weight: 300;
+	margin-top: 10px;
+	margin-bottom: 16px;
+}
+.show-app {
+	.split-times {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		padding: 15px;
+		text-align: center;
+	}
+	.small-time {
+		display: inline-block;
+		vertical-align: top;
+		font-size: 16px;
+		text-align: left;
+		padding-right: 35px;
+		color: #midGrey;
+		// strong {
+		// 	font-weight: 600;
+		// }
+		small {
+			font-size: 85%;
+			font-weight: 300;
+			color: @midGrey;
+		}
+		&:last-child {
+			border-left: 1px solid @softGrey;
+			padding-left: 30px;
+		}
+	}
+	.work {
+		strong {
+			color: @success;
+		}
+	}
+	.small-title {
+		text-transform: none;
+	}
+	.s-f-col {
+		width: 28%;
+		float: left;
+		&.wider {
+			width: 44%;
+		}
+		time {
+			font-size: 16px;
+		}
+		&.not-end {
+			time {
+				opacity: 0.6;
+			}
+		}
+	}
+	.edit-icon {
+		font-size: 12px;
+		color: @midGrey;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.split-foot:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+	.add-details {
+		text-decoration: none;
+		color: @titleDark;
+		display: block;
+		padding-top: 3px;
+		float: right;
+		.block {
+			display: block;
+			font-size: 12px;
+			color: @midGrey;
+			margin-bottom: -3px;
+		}
+		i {
+			margin-left: 8px;
+		}
+	}
 }

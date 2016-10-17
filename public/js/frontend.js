@@ -92,17 +92,32 @@ $(document).ready(function() {
 
 
 	$('[data-toggle="tooltip"]').tooltip()
-	$('.month-view [data-toggle="tooltip"]').each(function() {
+	// commented section is used when there is idle and work times
+	// $('.table-view.month [data-toggle="tooltip"]').each(function() {
+	// 	$day = $(this).find('.th-day').text().trim();
+	// 	$totalTime = $(this).find('.th-total').text().trim();
+	// 	$workTime = $(this).find('.th-work').text().trim();
+	// 	$breakTime = $(this).find('.th-break').text().trim();
+	// 	$(this).attr('data-original-title',
+	// 		'<div class="month-days">' +
+	// 			'<div class="month-date">' + $day + '</div>' +
+	// 			'<div class="month month-total"><span class="j-t">Total time</span><strong class="pull-right">' + $totalTime + ' <small>hrs</small></strong></div>' +
+	// 			'<div class="month month-work"><span class="j-t">Work Time</span><strong class="pull-right">' + $workTime + ' <small>hrs</small></strong></div>' +
+	// 			'<div class="month month-break"><span class="j-t">Break Time</span><strong class="pull-right">' + $breakTime + ' <small>hrs</small></strong></div>' +
+	// 		'</div>'
+	// 	);
+	// });
+	$('.table-view.month [data-toggle="tooltip"]').each(function() {
 		$day = $(this).find('.th-day').text().trim();
 		$totalTime = $(this).find('.th-total').text().trim();
-		$workTime = $(this).find('.th-work').text().trim();
-		$breakTime = $(this).find('.th-break').text().trim();
+		$startTime = $(this).find('.th-work').text().trim();
+		$endTime = $(this).find('.th-break').text().trim();
 		$(this).attr('data-original-title',
 			'<div class="month-days">' +
 				'<div class="month-date">' + $day + '</div>' +
-				'<div class="month-total">Total time spent<strong>' + $totalTime + '</strong></div>' +
-				'<div class="month-total">Total work done<strong>' + $workTime + '</strong></div>' +
-				'<div class="month-total">Total break taken<strong>' + $breakTime + '</strong></div>' +
+				'<div class="month month-total"><span class="j-t">Total time</span><strong class="pull-right">' + $totalTime + ' <small>hrs</small></strong></div>' +
+				'<div class="month month-work"><span class="j-t">Start Time</span><strong class="pull-right">' + $startTime + ' <small></small></strong></div>' +
+				'<div class="month month-break"><span class="j-t">End Time</span><strong class="pull-right">' + $endTime + ' <small></small></strong></div>' +
 			'</div>'
 		);
 	});

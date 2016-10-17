@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
             <div class="alert alert-success alert-dismissible alert-fixed" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <center><strong>@lang('lang.welcome') </strong> {{ Auth::user()->name }} !</center>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row" style="display:none" id="tuckshop_alert">
         <div class="col-lg-offset-2 col-md-offset-3 col-md-6">
             <div class="alert alert-warning alert-dismissible alert-fixed" role="alert">
@@ -23,7 +23,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <h1 class="dashboard-title">Welcome, Strange!</h1>
+            <h1 class="dashboard-title">Welcome, Coulson!</h1>
             <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
 
             <div class="last-few-days card">
@@ -33,17 +33,17 @@
                         This Month <span class="fa fa-angle-down"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
+                            <li class="current active"><a href="#">This Month</a></li>
+                            <li><a href="#">This Week</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Separated link</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="show-hide-days pull-right"><small>Hide Sundays</small></a>
+                    <!-- <a href="#" class="show-hide-days pull-right"><small>Hide Sundays</small></a> -->
                 </div>
-                <div class="card-body">
-                    <div class="month-view hscroll-table">
+                <div class="card-body week -view">
+                    <div class="table-view month hscroll-table hide-in-week-view">
                         <div class="table-responsive setpadding">
                             <table class="table first-table">
                                 <thead>
@@ -65,8 +65,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -75,8 +75,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -85,8 +85,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -95,8 +95,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -105,8 +105,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -115,8 +115,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -125,18 +125,18 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a> -->
                                         </td>
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
+                                                <span class="th-day visi-hide">Week's Total</span>
+                                                <span class="th-total">44:10</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">39:13</span> -
+                                                    <span class="th-break">6:13</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -147,8 +147,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -157,8 +157,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -167,8 +167,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -177,8 +177,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -187,8 +187,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -197,8 +197,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -207,18 +207,18 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a> -->
                                         </td>
                                         <td>
                                             <a href="#" class="single-day total" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
+                                                <span class="th-day visi-hide">Week's Total</span>
+                                                <span class="th-total">44:10</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">39:13</span> -
+                                                    <span class="th-break">6:13</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -229,8 +229,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -239,8 +239,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -249,8 +249,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -259,8 +259,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -269,8 +269,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -279,8 +279,8 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -289,18 +289,18 @@
                                                 <span class="th-day small-title">Oct 10</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
                                                 </span>
                                             </a> -->
                                         </td>
                                         <td>
                                             <a href="#" class="single-day total" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
+                                                <span class="th-day visi-hide">Week's Total</span>
+                                                <span class="th-total">44:10</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">8:30</span> |
-                                                    <span class="th-break">1:00</span>
+                                                    <span class="th-work">39:13</span> -
+                                                    <span class="th-break">6:13</span>
                                                 </span>
                                             </a>
                                         </td>
@@ -310,8 +310,144 @@
                         </div>
                     </div>
 
+                    <div class="table-view week show-in-week-view">
+                        <div class="table-responsive">
+                            <table class="table first-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="eq"><span class="th-label small-title">Total</span></th>
+                                        <!-- <th class="eq"><span class="th-label small-title">Work</span></th>
+                                        <th class="eq last"><span class="th-label small-title">Break</span></th> -->
+                                        <th class="wide">
+                                            <span class="th-label small-title pull-left">Day Start</span>
+                                            <span class="th-label small-title pull-right">Day End</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="current">
+                                        <td>
+                                            <span class="th-day">
+                                                <span class="small-title"><big>Oct 14</big></span>
+                                                <span class="small-title">Fri</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="th-total total th-time">
+                                                <strong>9:30</strong>
+                                            </span>
+                                        </td>
+                                        <!-- <td>
+                                            <span class="th-total work th-time">
+                                                <strong>8:38</strong>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="th-total break th-time">
+                                                <strong>0:52</strong>
+                                            </span>
+                                        </td> -->
+                                        <td>
+                                            <span class="top-meta">
+                                                <span class="th-day-end pull-right">
+                                                    <small>8:13 PM</small>
+                                                </span>
+                                                <span class="th-day-start">
+                                                    <small>9:43 AM</small>
+                                                </span>
+                                            </span>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="th-day">
+                                                <span class="small-title"><big>Oct 14</big></span>
+                                                <span class="small-title">Fri</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="th-total total th-time">
+                                                <strong>9:30</strong>
+                                            </span>
+                                        </td>
+                                        <!-- <td>
+                                            <span class="th-total work th-time">
+                                                <strong>8:38</strong>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="th-total break th-time">
+                                                <strong>0:52</strong>
+                                            </span>
+                                        </td> -->
+                                        <td>
+                                            <span class="top-meta">
+                                                <span class="th-day-start">
+                                                    <small>9:43 AM</small>
+                                                </span>
+                                                <span class="th-day-end pull-right">
+                                                    <small>8:13 PM</small>
+                                                </span>
+                                            </span>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="th-day">
+                                                <span class="small-title"><big>Oct 14</big></span>
+                                                <span class="small-title">Fri</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="th-total total th-time">
+                                                <strong>9:30</strong>
+                                            </span>
+                                        </td>
+                                        <!-- <td>
+                                            <span class="th-total work th-time">
+                                                <strong>8:38</strong>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="th-total break th-time">
+                                                <strong>0:52</strong>
+                                            </span>
+                                        </td> -->
+                                        <td>
+                                            <span class="top-meta">
+                                                <span class="th-day-start">
+                                                    <small>9:43 AM</small>
+                                                </span>
+                                                <span class="th-day-end pull-right">
+                                                    <small>8:13 PM</small>
+                                                </span>
+                                            </span>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="stats-view">
-                        <h4 class="card-title">Stats since Oct 01</h4>
+                        <h4 class="card-title hide-in-week-view">Stats since Oct 01</h4>
+                        <div class="spacer-20 show-in-week-view"></div>
                         <div class="horizontal-stats">
                             <div class="stat-wrap">
                                 <div class="stat-count">
@@ -320,13 +456,13 @@
                                 </div>
                                 <div class="stat-title small-title">Total Time</div>
                             </div>
-                            <div class="stat-wrap">
+                            <!-- <div class="stat-wrap">
                                 <div class="stat-count">
                                     <strong>95:49</strong>
                                     <span class="stat-dev decrease"><i class="fa fa-caret-down"></i> 1.5%</span>
                                 </div>
                                 <div class="stat-title small-title">Total Work Time</div>
-                            </div>
+                            </div> -->
                             <div class="stat-wrap">
                                 <div class="stat-count">
                                     <strong>09:52 <span>AM</span></strong>
@@ -334,7 +470,7 @@
                                 </div>
                                 <div class="stat-title small-title">Avg. Say Start</div>
                             </div>
-                            <div class="stat-wrap">
+                            <div class="stat-wrap wide">
                                 <div class="stat-count">
                                     <strong>0.47</strong>
                                     <span class="stat-dev decrease"><i class="fa fa-caret-down"></i> 1.5%</span>
@@ -350,7 +486,82 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="spacer-45 hidden-xs"></div>
+            <div class="show-app card">
+                <h3 class="app-title normal">
+                    Today
+                </h3>
+                <div class="the-grid-chart">
+                    <div class="centered-text">
+                        <div class="g-c-time">
+                            <strong class="big">6</strong><small>hr</small>
+                            <strong class="big">43</strong><small>min</small>
+                        </div>
+                        <div class="g-c-legend">Covered Today</div>
+                    </div>
+                </div>
+                <div class="split-times">
+                    <div class="small-time work">
+                        <time><strong>05:13</strong> <small>hr</small></time>
+                        <span class="small-title">Work Done</span>
+                    </div>
+                    <div class="small-time break">
+                        <time><strong>02:31</strong> <small>hr</small></time>
+                        <span class="small-title">Break Time</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="split-foot">
+                        <div class="s-f-col">
+                            <time><strong>9:30</strong> <small>hr</small></time>
+                            <a href="#" class="edit-icon"><i class="fa fa-pencil"></i></a>
+                            <span class="small-title">Start Time</span>
+                        </div>
+                        <div class="s-f-col not-end">
+                            <time><strong>03:36</strong> <small>hr</small></time>
+                            <span class="small-title">End Time</span>
+                        </div>
+                        <div class="s-f-col wider">
+                            <a href="#" class="add-details">
+                                <!-- <span class="small-letters">What did you do today?</span> -->
+                                <span class="block">Add</span> Work details <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card notification has-hover">
+                <div class="card-body">
+                    <div class="noti-icon"></div>
+                    <div class="noti-text">
+                        You were <span class="status offline">offline</span> for <time data-toggle="tooltip" data-html="true" data-placement="bottom" title="01:32 PM - 02:13 PM">43 min</time><br>
+                        We've marked it as break
+                    </div>
+                    <a href="#" class="noti-close">&times;</a>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="action-link">It's not a break</a>
+                </div>
+            </div>
+
+            <div class="card notification has-hover">
+                <div class="card-body">
+                    <div class="noti-icon"></div>
+                    <div class="noti-text">
+                        You were <span class="status idle">idle</span> for <time data-toggle="tooltip" data-html="true" data-placement="bottom" title="01:32 PM - 02:13 PM">43 min</time><br>
+                        We've marked it as break
+                    </div>
+                    <a href="#" class="noti-close">&times;</a>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="action-link">It's not a break</a>
+                </div>
+            </div>
+
+            <a href="#" class="card card-link has-hover">View all Notifications <i class="diagonal-arrow"></i></a>
+        </div>
     </div>
 </div>
 

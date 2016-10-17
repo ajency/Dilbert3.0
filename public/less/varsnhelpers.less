@@ -1,4 +1,5 @@
 @softGrey: #ebebeb;
+@midGrey: #c3c3c3;
 @bodyGrey: #828282;
 @googleGrey: #757575;
 @googleRed: #d43f3a;
@@ -16,6 +17,7 @@
 @danger: #fb522b; // red
 @info: #1687e7; // blue
 @success: #94d614; // green
+@idle: #fdde33;
 
 @font-primary: 'Roboto', Arial, sans-serif;
 
@@ -37,6 +39,9 @@ a {
 	// 	text-decoration: none;
 	// }
 }
+strong {
+	font-weight: 600;
+}
 .small-link {
 	font-size: 12px;
 }
@@ -55,8 +60,15 @@ button, input, textarea {
 	position: relative;
 }
 
+.spacer-20 {
+	height: 20px;
+}
 .spacer-45 {
 	height: 45px;
+}
+
+.visi-hide {
+	visibility: hidden;
 }
 
 [contenteditable=true] {
@@ -126,4 +138,17 @@ button, input, textarea {
 	font-size: 11px;
 	text-transform: uppercase;
 	color: lighten(@bodyGrey, 25%);
+}
+
+
+.status {
+	&.offline {
+		color: @midGrey;
+	}
+	&.idle {
+		color: @idle;
+	}
+	&.online {
+		color: @success;
+	}
 }
