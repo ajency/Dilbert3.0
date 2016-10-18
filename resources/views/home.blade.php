@@ -38,7 +38,7 @@
 
             <div class="last-few-days card">
                 <div class="card-header">
-                    <div class="btn-group change-last-view">
+                    <div class="btn-group btn-dropdown change-last-view">
                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         This Month <span class="fa fa-angle-down"></span>
                         </button>
