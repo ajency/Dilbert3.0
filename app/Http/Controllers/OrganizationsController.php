@@ -11,6 +11,9 @@ use App\Organization;
 use App\Log;
 use App\SocialAccountService;
 
+use App\Role;
+use App\Permission;
+
 use App\Events\Event;
 use App\Events\EventChrome;
 
@@ -84,6 +87,13 @@ class OrganizationsController extends Controller
 
         $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin','timeZone' => $org->default_tz,'lang' => $org->default_lang]);
         $user = User::where('email',$request->userid)->get();
+        
+        /* Link user to admin's role & respective permissions */
+        $admin = Role::where('name','admin')->first();
+
+        // or eloquent's original technique
+        $user[0]->roles()->attach($admin->id); // id only
+
         auth()->login($user[0]);
         if (array_key_exists($user[0]->lang, Config::get('app.locales'))) {
             Session::set('locale', $user[0]->lang);
@@ -101,6 +111,13 @@ class OrganizationsController extends Controller
             if(count($org) > 0) { //domain exist in database
                 $org_id = User::where('email',$request->userid)->update(['org_id' => $org[0]->id, 'timeZone' => $request->jointz]);
                 $user = User::where('email',$request->userid)->get();
+
+                /* Link user to members's role & respective permissions */
+                $member = Role::where('name','member')->first();
+
+                // or eloquent's original technique
+                $user[0]->roles()->attach($member->id); // id only
+
                 auth()->login($user[0]);
                 return redirect()->to('/home');
             }

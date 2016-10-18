@@ -26,14 +26,14 @@
             
             <!-- Dashboard title when the user views this page -->
             <div class="user-page-title">
-                <h1 class="dashboard-title">Welcome, Coulson!</h1>
+                <h1 class="dashboard-title">Welcome, {{ Auth::user()->name }}!</h1>
                 <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
             </div>
 
             <!-- Dashboard title when the company views this page -->
             <div class="company-page-title hidden">
-                <h1 class="dashboard-title">Coulson's Time at Work</h1>
-                <h4 class="sub-title dash">A detailed view of how much time Coulson spends at office</h4>
+                <h1 class="dashboard-title">{{ Auth::user()->name }}'s Time at Work</h1>
+                <h4 class="sub-title dash">A detailed view of how much time {{ Auth::user()->name }} spends at office</h4>
             </div>
 
             <div class="last-few-days card">

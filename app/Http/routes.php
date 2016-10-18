@@ -119,6 +119,11 @@ Route::patch('/user/edit','HomeController@newprof');
 Route::get('/orgs','OrganizationsController@view');// view all the organizations
 Route::get('/orgs/del/{org_id}','OrganizationsController@remove');// delete organization
 
+Route::get('/roles','RolePermissionController@view');// view all the Roles & their permissions
+Route::get('/roles/add','RolePermissionController@add');
+Route::get('/roles/edit/{role_id}','RolePermissionController@edit');
+Route::post('/roles/create','RolePermissionController@create');
+Route::patch('/roles/edits','RolePermissionController@create');
 
 // for app
 Route::get('/confirm','SocialAuthController@getConfirm');// verification with db -> then return the API token key
@@ -130,7 +135,7 @@ Route::get('/personal','LogsController@viewPersonal');// get log details for act
 
 Route::group(['prefix' => 'api'], function () {
 
-    // for app -> using AJAX call
+    // for app -> using AJAX call -> API auth in Org Controller
     Route::get('/org/info','OrganizationsController@info');//info of the organization, employee comes under
 
     // for app + node -> using Socket.io
@@ -201,12 +206,14 @@ Route::group(['prefix' => 'api'], function () {
             $output->writeln("No API auth");
         }
     });
+
+    Route::get('/data/save','LockedDataController@save');
+    Route::get('/data/user','LockedDataController@user_log_summary');
+    Route::get('/data/employees','LockedDataController@employees_log_summary');
+    
+    Route::get('/data/role','RolePermissionController@role');
 });
 
-
-
 Route::get('/trial','LogsController@trial');
-
-
 
 Route::get('/per','LogsController@viewAbc');

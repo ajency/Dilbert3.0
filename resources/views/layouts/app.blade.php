@@ -102,9 +102,10 @@
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    @if(Auth::user()->role == "admin")
+                                    @if(Auth::user()->can('edit-users'))
                                         <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> @lang('lang.view_emp_det') </a></li>
                                         <li><a href="{{ url('/orgs') }}" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                                        <li><a href="{{ url('/roles') }}" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Roles & Permissions </a></li>
                                     @elseif(Auth::user()->role == "moderator")
                                         <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                                     @endif
