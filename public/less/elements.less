@@ -179,6 +179,32 @@ select.form-control {
 		pointer-events: none;
 	}
 }
+.search-emp-names {
+	position: relative;
+	width: 275px;
+	.form-control {
+		font-weight: normal;
+		padding: 13px 40px;
+		// padding-left: 40px;
+	}
+	.empty-icon {
+		position: absolute;
+		left: 13px;
+		top: 13px;
+	}
+	.clear-icon {
+		position: absolute;
+		right: 0;
+		top: 0;
+		font-size: 20px;
+		font-weight: 300;
+		font-style: normal;
+		color: @bodyGrey;
+		text-decoration: none;
+		padding: 16px 13px;
+		line-height: 10px;
+	}
+}
 
 // zones / tags
 .zone {
@@ -473,7 +499,7 @@ select.form-control {
 		padding-right: 0;
 		background: transparent;
 		span {
-			margin-left: 10px;
+			margin-left: 5px;
 		}
 		&:hover, &:active, &:focus {
 			// background: transparent;
@@ -494,6 +520,9 @@ select.form-control {
 	background: @ajencyYellow;
 	color: @titleDark;
 	font-weight: 600;
+}
+.filter {
+	margin-top: 6px;
 }
 
 // dashboard table
@@ -1055,5 +1084,25 @@ select.form-control {
 		i {
 			margin-left: 8px;
 		}
+	}
+}
+
+.table-navi {
+	margin-top: 6px;
+	margin-left: 35px;
+	.week-navi {
+		display: inline-block;
+		padding: 5px 10px;
+		color: @bodyGrey;
+		font-size: 16px;
+		&:hover {
+			color: @primary;
+		}
+	}
+}
+
+.company-summary {
+	.card-header {
+		margin-bottom: 10px;
 	}
 }
