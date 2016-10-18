@@ -32,16 +32,16 @@ Technologies, Frameworks & Packages used used:
 * Frameworks: AngularJS, NodeJS, Laravel
 * Packages & Technologies used:
 	- Laravel:
-		# Socialite(laravel/socialite) - For Google Authentication
-		# Redis(predis/predis) - For redis buffer & queue system & for data broadcasting
-		# Entrust(zizaco/entrust) - For Role-Permission management
+		* Socialite(laravel/socialite) - For Google Authentication
+		* Redis(predis/predis) - For redis buffer & queue system & for data broadcasting
+		* Entrust(zizaco/entrust) - For Role-Permission management
 	- NodeJS: (Intercation between Chrome app & PHP)
-		# Express
-		# SocketIO
-		# Redis Queue System
+		* Express
+		* SocketIO
+		* Redis Queue System
 	- AngularJS:
-		# Angular-translate(pascalprecht.translate) - for i18n
-		# SocketIO(socket-io) - to interact with NodeJS
+		* Angular-translate(pascalprecht.translate) - for i18n
+		* SocketIO(socket-io) - to interact with NodeJS
 
 
 
