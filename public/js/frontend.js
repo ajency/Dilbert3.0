@@ -107,18 +107,43 @@ $(document).ready(function() {
 	// 		'</div>'
 	// 	);
 	// });
-	$('.table-view.month [data-toggle="tooltip"]').each(function() {
-		$day = $(this).find('.th-day').text().trim();
-		$totalTime = $(this).find('.th-total').text().trim();
-		$startTime = $(this).find('.th-work').text().trim();
-		$endTime = $(this).find('.th-break').text().trim();
-		$(this).attr('data-original-title',
-			'<div class="month-days">' +
-				'<div class="month-date">' + $day + '</div>' +
-				'<div class="month month-total"><span class="j-t">Total time</span><strong class="pull-right">' + $totalTime + ' <small>hrs</small></strong></div>' +
-				'<div class="month month-work"><span class="j-t">Start Time</span><strong class="pull-right">' + $startTime + ' <small></small></strong></div>' +
-				'<div class="month month-break"><span class="j-t">End Time</span><strong class="pull-right">' + $endTime + ' <small></small></strong></div>' +
-			'</div>'
-		);
+	$('.table-view.month .single-day').each(function() {
+		if (!$(this).parents().hasClass('company-summary')) {
+			$day = $(this).find('.th-day').text().trim();
+			$totalTime = $(this).find('.th-total').text().trim();
+			$startTime = $(this).find('.th-work').text().trim();
+			$endTime = $(this).find('.th-break').text().trim();
+			$(this).attr('data-original-title',
+				'<div class="month-days">' +
+					'<div class="month-date">' + $day + '</div>' +
+					'<div class="month month-total"><span class="j-t">Total time</span><strong class="pull-right">' + $totalTime + ' <small>hrs</small></strong></div>' +
+					'<div class="month month-work"><span class="j-t">Start Time</span><strong class="pull-right">' + $startTime + ' <small></small></strong></div>' +
+					'<div class="month month-break"><span class="j-t">End Time</span><strong class="pull-right">' + $endTime + ' <small></small></strong></div>' +
+				'</div>'
+			);
+		} else {
+			$totalTime = $(this).find('.th-total').text().trim();
+			$startTime = $(this).find('.th-work').text().trim();
+			$endTime = $(this).find('.th-break').text().trim();
+			if ($(this).hasClass('total')) {
+				$startText = 'Avg. Start Time';
+				$endText = 'Avg. End Time';
+			} else {
+				$startText = 'Start Time';
+				$endText = 'End Time';
+			}
+			$(this).attr('data-original-title',
+					'<div class="month-days">' +
+						'<div class="month month-total"><span class="j-t">Total time</span><strong class="pull-right">' + $totalTime + ' <small>hrs</small></strong></div>' +
+						'<div class="month month-work"><span class="j-t">' + $startText + '</span><strong class="pull-right">' + $startTime + ' <small></small></strong></div>' +
+						'<div class="month month-break"><span class="j-t">' + $endText + '</span><strong class="pull-right">' + $endTime + ' <small></small></strong></div>' +
+					'</div>'
+				);
+		}
+	});
+
+
+	$(document).on('click', '.stay-open.dropdown-menu', function (e) {
+		e.stopPropagation();
 	});
 });

@@ -181,7 +181,8 @@ select.form-control {
 }
 .search-emp-names {
 	position: relative;
-	width: 275px;
+	// width: 275px;
+	width: 210px;
 	.form-control {
 		font-weight: normal;
 		padding: 13px 40px;
@@ -491,7 +492,7 @@ select.form-control {
 
 // button group styling
 .btn-group.btn-dropdown {
-	.btn {
+	& > .btn {
 		border: 0;
 		margin: 0;
 		border-bottom: 2px solid @ajencyYellow;
@@ -507,7 +508,7 @@ select.form-control {
 			box-shadow: none;
 		}
 	}
-	&.open .btn {
+	&.open > .btn {
 		// background: transparent;
 		border-color: @primary;
 		box-shadow: none;
@@ -523,6 +524,10 @@ select.form-control {
 }
 .filter {
 	margin-top: 6px;
+	.dropdown-menu {
+		width: 225px;
+		padding: 15px;
+	}
 }
 
 // dashboard table
@@ -604,6 +609,18 @@ select.form-control {
 	.th-label {
 		font-weight: normal;
 		color: lighten(@bodyGrey, 25%);
+	}
+	.th-date {
+		font-size: 14px;
+		display: block;
+		color: @bodyGrey;
+		.sort-col {
+			margin-left: 3px;
+			color: @midGrey;
+			font-size: 12px;
+			display: inline-block;
+			vertical-align: middle;
+		}
 	}
 	.th-total {
 		display: block;
@@ -1089,7 +1106,7 @@ select.form-control {
 
 .table-navi {
 	margin-top: 6px;
-	margin-left: 35px;
+	// margin-left: 35px;
 	.week-navi {
 		display: inline-block;
 		padding: 5px 10px;
@@ -1104,5 +1121,85 @@ select.form-control {
 .company-summary {
 	.card-header {
 		margin-bottom: 10px;
+	}
+}
+
+
+.company-summary {
+	.table-view .table>thead>tr>th,
+	.table-view .table>thead>tr>td {
+		vertical-align: top;
+		min-width: 100px;
+	}
+	.table-view {
+		.first-table tbody tr {
+			opacity: 1;
+		}
+		.first-table td:first-child,
+		.first-table th:first-child {
+			min-width: 150px;
+			border-right: 1px solid @softGrey;
+		}
+	}
+	.employee-name {
+		text-decoration: none;
+		display: block;
+		padding: 12px;
+		.th-total {
+			font-size: 14px;
+			&:after {
+				content: '\f105';
+				font-family: 'FontAwesome';
+				// float: right;
+				margin-left: 10px;
+			}
+		}
+	}
+	.employee-id {
+		vertical-align: bottom;
+	}
+	.table-view .setpadding {
+		margin-right: 100px;
+	}
+	.table-view .fixed-right {
+		width: 100px;
+		.table>tbody>tr>td {
+			min-width: 99px;
+			max-width: 99px;
+		}
+	}
+	.table-view:after {
+		right: 99px;
+	}
+}
+
+
+.select-a-date {
+	p {
+		font-size: 12px;
+		color: @midGrey;
+	}
+	li {
+		border: 0;
+		margin-bottom: 0;
+	}
+	label {
+		max-width: none;
+		width: 100%;
+	}
+	.form-control {
+		width: 100%;
+		font-weight: normal;
+	}
+	.date-not-selected {
+		opacity: 0.7;
+	}
+	.btn-primary {
+		margin: 0;
+		margin-top: 5px;
+		color: #fff;
+		&:hover, &:active, &:focus {
+			color: #fff;
+		}
 	}
 }
