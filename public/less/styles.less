@@ -40,6 +40,24 @@
 	position: relative;
 	z-index: 5;
 }
+@media screen and (max-width: 767px) {
+	.navbar-collapse.posrel {
+		margin: 15px 0;
+	}
+	.navbar-nav {
+		padding: 0;
+		.language-sel {
+			padding: 15px;
+			.language-selector {
+				margin-top: 0;
+			}
+		}
+	}
+	.navbar-nav .open .dropdown-menu>li>a {
+		padding-left: 0;
+		line-height: 27px;
+	}
+}
 .logo {
 	margin: 0;
 	text-transform: uppercase;
@@ -73,6 +91,14 @@
 	i {
 		margin-left: 2px;
 	}
+	@media screen and (max-width: 767) {
+		.dropdown-menu {
+			text-align: right;
+		}
+	}
+}
+.dropdown.userdata.visible-xs {
+	padding: 15px;
 }
 
 .page-title {
@@ -335,9 +361,9 @@ form {
 		background-size: contain;
 		z-index: 5;
 	}
-	.navbar-nav.navbar-right {
-		text-align: right;
-	}
+	// .navbar-nav.navbar-right {
+	// 	text-align: right;
+	// }
 	.landing-page .navbar.header .highlight {
 		padding: 0;
 		a {

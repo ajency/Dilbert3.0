@@ -46,13 +46,37 @@
             <div class="container">
                 <div class="navbar-header">
 
+
                     <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#app-navbar-collapse">
                         <span class="sr-only">Toggle Navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+
+                    @if (Auth::guest())
+                    @else
+                    <div class="dropdown userdata visible-xs pull-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <img src="{{ Auth::user()->avatar }}" height="20px" class="img-circle"><input type="hidden" id="uremail" value="{{ Auth::user()->email }}">
+                            <!-- <span class="the-name">{{ Auth::user()->name }}</span> -->
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            @if(Auth::user()->can('edit-users'))
+                            <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> @lang('lang.view_emp_det') </a></li>
+                            <li><a href="{{ url('/orgs') }}" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                            <li><a href="{{ url('/roles') }}" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Roles & Permissions </a></li>
+                            @elseif(Auth::user()->role == "moderator")
+                            <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
+                            @endif
+                            <li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
+                            <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>
+                            <li><a href="{{ url('/logout/google') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('lang.logout')</a></li>
+                        </ul>
+                    </div>
+                    @endif
 
                     <!-- Branding Image -->
                     <a href="{{ url('/') }}">
@@ -68,12 +92,12 @@
 
                 <div class="collapse navbar-collapse posrel" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav text-left">
                         @if (!(Auth::guest()))
                             <li><a href="/home">@lang('lang.home')</a></li>
                         @endif
-                        <li class="@if (!(Auth::guest())) haslogo @endif">
-                            <span class="hidden" style= "color: #828282;font-weight: 600;text-decoration: none;font-size: 13px;">@lang('lang.site_lang') : </span>
+                        <li class="@if (!(Auth::guest())) haslogo @endif language-sel">
+                            <span class="visible-xs-inline-block" style= "color: #828282;font-weight: 600;text-decoration: none;font-size: 13px;">@lang('lang.site_lang') : </span>
                             <button type="button" class="btn btn-default dropdown-toggle language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               {{ Config::get('app.locales')[App::getLocale()] }}
                               <i class="fa fa-angle-down"></i>
@@ -89,16 +113,16 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right text-left">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li class="highlight"><a href="{{ url('/register') }}">@lang('lang.register')</a></li>
                             <li><a href="{{ url('/login') }}">@lang('lang.login')</a></li>
                         @else
-                            <li class="dropdown userdata">
+                            <li class="dropdown userdata hidden-xs">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <img src="{{ Auth::user()->avatar }}" height="20px" class="img-circle"><input type="hidden" id="uremail" value="{{ Auth::user()->email }}">
-                                    {{ Auth::user()->name }}
+                                    <span class="the-name">{{ Auth::user()->name }}</span>
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
