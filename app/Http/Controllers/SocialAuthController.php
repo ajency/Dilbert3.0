@@ -85,7 +85,7 @@ class SocialAuthController extends Controller {
         
         if(count($user_id) > 0) {
             $output->writeln("User exist");
-            $user_id = User::where('email',$request->email)->update(['api_token' => str_random(60)]);
+            //$user_id = User::where('email',$request->email)->update(['api_token' => str_random(60)]); // commented as API token is generated when user creates account for the 1st time
             $user_id = User::where('email',$request->email)->get();
             return $user_id;
         }

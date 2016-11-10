@@ -21,6 +21,7 @@ class SocialAccountService
             $user->password = "user";
             $user->avatar = $providerUser->avatar;
             $user->acd = date('Y-m-d');
+            $user->api_token = str_random(60);
             $user->org_id = 0;
             $user->lang = "en";
             $user->role = "member";

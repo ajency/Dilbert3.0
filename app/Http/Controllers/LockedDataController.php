@@ -76,7 +76,7 @@ class LockedDataController extends Controller
 
     public function user_log_summary(Request $request) {// display specific user's locked data in JSON
     	$output = new ConsoleOutput();
-        $output->writeln("Lock Data info");
+        $output->writeln("Personal Lock Data info");
 
         if(!empty($request->user_id)){
         	$user = User::where('id', $request->user_id)->first();
@@ -111,7 +111,7 @@ class LockedDataController extends Controller
 
     public function employees_log_summary(Request $request) {
     	$output = new ConsoleOutput();
-        $output->writeln("Lock Data info");
+        $output->writeln("Employees Lock Data info");
 
         if(!empty($request->user_id)) {
         	$user = User::where('id', $request->user_id)->first();

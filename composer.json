@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "laravel/socialite": "^2.0",
         "predis/predis": "^1.1",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "proai/laravel-handlebars": "~1.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
