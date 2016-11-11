@@ -144,7 +144,7 @@ Route::group(['prefix' => 'api'], function () {
         $output = new ConsoleOutput();
 
         $output->writeln("At fire");
-        $output->writeln("At fire 1");        
+        
         //Redis::flushall();
         //$output->writeln("Flush Redis buffer");
         if(\Request::header( 'X-API-KEY' ) !== "") { // if api key is present in Header
@@ -168,11 +168,9 @@ Route::group(['prefix' => 'api'], function () {
                 $queue_list_len = Redis::llen('test-channels');// get length of queue list
                 $output->writeln($queue_list_len);
 
-                $output->writeln("Keys ");
+                /*$output->writeln("Keys ");
                 $output->writeln($redis_keys);
-                $output->writeln("Key 0");
-
-                
+                $output->writeln("Key 0");*/                
 
                 /*if($queue_list_len > 0) {
                     foreach (Redis::LRANGE('test-channels', 0, -1) as $key){ // get all the queue contents
@@ -204,9 +202,9 @@ Route::group(['prefix' => 'api'], function () {
                 $queue_list_len = Redis::llen('test-channels');// get length of queue list
                 $output->writeln($queue_list_len);
 
-                $output->writeln("Keys ");
+                /*$output->writeln("Keys ");
                 $output->writeln($redis_keys);
-                $output->writeln("Key 0");
+                $output->writeln("Key 0");*/
 
                 $output->writeln("Redis List");
 
@@ -216,11 +214,9 @@ Route::group(['prefix' => 'api'], function () {
                     $output->writeln("not Present");
                 }
 
-                $output->writeln($redis_list);
+                //$output->writeln($redis_list);
 
                 event(new App\Events\EventChrome($redis_list));
-
-
             } else { // Invalid authentication
                 $redis_list = array("auth" => 0, "socket_id" => $redis_list->socket_id); // auth is set to 0 to define that user + APi key combination doesn't exist
                 event(new App\Events\EventChrome(json_decode(json_encode($redis_list), false)));
@@ -235,7 +231,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
     Route::get('/data/employees','LockedDataController@employees_log_summary'); // get all the employee's log summary
     
-    Route::get('/data/role','RolePermissionController@role');
+    Route::get('/data/role','RolePermissionController@role'); // Create new set of roles for the first time
 });
 
 Route::get('/trial','LogsController@trial');
