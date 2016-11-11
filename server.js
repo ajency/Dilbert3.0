@@ -42,12 +42,6 @@ io.on('connection', function (socket) {
         console.log("clearing");
       }*/
 
-      pub.rpush('test-channels', user, function(err, reply) {
-        console.log("Reply of set ");
-        console.log(reply);
-        console.log("set replied");
-      });
-
       var options = {
         url: 'http://localhost:8000/api/fire',
         headers: {
@@ -55,15 +49,34 @@ io.on('connection', function (socket) {
           'X-API-KEY': data.api_token
         }
       }
-      
-      request(options, function (error, response, body) { // load that page
-        if (!error && response.statusCode == 200) {
-            console.log("fire");
-         } else {
-          console.log("not fired " + error );//+ response.statusCode.toString());
-         }
+    } else {
+      var user = JSON.stringify({
+        'user_id': 0,
+        'from_state': "active",
+        'to_state': "offline",
+        'cos': data.cos,
+        'ip_addr': socket.handshake.address,
+        'socket_id': socket.id,
       });
+
+      var options = {
+        url: 'http://localhost:8000/api/fire'
+      }
     }
+    
+    pub.rpush('test-channels', user, function(err, reply) {
+      console.log("Reply of set ");
+      console.log(reply);
+      console.log("set replied");
+    });
+    
+    request(options, function (error, response, body) { // load that page
+      if (!error && response.statusCode == 200) {
+          console.log("fire");
+       } else {
+        console.log("not fired " + error );//+ response.statusCode.toString());
+       }
+    });
   });
 
   // broadcast from Laravel -> contains reponse
@@ -134,7 +147,11 @@ io.on('connection', function (socket) {
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
-        console.log("not fired " + error + response.statusCode.toString());
+        if (response.statusCode) {
+          console.log("not fired " + error + response.statusCode.toString());
+        } else {
+          console.log("not fired " + error + "God knows");
+        }
        }
 
       //pub.del('test-channels ' + socket.id);// delete old data

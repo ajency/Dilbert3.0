@@ -152,13 +152,11 @@ Route::group(['prefix' => 'api'], function () {
             $output->writeln(\Request::header( 'X-API-KEY' ));
 
             $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
-            $output->writeln($redis_list);
             $request_user_id = $redis_list->user_id;
-            $output->writeln($request_user_id);
                 
             $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
             //$user = User::where(['id' => $request_user_id])->get();
-            $output->writeln(count($user));
+            $output->writeln("User ID");
             
             //Redis::flushall(); // clear all the data in queue
             if(count($user) > 0) { // if the user exist
@@ -184,7 +182,33 @@ Route::group(['prefix' => 'api'], function () {
 
                 $output->writeln("Redis List");
 
+                if (isset($redis_list->socket_id)) { // check if the 1st content contains Socket_id
+                    $output->writeln("Present");
+                } else {
+                    $output->writeln("not Present");
+                }
+
                 $output->writeln($redis_list);
+
+                event(new App\Events\EventChrome($redis_list));
+            } else if($request_user_id == 0) { // If user_id = 0, then the user related to that socket_id has gone offline
+                $output->writeln("APi key not present");
+                
+                $request_user_socket = $redis_list->socket_id;
+                
+                $user = User::where(['socket_id' => $request_user_socket])->get();
+                $redis_list->user_id = $user[0]->id;
+                $redis_keys = Redis::keys('*');
+
+                $output->writeln("Length");
+                $queue_list_len = Redis::llen('test-channels');// get length of queue list
+                $output->writeln($queue_list_len);
+
+                $output->writeln("Keys ");
+                $output->writeln($redis_keys);
+                $output->writeln("Key 0");
+
+                $output->writeln("Redis List");
 
                 if (isset($redis_list->socket_id)) { // check if the 1st content contains Socket_id
                     $output->writeln("Present");
@@ -195,21 +219,21 @@ Route::group(['prefix' => 'api'], function () {
                 $output->writeln($redis_list);
 
                 event(new App\Events\EventChrome($redis_list));
-            } else {
-                $output->writeln("APi key not present");
-                
-                $redis_list = array("auth" => 0, "socket_id" => $redis_list->socket_id);
-                
+
+
+            } else { // Invalid authentication
+                $redis_list = array("auth" => 0, "socket_id" => $redis_list->socket_id); // auth is set to 0 to define that user + APi key combination doesn't exist
                 event(new App\Events\EventChrome(json_decode(json_encode($redis_list), false)));
             }
-        } else {
+        } else { // API token auth is not used for offline function
             $output->writeln("No API auth");
+            
         }
     });
 
-    Route::get('/data/save','LockedDataController@save');
-    Route::get('/data/user','LockedDataController@user_log_summary');
-    Route::get('/data/employees','LockedDataController@employees_log_summary');
+    Route::get('/data/save','LockedDataController@save'); // generate summary of logs & save in locked_data
+    Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
+    Route::get('/data/employees','LockedDataController@employees_log_summary'); // get all the employee's log summary
     
     Route::get('/data/role','RolePermissionController@role');
 });

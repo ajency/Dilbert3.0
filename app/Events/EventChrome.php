@@ -30,8 +30,6 @@ class EventChrome extends Event implements ShouldBroadcast {
 
         $output->writeln("Socket id - Event Chrome");
         
-        $output->writeln($redis_list);
-
         if(isset($redis_list->auth) && isset($redis_list->socket_id)){ // unauthorized data entry
             $output->writeln("Invalid Authentication");
             $this->data = array(
@@ -47,7 +45,7 @@ class EventChrome extends Event implements ShouldBroadcast {
         }
 
         if(isset($redis_list->user_id) && $redis_list->user_id > 0) { // if user is not disconnected
-            $output->writeln("Socket id - Event Chrome");
+            $output->writeln("Socket id - Event Chrome inside if");
             $output->writeln($redis_list->socket_id);
 
             $output->writeln(gettype($redis_list->user_id));
@@ -110,7 +108,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                     'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error"
                 );
             }
-        } else if(isset($redis_list->socket_id) && isset($redis_list->user_id) && $redis_list->user_id == 0){ 
+        } else if(isset($redis_list->socket_id) && isset($redis_list->user_id) && $redis_list->user_id == 0){  // User closed chrome app or app got disconnected
             // user closed chrome app
             $output->writeln("Socket id + !user id");
             
@@ -140,6 +138,8 @@ class EventChrome extends Event implements ShouldBroadcast {
             $this->data = array(
                 'socket_status' => "close", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id
             );
+        } else {
+            $output->writeln("Executed none");
         }
     }
 
