@@ -32,6 +32,10 @@
 	  'domain' => 'Domain',
 	  'this_week_workout' => 'This week\'s workout',
 	  'sorry' => 'Sorry',
+	  'covered_today' => 'Covered Today',
+	  'hour' => 'hour',
+	  'minute' => 'minute',
+	  'roles_n_permissions' => 'Roles and permissions',
 
 	  //profile page
 	  'per_details' => 'Personal Details',
@@ -43,6 +47,7 @@
 	  
 	  //main page
 	  'hero_title' => 'Track Time. Record Work',
+	  'boost_productivity' => 'Boost Productivity',
 	  'hero_tag' => 'A complete productivity solution to track your work, your employees work and manage projects without any hassle. And the best thing? <strong>It’s totally free!</strong>',
 	  'get_the' => 'Get the',
 	  'why' => 'Why',

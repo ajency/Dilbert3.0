@@ -26,8 +26,8 @@
             
             <!-- Dashboard title when the user views this page -->
             <div class="user-page-title">
-                <h1 class="dashboard-title">Welcome, {{ Auth::user()->name }}!</h1>
-                <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
+                <h1 class="dashboard-title">@lang('lang.welcome'), {{ Auth::user()->name }}!</h1>
+                <h4 class="sub-title dash">@lang('lang.hero_title'). @lang('lang.boost_productivity').</h4>
             </div>
 
             <!-- Dashboard title when the company views this page -->
@@ -504,36 +504,36 @@
             <div class="spacer-45 hidden-xs"></div>
             <div class="show-app card">
                 <h3 class="app-title normal">
-                    Today
+                    @lang('lang.today')
                 </h3>
                 <div class="the-grid-chart">
                     <div class="centered-text">
                         <div class="g-c-time">
-                            <strong class="big">6</strong><small>hr</small>
-                            <strong class="big">43</strong><small>min</small>
+                            <strong class="big">6</strong><small>@lang('lang.hour')</small>
+                            <strong class="big">43</strong><small>@lang('lang.minute')</small>
                         </div>
-                        <div class="g-c-legend">Covered Today</div>
+                        <div class="g-c-legend">@lang('lang.covered_today')</div>
                     </div>
                 </div>
                 <div class="split-times">
                     <div class="small-time work">
-                        <time><strong>05:13</strong> <small>hr</small></time>
+                        <time><strong>05:13</strong> <small>@lang('lang.hour')</small></time>
                         <span class="small-title">Work Done</span>
                     </div>
                     <div class="small-time break">
-                        <time><strong>02:31</strong> <small>hr</small></time>
+                        <time><strong>02:31</strong> <small>@lang('lang.hour')</small></time>
                         <span class="small-title">Break Time</span>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="split-foot">
                         <div class="s-f-col">
-                            <time><strong>9:30</strong> <small>hr</small></time>
+                            <time><strong>9:30</strong> <small>@lang('lang.hour')</small></time>
                             <a href="#" class="edit-icon"><i class="fa fa-pencil"></i></a>
                             <span class="small-title">Start Time</span>
                         </div>
                         <div class="s-f-col not-end">
-                            <time><strong>03:36</strong> <small>hr</small></time>
+                            <time><strong>03:36</strong> <small>@lang('lang.minute')</small></time>
                             <span class="small-title">End Time</span>
                         </div>
                         <div class="s-f-col wider">
@@ -546,6 +546,8 @@
                 </div>
             </div>
 
+            <!-- otification part currently hidden -->
+            <div class="hidden">
             <div class="card notification has-hover">
                 <div class="card-body">
                     <div class="noti-icon"></div>
@@ -575,6 +577,7 @@
             </div>
 
             <a href="#" class="card card-link has-hover">View all Notifications <i class="diagonal-arrow"></i></a>
+            </div>
         </div>
     </div>
 </div>
