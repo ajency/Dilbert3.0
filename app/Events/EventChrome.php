@@ -9,6 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\User;
 use App\Organization;
 use App\Log;
+use App\Locked_Data;
 
 use App\Http\Controllers\Controller;
 use Request;
@@ -71,41 +72,73 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $output->writeln(count($user));
 
                 if(count($user) > 0){
-                    $user = User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// clear the socket id
+                    User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
                     $output->writeln("Socket id + user id -> update");
                 }
                 
                 $output->writeln("Organization process complete");
+                
+                $org_ipList = Organization::where('id',$user[0]->org_id)->first();
 
-                $log = new Log;
+                if(count($org_ipList)) { /* Check if that organization exist */
+                    $output->writeln(count($org_ipList));
+                    $org_ipList = unserialize($org_ipList->ip_lists);
+                    
+                    if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
+                        $log = new Log;
 
-                $log->work_date = date("Y-m-d");
-                $log->cos = $redis_list->cos;
-                $log->user_id = $redis_list->user_id;
-                $log->from_state = $redis_list->from_state;
-                $log->to_state = $redis_list->to_state;
-                $log->ip_addr = $redis_list->ip_addr;
-                $log->save();
+                        $log->work_date = date("Y-m-d");
+                        $log->cos = $redis_list->cos;
+                        $log->user_id = $redis_list->user_id;
+                        $log->from_state = $redis_list->from_state;
+                        $log->to_state = $redis_list->to_state;
+                        $log->ip_addr = $redis_list->ip_addr;
+                        $log->save();
 
-                if($redis_list->to_state == "offline") { // user goes offline
-                    User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
-                    $output->writeln("Socket id + !user id -> update socket clear");
+                        /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
+                        if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
+                            $locking_today_data = new Locked_Data;
+                            $locking_today_data->user_id = $log->user_id;
+                            $locking_today_data->work_date = $log->work_date;
+                            $locking_today_data->start_time = $log->cos;
+                            $locking_today_data->save();
+                        }
+
+                        if($redis_list->to_state == "offline") { // user goes offline
+                            User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
+                        }
+
+                        Redis::lpop('test-channels');// remove the current-log element from queue
+                        $logs = Log::where(['user_id' => $redis_list->user_id])->where('work_date', date("Y-m-d"))->get();
+
+                        $this->data = array(
+                            'socket_status' => "return", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id, 'content' => $logs
+                        );
+                    } else { /* User is not working @ office */
+                        Redis::lpop('test-channels');// remove the current-log element from queue
+                        if($redis_list->to_state == "New Session") { /* Display this message only if it's a New Session*/
+                            $this->data = array(
+                                'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "Yes"
+                            );
+                        } else { /* Don't display message to client */
+                            $this->data = array(
+                                'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "No"
+                            );
+                        }    
+                    }
+                } else {
+                    $output->writeln("Organization doesn't exist");
+                    Redis::lpop('test-channels');// remove the current-log element from queue
+                    $this->data = array(
+                        'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "Sorry!! IP list not found for verification", 'error_display' => "No"
+                    );    
                 }
-
-                $output->writeln("New log saved");
-                Redis::lpop('test-channels');// remove the current-log element from queue
-                $logs = Log::where(['user_id' => $redis_list->user_id])->where('work_date', date("Y-m-d"))->get();
-                $output->writeln("Got all log");
-
-                $this->data = array(
-                    'socket_status' => "return", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id, 'content' => $logs
-                );
-                $output->writeln("sending");
+                
             } else { //no socket ID
                 $output->writeln("Socket id not confirmed");
                 Redis::lpop('test-channels');// remove the current-log element from queue
                 $this->data = array(
-                    'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error"
+                    'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "No socket ID registered", 'error_display' => "No"
                 );
             }
         } else if(isset($redis_list->socket_id) && isset($redis_list->user_id) && $redis_list->user_id == 0){  // User closed chrome app or app got disconnected

@@ -26,8 +26,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 class LockedDataController extends Controller
 {
 	public function save(Request $request) { // Fetches data from logs & enter data in Locked-Table
-		$output = new ConsoleOutput();
-        
 		$lastDate = Locked_Data::orderBy('work_date', 'desc')->first();
 
 		// Data is entered for the 1st time in Table
@@ -157,6 +155,7 @@ class LockedDataController extends Controller
     }
 
     public function getTimeDifference($time1, $time2) {
+    	$output = new ConsoleOutput();
     	$t1 = explode(':', $time1);
     	$t2 = explode(':', $time2);
 
@@ -168,9 +167,9 @@ class LockedDataController extends Controller
 	    	$min = (int)$t1[1] - (int)$t2[1];
 	    }
 
-    	if($min < 0) { #check if min goes in subtraction value, if so, decrement Hr
+	    if($min < 0) { #check if min goes in subtraction value, if so, decrement Hr
     		$hr -= 1;
-    		$min = 60 - $min;
+    		$min = $min + 60; // '+' as the $min value is negative
     	}
 
     	if($min >= 60) {#check if min exceeds 60 , if so, increment Hr

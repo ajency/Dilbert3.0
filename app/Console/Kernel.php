@@ -26,5 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        /* This cron is to create new Locked_data a.k.a Taalaa_Data every night @ 10 (i.e. daily @10 PM) */
+        $schedule->exec('curl http://localhost:8000/api/data/save')->dailyAt('16:30');//->cron('30 16 * * * *'); /* The time is set in UTC+0:0 i.e. in IST it is 22:00 hrs */
     }
 }

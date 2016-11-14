@@ -45,6 +45,18 @@ class LogsController extends Controller
         $output = new ConsoleOutput();
         //$output->writeln($request->socket);
         $output->writeln(str_random(60));
+
+        $user_info = User::where('id','1')->first();
+        /*$org_ipList = unserialize(Organization::where('id',$user_info->org_id)->first()->ip_lists);*/
+        $org_ipList = Organization::where('id',$user_info->org_id)->first();
+
+        if(count($org_ipList)) {
+            $org_ipList = unserialize($org_ipList->ip_lists);
+            return $org_ipList;
+        } else {
+            return count($org_ipList);    
+        }
+        
         //return $request->socket;
     }
 }
