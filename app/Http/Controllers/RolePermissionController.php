@@ -153,7 +153,6 @@ class RolePermissionController extends Controller {
 			return  response()->json(['status' => 'Successfully created all the roles']);	
 		} catch (Exception $e) {
 			return  response()->json(['status' => 'Failed - Didn\'t create roles']);
-		}
-		
+		}		
 	}
 }
