@@ -153,25 +153,33 @@ class EventChrome extends Event implements ShouldBroadcast {
             //$output->writeln("Socket id + !user id -> update");
             //$user_id = $user[0]->id;// get the user ID for Log entry
             //$output->writeln($user);
-            $user_id = $user[0]->id;
+            if(count($user)){
+                $user_id = $user[0]->id;
 
-            $log = new Log;
-            $output->writeln("Socket id + !user id -> New Log");
-            $log->work_date = date("Y-m-d");
-            $log->cos = $redis_list->cos;
-            $log->user_id = $user_id;
-            $log->from_state = $redis_list->from_state;
-            $log->to_state = $redis_list->to_state;
-            $log->ip_addr = $redis_list->ip_addr;
-            $log->save();
+                $log = new Log;
+                $output->writeln("Socket id + !user id -> New Log");
+                $log->work_date = date("Y-m-d");
+                $log->cos = $redis_list->cos;
+                $log->user_id = $user_id;
+                $log->from_state = $redis_list->from_state;
+                $log->to_state = $redis_list->to_state;
+                $log->ip_addr = $redis_list->ip_addr;
+                $log->save();
 
-            $output->writeln("Log out log updated");
+                $output->writeln("Log out log updated");
 
-            Redis::lpop('test-channels');// remove the current-log element from queue
-            $this->data = array(
-                'socket_status' => "close", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id
-            );
+                Redis::lpop('test-channels');// remove the current-log element from queue
+                $this->data = array(
+                    'socket_status' => "close", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id
+                );
+            } else {
+                Redis::lpop('test-channels');// remove the current-log element from queue
+                /*$this->data = array(
+                    'socket_status' => "close", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id
+                );*/
+            }
         } else {
+            Redis::lpop('test-channels');// remove the current-log element from queue
             $output->writeln("Executed none");
         }
     }
