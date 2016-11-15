@@ -98,10 +98,11 @@ class LockedDataController extends Controller
     	$output = new ConsoleOutput();
         $output->writeln("Personal Lock Data info");
 
-        if(!empty($request->user_id)){
-        	$user_cnt = User::where('id', $request->user_id)->count();
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+        	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
+        	$output->writeln($user_cnt);
         	if($user_cnt > 0) {
-	        	$user = User::where('id', $request->user_id)->first();
+	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-personal')) {// verifies if user has permission
 	        		$output->writeln("Confirmed");
 			        if(empty($request->start_date) && empty($request->end_date))
@@ -138,10 +139,11 @@ class LockedDataController extends Controller
     	$output = new ConsoleOutput();
         $output->writeln("Employees Lock Data info");
 
-        if(!empty($request->user_id)) {
-        	$user_cnt = User::where('id', $request->user_id)->count();
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+        	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
+        	//$user_cnt = User::where('id', $request->user_id)->count();
         	if($user_cnt > 0) {
-	        	$user = User::where('id', $request->user_id)->first();
+	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-users')) {// verifies if user has permission
 	        		$output->writeln("Confirmed");
 			        if(empty($request->start_date) && empty($request->end_date))
