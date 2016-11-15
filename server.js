@@ -50,7 +50,7 @@ io.on('connection', function (socket) {
       }*/
 
       var options = {
-        url: 'http://localhost:8000/api/fire',
+        url: 'http://localhost:80/api/fire',
         headers: {
           //'User-Agent': 'request'
           'X-API-KEY': data.api_token
@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
       });
 
       var options = {
-        url: 'http://localhost:8000/api/fire'
+        url: 'http://localhost:80/api/fire'
       }
     }
     
