@@ -104,58 +104,56 @@ class RolePermissionController extends Controller {
 	}
 
     public function role(Request $request) {
-		$output = new ConsoleOutput();
+		try {
+			$owner = new Role();
+			$owner->name = 'owner';
+			$owner->display_name = 'Company Owner'; // optional
+			$owner->description = 'User is the owner of 1 or more companies + has admin\'s features'; // optional
+			$owner->save();
 
-		$output->writeln("called role function");
+			$admin = new Role();
+			$admin->name = 'admin';
+			$admin->display_name = 'User Administrator'; // optional
+			$admin->description = 'User is allowed to manage and edit other users'; // optional
+			$admin->save();
 
-		$owner = new Role();
-		$owner->name = 'owner';
-		$owner->display_name = 'Company Owner'; // optional
-		$owner->description = 'User is the owner of 1 or more companies + has admin\'s features'; // optional
-		$owner->save();
+			$member = new Role();
+			$member->name = 'member';
+			$member->display_name = 'Employee of a company'; // optional
+			$member->description = 'User is allowed to manage and edit his/her details'; // optional
+			$member->save();
 
-		$admin = new Role();
-		$admin->name = 'admin';
-		$admin->display_name = 'User Administrator'; // optional
-		$admin->description = 'User is allowed to manage and edit other users'; // optional
-		$admin->save();
 
-		$member = new Role();
-		$member->name = 'member';
-		$member->display_name = 'Employee of a company'; // optional
-		$member->description = 'User is allowed to manage and edit his/her details'; // optional
-		$member->save();
+			$addCompanies = new Permission();
+			$addCompanies->name = 'add-companies';
+			$addCompanies->display_name = 'Add new companies'; // optional
+			// Allow a user to...
+			$addCompanies->description = 'Add new companies under that organization.'; // optional
+			$addCompanies->save();
 
-		$output->writeln("Created roles");
+			$editUser = new Permission();
+			$editUser->name = 'edit-users';
+			$editUser->display_name = 'Edit Users'; // optional
+			// Allow a user to...
+			$editUser->description = 'Edit existing users or add new Users.'; // optional
+			$editUser->save();
 
-		$addCompanies = new Permission();
-		$addCompanies->name = 'add-companies';
-		$addCompanies->display_name = 'Add new companies'; // optional
-		// Allow a user to...
-		$addCompanies->description = 'Add new companies under that organization.'; // optional
-		$addCompanies->save();
+			$editPersonal = new Permission();
+			$editPersonal->name = 'edit-personal';
+			$editPersonal->display_name = 'Edit Personal User details'; // optional
+			// Allow a user to...
+			$editPersonal->description = 'Edit Personal user details, logs & project work.'; // optional
+			$editPersonal->save();
 
-		$editUser = new Permission();
-		$editUser->name = 'edit-users';
-		$editUser->display_name = 'Edit Users'; // optional
-		// Allow a user to...
-		$editUser->description = 'Edit existing users or add new Users.'; // optional
-		$editUser->save();
 
-		$editPersonal = new Permission();
-		$editPersonal->name = 'edit-personal';
-		$editPersonal->display_name = 'Edit Personal User details'; // optional
-		// Allow a user to...
-		$editPersonal->description = 'Edit Personal user details, logs & project work.'; // optional
-		$editPersonal->save();
+			$owner->attachPermissions(array($addCompanies, $editUser, $editPersonal));// equivalent to $admin->perms()->sync(array($addCompanies->id));
+			$admin->attachPermissions(array($editUser, $editPersonal));
+			$member->attachPermission($editPersonal);
 
-		$output->writeln("Created permissions");
-
+			return  response()->json(['status' => 'Successfully created all the roles']);	
+		} catch (Exception $e) {
+			return  response()->json(['status' => 'Failed - Didn\'t create roles']);
+		}
 		
-		$owner->attachPermissions(array($addCompanies, $editUser, $editPersonal));// equivalent to $admin->perms()->sync(array($addCompanies->id));
-		$admin->attachPermissions(array($editUser, $editPersonal));
-		$member->attachPermission($editPersonal);
-		
-		$output->writeln("Created role-permission relations");
 	}
 }
