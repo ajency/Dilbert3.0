@@ -31,7 +31,7 @@ class SocialAuthController extends Controller {
             //set’s application’s locale
             //app()->setLocale($locale);
             
-            $account = Socialite::driver('google')->user();
+            $account = Socialite::driver('google')->stateless()->user(); /* trying to use socialite on a laravel with socialite sessions deactivated */
             if(isset($account->user["domain"])){ // checks the presence of domain attribute/object
                 if(Organization::where('domain', '=',$account->user["domain"])->exists()) {
                     $arraySocial = $service->createOrGetUser($account);
