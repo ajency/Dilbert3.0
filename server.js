@@ -11,8 +11,14 @@ io.on('connection', function (socket) {
  
   console.log("new client connected");
   
-  var address = socket.handshake.address; // get IP address of those (different) systems
-  console.log("IP address : " + address);
+  //var address = socket.handshake.address; // get IP address of those (different) systems
+  //console.log("IP address : " + address);
+
+  var IP_address = socket.handshake.address;
+  var idx = IP_address.lastIndexOf(':');
+  
+  if (~idx && ~IP_address.indexOf('.'))
+    IP_address = IP_address.slice(idx + 1);
 
   //console.log(socket);
   var redisClient = redis.createClient();// for subscribing to redis connection & listen to broadcast -> avoids redis queue
@@ -24,6 +30,7 @@ io.on('connection', function (socket) {
   socket.on('my_log', function (data) { // data from chrome app/client
     console.log("Data from chrome");
     console.log(data.user_id);
+
     if(data.user_id != -1) {
       // client data on state change
       var user = JSON.stringify({
@@ -31,7 +38,7 @@ io.on('connection', function (socket) {
         'from_state': data.from_state,
         'to_state': data.to_state,
         'cos': data.cos,
-        'ip_addr': socket.handshake.address,
+        'ip_addr': IP_address,
         'socket_id': socket.id,
       });
 
@@ -55,7 +62,7 @@ io.on('connection', function (socket) {
         'from_state': "active",
         'to_state': "offline",
         'cos': data.cos,
-        'ip_addr': socket.handshake.address,
+        'ip_addr': IP_address,
         'socket_id': socket.id,
       });
 
@@ -134,7 +141,7 @@ io.on('connection', function (socket) {
       'from_state': 'active',
       'to_state': 'offline',
       'cos': time,
-      'ip_addr': socket.handshake.address,
+      'ip_addr': IP_address,
       'socket_id': socket.id,
     });
 
