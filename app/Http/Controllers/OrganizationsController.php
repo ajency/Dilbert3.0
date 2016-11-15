@@ -46,7 +46,6 @@ class OrganizationsController extends Controller
     public function save(Request $request) {// create organization
         //set’s application’s locale
         // app()->setLocale($locale);
-
         $this->validate($request, [
             'orgname' => 'required',
             'orgdomain' => 'required ',// | regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
@@ -88,16 +87,20 @@ class OrganizationsController extends Controller
         $org_id = User::where('email',$request->userid)->update(['org_id' => $org->id,'role' => 'admin','timeZone' => $org->default_tz,'lang' => $org->default_lang]);
         $user = User::where('email',$request->userid)->get();
         
+        if(Role::where('name','admin')->count() <= 0) { /* Checks if roles & permissions are populated, if not add initial roles & permissions */ 
+            $create_roles = new RolePermissionController;
+            $create_roles->role($request);
+        }
+
         /* Link user to admin's role & respective permissions */
         $admin = Role::where('name','admin')->first();
-
         // or eloquent's original technique
         $user[0]->roles()->attach($admin->id); // id only
-
         auth()->login($user[0]);
         if (array_key_exists($user[0]->lang, Config::get('app.locales'))) {
             Session::set('locale', $user[0]->lang);
         }
+
         return redirect()->to('/home');
     	//return redirect('/redirect/google');
     }
