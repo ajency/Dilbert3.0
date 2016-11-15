@@ -99,20 +99,25 @@ class LockedDataController extends Controller
         $output->writeln("Personal Lock Data info");
 
         if(!empty($request->user_id)){
-        	$user = User::where('id', $request->user_id)->first();
-        	if ($user->can('edit-personal')) {// verifies if user has permission
-        		$output->writeln("Confirmed");
-		        if(empty($request->start_date) && empty($request->end_date))
-		        	return Locked_Data::where('user_id',$request->user_id)->get();
-		        else if(empty($request->start_date))
-		        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '<=', $request->end_date],])->get();
-		        else if(empty($request->end_date))
-		        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '>=', $request->start_date],])->get();
-		        else
-		        	return Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$request->start_date, $request->end_date])->get();
-		    } else {
-		    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
-		    }
+        	$user_cnt = User::where('id', $request->user_id)->count();
+        	if($user_cnt > 0) {
+	        	$user = User::where('id', $request->user_id)->first();
+	        	if ($user->can('edit-personal')) {// verifies if user has permission
+	        		$output->writeln("Confirmed");
+			        if(empty($request->start_date) && empty($request->end_date))
+			        	return Locked_Data::where('user_id',$request->user_id)->get();
+			        else if(empty($request->start_date))
+			        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '<=', $request->end_date],])->get();
+			        else if(empty($request->end_date))
+			        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '>=', $request->start_date],])->get();
+			        else
+			        	return Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$request->start_date, $request->end_date])->get();
+			    } else {
+			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+			    }
+			} else {
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID']);
+			}
 	    } else {
 			$output->writeln("In else");	    	
 	    	return response()->json(['status' => 'Error', 'msg' => 'User ID not defined']);
@@ -134,20 +139,25 @@ class LockedDataController extends Controller
         $output->writeln("Employees Lock Data info");
 
         if(!empty($request->user_id)) {
-        	$user = User::where('id', $request->user_id)->first();
-        	if ($user->can('edit-users')) {// verifies if user has permission
-        		$output->writeln("Confirmed");
-		        if(empty($request->start_date) && empty($request->end_date))
-		        	return Locked_Data::orderBy('user_id')->get();
-		        else if(empty($request->start_date))
-		        	return Locked_Data::where('work_date', '<=', $request->end_date)->orderBy('user_id')->get();
-		        else if(empty($request->end_date))
-		        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();
-		        else
-		        	return Locked_Data::whereBetween('work_date',[$request->start_date, $request->end_date])->orderBy('user_id')->get();
-        	} else {
-		    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
-		    }
+        	$user_cnt = User::where('id', $request->user_id)->count();
+        	if($user_cnt > 0) {
+	        	$user = User::where('id', $request->user_id)->first();
+	        	if ($user->can('edit-users')) {// verifies if user has permission
+	        		$output->writeln("Confirmed");
+			        if(empty($request->start_date) && empty($request->end_date))
+			        	return Locked_Data::orderBy('user_id')->get();
+			        else if(empty($request->start_date))
+			        	return Locked_Data::where('work_date', '<=', $request->end_date)->orderBy('user_id')->get();
+			        else if(empty($request->end_date))
+			        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();
+			        else
+			        	return Locked_Data::whereBetween('work_date',[$request->start_date, $request->end_date])->orderBy('user_id')->get();
+	        	} else {
+			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+			    }
+			} else {
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID']);
+			}
 	    } else {
 			//$output->writeln("In else");	    	
 	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied']);
