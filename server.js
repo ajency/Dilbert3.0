@@ -92,13 +92,13 @@ io.on('connection', function (socket) {
   });
 
   redisClient.on("message", function(channel, message) { // from laravel to node & client
-    console.log("new message in queue "+ message + " channel");
+    //console.log("new message in queue "+ message + " channel");
     message = JSON.parse(message);
-    console.log(message);
+    //console.log(message);
     if(message.data.data != undefined) {  
       if(message.data.data.socket_status != undefined && message.data.data.socket_status != "org_id_deleted" && message.data.data.socket_status != "no_socket_id" && message.data.data.socket_id != "error"){ //(or) obj.hasOwnProperty("key")
         console.log('test-channels ' + message.data.data.socket_id);
-        console.log(message.data.data.socket_status);
+        //console.log(message.data.data.socket_status);
         //pub.del('test-channels ' + message.data.data.socket_id);// delete the content from queue after sending Response to client
         
         if(message.data.data.socket_status == "return") {
