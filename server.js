@@ -86,7 +86,7 @@ io.on('connection', function (socket) {
 
       if(body)
         console.log(body);
-      
+
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
@@ -159,7 +159,7 @@ io.on('connection', function (socket) {
       console.log(reply);
     });
 
-    request('http://localhost:8000/fire', function (error, response, body) { // load that page for event call
+    request('http://localhost:80/fire', function (error, response, body) { // load that page for event call
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
