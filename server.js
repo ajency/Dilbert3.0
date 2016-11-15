@@ -147,7 +147,7 @@ io.on('connection', function (socket) {
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
-        if (response != 'undefined' && response.statusCode != 'undefined') {
+        if (response != undefined && response.statusCode != undefined) {
           console.log("not fired " + error + response.statusCode.toString());
         } else {
           console.log("not fired " + error + "God knows");
