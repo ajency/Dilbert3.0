@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
       });
 
       console.log(user);
-      
+      console.log(data.api_token);
       /*while(pub.llen('test-channels') > 0){
         pub.lpop('test-channels');
         console.log("clearing");
@@ -78,6 +78,7 @@ io.on('connection', function (socket) {
     });
     
     request(options, function (error, response, body) { // load that page
+      console.log(reponse);
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
