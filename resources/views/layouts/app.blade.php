@@ -21,6 +21,9 @@
     <link rel="stylesheet" type="text/css" href="{{ url('/css/style.css') }}">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
+
+    <link rel="shortcut icon" href="img/favicon.png" >
+
     <style>
         /*body {
             font-family: 'Lato';
