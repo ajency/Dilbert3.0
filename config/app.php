@@ -154,7 +154,7 @@ return [
         /* Added by User*/
         Laravel\Socialite\SocialiteServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
-        //ProAI\Handlebars\HandlebarsServiceProvider::class, /*Refer https://github.com/ProAI/laravel-handlebars if any issues faced */
+        ProAI\Handlebars\HandlebarsServiceProvider::class, /*Refer https://github.com/ProAI/laravel-handlebars if any issues faced */
 
         /*
          * Application Service Providers...

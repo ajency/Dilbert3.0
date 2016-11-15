@@ -9,7 +9,7 @@ var redis = require('redis');
 
 io.on('connection', function (socket) {
  
-  console.log("new client connected");
+  /*console.log("new client connected");*/
   
   //var address = socket.handshake.address; // get IP address of those (different) systems
   //console.log("IP address : " + address);
@@ -24,12 +24,12 @@ io.on('connection', function (socket) {
   var redisClient = redis.createClient();// for subscribing to redis connection & listen to broadcast -> avoids redis queue
   var pub = redis.createClient(); // create client publish connection -> for redis buffer storage
 
-  console.log("Socket engine");
-  console.log(socket.id);// display client socket ID
+  /*console.log("Socket engine");
+  console.log(socket.id);*/// display client socket ID
   
   socket.on('my_log', function (data) { // data from chrome app/client
-    console.log("Data from chrome");
-    console.log(data.user_id);
+    /*console.log("Data from chrome");
+    console.log(data.user_id);*/
 
     if(data.user_id != -1) {
       // client data on state change
@@ -42,8 +42,8 @@ io.on('connection', function (socket) {
         'socket_id': socket.id,
       });
 
-      console.log(user);
-      console.log(data.api_token);
+      /*console.log(user);
+      console.log(data.api_token);*/
       /*while(pub.llen('test-channels') > 0){
         pub.lpop('test-channels');
         console.log("clearing");
@@ -72,21 +72,12 @@ io.on('connection', function (socket) {
     }
     
     pub.rpush('test-channels', user, function(err, reply) {
-      console.log("Reply of set ");
+      /*console.log("Reply of set ");
       console.log(reply);
-      console.log("set replied");
+      console.log("set replied");*/
     });
     
     request(options, function (error, response, body) { // load that page
-       if(error)
-        console.log(error);
-
-      if(response)
-        console.log(response);
-
-      if(body)
-        console.log(body);
-
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
