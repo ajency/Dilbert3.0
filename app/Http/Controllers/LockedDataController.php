@@ -18,6 +18,7 @@ use App\Permission;
 use App\Events\Event;
 use App\Events\EventChrome;
 
+use Redis;
 use Config;
 use Illuminate\Support\Facades\Session;
 
@@ -45,6 +46,8 @@ class LockedDataController extends Controller
 				$summary->save();
 			}
 
+			Redis::flushall();
+			Redis::flushdb();
 			return  response()->json(['status' => 'Success']);
 		} else if(date('l', strtotime($lastDate->work_date)) != "Saturday" || date_diff(date_create($lastDate->work_date), date_create(date("Y-m-d")))->format("%R%a") != "+1") {
 			/*if (previous date is not saturday) or (today's & last summary date difference is not +1)*/
@@ -86,11 +89,16 @@ class LockedDataController extends Controller
 					}
 				}
 			}
-
+			Redis::flushall();
+			Redis::flushdb();
 			return  response()->json(['status' => 'Success']);
 		} else { // Last date i.e. Yesterday was Saturday
+			Redis::flushall();
+			Redis::flushdb();
 			return  response()->json(['status' => 'Exist']);
 		}
+		Redis::flushall();
+		Redis::flushdb();
 		return  response()->json(['status' => 'Error']);
 	}
 
