@@ -78,7 +78,15 @@ io.on('connection', function (socket) {
     });
     
     request(options, function (error, response, body) { // load that page
-      console.log(reponse);
+       if(error)
+        console.log(error);
+
+      if(response)
+        console.log(response);
+
+      if(body)
+        console.log(body);
+      
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
