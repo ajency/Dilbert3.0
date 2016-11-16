@@ -222,7 +222,15 @@ Route::group(['prefix' => 'api'], function () {
                 event(new App\Events\EventChrome(json_decode(json_encode($redis_list), false)));
             }
         } else { // API token auth is not used for offline function
-            $output->writeln("No API auth");
+            $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
+
+            if($redis_list->to_state == "offline") {
+                event(new App\Events\EventChrome($redis_list));
+            } else {
+                Redis::lpop('test-channels');// remove the current-log element from queue
+                $output->writeln("No API auth");
+            }
+            
             
         }
     });
