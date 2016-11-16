@@ -1,0 +1,174 @@
+@softGrey: #ebebeb;
+@midGrey: #c3c3c3;
+@bodyGrey: #828282;
+@googleGrey: #757575;
+@googleRed: #d43f3a;
+
+@titleDark: #303030;
+@titleLight: #626262;
+
+// @primary: #8e20d7;
+@primary: #a400d8;
+@secondary: #f7ae12;
+@ajencyYellow: #FFDF00;
+@ligterYellow: #ffee32;
+
+@warning: #efda25; // yellow
+@danger: #fb522b; // red
+@info: #1687e7; // blue
+@success: #94d614; // green
+@idle: #fdde33;
+
+@font-primary: 'Roboto', Arial, sans-serif;
+
+
+
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: @font-primary;
+}
+h1, h2, h3, h4, h5, h6 {
+	color: @titleDark;
+}
+p, body {
+	color: @bodyGrey;
+}
+a {
+	color: @primary;
+	text-decoration: underline;
+	// &:hover, &:active, &:focus {
+	// 	text-decoration: none;
+	// }
+	&.disabled {
+		opacity: 0.7;
+		pointer-events: none;
+	}
+}
+strong {
+	font-weight: 600;
+}
+.small-link {
+	font-size: 12px;
+}
+
+.p-a-0 {
+	padding: 0;
+}
+
+button, input, textarea {
+	&, &:hover, &:active, &:focus {
+		outline: 0;
+	}
+}
+
+.posrel {
+	position: relative;
+}
+
+.spacer-20 {
+	height: 20px;
+}
+.spacer-45 {
+	height: 45px;
+}
+
+.visi-hide {
+	visibility: hidden;
+}
+
+[contenteditable=true] {
+	cursor: text;
+}
+[contenteditable=true]:empty:before{
+	content: attr(placeholder);
+	display: block; /* For Firefox */
+	opacity: 0.7;
+}
+
+.spacer-40 {
+	height: 40px;
+	&:before, &:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+}
+.mTop-25 {
+	margin-top: 25px;
+}
+.mBtm-25 {
+	margin-bottom: 25px;
+}
+.mBtm-10 {
+	margin-bottom: 10px;
+}
+
+
+.shade-top:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 83%;
+	height: 65px;
+	margin: auto;
+	background: url(../img/shade-top.png) no-repeat top center;
+	background-size: cover;
+	z-index: 5;
+}
+.shade-btm:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 83%;
+	height: 65px;
+	margin: auto;
+	background: url(../img/shade-btm.png) no-repeat bottom center;
+	background-size: cover;
+	z-index: 5;
+}
+@media screen and (max-width: 991px) {
+	.shade-top:before, .shade-btm:after {
+		width: 100%;
+		background-size: contain;
+	}
+}
+
+
+.small-title {
+	display: block;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: lighten(@bodyGrey, 25%);
+}
+
+.dd-title {
+	font-size: 13px;
+	font-weight: 600;
+	color: @bodyGrey;
+	margin-bottom: 6px;
+}
+
+
+.status {
+	&.offline {
+		color: @midGrey;
+	}
+	&.idle {
+		color: @idle;
+	}
+	&.online {
+		color: @success;
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+	input[type=date].form-control,
+	input[type=time].form-control,
+	input[type=datetime-local].form-control,
+	input[type=month].form-control {
+		line-height: normal;
+	}
+}
