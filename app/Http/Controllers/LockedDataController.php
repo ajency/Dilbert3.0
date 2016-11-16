@@ -122,14 +122,14 @@ class LockedDataController extends Controller
 			        else
 			        	return Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$request->start_date, $request->end_date])->get();
 			    } else {
-			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
 			    }
 			} else {
-				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID']);
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
 	    } else {
-			$output->writeln("In else");	    	
-	    	return response()->json(['status' => 'Error', 'msg' => 'User ID not defined']);
+			$output->writeln("In else");
+	    	return response()->json(['status' => 'Error', 'msg' => 'Parameters not fullfilled'], 400);
 	    }
 	    /*if($request->header('X-API-KEY') !== null) { // if api key is present in Header
             $output->writeln($request->header('X-API-KEY'));
@@ -163,14 +163,14 @@ class LockedDataController extends Controller
 			        else
 			        	return Locked_Data::whereBetween('work_date',[$request->start_date, $request->end_date])->orderBy('user_id')->get();
 	        	} else {
-			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
 			    }
 			} else {
-				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID']);
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
 	    } else {
 			//$output->writeln("In else");	    	
-	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied']);
+	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
 	    }
     }
 
