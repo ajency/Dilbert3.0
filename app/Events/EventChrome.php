@@ -100,7 +100,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                             $locking_today_data = new Locked_Data;
                             $locking_today_data->user_id = $log->user_id;
                             $locking_today_data->work_date = $log->work_date;
-                            $locking_today_data->start_time = $log->cos;
+                            $locking_today_data->start_time = date("Y-m-d H:i:s",strtotime($log->work_date.' '.$log->cos));
                             $locking_today_data->save();
                         }
 

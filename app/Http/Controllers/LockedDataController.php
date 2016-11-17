@@ -40,8 +40,8 @@ class LockedDataController extends Controller
 				$summary = new Locked_Data;
 				$summary->user_id = $user->user_id;
 				$summary->work_date = $user->work_date;
-				$summary->start_time = $log_first->cos;
-				$summary->end_time = $log_last->cos;
+				$summary->start_time = date("Y-m-d H:i:s",strtotime($user->work_date.' '.$log_first->cos));
+				$summary->end_time = date("Y-m-d H:i:s",strtotime($user->work_date.' '.$log_last->cos));
 				$summary->total_time = $this->getTimeDifference($log_first->cos, $log_last->cos);
 				$summary->save();
 			}

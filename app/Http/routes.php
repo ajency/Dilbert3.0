@@ -156,7 +156,7 @@ Route::group(['prefix' => 'api'], function () {
                 
             $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
             //$user = User::where(['id' => $request_user_id])->get();
-            $output->writeln("User ID");
+            $output->writeln("User ID:".$request_user_id);
             
             //Redis::flushall(); // clear all the data in queue
             if(count($user) > 0) { // if the user exist
@@ -194,8 +194,14 @@ Route::group(['prefix' => 'api'], function () {
                 
                 $request_user_socket = $redis_list->socket_id;
                 
-                $user = User::where(['socket_id' => $request_user_socket])->get();
+                $output->writeln("User socket ID:".$request_user_socket);
+
+                $user = User::where('socket_id', $request_user_socket)->get();
+                $output->writeln("User ID before save:".$user[0]->id);
                 $redis_list->user_id = $user[0]->id;
+
+                $output->writeln("User ID:".$redis_list->user_id);
+                
                 $redis_keys = Redis::keys('*');
 
                 $output->writeln("Length");
