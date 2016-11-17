@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { UserDataService } from './providers/user-data.service'
+import { UserDataService } from './providers/user-data.service';
 
 @NgModule({
   declarations: [

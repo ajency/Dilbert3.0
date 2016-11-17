@@ -4,6 +4,7 @@ import { Http, Headers, Response } from '@angular/http';
 // import { User } from '../classes/user';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 
 const apiURL = 'http://dilbertapp.ajency.in/api/data';
@@ -13,20 +14,20 @@ export class UserDataService {
   constructor(private http: Http) {
       this.headers = new Headers();
       this.headers.append('Content-Type', 'application/json');
-      this.headers.append('X-API-KEY', 'VzIBF33quCPo53PiLey9BxSIZwlh9zvYmyQzistxBWXDLu3hcGW6tZ3e5w1y');
+      this.headers.append('X-API-KEY', 'txXg5klQqkMIUdZ0V3XvqiRvh9M19ng0F2Gj7oNdUfDRu08U50eMHP8YS33U');
 
   }
-  getUserData(id, date) {
+  getUserData(id, date): Observable<any>{
     let fetchurl = `${apiURL}/user?user_id=${id}`;
     if (date) {
       fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
     }
     return this.http.get(fetchurl, { headers: this.headers })
-                    .toPromise();
+                    .map(this.extractData)
+                    .catch(this.handleError);
   }
   private extractData(res: Response) {
-    let body = res.json();
-    return body.data || { };
+    return res.json();
   }
   private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure
