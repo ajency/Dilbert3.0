@@ -9,14 +9,21 @@ import { UserDataService } from '../providers/user-data.service';
 export class HomeComponent implements OnInit {
   userData: any[] = [];
   constructor(private userDataService: UserDataService) {
-     this.userDataService.getUserData(1, null).subscribe( (response) => {
+    let date = {
+      start_date: this.formatDate(new Date()),
+      end_date: this.formatDate(new Date())
+    };
+     this.userDataService.getUserData(1, date).subscribe( (response) => {
        if (response.status !== 'Error') {
          this.userData = response;
          this.userData.forEach( (data) => {
-            let temp = new Date(new Date().setHours(new Date().getHours() - 4));
-            console.log(data, temp );
-            let timeRemaining = temp.getTime() - new Date ().getTime();
+            let temp = new Date(data.start_time);
+            let temp2 = new Date(new Date(temp).setHours(new Date(temp).getHours() + 9));
+            console.log(data, temp, temp2);
+            let timeRemaining = temp2.getTime() - new Date ().getTime();
             console.log(Math.abs(timeRemaining));
+            let percentage = 100 - ((timeRemaining / 32400000) * 100) ;
+            data.timeCompleted = percentage.toFixed(0);
             // data.timeRemaining = Math.ceil((timeRemaining / (1000 * 60 * 60)) % 24) + ':'
             //   + Math.abs((timeRemaining / (1000 * 60)) % 60);
             data.timeRemaining = this.timeConversion(Math.abs(timeRemaining));
@@ -48,6 +55,10 @@ export class HomeComponent implements OnInit {
 
 
       return h + ':' + m;
+    }
+    formatDate(date) {
+      let temp = new Date(date);
+      return temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
     }
 
 }

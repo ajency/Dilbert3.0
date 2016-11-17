@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Http, Headers, Response } from '@angular/http';
 // import { User } from '../classes/user';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/throw';
 
 const apiURL = 'http://dilbertapp.ajency.in/api/data';
 @Injectable()
@@ -14,10 +15,10 @@ export class UserDataService {
   constructor(private http: Http) {
       this.headers = new Headers();
       this.headers.append('Content-Type', 'application/json');
-      this.headers.append('X-API-KEY', 'txXg5klQqkMIUdZ0V3XvqiRvh9M19ng0F2Gj7oNdUfDRu08U50eMHP8YS33U');
+      this.headers.append('X-API-KEY', 'GeiF8jzGhsqfDJF7kklJFw8WdyLPwe0HgG4YsXmbyZLRmcc5BpDcUoip3cFK');
 
   }
-  getUserData(id, date): Observable<any>{
+  getUserData(id, date): Observable<any> {
     let fetchurl = `${apiURL}/user?user_id=${id}`;
     if (date) {
       fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
