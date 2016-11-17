@@ -6,6 +6,7 @@ var io = require('socket.io')(server);
 var redis = new Redis();*/
 var redis = require('redis');
 
+var laravel_server = "http://localhost:80";
 
 io.on('connection', function (socket) {
  
@@ -50,7 +51,7 @@ io.on('connection', function (socket) {
       }*/
 
       var options = {
-        url: 'http://localhost:80/api/fire',
+        url: laravel_server + "/api/fire",
         headers: {
           //'User-Agent': 'request'
           'X-API-KEY': data.api_token
@@ -67,7 +68,7 @@ io.on('connection', function (socket) {
       });
 
       var options = {
-        url: 'http://localhost:80/api/fire'
+        url: laravel_server + "/api/fire"
       }
     }
     
@@ -81,6 +82,9 @@ io.on('connection', function (socket) {
       if (!error && response.statusCode == 200) {
           console.log("fire");
        } else {
+        if (response) {
+          console.log("not fired " + response.statusCode.toString());
+        }
         console.log("not fired " + error );//+ response.statusCode.toString());
        }
     });
