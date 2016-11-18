@@ -40,11 +40,11 @@
                 <div class="card-header">
                     <div class="btn-group btn-dropdown change-last-view">
                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        This Month <span class="fa fa-angle-down"></span>
+                        This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li class="current active"><a href="#">This Month</a></li>
-                            <li><a href="#">This Week</a></li>
+                            <li [class.active]="dropDownValue == 1"><a (click)="getUserDate(1)">This Month</a></li>
+                            <li [class.active]="dropDownValue == 2"><a (click)="getUserDate(2)">This Week</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Separated link</a></li>
@@ -356,10 +356,10 @@
                                         <td>
                                             <span class="top-meta">
                                                 <span class="th-day-end pull-right">
-                                                    <small>{{(data.end_time ? data.end_time : 'n/a') }} </small> 
+                                                    <small>{{(data.end_time ? data.end_time : 'n/a')}} </small> 
                                                 </span>
                                                 <span class="th-day-start">
-                                                    <small>{{(data.start_time ? data.start_time : 'n/a') | date: 'shortTime'}}</small> 
+                                                    <small>{{(data.start_time ? data.start_time : 'n/a') }} </small> 
                                                     <!--| date: 'shortTime'-->
                                                 </span>
                                             </span>
@@ -426,8 +426,8 @@
                 <div class="the-grid-chart">
                     <div class="centered-text">
                         <div class="g-c-time">
-                            <strong class="big">6</strong><small>hr</small>
-                            <strong class="big">43</strong><small>min</small>
+                            <strong class="big" *ngIf="today.timeCovered.hrs">{{today.timeCovered.hrs}}</strong><small>hr</small>
+                            <strong class="big" *ngIf="today.timeCovered.mins">{{today.timeCovered.mins}}</strong><small>min</small>
                         </div>
                         <div class="g-c-legend">Covered Today</div>
                     </div>
@@ -445,12 +445,12 @@
                 <div class="card-footer">
                     <div class="split-foot">
                         <div class="s-f-col">
-                            <time><strong>9:30</strong> <small>hr</small></time>
+                            <time><strong *ngIf="today.start_time"> {{today.start_time | date: 'hh:mm'}}</strong> <small>{{today.start_time | date: 'a'}}</small></time>
                             <a href="#" class="edit-icon"><i class="fa fa-pencil"></i></a>
                             <span class="small-title">Start Time</span>
                         </div>
                         <div class="s-f-col not-end">
-                            <time><strong>03:36</strong> <small>hr</small></time>
+                            <time><strong *ngIf="today.end_time">{{today.end_time | date: 'hh:mm'}}</strong> <small>{{today.end_time | date: 'a'}}</small></time>
                             <span class="small-title">End Time</span>
                         </div>
                         <div class="s-f-col wider">
