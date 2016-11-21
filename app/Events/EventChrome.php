@@ -81,50 +81,59 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $org_ipList = Organization::where('id',$user[0]->org_id)->first();
 
                 if(count($org_ipList)) { /* Check if that organization exist */
-                    $output->writeln(count($org_ipList));
-                    $org_ipList = unserialize($org_ipList->ip_lists);
                     
-                    if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
-                        $log = new Log;
+                    if(Log::where(['user_id' => $redis_list->user_id, 'work_date' => date("Y-m-d"), 'cos' => $redis_list->cos, 'from_state' => $redis_list->from_state, 'to_state' => $redis_list->to_state])->count() <= 0) { /* If the new log doesn't exist in the table, then enter the data */
 
-                        $log->work_date = date("Y-m-d");
-                        $log->cos = $redis_list->cos;
-                        $log->user_id = $redis_list->user_id;
-                        $log->from_state = $redis_list->from_state;
-                        $log->to_state = $redis_list->to_state;
-                        $log->ip_addr = $redis_list->ip_addr;
-                        $log->save();
+                        $output->writeln(count($org_ipList));
+                        $org_ipList = unserialize($org_ipList->ip_lists);
+                        
+                        if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
+                            $log = new Log;
 
-                        /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
-                        if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
-                            $locking_today_data = new Locked_Data;
-                            $locking_today_data->user_id = $log->user_id;
-                            $locking_today_data->work_date = $log->work_date;
-                            $locking_today_data->start_time = date("Y-m-d H:i:s",strtotime($log->work_date.' '.$log->cos));
-                            $locking_today_data->save();
+                            $log->work_date = date("Y-m-d");
+                            $log->cos = $redis_list->cos;
+                            $log->user_id = $redis_list->user_id;
+                            $log->from_state = $redis_list->from_state;
+                            $log->to_state = $redis_list->to_state;
+                            $log->ip_addr = $redis_list->ip_addr;
+                            $log->save();
+
+                            /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
+                            if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
+                                $locking_today_data = new Locked_Data;
+                                $locking_today_data->user_id = $log->user_id;
+                                $locking_today_data->work_date = $log->work_date;
+                                $locking_today_data->start_time = date("Y-m-d H:i:s",strtotime($log->work_date.' '.$log->cos));
+                                $locking_today_data->save();
+                            }
+
+                            if($redis_list->to_state == "offline") { // user goes offline
+                                User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
+                            }
+
+                            Redis::lpop('test-channels');// remove the current-log element from queue
+                            $logs = Log::where(['user_id' => $redis_list->user_id])->where('work_date', date("Y-m-d"))->get();
+
+                            $this->data = array(
+                                'socket_status' => "return", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id, 'content' => $logs
+                            );
+                        } else { /* User is not working @ office */
+                            Redis::lpop('test-channels');// remove the current-log element from queue
+                            if($redis_list->to_state == "New Session") { /* Display this message only if it's a New Session*/
+                                $this->data = array(
+                                    'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "Yes"
+                                );
+                            } else { /* Don't display message to client */
+                                $this->data = array(
+                                    'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "No"
+                                );
+                            }    
                         }
-
-                        if($redis_list->to_state == "offline") { // user goes offline
-                            User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
-                        }
-
-                        Redis::lpop('test-channels');// remove the current-log element from queue
-                        $logs = Log::where(['user_id' => $redis_list->user_id])->where('work_date', date("Y-m-d"))->get();
-
+                    } else { /* Data/Log exist in the table */
+                        Redis::lpop('test-channels');
                         $this->data = array(
-                            'socket_status' => "return", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id, 'content' => $logs
+                            'socket_status' => "data/log exist", 'id' => $redis_list->user_id, 'socket_id' => $redis_list->socket_id
                         );
-                    } else { /* User is not working @ office */
-                        Redis::lpop('test-channels');// remove the current-log element from queue
-                        if($redis_list->to_state == "New Session") { /* Display this message only if it's a New Session*/
-                            $this->data = array(
-                                'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "Yes"
-                            );
-                        } else { /* Don't display message to client */
-                            $this->data = array(
-                                'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "No"
-                            );
-                        }    
                     }
                 } else {
                     $output->writeln("Organization doesn't exist");
