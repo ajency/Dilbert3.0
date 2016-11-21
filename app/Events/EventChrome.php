@@ -54,18 +54,6 @@ class EventChrome extends Event implements ShouldBroadcast {
             if(isset($redis_list->socket_id)) { // checks if user has socket ID
                 //
                 $output->writeln("Socket + user id confirmed");
-                //$output->writeln($redis_list);
-                //$org = Organization::where('id',$redis_list->org_id)->get();
-                //$output->writeln($redis_list->org_id);
-                /*if(count($org) > 0){ // verify if Organizartion exist or is new
-                    $org[0]->alt_tz = unserialize($org[0]->alt_tz);
-                    $org[0]->ip_lists = unserialize($org[0]->ip_lists);
-                    $org[0]->ip_status = unserialize($org[0]->ip_status);
-                    //$org[0]->ip = $_SERVER['REMOTE_ADDR'];
-                    $output->writeln("Organization confirmed");
-                } else {
-                    return 0;
-                }*/
 
                 $user = User::where('id', $redis_list->user_id)->get();
                 $output->writeln("User count");
@@ -157,19 +145,14 @@ class EventChrome extends Event implements ShouldBroadcast {
             $user = User::where('socket_id', $redis_list->socket_id)->get();//update(['socket_id' => '']);
             $output->writeln("Socket id + !user id -> get");
             
-            //User::where('socket_id', $redis_list->socket_id)->update(['socket_id' => ""]);
-            //$user->update(['socket_id' => '']);// clear the socket id
-            //$output->writeln("Socket id + !user id -> update");
-            //$user_id = $user[0]->id;// get the user ID for Log entry
-            //$output->writeln($user);
             if(count($user)){
                 $user_id = $user[0]->id;
 
                 $log = new Log;
                 $output->writeln("Socket id + !user id -> New Log");
+                $log->user_id = $user_id;
                 $log->work_date = date("Y-m-d");
                 $log->cos = $redis_list->cos;
-                $log->user_id = $user_id;
                 $log->from_state = $redis_list->from_state;
                 $log->to_state = $redis_list->to_state;
                 $log->ip_addr = $redis_list->ip_addr;
