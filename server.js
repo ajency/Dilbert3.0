@@ -41,6 +41,7 @@ io.on('connection', function (socket) {
         'cos': data.cos,
         'ip_addr': IP_address,
         'socket_id': socket.id,
+        'socket_id': socket.client.id,//socket.id,
       });
 
       /*console.log(user);
@@ -65,6 +66,7 @@ io.on('connection', function (socket) {
         'cos': data.cos,
         'ip_addr': IP_address,
         'socket_id': socket.id,
+        'socket_id': data.socket_id,//socket.client.id,//socket.id,
       });
 
       var options = {
@@ -147,6 +149,7 @@ io.on('connection', function (socket) {
       'cos': time,
       'ip_addr': IP_address,
       'socket_id': socket.id,
+      'socket_id': socket.client.id,//socket.id,
     });
 
     pub.rpush('test-channels', user, function(err, reply) {
