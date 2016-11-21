@@ -207,10 +207,10 @@
                             <i class="organisation-icon"></i>
                             <h3 class="text-center">Organisations</h3>
                             <div class="org-expln">
-                                <p>Create your organisation with your unique domain name</p>
-                                <p>Manage all your employees and projects in one place</p>
+                                <p>Create an organisation to manage your employees and projects in one place</p>
+                                <p>Choose a unique domain name for each organisation you create</p>
                                 <p>Generate reports for your entire organisation automatically</p>
-                                <p>Create multiple organisations, each with a unique domain name</p>
+                                <!-- <p>Create multiple organisations, each with a unique domain name</p> -->
                             </div>
                         </div>
                     </div>
@@ -249,8 +249,8 @@
                 </div>
 
                 <div class="page-title">
-                    <h1 class="normal">Join <strong>Dilbert</strong></h1>
-                    <h6 class="sub-title">Join an Organisation</h6>
+                    <h1 class="normal">Join <strong>an Organisation</strong></h1>
+                    <h6 class="sub-title">Here’s a match for you</h6>
                 </div>
 
                 <div class="row">
@@ -259,7 +259,7 @@
                             <div class="row mTop-25 mBtm-25">
                                 <div class="col-xs-12">
                                     <div class="domain">
-                                        We found an organisation that matches your domain name. Please verify if this is the organisation you wish to join
+                                        We found an organisation that matches your domain name. Would you like to join?
                                     </div>
                                 </div>
                             </div>
@@ -325,10 +325,10 @@
                             <i class="organisation-icon"></i>
                             <h3 class="text-center">Organisations</h3>
                             <div class="org-expln">
-                                <p>Create your organisation with your unique domain name</p>
-                                <p>Manage all your employees and projects in one place</p>
+                                <p>Create an organisation to manage your employees and projects in one place</p>
+                                <p>Choose a unique domain name for each organisation you create</p>
                                 <p>Generate reports for your entire organisation automatically</p>
-                                <p>Create multiple organisations, each with a unique domain name</p>
+                                <!-- <p>Create multiple organisations, each with a unique domain name</p> -->
                             </div>
                         </div>
                     </div>
