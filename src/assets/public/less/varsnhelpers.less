@@ -176,22 +176,24 @@ button, input, textarea {
 }
 
 
-.row.order-columns {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	.at-top {
-		// display: table-header-group;
-		order: 1;
-		width: 100%;
-	}
-	.at-btm {
-		// display: table-footer-group;
-		order: 2;
-		width: 100%;
+@media screen and (max-width: 991px) {
+	.row.order-columns {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		.at-top {
+			// display: table-header-group;
+			order: 1;
+			width: 100%;
+		}
+		.at-btm {
+			// display: table-footer-group;
+			order: 2;
+			width: 100%;
+		}
 	}
 }
