@@ -432,7 +432,7 @@ select.form-control {
 			width: 83%;
 			height: 65px;
 			margin: auto;
-			background: url(../img/shade-top.png) no-repeat top center;
+			background: url(../images/shade-top.png) no-repeat top center;
 			background-size: cover;
 			z-index: 5;
 			pointer-events: none;
@@ -451,7 +451,7 @@ select.form-control {
 			width: 83%;
 			height: 65px;
 			margin: auto;
-			background: url(../img/shade-btm.png) no-repeat bottom center;
+			background: url(../images/shade-btm.png) no-repeat bottom center;
 			background-size: cover;
 			z-index: 5;
 			pointer-events: none;
@@ -1316,6 +1316,7 @@ select.form-control {
 		font-size: 22px;
 		line-height: 23px;
 		padding-top: 16px;
+		color: @titleDark;
 	}
 	.this-title:after,
 	.list-top:after,
@@ -1330,12 +1331,16 @@ select.form-control {
 		font-weight: normal;
 		margin-bottom: 3px;
 	}
+	.day-times {
+		color: @titleDark;
+	}
 	.list-top {
 		// padding-bottom: 15px;
 		.this-day-total {
 			font-size: 18px;
 			margin-top: 19px;
 			line-height: 20px;
+			color: @titleDark;
 			small {
 				margin-left: 2px;
 				color: @bodyGrey;
@@ -1453,23 +1458,44 @@ select.form-control {
 		width: 75%;
 		margin: 0px;
 		overflow-y: auto;
-		z-index: 5;
+		z-index: 6;
 		.nav {
 			margin: 0;
-			&:first-child li:first-child {
-				a {
-					padding-right: 65px;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-			}
+			// &:first-child li:first-child {
+			// 	a {
+			// 		padding-right: 65px;
+			// 		overflow: hidden;
+			// 		text-overflow: ellipsis;
+			// 		white-space: nowrap;
+			// 	}
+			// }
 		}
 		.nav + .nav {
 			border-top: 1px solid #ddd;
 			padding-top: 20px;
 			margin-top: 20px;
 		}
+	}
+	.navbar {
+		.userdata a {
+			padding: 25px 13px;
+			border-bottom: 1px solid #ddd;
+		}
+		.userdata img {
+			width: 40px;
+			height: 40px;
+			margin-right: 8px;
+			border-radius: 50%;
+		}
+		.glyphicon, .fa {
+			margin-right: 15px;
+		}
+	}
+	.lang {
+		padding: 13px;
+	}
+	.btn.language-selector {
+		margin-top: 0;
 	}
 	.menu-overlay {
 		position: fixed;
@@ -1478,7 +1504,18 @@ select.form-control {
 		right: 0;
 		bottom: 0;
 		background: rgba(0,0,0,0.6);
-		z-index: 3;
+		z-index: 5;
 		display: none;
+	}
+	.close-nav {
+		position: absolute;
+		top: 0;
+		left: -45px;
+		width: 45px;
+		height: 45px;
+		line-height: 45px;
+		color: #fff;
+		text-align: center;
+		text-shadow: 0 0 5px rgba(0,0,0,0.2);
 	}
 }

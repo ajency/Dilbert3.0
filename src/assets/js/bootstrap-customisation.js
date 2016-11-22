@@ -10,6 +10,16 @@ $(document).ready(function() {
 		}
 	});
 
+	if (!$('.navbar-toggle').length) {
+		if (!$('.navbar-toggle').hasClass('collapsed')) {
+			// menu is open - will be closed
+			if (!$('.menu-overlay').length) {
+				$('.navbar-collapse').before('<div class="menu-overlay"></div>');
+			}
+			$('.menu-overlay').fadeIn('slow');
+		}
+	}
+
 	$(document).on('click', '.navbar-toggle', function() {
 		if (!$(this).hasClass('collapsed')) {
 			// menu is open - will be closed
