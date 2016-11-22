@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
       }
     };
     getData(date) {
-      this.userDataService.getUserData(1, date).subscribe( (response) => {
+      this.userDataService.getUserData(3, date).subscribe( (response) => {
       //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
        if (response.status !== 'Error') {
          this.userData = response;
