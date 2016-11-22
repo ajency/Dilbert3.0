@@ -1,1 +1,10 @@
+/vendor
+/storage
 /node_modules
+/public/.htaccess
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+*.sublime-project
+*.sublime-workspace
