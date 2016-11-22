@@ -148,8 +148,8 @@ class EventChrome extends Event implements ShouldBroadcast {
             if(count($user)){
                 $user_id = $user[0]->id;
 
-                $log = new Log;
                 $output->writeln("Socket id + !user id -> New Log");
+                $log = new Log;
                 $log->user_id = $user_id;
                 $log->work_date = date("Y-m-d");
                 $log->cos = $redis_list->cos;

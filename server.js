@@ -25,13 +25,9 @@ io.on('connection', function (socket) {
   var redisClient = redis.createClient();// for subscribing to redis connection & listen to broadcast -> avoids redis queue
   var pub = redis.createClient(); // create client publish connection -> for redis buffer storage
 
-  /*console.log("Socket engine");
-  console.log(socket.id);*/// display client socket ID
-  
   socket.on('my_log', function (data) { // data from chrome app/client
     /*console.log("Data from chrome");
     console.log(data.user_id);*/
-
     if(data.user_id != -1) {
       // client data on state change
       var user = JSON.stringify({
@@ -40,16 +36,8 @@ io.on('connection', function (socket) {
         'to_state': data.to_state,
         'cos': data.cos,
         'ip_addr': IP_address,
-        'socket_id': socket.id,
         'socket_id': socket.client.id,//socket.id,
       });
-
-      /*console.log(user);
-      console.log(data.api_token);*/
-      /*while(pub.llen('test-channels') > 0){
-        pub.lpop('test-channels');
-        console.log("clearing");
-      }*/
 
       var options = {
         url: laravel_server + "/api/fire",
@@ -65,7 +53,6 @@ io.on('connection', function (socket) {
         'to_state': "offline",
         'cos': data.cos,
         'ip_addr': IP_address,
-        'socket_id': socket.id,
         'socket_id': data.socket_id,//socket.client.id,//socket.id,
       });
 
@@ -111,8 +98,12 @@ io.on('connection', function (socket) {
           console.log("Returning back to Chrome app");
           io.to(message.data.data.socket_id).emit(channel + ':' + message.event, message.data);// send the response to specific client, using socket ID
           //io.emit(channel + ':' + message.event, message.data);
-        } else if(message.data.data.socket_status == "close")
+        } else if(message.data.data.socket_status == "close") {
             console.log("Socket ID " + message.data.data.socket_id + " successfully closed..");
+            io.to(message.data.data.socket_id).emit(channel + ':' + message.event, message.data);// send the response to specific client, using socket ID
+        } else {
+          io.to(message.data.data.socket_id).emit(channel + ':' + message.event, message.data);// send the response to specific client, using socket ID
+        }
         pub.lpop('test-channels');
         console.log("Received from Laravel");
       } else if(message.data.data.socket_status == "org_id_deleted") {
@@ -148,7 +139,6 @@ io.on('connection', function (socket) {
       'to_state': 'offline',
       'cos': time,
       'ip_addr': IP_address,
-      'socket_id': socket.id,
       'socket_id': socket.client.id,//socket.id,
     });
 
@@ -168,7 +158,7 @@ io.on('connection', function (socket) {
         }
        }
       //pub.del('test-channels ' + socket.id);// delete old data
-      pub.lpop('test-channels');
+      //pub.lpop('test-channels');
     });
 
     console.log(user);

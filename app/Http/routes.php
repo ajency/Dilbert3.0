@@ -138,75 +138,49 @@ Route::group(['prefix' => 'api'], function () {
     // for app -> using AJAX call -> API auth in Org Controller
     Route::get('/org/info','OrganizationsController@info');//info of the organization, employee comes under
 
-    // for app + node -> using Socket.io
-    Route::get('fire', function () {
+    // for app + node -> using Socket.io (or) for app -> using ajax
+    Route::get('fire', function (Request $request) {
         // this fires the event
         $output = new ConsoleOutput();
 
         $output->writeln("At fire");
         
-        //Redis::flushall();
-        //$output->writeln("Flush Redis buffer");
-        if(\Request::header( 'X-API-KEY' ) !== "") { // if api key is present in Header
-            $output->writeln("Header Present");
-            $output->writeln(\Request::header( 'X-API-KEY' ));
+        if(\Request::exists('data_from') && \Request::only('data_from') !== "") { /* request has come from Chrome App */
+            $output->writeln("requested from chrome");
 
-            $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
-            //$output->writeln("REDIS data to JSON:");
-            if($redis_list) {
-                //$output->writeln("REDIS data to JSON:" . $redis_list->user_id);
-                $request_user_id = $redis_list->user_id;
-                //$output->writeln("User ID:xxxxxx");
-                $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
-                //$user = User::where(['id' => $request_user_id])->get();
-                $output->writeln("User ID:".$request_user_id);
+            if($request->header( 'X-API-KEY' ) !== "" && $request->to_state === "New Session") {
+                $output->writeln("Login Redis");
+                $redis_list = $request;
                 
-                //Redis::flushall(); // clear all the data in queue
-                if(count($user) > 0) { // if the user exist
-                    $output->writeln("APi key Present");
+                event(new App\Events\EventChrome($redis_list));
+            } else if ($request->to_state === "offline") {
+                $output->writeln("Logout Redis");
+
+                $redis_list = $request;
+                event(new App\Events\EventChrome($redis_list));
+            }
+
+        } else { /* Request has come from nodeJS */
+            //Redis::flushall();
+            $output->writeln("requested from nodeJS");
+            //$output->writeln("Flush Redis buffer");
+            if(\Request::header( 'X-API-KEY' ) !== "") { // if api key is present in Header
+                $output->writeln("Header Present");
+                $output->writeln(\Request::header( 'X-API-KEY' ));
+
+                $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
+                //$output->writeln("REDIS data to JSON:");
+                if($redis_list) {
+                    //$output->writeln("REDIS data to JSON:" . $redis_list->user_id);
+                    $request_user_id = $redis_list->user_id;
+                    //$output->writeln("User ID:xxxxxx");
+                    $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
+                    //$user = User::where(['id' => $request_user_id])->get();
+                    $output->writeln("User ID:".$request_user_id);
                     
-                    $redis_keys = Redis::keys('*');
-
-                    $output->writeln("Length");
-                    $queue_list_len = Redis::llen('test-channels');// get length of queue list
-                    $output->writeln($queue_list_len);
-
-                    /*$output->writeln("Keys ");
-                    $output->writeln($redis_keys);
-                    $output->writeln("Key 0");*/                
-
-                    /*if($queue_list_len > 0) {
-                        foreach (Redis::LRANGE('test-channels', 0, -1) as $key){ // get all the queue contents
-                            $output->writeln($key);
-                        }
-                    }*/
-
-                    //$output->writeln("Redis List");
-
-                    if (isset($redis_list->socket_id)) { // check if the 1st content contains Socket_id
-                        $output->writeln("Present");
-                    } else {
-                        $output->writeln("not Present");
-                    }
-
-                    //$output->writeln($redis_list);
-
-                    event(new App\Events\EventChrome($redis_list));
-                } else if($request_user_id == 0) { // If user_id = 0, then the user related to that socket_id has gone offline
-                    $output->writeln("APi key not present");
-                    
-                    $request_user_socket = $redis_list->socket_id;
-                    
-                    $output->writeln("User socket ID:".$request_user_socket);
-
-                    $user = User::where('socket_id', $request_user_socket)->get();
-                    //$output->writeln("Getting count");
-                    //$output->writeln(count($user));                
-                    if(count($user)) {
-                        $output->writeln("User ID before save:".$user[0]->id);
-                        $redis_list->user_id = $user[0]->id;
-
-                        $output->writeln("User ID:".$redis_list->user_id);
+                    //Redis::flushall(); // clear all the data in queue
+                    if(count($user) > 0) { // if the user exist
+                        $output->writeln("APi key Present");
                         
                         $redis_keys = Redis::keys('*');
 
@@ -216,9 +190,15 @@ Route::group(['prefix' => 'api'], function () {
 
                         /*$output->writeln("Keys ");
                         $output->writeln($redis_keys);
-                        $output->writeln("Key 0");*/
+                        $output->writeln("Key 0");*/                
 
-                        $output->writeln("Redis List");
+                        /*if($queue_list_len > 0) {
+                            foreach (Redis::LRANGE('test-channels', 0, -1) as $key){ // get all the queue contents
+                                $output->writeln($key);
+                            }
+                        }*/
+
+                        //$output->writeln("Redis List");
 
                         if (isset($redis_list->socket_id)) { // check if the 1st content contains Socket_id
                             $output->writeln("Present");
@@ -229,27 +209,63 @@ Route::group(['prefix' => 'api'], function () {
                         //$output->writeln($redis_list);
 
                         event(new App\Events\EventChrome($redis_list));
-                    } else { /* No such socket-ID exist */
-                        Redis::lpop('test-channels');// remove the current-log element from queue    
-                    }
-                } else { // Invalid authentication
-                    $redis_list = array("auth" => 0, "socket_id" => $redis_list->socket_id); // auth is set to 0 to define that user + APi key combination doesn't exist
-                    event(new App\Events\EventChrome(json_decode(json_encode($redis_list), false)));
-                }
-            } else {
-                $output->writeln("no content");
-            }
-        } else { // API token auth is not used for offline function
-            $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
+                    } else if($request_user_id == 0) { // If user_id = 0, then the user related to that socket_id has gone offline
+                        $output->writeln("APi key not present");
+                        
+                        $request_user_socket = $redis_list->socket_id;
+                        
+                        $output->writeln("User socket ID:".$request_user_socket);
 
-            if($redis_list->to_state == "offline") {
-                event(new App\Events\EventChrome($redis_list));
-            } else {
-                Redis::lpop('test-channels');// remove the current-log element from queue
-                $output->writeln("No API auth");
+                        $user = User::where('socket_id', $request_user_socket)->get();
+                        //$output->writeln("Getting count");
+                        $output->writeln(count($user));                
+                        if(count($user)) {
+                            $output->writeln("User ID before save:".$user[0]->id);
+                            //$redis_list->user_id = $user[0]->id;
+
+                            //$output->writeln("User ID:".$redis_list->user_id);
+                            
+                            $redis_keys = Redis::keys('*');
+
+                            $output->writeln("Length");
+                            $queue_list_len = Redis::llen('test-channels');// get length of queue list
+                            $output->writeln($queue_list_len);
+
+                            /*$output->writeln("Keys ");
+                            $output->writeln($redis_keys);
+                            $output->writeln("Key 0");*/
+
+                            $output->writeln("Redis List");
+
+                            if (isset($redis_list->socket_id)) { // check if the 1st content contains Socket_id
+                                $output->writeln("Present");
+                            } else {
+                                $output->writeln("not Present");
+                            }
+
+                            //$output->writeln($redis_list);
+
+                            event(new App\Events\EventChrome($redis_list));
+                        } else { /* No such socket-ID exist */
+                            Redis::lpop('test-channels');// remove the current-log element from queue    
+                        }
+                    } else { // Invalid authentication
+                        $redis_list = array("auth" => 0, "socket_id" => $redis_list->socket_id); // auth is set to 0 to define that user + APi key combination doesn't exist
+                        event(new App\Events\EventChrome(json_decode(json_encode($redis_list), false)));
+                    }
+                } else {
+                    $output->writeln("no content");
+                }
+            } else { // API token auth is not used for offline function
+                $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
+
+                if($redis_list->to_state == "offline") {
+                    event(new App\Events\EventChrome($redis_list));
+                } else {
+                    Redis::lpop('test-channels');// remove the current-log element from queue
+                    $output->writeln("No API auth");
+                }       
             }
-            
-            
         }
     });
 
