@@ -20,7 +20,177 @@
     </div>
 </div>-->
 
+
 <div class="container">
+    <div class="row order-columns">
+        <div class="col-md-8 at-btm">
+            
+            <!-- Dashboard title when the user views this page -->
+            <!-- <div class="user-page-title">
+                <h1 class="dashboard-title">Welcome, Mohsin</h1>
+                <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
+            </div> -->
+
+            <!-- Dashboard title when the company views this page -->
+            <!-- <div class="company-page-title hidden">
+                <h1 class="dashboard-title">Mohsin's Time at Work</h1>
+                <h4 class="sub-title dash">A detailed view of how much time Mohsin spends at office</h4>
+            </div> -->
+
+            <div class="card last-week closed">
+                <div class="card-progress" data-width="75"></div>
+                <div class="card-header">
+                    <div class="pull-right text-right">
+                        <div class="this-week-total"><strong>17:41</strong></div>
+                        <small class="this-week-label">Total hours</small>
+                    </div>
+                    <div class="illustration pull-left"></div>
+                    <div class="this-title">
+                        <h2>This Week</h2>
+                        <small class="this-week-label">14th - 17th November</small>
+                    </div>
+                </div>
+                <div class="listy this-yesterday">
+                    <div class="list-top">
+                        <div class="day-info pull-left">
+                            <h3>Yesterday</h3>
+                            <small class="this-week-label">16th November</small>
+                        </div>
+                        <div class="day-total pull-right text-right">
+                            <div class="show-collapsed">
+                                <div class="this-day-total">
+                                    <strong>9</strong><small>hr</small>
+                                    <strong>37</strong><small>min</small>
+                                </div>
+                                <small class="this-week-label">Total yesterday</small>
+                            </div>
+                            <div class="show-opened">
+                                <div class="this-day-total">
+                                    <strong>09:37</strong>
+                                </div>
+                                <small class="this-week-label">Total hours</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-footer">
+                        <div class="start-time tims">
+                            <div class="icon"></div>
+                            <div class="day-times">09:00</div>
+                            <small class="this-week-label">Start Time</small>
+                        </div>
+                        <div class="end-time tims">
+                            <div class="icon"></div>
+                            <div class="day-times">18:26</div>
+                            <small class="this-week-label">End Time</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="listy show-opened">
+                    <div class="list-top">
+                        <div class="day-info pull-left">
+                            <h3>Tuesday</h3>
+                            <small class="this-week-label">15th November</small>
+                        </div>
+                        <div class="day-total pull-right text-right">
+                            <div class="show-opened">
+                                <div class="this-day-total">
+                                    <strong>09:37</strong>
+                                </div>
+                                <small class="this-week-label">Total hours</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-footer">
+                        <div class="start-time tims">
+                            <div class="icon"></div>
+                            <div class="day-times">09:00</div>
+                            <small class="this-week-label">Start Time</small>
+                        </div>
+                        <div class="end-time tims">
+                            <div class="icon"></div>
+                            <div class="day-times">18:26</div>
+                            <small class="this-week-label">End Time</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 at-top">
+            <div class="spacer-45 hidden-xs"></div>
+            <div class="show-app card">
+                <!-- <div class="grid-bg"></div> -->
+                <div class="the-grid-chart">
+                    <div class="placeholder-circle"></div>
+                    <div class="centered-text">
+                        <div class="g-c-time">
+                            <strong class="big" *ngIf="today.timeCovered.hrs">{{today.timeCovered.hrs}}</strong>
+                            <strong class="big">9</strong>
+                            <small>hr</small>
+                            <strong class="big" *ngIf="today.timeCovered.mins">{{today.timeCovered.mins}}</strong>
+                            <strong class="big">32</strong>
+                            <small>min</small>
+                        </div>
+                        <!-- <div class="g-c-legend">Covered Today</div> -->
+                    </div>
+                </div>
+                <h3 class="app-title normal">
+                    <span class="big">Today</span>
+                    <span class="small">18th November</span>
+                </h3>
+                <div class="split-times">
+                    <div class="small-time work">
+                        <time>09:00</time>
+                        <span class="small-title">Start Time</span>
+                    </div>
+                    <div class="small-time break">
+                        <time>18:32</time>
+                        <span class="small-title">End Time</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card notification has-hover hidden-xs">
+                <div class="card-body">
+                    <div class="noti-icon"></div>
+                    <div class="noti-text">
+                        You were <span class="status offline">offline</span> for <time data-toggle="tooltip" data-html="true" data-placement="bottom" title="01:32 PM - 02:13 PM">43 min</time><br>
+                        We've marked it as break
+                    </div>
+                    <a href="#" class="noti-close">&times;</a>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="action-link">It's not a break</a>
+                </div>
+            </div>
+
+            <div class="card notification has-hover hidden-xs">
+                <div class="card-body">
+                    <div class="noti-icon"></div>
+                    <div class="noti-text">
+                        You were <span class="status idle">idle</span> for <time data-toggle="tooltip" data-html="true" data-placement="bottom" title="01:32 PM - 02:13 PM">43 min</time><br>
+                        We've marked it as break
+                    </div>
+                    <a href="#" class="noti-close">&times;</a>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="action-link">It's not a break</a>
+                </div>
+            </div>
+
+            <a href="#" class="card card-link has-hover hidden-xs">View all Notifications <i class="diagonal-arrow"></i></a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- this is the old container - old design. hidden and not removed in case this is needed again -->
+
+<div class="container old-one hidden">
     <div class="row">
         <div class="col-md-8">
             
@@ -496,4 +666,4 @@
     </div>
 </div>
 
-<div class="fixed-bottom-color"></div>
+<div class="fixed-top-color"></div>
