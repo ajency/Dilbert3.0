@@ -997,23 +997,44 @@ select.form-control {
 
 // right sidebar with the app like interface
 .the-grid-chart {
-	height: 200px;
-	background: #f5f5f5;
 	position: relative;
+	height: 200px;
+	background-color: transparent;
+	background-image:       linear-gradient(0deg, transparent 24%, rgba(75, 75, 75, .05) 25%, rgba(75, 75, 75, .05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, .05) 75%, rgba(75, 75, 75, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(75, 75, 75, .05) 25%, rgba(75, 75, 75, .05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, .05) 75%, rgba(75, 75, 75, .05) 76%, transparent 77%, transparent);
+	background-size:18px 18px;
+	overflow: hidden;
+
+	// background: #f5f5f5;
+	position: relative;
+	// .centered-text {
+	// 	position: absolute;
+	// 	left: 15px;
+	// 	right: 15px;
+	// 	bottom: 55px;
+	// 	text-align: center;
+	// }
 	.centered-text {
 		position: absolute;
-		left: 15px;
-		right: 15px;
-		bottom: 55px;
+		left: 25px;
+		right: 25px;
+		bottom: 0;
 		text-align: center;
+		top: 23px;
+		margin: auto;
+		height: 44px;
 	}
 	.g-c-time {
-		font-size: 32px;
+		font-size: 34px;
 		font-weight: bold;
 		color: @titleDark;
 		small {
-			font-weight: 300;
-			font-size: 50%;
+			font-weight: 400;
+			font-size: 70%;
+			color: @bodyGrey;
+		}
+		.big {
+			display: inline-block;
+			margin-right: -4px;
 		}
 	}
 	.g-c-legend {
@@ -1027,24 +1048,42 @@ select.form-control {
 .app-title {
 	text-align: center;
 	font-size: 22px;
-	font-weight: 300;
+	font-weight: 400;
 	margin-top: 10px;
 	margin-bottom: 16px;
+	line-height: 22px;
+	.big {
+		display: block;
+		color: @success-text;
+	}
+	.small {
+		color: @bodyGrey;
+	}
 }
 .show-app {
 	.split-times {
 		margin-top: 15px;
-		margin-bottom: 15px;
+		// margin-bottom: 15px;
 		padding: 15px;
 		text-align: center;
+		border-top: 1px solid #eee;
+		padding-bottom: 5px;
+		&:after {
+			content: '';
+			display: table;
+			clear: both;
+		}
 	}
 	.small-time {
-		display: inline-block;
+		// display: inline-block;
+		width: 50%;
+		float: left;
 		vertical-align: top;
-		font-size: 16px;
-		text-align: left;
+		font-size: 20px;
+		font-weight: normal;
+		text-align: center;
 		padding-right: 35px;
-		color: #midGrey;
+		color: @midGrey;
 		// strong {
 		// 	font-weight: 600;
 		// }
@@ -1059,8 +1098,8 @@ select.form-control {
 		}
 	}
 	.work {
-		strong {
-			color: @success;
+		time {
+			color: @success-text;
 		}
 	}
 	.small-title {
@@ -1108,6 +1147,18 @@ select.form-control {
 			margin-left: 8px;
 		}
 	}
+}
+.placeholder-circle {
+	width: 225px;
+	height: 225px;
+	border: 8px solid #eee;
+	position: absolute;
+	top: 42px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	border-radius: 50%;
 }
 
 .table-navi {
@@ -1206,6 +1257,184 @@ select.form-control {
 		color: #fff;
 		&:hover, &:active, &:focus {
 			color: #fff;
+		}
+	}
+}
+
+
+
+.grid-bg {
+	width: 100%;
+	height: 220px;
+	background-color: transparent;
+	background-image:       linear-gradient(0deg, transparent 24%, rgba(75, 75, 75, .05) 25%, rgba(75, 75, 75, .05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, .05) 75%, rgba(75, 75, 75, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(75, 75, 75, .05) 25%, rgba(75, 75, 75, .05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, .05) 75%, rgba(75, 75, 75, .05) 76%, transparent 77%, transparent);
+	height:100%;
+	background-size:18px 18px;
+}
+
+// this/last week card
+.last-week {
+	position: relative;
+	.card-progress {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 5px;
+		background: @ajencyYellow;
+		// display: none;
+	}
+	.card-header, .listy {
+		padding: 0 20px 10px;
+		margin: 0 -15px;
+		border-bottom: 1px solid rgba(0,0,0,0.2);
+		.illustration {
+			width: 65px;
+			height: 75px;
+			background: url(../images/this-week.png) no-repeat center;
+			background-size: contain;
+			margin-right: 15px;
+		}
+	}
+	.this-week-label {
+		font-size: 13px;
+		color: @bodyGrey;
+		opacity: 0.6;
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	h2 {
+		font-size: 18px;
+		font-weight: normal;
+		color: @titleDark;
+		margin: 0;
+		padding-top: 19px;
+	}
+	.this-week-total {
+		font-size: 22px;
+		line-height: 23px;
+		padding-top: 16px;
+	}
+	.this-title:after,
+	.list-top:after,
+	.list-footer:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+	.day-info h3 {
+		font-size: 16px;
+		color: @success-text;
+		font-weight: normal;
+		margin-bottom: 3px;
+	}
+	.list-top {
+		// padding-bottom: 15px;
+		.this-day-total {
+			font-size: 18px;
+			margin-top: 19px;
+			line-height: 20px;
+			small {
+				margin-left: 2px;
+				color: @bodyGrey;
+			}
+		}
+	}
+	.this-day-total {
+		font-size: 24px;
+	}
+	.listy {
+		padding-bottom: 17px;
+		position: relative;
+		transition: all 0.5s;
+		&:last-child {
+			border-bottom: 0;
+			margin-bottom: -15px;
+		}
+	}
+	// collapsed
+	.show-opened {display: none;}
+	.list-footer {
+		// display: none;
+		visibility: hidden;
+		width: 100%;
+		height: 38px;
+		opacity: 0;
+		position: absolute;
+		bottom: 0;
+		transition: all 0.5s;
+	}
+	&.closed .this-yesterday.listy {
+		border-bottom: 0;
+		margin-bottom: -15px;
+	}
+	&.closed:before {
+		content: '';
+		position: absolute;
+		bottom: -7px;
+		left: 10px;
+		right: 10px;
+		top: 15px;
+		background: #fff;
+		border-radius: 2px;
+		box-shadow: 0 0 10px rgba(0,0,0,0.2);
+		z-index: -1;
+		opacity: 0.7;
+	}
+	// opened 
+	&.opened {
+		.show-opened {display: block;}
+		.list-footer {
+			// display: block;
+			visibility: visible;
+			// margin-top: 0;
+			opacity: 1;
+			bottom: 18px;
+		}
+		.show-collapsed {
+			display: none;
+		}
+		.list-top {
+			padding-bottom: 15px;
+		}
+		.listy {
+			padding-bottom: 60px;
+		}
+		// .card-progress {
+		// 	display: block;
+		// 	width: 0;
+		// }
+	}
+	.tims {
+		float: left;
+		width: 41%;
+		.icon {
+			float: left;
+			width: 35px;
+			height: 35px;
+			margin-right: 10px;
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+	}
+	.start-time .icon {
+		background-image: url(../images/sun.png);
+	}
+	.end-time .icon {
+		background-image: url(../images/moon.png);
+	}
+	@media screen and (max-width: 340px) {
+		.card-header {
+			padding: 0 15px 10px;
+			.illustration {
+				width: 45px;
+			}
+			.this-week-label {
+				width: 48%;
+			}
 		}
 	}
 }

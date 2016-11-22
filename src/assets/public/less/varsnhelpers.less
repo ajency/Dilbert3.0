@@ -11,13 +11,15 @@
 @primary: #a400d8;
 @secondary: #f7ae12;
 @ajencyYellow: #FFDF00;
-@ligterYellow: #ffee32;
+@ligterYellow: #FFDA33;
 
 @warning: #efda25; // yellow
 @danger: #fb522b; // red
 @info: #1687e7; // blue
 @success: #94d614; // green
 @idle: #fdde33;
+
+@success-text: #80af03; // bit darker green
 
 @font-primary: 'Roboto', Arial, sans-serif;
 
@@ -139,7 +141,7 @@ button, input, textarea {
 
 .small-title {
 	display: block;
-	font-size: 11px;
+	font-size: 12px;
 	text-transform: uppercase;
 	color: lighten(@bodyGrey, 25%);
 }
@@ -170,5 +172,26 @@ button, input, textarea {
 	input[type=datetime-local].form-control,
 	input[type=month].form-control {
 		line-height: normal;
+	}
+}
+
+
+.row.order-columns {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	.at-top {
+		// display: table-header-group;
+		order: 1;
+		width: 100%;
+	}
+	.at-btm {
+		// display: table-footer-group;
+		order: 2;
+		width: 100%;
 	}
 }

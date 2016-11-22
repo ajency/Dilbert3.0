@@ -22,8 +22,8 @@
 
 .navbar.header	{
 	border: 0;
-	border-bottom: 1px solid #eee;
-	background: #fff;
+	border-bottom: 0;
+	background: transparent;
 	border-radius: 0;
 	// padding: 20px 15px;
 	.navbar-nav a {
@@ -342,7 +342,9 @@ form {
 	}
 	.navbar.header,
 	.landing-page .navbar.header {
-		padding: 15px;
+		// padding: 15px;
+		padding: 0;
+		margin-bottom: 0;
 	}
 	.navbar-default .navbar-toggle {
 		border: 0;
@@ -437,6 +439,15 @@ form {
 }
 
 
+.bg-gradient() {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
+	background: @ajencyYellow; /* Old browsers */
+	background: -moz-linear-gradient(45deg,  @ajencyYellow 0%, @ligterYellow 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@ajencyYellow', endColorstr='@ligterYellow',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
 .fixed-bottom-color {
 	position: fixed;
 	bottom: 0;
@@ -444,11 +455,15 @@ form {
 	right: 0;
 	height: 58%;
 	z-index: -1;
+	.bg-gradient
+}
 
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
-	background: @ajencyYellow; /* Old browsers */
-	background: -moz-linear-gradient(45deg,  @ajencyYellow 0%, @ligterYellow 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@ajencyYellow', endColorstr='@ligterYellow',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+.fixed-top-color {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40%;
+	z-index: -1;
+	.bg-gradient;
 }
