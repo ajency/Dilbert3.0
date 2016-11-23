@@ -21,9 +21,11 @@ export class HomeComponent implements OnInit {
   };
   yesterday: any;
   dropDownValue: number;
+  d: any;
   constructor(private userDataService: UserDataService) {
     this.dropDownValue = 1;
     this.getUserDate(1);
+    // 220
   }
 
   ngOnInit() {
@@ -73,7 +75,6 @@ export class HomeComponent implements OnInit {
           start : firstDay,
           end : lastDay
         };
-      // }
     }
     getUserDate(dropdownValue) {
 
@@ -101,18 +102,6 @@ export class HomeComponent implements OnInit {
             }else {
               this.oldData.push(data);
             }
-            if ( data.total_time || data.total_time !== '' ) {
-              let temp = data.total_time.split(':');
-              if (parseInt(temp[0], 10) >= 9) {
-                data.timeCompleted = 100.00;
-              }else {
-                let hrs = parseInt(temp[0], 10);
-                let mins = parseInt(temp[1], 10);
-                let minInPercentage = (mins / 60) * 100;
-                let hrsInPercentage = (hrs / 9) * 100;
-                data.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
-              }
-            }
          });
          if (this.todaysData) {
            this.today = {
@@ -125,6 +114,21 @@ export class HomeComponent implements OnInit {
             end_time: this.todaysData.end_time,
 
           };
+          if ( this.todaysData.total_time || this.todaysData.total_time !== '' ) {
+              let temp = this.todaysData.total_time.split(':');
+              if (parseInt(temp[0], 10) >= 9) {
+                this.today.timeCompleted = 100.00;
+              }else {
+                let hrs = parseInt(temp[0], 10);
+                let mins = parseInt(temp[1], 10);
+                let minInPercentage = (mins / 60) * 100;
+                let hrsInPercentage = (hrs / 9) * 100;
+                this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
+
+                this.d = this.describeArc(180, 150, 120, 250, (this.today.timeCompleted * 2.2 ) + 250);
+                // 250= 0% and 470 is 100%
+              }
+            }
          }else {
            this.today = {
              date: new Date(),
@@ -178,4 +182,27 @@ export class HomeComponent implements OnInit {
       while (s.length < digits) { s = '0' + s; };
       return s;
     }
+    polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+      let angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+
+      return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+      };
+    }
+
+  describeArc(x, y, radius, startAngle, endAngle) {
+
+    let start = this.polarToCartesian(x, y, radius, endAngle);
+    let end = this.polarToCartesian(x, y, radius, startAngle);
+
+    let largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+    let d = [
+        'M', start.x, start.y,
+        'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y
+    ].join(' ');
+
+    return d;
+  }
 }
