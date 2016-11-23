@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   yesterday: any;
   dropDownValue: number;
   d: any;
+  d2: any;
   constructor(private userDataService: UserDataService) {
     this.dropDownValue = 1;
     this.getUserDate(1);
@@ -126,6 +127,7 @@ export class HomeComponent implements OnInit {
                 this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
 
                 this.d = this.describeArc(180, 150, 120, 250, (this.today.timeCompleted * 2.2 ) + 250);
+                this.d2 = this.describeArc(180, 150, 120, 250, 470);
                 // 250= 0% and 470 is 100%
               }
             }
