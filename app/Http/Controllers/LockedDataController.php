@@ -29,13 +29,12 @@ class LockedDataController extends Controller
 	public function save(Request $request) { // Fetches data from logs & enter data in Locked-Table
 		$lastDate = Locked_Data::orderBy('work_date', 'desc')->first();// Get the last working date from Locked_data, to check if DB is empty or contains data
 
-		// Data is entered for the 1st time in Table
-		if($lastDate === null) {
+		if($lastDate === null) {// Data is entered for the 1st time in Table
 			$user_ids = Log::select('user_id', 'work_date')->groupBy('user_id', 'work_date')->get();//Distinct user id's & dates w.r.t to those users
 			
-			foreach($user_ids as $user) {
-				$log_first = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->first();
-				$log_last = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();
+			foreach($user_ids as $user) {/* loop through each user's data */
+				$log_first = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->first();// Get 1st timing of that day's log
+				$log_last = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get last timing of that day's log
 
 				$summary = new Locked_Data;
 				$summary->user_id = $user->user_id;
@@ -144,11 +143,8 @@ class LockedDataController extends Controller
 	    /*if($request->header('X-API-KEY') !== null) { // if api key is present in Header
             $output->writeln($request->header('X-API-KEY'));
             $user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->get();
-
             $output->writeln(count($user));
-
             if(count($user) > 0) { // if the user exist
-
             }
         }*/
     }
