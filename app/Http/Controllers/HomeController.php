@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Organization;
 use App\Log;
+use App\Role;
 
 use Config;
 use Illuminate\Support\Facades\Session;
@@ -101,6 +102,29 @@ class HomeController extends Controller
         //return view('profile.index',compact('logo','log','status'));
         return redirect()->back()->with('status',$status);
         //return back();
+    }
+
+    public function viewEmployees(Request $request) {
+
+        $users = User::where('org_id', auth()->user()->org_id)->get();
+        $roles = Role::all();
+
+        return view('employees.view', compact('users','roles'));
+    }
+
+    public function changeRoles(Request $request, $user_id) {
+        $user = User::where('id',$user_id)->first();
+        
+        $old_role = Role::where('name',$user->role)->first();
+        $new_role = Role::where('name',$request->role)->first();
+
+        //$user->roles()->sync($new_role->id); // id only
+        $user->roles()->detach($old_role->id);
+        $user->roles()->attach($new_role->id);
+
+        User::where('id',$user_id)->update(['role' => $request->role]);
+
+        return response()->json(['status' => 'Success']);
     }
 
     /**

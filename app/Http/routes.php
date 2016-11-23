@@ -115,6 +115,8 @@ Route::post('/query','ComplaintBoxController@issueFaced');
 //user info
 Route::get('/user','HomeController@profile');
 Route::patch('/user/edit','HomeController@newprof');
+Route::get('/employees','HomeController@viewEmployees');
+Route::post('/employees/update/{user_id}','HomeController@changeRoles');
 
 // view different organizations
 Route::get('/orgs','OrganizationsController@view');// view all the organizations

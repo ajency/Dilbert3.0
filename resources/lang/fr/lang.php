@@ -62,6 +62,11 @@
 	  'main_get_sub_title' => 'Il suffit de vous connecter avec votre compte Google et de laisser l\'agitation à nous!',
 	  'main_get_sub_btn' => 'Inscrivez-vous maintenant Dilbert',
 	  
+	  //employee list page
+	  'company_name' => 'Nom de l\'entreprise',
+	  'role' => 'Rôle',
+	  'edit' => 'Modifier',
+
 	  // login & sign-up
 	  'account_exist' => 'Vous avez déjà un compte existant?',
 	  'sign_in' => 'Connectez-vous',

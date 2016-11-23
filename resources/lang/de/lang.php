@@ -62,6 +62,11 @@
 	  'main_get_sub_title' => 'Melden Sie sich einfach mit Ihrem Google-Konto an und überlassen Sie uns die Hektik!',
 	  'main_get_sub_btn' => 'Melden Sie sich jetzt für Dilbert an',
 	  
+	  //employee list page
+	  'company_name' => 'Firmenname',
+	  'role' => 'Rolle',
+	  'edit' => 'Bearbeiten',
+
 	  // login & sign-up
 	  'account_exist' => 'Haben Sie ein bestehendes Konto?',
 	  'sign_in' => 'Anmelden',

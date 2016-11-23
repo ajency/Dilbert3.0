@@ -61,7 +61,12 @@
 	  'main_get_title' => 'Get your own Dilbert now',
 	  'main_get_sub_title' => 'Just sign in using your Google account and leave the hustle n bustle to us!',
 	  'main_get_sub_btn' => 'Sign up for Dilbert now',
-	  
+
+	  //employee list page
+	  'company_name' => 'Company\'s Name',
+	  'role' => 'Role',
+	  'edit' => 'Edit',
+
 	  // login & sign-up
 	  'account_exist' => 'Have an existing account?',
 	  'sign_in' => 'Sign in',

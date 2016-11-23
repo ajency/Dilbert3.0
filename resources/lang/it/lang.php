@@ -62,6 +62,11 @@
 	  'main_get_sub_title' => 'È sufficiente accedere con il tuo account Google e lasciare il caos n trambusto a noi!',
 	  'main_get_sub_btn' => 'Iscriviti Dilbert ora',
 	  
+	  //employee list page
+	  'company_name' => 'Nome della Società',
+	  'role' => 'Ruolo',
+	  'edit' => 'Modifica',
+	  
 	  // login & sign-up
 	  'account_exist' => 'Avere un account esistente?',
 	  'sign_in' => 'Registrati',

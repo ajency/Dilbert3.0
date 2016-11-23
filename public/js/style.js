@@ -31,6 +31,38 @@ function confirmDel(index) {
 	}
 }
 
+function confirmRoleChange(index) {
+	var table = document.getElementById("tableEmployee");
+	var user_id = $(index).parent().find('input[name="user_id"]').val();
+	if(window.location.hostname == "localhost")
+		var website_url = window.location.hostname + ":8000";
+	else
+		var website_url = window.location.hostname;
+
+	$.ajax({
+		url: "/employees/update/" + user_id,
+		type: 'POST',
+		crossDomain : true,
+		headers: {
+        	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    	},
+        data: {
+        	"role" : $(index).val()
+        }, success: function(result) {
+        	console.log(result);
+		}, error: function(XMLHttpRequest, textStatus, errorThrown) {
+			if (XMLHttpRequest.readyState == 4) { // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
+				console.log("state 4");
+				console.log(XMLHttpRequest.status);
+			} else if (XMLHttpRequest.readyState == 0) { // Network error (i.e. connection refused, access denied due to CORS, etc.)
+				console.log("Offline");
+			} else { // something weird is happening
+				console.log("state weird");
+			}
+        }
+	});
+}
+
 function addTableRow(){ // adds new row & 5 columns to the table
 	var table = document.getElementById("newTimeTable");
 
