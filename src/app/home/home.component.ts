@@ -17,8 +17,8 @@ export class HomeComponent implements OnInit {
   };
   dropDownValue: number;
   constructor(private userDataService: UserDataService) {
-    this.dropDownValue = 2;
-    this.getUserDate(2);
+    this.dropDownValue = 1;
+    this.getUserDate(1);
   }
 
   ngOnInit() {
@@ -95,14 +95,15 @@ export class HomeComponent implements OnInit {
     };
     getData(date) {
       this.userDataService.getUserData(3, date).subscribe( (response) => {
+        console.log(response, 'response');
       //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
-       if (response.status !== 'Error') {
          this.userData = response;
          this.userData.forEach( (data) => {
+            console.log(data.work_date , this.formatDate(new Date()));
             if (data.work_date === this.formatDate(new Date()) ) {
               this.todaysData = data;
             }
-            if ( data.total_time) {
+            if ( data.total_time || data.total_time !== '' ) {
               //  let temp2 = new Date(new Date(temp).setHours(new Date(temp).getHours() + 9));
               // console.log(data, temp, temp2);
               // let timeRemaining = temp2.getTime() - new Date ().getTime();
@@ -122,7 +123,8 @@ export class HomeComponent implements OnInit {
               }
             }
          });
-         this.today = {
+         if (this.todaysData) {
+           this.today = {
            timeCovered : {
              hrs : this.todaysData.total_time.split(':')[0],
               mins : this.todaysData.total_time.split(':')[1]
@@ -131,8 +133,17 @@ export class HomeComponent implements OnInit {
             end_time: this.todaysData.end_time,
 
           };
+         }else {
+           this.today = {
+             timeCovered : {
+             hrs : 0,
+              mins : 0
+            },
+            start_time: 0,
+            end_time: 0,
+           };
+         }
          console.log(this.userData, 'USERDATA', this.today );
-       }
      });
     }
 }

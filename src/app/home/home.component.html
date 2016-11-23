@@ -123,11 +123,11 @@
                     <div class="placeholder-circle"></div>
                     <div class="centered-text">
                         <div class="g-c-time">
-                            <strong class="big" *ngIf="today.timeCovered.hrs">{{today.timeCovered.hrs}}</strong>
-                            <strong class="big">9</strong>
+                            <strong class="big" >{{today.timeCovered.hrs}}</strong>
+                            <!--<strong class="big">9</strong>-->
                             <small>hr</small>
-                            <strong class="big" *ngIf="today.timeCovered.mins">{{today.timeCovered.mins}}</strong>
-                            <strong class="big">32</strong>
+                            <strong class="big" >{{today.timeCovered.mins}}</strong>
+                            <!--<strong class="big">32</strong>-->
                             <small>min</small>
                         </div>
                         <!-- <div class="g-c-legend">Covered Today</div> -->
@@ -139,11 +139,11 @@
                 </h3>
                 <div class="split-times">
                     <div class="small-time work">
-                        <time>09:00</time>
+                        <time>{{today.start_time ? (today.start_time | date: 'shortTime') : 'n/a'}}</time>
                         <span class="small-title">Start Time</span>
                     </div>
                     <div class="small-time break">
-                        <time>18:32</time>
+                        <time>{{today.end_time? (today.end_time | date: 'shortTime') : 'n/a'}}</time>
                         <span class="small-title">End Time</span>
                     </div>
                 </div>
