@@ -28,26 +28,26 @@
                 <div class="card-progress" data-width="75"></div>
                 <div class="card-header">
                     <div class="pull-right text-right">
-                        <div class="this-week-total"><strong>17:41</strong></div>
+                        <div class="this-week-total"><strong>{{totalHoursThisWeek}}</strong></div>
                         <small class="this-week-label">Total hours</small>
                     </div>
                     <div class="illustration pull-left"></div>
                     <div class="this-title">
                         <h2>This Week</h2>
-                        <small class="this-week-label">14th - 17th November</small>
+                        <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
                     </div>
                 </div>
                 <div class="listy this-yesterday">
                     <div class="list-top">
                         <div class="day-info pull-left">
                             <h3>Yesterday</h3>
-                            <small class="this-week-label">16th November</small>
+                            <small class="this-week-label" *ngIf="yesterday">{{yesterday.date | date: 'dd MMMM'}}</small>
                         </div>
                         <div class="day-total pull-right text-right">
                             <div class="show-collapsed">
-                                <div class="this-day-total">
-                                    <strong>9</strong><small>hr</small>
-                                    <strong>37</strong><small>min</small>
+                                <div class="this-day-total" *ngIf="yesterday">
+                                    <strong>{{yesterday.total_time.hrs}}</strong><small>hr</small>
+                                    <strong>{{yesterday.total_time.mins}}</strong><small>min</small>
                                 </div>
                                 <small class="this-week-label">Total yesterday</small>
                             </div>
@@ -520,7 +520,7 @@
                 </div>
                 <h3 class="app-title normal">
                     <span class="big">Today</span>
-                    <span class="small">18th November</span>
+                    <span class="small">{{today.date | date : 'd MMMM'}}</span>
                 </h3>
                 <div class="split-times">
                     <div class="small-time work">
