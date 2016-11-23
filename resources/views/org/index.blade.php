@@ -35,6 +35,41 @@
                     </div>
                 </div>
             </nav>
+            
+            <!-- Modal -->
+            <!-- If the user has any query/issue while Joining any Organization, can fill this form -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Query Us</h4>
+                  </div>
+                  <form action="/query" method="post" id="joinOrgQuery">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                      <h5>Your Name <span style="color:#ff0000">*</span></h5>
+                      <input type="text" class="form-control" name="queryName" id="queryName" placeholder="Enter Your Name Here" autofocus/><br/>
+                      <h5>Your Email Address <span style="color:#ff0000">*</span></h5>
+                      <input type="email" class="form-control" name="queryEmail" id="queryEmail" placeholder="Enter Your Email Address Here" value="{{$useremail}}"/><br/>
+                      <h5>Issue faced <span style="color:#ff0000">*</span></h5>
+                      <select class="form-control" name="issueOption" id="issueOption">
+                        <option value="">-- Select your Issue --</option>
+                        <option value="Not the Company/Domain I am searching for" class="form-control">Not the Company/Domain I am searching for</option>
+                        <option value="Right Company, but respective TimeZone is missing" class="form-control">Right Company, but respective TimeZone is missing</option>
+                        <option value="others" class="form-control">Others</option>
+                      </select><br/>
+                      <h5>Could You Please Elaborate?</h5>
+                      <textarea class="form-control" name="issueTextArea" id="issueTextArea" placeholder="Enter your issue in detail here" style="max-width:100%"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal" style="padding:10px 25px;margin:0px 0px">Close</button>
+                      <button type="submit" onclick="validateIssue()" class="btn btn-primary" style="margin:0px 0px">Let us know</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
 
         @if($status == "new")
             <!-- The organization does not exist, & needs to be created -->
@@ -312,7 +347,7 @@
 
                             <div class="row">
                                 <div class="col-xs-5">
-                                    <a href="#" class="small-link">Not the organisation you were looking for?</a>
+                                    <a href="#" class="small-link" data-toggle="modal" data-target="#myModal">Not the organisation you were looking for?</a>
                                 </div>
                                 <div class="col-xs-7 text-right">
                                     <button class="btn btn-primary nomar">Join Organisation</button>

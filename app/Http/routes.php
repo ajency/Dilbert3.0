@@ -110,6 +110,7 @@ Route::get('/logout/google', 'SocialAuthController@logout');
 Route::get('/org', 'OrganizationsController@index');
 Route::post('/org/save','OrganizationsController@save');
 Route::get('/orgpresent','OrganizationsController@domainPresent');
+Route::post('/query','ComplaintBoxController@issueFaced');
 
 //user info
 Route::get('/user','HomeController@profile');

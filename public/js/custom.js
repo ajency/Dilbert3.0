@@ -191,7 +191,7 @@ function removeIP(index) { // index consist 'this' i.e. the current button posit
     event.preventDefault();// prevent page movement on button click
 }
 
-function validate(e) {
+function validate(e) { /* Validates Create Organization Page */
     var flag = 0, cmpFlag = 3;
 
     if(document.getElementById("orgName").value !== '')
@@ -251,5 +251,33 @@ function validate(e) {
     } else {
         console.log("submit");
         return true;
+    }
+}
+
+function validateIssue(e) {
+   var flag = 0;
+
+    if(document.getElementById("queryName").value !== '' && isNaN(document.getElementById("queryName").value))
+        flag++;
+
+    if(document.getElementById("queryEmail").value !== '' && isNaN(document.getElementById("queryEmail").value)) { // not empty & is string
+        flag++;
+    }
+
+    if(document.getElementById("issueOption").value !== "" || document.getElementById("issueOption").selectedIndex !== 0)
+        flag++;
+    
+    if((document.getElementById("issueOption").value === "others" || document.getElementById("issueOption").selectedIndex == 3) && document.getElementById("issueTextArea").value === "") {
+        alert("Please define your issue in the Text Area as you have chosen 'Others' as the issue.");
+        event.preventDefault();
+    }
+
+    if (flag >= 3){
+        //document.getElementById("joinOrgQuery").submit();
+        return true;
+    } else {
+        alert("Seems like the form is incomplete !!");
+        event.preventDefault();
+        return false;
     }
 }
