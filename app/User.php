@@ -30,4 +30,14 @@ class User extends Authenticatable //\Eloquent {//Authenticatable {
     public function getId() {
       return $this->id;
     }
+
+    public function role() {
+        //return $this->belongsTo('App\Models\Role');
+        return $this->belongsTo(Role::class);
+    }
+
+    public function organization() {
+        //return $this->belongsTo('App\Models\Organization');
+        return $this->belongsTo(Organization::class);
+    }
 }

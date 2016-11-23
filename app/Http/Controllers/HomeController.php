@@ -10,9 +10,12 @@ use App\User;
 use App\Organization;
 use App\Log;
 use App\Role;
+use App\Permission;
 
 use Config;
 use Illuminate\Support\Facades\Session;
+
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class HomeController extends Controller
 {
@@ -113,18 +116,33 @@ class HomeController extends Controller
     }
 
     public function changeRoles(Request $request, $user_id) {
+        $count = 0;
+        
         $user = User::where('id',$user_id)->first();
         
-        $old_role = Role::where('name',$user->role)->first();
-        $new_role = Role::where('name',$request->role)->first();
+        $permissions = Permission::with('roles')->where('name',"edit-users")->get(); // Get role-names who have Admin or Super Admin access using Permissions
 
-        //$user->roles()->sync($new_role->id); // id only
-        $user->roles()->detach($old_role->id);
-        $user->roles()->attach($new_role->id);
+        foreach ($permissions[0]->roles as $perRole) {
+            $count += User::where('role',$perRole->name)->count();
+        }
 
-        User::where('id',$user_id)->update(['role' => $request->role]);
+        if(auth()->user()->can('edit-users') && ((auth()->user()->id != $user_id) || ($count > 1 && auth()->user()->id == $user_id))) { 
+            /* If user is authorized to edit & ((if he is not editing his permission) or(if he is editing his permissions but no of admin/super-admin/owner is > 1)) then*/
+            $old_role = Role::where('name',$user->role)->first();//delete the old role
+            $new_role = Role::where('name',$request->role)->first();// create new role
 
-        return response()->json(['status' => 'Success']);
+            //$user->roles()->sync($new_role->id); // id only
+            $user->roles()->detach($old_role->id);
+            $user->roles()->attach($new_role->id);
+
+            User::where('id',$user_id)->update(['role' => $request->role]);
+
+            return response()->json(['status' => 'Success']);
+        } else if(auth()->user()->can('edit-users') && auth()->user()->id === $user_id) { /* Only one admin */
+            return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
+        } else { /* User doesn't have permission to edit anyone's roles & permissions */
+            return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+        }
     }
 
     /**
