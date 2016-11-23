@@ -9,6 +9,7 @@ import { UserDataService } from '../providers/user-data.service';
 export class HomeComponent implements OnInit {
   userData: any[] = [];
   todaysData: any;
+  oldData: any[] = [];
   yesterdaysData: any;
   totalHoursThisWeek: string;
   thisWeekDates: any = {};
@@ -95,9 +96,10 @@ export class HomeComponent implements OnInit {
             if (data.work_date === this.formatDate(new Date()) ) {
               this.todaysData = data;
             }
-            if (data.work_date ===
-            this.formatDate(new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ))) {
+            else if (data.work_date === this.formatDate(new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ))) {
               this.yesterdaysData = data;
+            }else {
+              this.oldData.push(data);
             }
             if ( data.total_time || data.total_time !== '' ) {
               let temp = data.total_time.split(':');
@@ -140,7 +142,9 @@ export class HomeComponent implements OnInit {
             total_time : {
               hrs: this.yesterdaysData.total_time.split(':')[0],
               mins: this.yesterdaysData.total_time.split(':')[1]
-            }
+            },
+            start_time: this.yesterdaysData.start_time,
+            end_time: this.yesterdaysData.end_time
 
           };
          }else {
@@ -159,7 +163,7 @@ export class HomeComponent implements OnInit {
         this.totalHoursThisWeek =
         this.fill(Math.floor(sec / 3600), 2) + ':' +
         this.fill(Math.floor(sec / 60) % 60, 2);
-        console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday);
+        console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday, this.oldData);
      });
     }
 
