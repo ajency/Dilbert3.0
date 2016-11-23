@@ -1,10 +1,18 @@
 $(document).ready(function() {
+
 	$('body').on('click', '.last-week', function() {
 		if ($(this).hasClass('opened')) {
 			$(this).removeClass('opened').addClass('closed');
 			$(this).find('.card-progress').animate({width: 0}, 500)
 		} else {
 			$(this).addClass('opened').removeClass('closed');
+			
+			$totalWeekdays = $(this).find('.card-progress').attr('data-weekdays');
+			$weekdaysDone = $(this).find('.listy').length;
+			$eachDay = 100 / $totalWeekdays;
+			$percentToday = $eachDay * $weekdaysDone;
+			$(this).find('.card-progress').attr('data-width', $percentToday);
+
 			$wid = $(this).find('.card-progress').attr('data-width') + '%';
 			$(this).find('.card-progress').show().animate({width: $wid}, 500)
 		}

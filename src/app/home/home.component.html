@@ -25,7 +25,7 @@
     <div class="row order-columns">
         <div class="col-md-8 at-btm visible-xs visible-sm">
             <div class="card last-week closed">
-                <div class="card-progress" data-width="75"></div>
+                <div class="card-progress" data-weekdays="5" data-width="75"></div>
                 <div class="card-header">
                     <div class="pull-right text-right">
                         <div class="this-week-total"><strong>{{totalHoursThisWeek}}</strong></div>
@@ -505,9 +505,9 @@
                 <!-- <div class="grid-bg"></div> -->
                 <div class="the-grid-chart">
                     <div class="svgElem">
-                        <svg width="350" height="300">
-                            <path fill="none" stroke="#e7e7e7" stroke-width="5" [attr.d]="d2"  />
-                            <path fill="none" stroke="#a0d70d" stroke-width="5" [attr.d]="d"  />
+                        <svg viewBox="0 0 200 260">
+                            <path fill="none" stroke="#e7e7e7" stroke-width="7" [attr.d]="d2" vector-effect="non-scaling-stroke"  />
+                            <path fill="none" stroke="#a0d70d" stroke-width="7" [attr.d]="d" vector-effect="non-scaling-stroke"  />
                         </svg>
                     </div>
                 

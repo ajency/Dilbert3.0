@@ -126,8 +126,8 @@ export class HomeComponent implements OnInit {
                 let hrsInPercentage = (hrs / 9) * 100;
                 this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
 
-                this.d = this.describeArc(180, 150, 120, 250, (this.today.timeCompleted * 2.2 ) + 250);
-                this.d2 = this.describeArc(180, 150, 120, 250, 470);
+                this.d = this.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.2 ) + 260);
+                this.d2 = this.describeArc(100, 130, 100, 240, 480);
                 // 250= 0% and 470 is 100%
               }
             }
