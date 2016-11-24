@@ -38,7 +38,6 @@ function createCacheBustedRequest(url) {
 }
 
 self.addEventListener('install', event => {
-  console.log('install Event');
   event.waitUntil(
     // We can't use cache.add() here, since we want OFFLINE_URL to be the cache key, but
     // the actual URL we end up requesting might include a cache-busting parameter.
@@ -51,7 +50,6 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  console.log('activate Event');
   // Delete all caches that aren't named in CURRENT_CACHES.
   // While there is only one cache in this example, the same logic will handle the case where
   // there are multiple versioned caches.
@@ -76,7 +74,6 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-      console.log('FETCH')
   // We only want to call event.respondWith() if this is a navigation request
   // for an HTML page.
   // request.mode of 'navigate' is unfortunately not supported in Chrome
