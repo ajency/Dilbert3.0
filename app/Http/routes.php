@@ -282,3 +282,7 @@ Route::group(['prefix' => 'api'], function () {
 Route::get('/trial','LogsController@trial');
 
 Route::get('/per','LogsController@viewAbc');
+
+Route::get('/mhome', function() {
+    return View::make('index');
+});

@@ -1,0 +1,120 @@
+<div id="app-layout">
+  <div class="full-wrapper">
+        <nav class="navbar navbar-default navbar-static-top header">
+            <div class="container">
+                <div class="navbar-header">
+
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+             
+                    <div class="dropdown userdata pull-right hidden">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <img src="https://lh3.googleusercontent.com/-rrgkZ-3TTLk/V2EEMG_ccUI/AAAAAAAAAA8/OO9IDw9E8WE9aBBZJi2nitc884WSf4h5ACEw/w140-h139-p/133122_1390595464511_6508276_o.jpg" height="20px" class="img-circle"><input type="hidden" id="uremail" value="mohsin@ajency.in">
+                            <!-- <span class="the-name">{{ Auth::user()->name }}</span> -->
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> emp_detail </a></li>
+                            <li><a href="/orgs" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                            <li><a href="/roles" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Roles & Permissions </a></li>
+                         
+                            <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
+                           
+                            <li><a href="/edit" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Edit Profile </a></li>
+                            <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>
+                            <li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Branding Image -->
+                    <h3 class="logo navbar-brand">
+                        <a href="/">
+                            <img src="https://www.google.com/a/cpanel/ajency.in/images/logo.gif?alpha=1&service=google_default" alt="" style="height:40px;margin-top:-7px;">
+                        </a>
+                    </h3>
+                </div>
+
+                <div class="collapse navbar-collapse posrel" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav text-left">
+
+                        <li class="visible-xs userdata"><a href="#" class="dropd own-toggle">
+                            <img src="https://lh3.googleusercontent.com/-rrgkZ-3TTLk/V2EEMG_ccUI/AAAAAAAAAA8/OO9IDw9E8WE9aBBZJi2nitc884WSf4h5ACEw/w140-h139-p/133122_1390595464511_6508276_o.jpg" height="20px" class="img-circle"><input type="hidden" id="uremail" value="mohsin@ajency.in">
+                            <span class="the-name">Hello, username</span>
+                            <!-- <i class="fa fa-angle-down"></i> -->
+                        </a></li>
+                      
+                        <!-- <li><a href="/home"></a></li> -->
+                        <li class="lang">
+                            <span class="visible-xs-inline-block" style= "color: #828282;font-weight: 600;text-decoration: none;font-size: 13px;">Select Language: </span>
+                            <button type="button" class="btn btn-default dropdown-toggle language-selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                English
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/lang">Languages</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="visible-xs"><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> emp_detail </a></li>
+                        <li class="visible-xs"><a href="/orgs" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                        <li class="visible-xs"><a href="/roles" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Roles & Permissions </a></li>
+
+                        <li class="visible-xs"><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
+
+                        <li class="visible-xs"><a href="/edit" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>Edit Profile </a></li>
+                        <li class="visible-xs"><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>
+                        <li class="visible-xs"><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right text-left">
+                        <!-- Authentication Links -->
+                    
+                            <li class="highlight"><a href="/register">Register</a></li>
+                            <li><a href="/login">Login</a></li>
+                            <li class="dropdown userdata hidden-xs">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <img src="https://lh3.googleusercontent.com/-rrgkZ-3TTLk/V2EEMG_ccUI/AAAAAAAAAA8/OO9IDw9E8WE9aBBZJi2nitc884WSf4h5ACEw/w140-h139-p/133122_1390595464511_6508276_o.jpg" height="20px" class="img-circle"><input type="hidden" id="uremail" value="mohsin@ajency.in">
+                                    <span class="the-name">Mohsin</span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                   
+                                        <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> EMP DETAILS </a></li>
+                                        <!--<li><a href="{{ url('/orgs') }}" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
+                                        <li><a href="{{ url('/roles') }}" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> Roles & Permissions </a></li>
+                              
+                                        <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
+                                
+                                    <!--<li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
+                                    <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>
+                                    <li><a href="{{ url('/logout/google') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('lang.logout')</a></li>-->
+                                </ul>
+                            </li>
+                 
+                        <li><a href="#"> Contact us</a></li>
+                    </ul>
+
+                    <a href="#" class="close-nav visible-xs">&times;</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content-wrapper">
+          <app-home></app-home>
+        </div>
+
+        <footer class="footer">
+            <div class="text-center"> <a href="http://ajency.in" target="_blank">Ajency.in</a></div>
+        </footer>
+  </div>
+</div>

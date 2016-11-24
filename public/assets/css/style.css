@@ -1,0 +1,27 @@
+.google-plus-btn {
+	/*background-image: url('../images/gplus_white.png');*/
+	/*background-image: url('../images/btn_google_signin_web.svg');*/
+	background-color: #dd4b39;
+	background-repeat: no-repeat;
+	padding: 0px 0px;
+	/*padding-<left|right>: <width of image>px;*/
+}
+
+@media (min-width:992px){
+	.alert-fixed {
+		position: fixed;
+		top: 9%;
+		z-index: 10;
+		width: 41.25%;
+		left: 0;
+		right: 0;
+		margin: auto;
+		box-shadow: 0 0 5px rgba(0,0,0,0.1), 0 0 50px rgba(0,0,0,0.1);
+	}
+}
+
+/*.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}*/
