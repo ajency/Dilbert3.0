@@ -89,12 +89,11 @@ export class HomeComponent implements OnInit {
           this.thisWeekDates = date;
     };
     getData(date) {
-      this.userDataService.getUserData(3, date).subscribe( (response) => {
+      this.userDataService.getUserData(1, date).subscribe( (response) => {
         console.log(response, 'response');
       //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
          this.userData = response;
          this.userData.forEach( (data) => {
-            console.log(data.work_date , this.formatDate(new Date()));
             if (data.work_date === this.formatDate(new Date()) ) {
               this.todaysData = data;
             }
@@ -117,19 +116,20 @@ export class HomeComponent implements OnInit {
           };
           if ( this.todaysData.total_time || this.todaysData.total_time !== '' ) {
               let temp = this.todaysData.total_time.split(':');
-              if (parseInt(temp[0], 10) >= 9) {
+              if (parseInt(temp[0], 10) >= 10) {
                 this.today.timeCompleted = 100.00;
+                this.d = this.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
               }else {
                 let hrs = parseInt(temp[0], 10);
                 let mins = parseInt(temp[1], 10);
                 let minInPercentage = (mins / 60) * 100;
-                let hrsInPercentage = (hrs / 9) * 100;
+                let hrsInPercentage = (hrs / 10) * 100;
                 this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
 
-                this.d = this.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.2 ) + 260);
-                this.d2 = this.describeArc(100, 130, 100, 240, 480);
-                // 250= 0% and 470 is 100%
+                this.d = this.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
+                // 240= 0% and 480 is 100%
               }
+              this.d2 = this.describeArc(100, 130, 100, 240, 480);
             }
          }else {
            this.today = {
@@ -161,20 +161,20 @@ export class HomeComponent implements OnInit {
          }
          let sec = 0;
          this.userData.forEach( (data) => {
-          console.log(data);
           if (data.total_time !== '') {
             sec += this.toSeconds(data.total_time);
           }
          });
         this.totalHoursThisWeek =
-        this.fill(Math.floor(sec / 3600), 2) + ':' +
-        this.fill(Math.floor(sec / 60) % 60, 2);
+          this.fill(Math.floor(sec / 3600), 2) + ':' +
+          this.fill(Math.floor(sec / 60) % 60, 2);
+        this.oldData.sort(function(a, b){
+          return  new Date(b.work_date).getTime() - new Date(a.work_date).getTime(); });
         console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday, this.oldData);
      });
     }
 
     toSeconds(s) {
-      console.log(s);
       let p = s.split(':');
       return parseInt(p[0], 10) * 3600 + parseInt(p[1], 10) * 60 ;
     }
