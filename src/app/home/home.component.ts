@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from '../providers/user-data.service';
+import { AppUtilService } from '../providers/app-util.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
   dropDownValue: number;
   d: any;
   d2: any;
-  constructor(private userDataService: UserDataService) {
+  constructor(private userDataService: UserDataService, private appUtilService: AppUtilService) {
     this.dropDownValue = 1;
     this.getUserDate(1);
     // 220
@@ -89,7 +90,30 @@ export class HomeComponent implements OnInit {
           this.thisWeekDates = date;
     };
     getData(date) {
-      this.userDataService.getUserData(1, date).subscribe( (response) => {
+      // this.userDataService.getUserData(1, date).subscribe( (response) => {
+        let response = [
+          {
+            work_date : '2016-11-29',
+            total_time : '9:00',
+            start_time : '2016-11-29 9:36:35',
+            end_time : '2016-11-29 6:36:35 '
+          }, {
+            work_date : '2016-11-28',
+            total_time : '9:35',
+            start_time : '2016-11-28 9:30:35',
+            end_time : '2016-11-28 7:00:35 '
+          }, {
+            work_date : '2016-11-27',
+            total_time : '9:35',
+            start_time : '2016-11-27 9:30:35',
+            end_time : '2016-11-27 7:00:35 '
+          }, {
+            work_date : '2016-11-26',
+            total_time : '9:35',
+            start_time : '2016-11-26 9:30:35',
+            end_time : '2016-11-26 7:00:35 '
+          }
+        ];
         console.log(response, 'response');
       //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
          this.userData = response;
@@ -118,7 +142,7 @@ export class HomeComponent implements OnInit {
               let temp = this.todaysData.total_time.split(':');
               if (parseInt(temp[0], 10) >= 10) {
                 this.today.timeCompleted = 100.00;
-                this.d = this.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
+                this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
               }else {
                 let hrs = parseInt(temp[0], 10);
                 let mins = parseInt(temp[1], 10);
@@ -126,10 +150,10 @@ export class HomeComponent implements OnInit {
                 let hrsInPercentage = (hrs / 10) * 100;
                 this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
 
-                this.d = this.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
+                this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
                 // 240= 0% and 480 is 100%
               }
-              this.d2 = this.describeArc(100, 130, 100, 240, 480);
+              this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
             }
          }else {
            this.today = {
@@ -162,49 +186,19 @@ export class HomeComponent implements OnInit {
          let sec = 0;
          this.userData.forEach( (data) => {
           if (data.total_time !== '') {
-            sec += this.toSeconds(data.total_time);
+            sec += this.appUtilService.toSeconds(data.total_time);
           }
          });
         this.totalHoursThisWeek =
-          this.fill(Math.floor(sec / 3600), 2) + ':' +
-          this.fill(Math.floor(sec / 60) % 60, 2);
+          this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
+          this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
         this.oldData.sort(function(a, b){
           return  new Date(b.work_date).getTime() - new Date(a.work_date).getTime(); });
         console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday, this.oldData);
-     });
+    //  }, (onerror) => {
+    //    console.log(onerror);
+    //  });
     }
 
-    toSeconds(s) {
-      let p = s.split(':');
-      return parseInt(p[0], 10) * 3600 + parseInt(p[1], 10) * 60 ;
-    }
 
-    fill(s, digits) {
-      s = s.toString();
-      while (s.length < digits) { s = '0' + s; };
-      return s;
-    }
-    polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-      let angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
-
-      return {
-        x: centerX + (radius * Math.cos(angleInRadians)),
-        y: centerY + (radius * Math.sin(angleInRadians))
-      };
-    }
-
-  describeArc(x, y, radius, startAngle, endAngle) {
-
-    let start = this.polarToCartesian(x, y, radius, endAngle);
-    let end = this.polarToCartesian(x, y, radius, startAngle);
-
-    let largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
-
-    let d = [
-        'M', start.x, start.y,
-        'A', radius, radius, 0, largeArcFlag, 0, end.x, end.y
-    ].join(' ');
-
-    return d;
-  }
 }
