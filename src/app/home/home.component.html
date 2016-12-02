@@ -1,219 +1,111 @@
-<!--<div class="container">
-    <div class="row">
-        <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
-            <div class="alert alert-success alert-dismissible alert-fixed" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong> Welcome </strong> -->
-              <!--{{ Auth::user()->name }} !-->
-              <!--Mohsin Muzawar
-              
-            </div>
-        </div>
-    </div>
-    <div class="row" style="display:none" id="tuckshop_alert">
-        <div class="col-lg-offset-2 col-md-offset-3 col-md-6">
-            <div class="alert alert-warning alert-dismissible alert-fixed" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>Sorry! </strong> This feature is still under development.
-            </div>
-        </div>
-    </div>
-</div>-->
-
-
 <div class="container">
-    <div class="row order-columns">
-        <div class="col-md-8 at-btm visible-xs visible-sm">
-            <div class="card last-week closed">
-                <div class="card-progress" data-weekdays="5" data-width="75"></div>
-                <div class="card-header">
-                    <div class="pull-right text-right">
-                        <div class="this-week-total"><strong>{{totalHoursThisWeek}}</strong></div>
-                        <small class="this-week-label">Total hours</small>
-                    </div>
-                    <div class="illustration pull-left"></div>
-                    <div class="this-title">
-                        <h2>This Week</h2>
-                        <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
-                    </div>
-                </div>
-                <div class="listy this-yesterday" *ngIf="yesterday">
-                    <div class="list-top">
-                        <div class="day-info pull-left">
-                            <h3>Yesterday</h3>
-                            <small class="this-week-label" >{{yesterday.date | date: 'dd MMMM'}}</small>
-                        </div>
-                        <div class="day-total pull-right text-right">
-                            <div class="show-collapsed">
-                                <div class="this-day-total" >
-                                    <strong>{{yesterday.total_time.hrs}}</strong><small>hr</small>
-                                    <strong>{{yesterday.total_time.mins}}</strong><small>min</small>
-                                </div>
-                                <small class="this-week-label">Total yesterday</small>
-                            </div>
-                            <div class="show-opened">
-                                <div class="this-day-total" >
-                                    <strong>{{yesterday.total_time.hrs}}:{{yesterday.total_time.hrs}}</strong>
-                                </div>
-                                <small class="this-week-label">Total hours</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-footer">
-                        <div class="start-time tims">
-                            <div class="icon"></div>
-                            <div class="day-times">{{yesterday.start_time ? (yesterday.start_time | date:'hh:mm' ): 'n/a'}}</div>
-                            <small class="this-week-label">Start Time</small>
-                        </div>
-                        <div class="end-time tims">
-                            <div class="icon"></div>
-                            <div class="day-times">{{yesterday.end_time ? (yesterday.end_time | date:'hh:mm' ): 'n/a'}}</div>
-                            <small class="this-week-label">End Time</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="listy show-opened" *ngFor="let item of oldData">
-                    <div class="list-top">
-                        <div class="day-info pull-left">
-                            <h3>{{item.work_date | date: 'EEEE'}}</h3>
-                            <small class="this-week-label">{{item.work_date | date: 'dd MMMM'}}</small>
-                        </div>
-                        <div class="day-total pull-right text-right">
-                            <div class="show-opened">
-                                <div class="this-day-total">
-                                    <strong>{{item.total_time ? item.total_time : 'n/a'}}</strong>
-                                </div>
-                                <small class="this-week-label">Total hours</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-footer">
-                        <div class="start-time tims">
-                            <div class="icon"></div>
-                            <div class="day-times">{{item.start_time ? (item.start_time | date:'hh:mm' ): 'n/a'}}</div>
-                            <small class="this-week-label">Start Time</small>
-                        </div>
-                        <div class="end-time tims">
-                            <div class="icon"></div>
-                            <div class="day-times">{{item.end_time ? (item.end_time | date:'hh:mm' ): 'n/a'}}</div>
-                            <small class="this-week-label">End Time</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-8 hidden-xs hidden-sm">
-            
-            <!-- Dashboard title when the user views this page -->
+    <div class="row">
+        <div class="col-md-12">
+        
             <div class="user-page-title">
-                <h1 class="dashboard-title">Welcome, Mohsin</h1>
+                <h1 class="dashboard-title">Ajency.in Work Summary</h1>
                 <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
             </div>
 
-            <!-- Dashboard title when the company views this page -->
-            <div class="company-page-title hidden">
-                <h1 class="dashboard-title">Mohsin's Time at Work</h1>
-                <h4 class="sub-title dash">A detailed view of how much time Mohsin spends at office</h4>
-            </div>
-
-            <div class="last-few-days card">
+            <div class="company-summary card">
                 <div class="card-header">
-                    <div class="btn-group btn-dropdown change-last-view">
+                    <div class="pull-left">
+                        <label for="search-table" class="search-emp-names">
+                            <input id="search-table" type="search" class=" form-control" placeholder="Filter by Name">
+                            <i class="fa fa-search empty-icon"></i>
+                            <!-- show this icon only if text has been entered - so the text can be cleared as well as the filtered table can be cleared -->
+                            <a href="#" class="clear-icon hidden">&times;</a>
+                        </label>
+                    </div>
+                    <div class="table-navi pull-right">
+                        <!-- add class disabled to disable the btn/link -->
+                        <a href="#" class="week-navi prev"><i class="fa fa-angle-left"></i></a>
+                        <a href="#" class="week-navi next disabled"><i class="fa fa-angle-right"></i></a>
+                    </div>
+                    <!-- I'm not sure if this is required so I've added the class hidden for now, remove hidden if this elelment is needed -->
+                    <div class="btn-group btn-dropdown filter pull-right hidden">
                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
+                        Jump to Date <span class="fa fa-angle-down"></span>
                         </button>
-                        <ul class="dropdown-menu">
-                            <li [class.active]="dropDownValue == 1"><a (click)="getUserDate(1)">This Month</a></li>
-                            <li [class.active]="dropDownValue == 2"><a (click)="getUserDate(2)">This Week</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                        <ul class="dropdown-menu stay-open">
+                            <li class="select-a-date">
+                                <h6 class="dd-title">Select a Date</h6>
+                                <p>The result will show the week which includes the date you picked</p>
+                                <div class="form-group">
+                                    <label for="find-week-day"><input type="date" id="find-week-day" class="form-control"></label>
+                                </div>
+                                <!-- add class hidden as soon as a date has been selected -->
+                                <p class="date-not-selected">Select a date to see week start and end dates</p>
+
+                                <!-- After a date is picked, show this div and hi de the previous one-->
+                                <div class="hidden">
+                                    <h6 class="dd-title">The Week</h6>
+                                    <p>10 Oct, 2016 - 16 Oct, 2016</p>
+                                    <a href="#" class="btn btn-primary pull-right">Done</a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <!-- <a href="#" class="show-hide-days pull-right"><small>Hide Sundays</small></a> -->
+                    <div class="clearfix"></div>
                 </div>
-                <!-- Adding/removing the class 'week-view' will toggle the week view div visibility -->
-                <!-- the below 2 line instructions are incase you add some other object inside this div -->
-                <!-- whatever object that needs to be hidden in week view plz add the class 'hide-in-week-view' -->
-                <!-- to show an object in week view plz add class 'show-in-week-view' -->
-                <div class="card-body week-view">
+                <div class="card-body">
                     <div class="table-view month hscroll-table hide-in-week-view">
-                        <div class="table-responsive setpadding">
+                        <div class="table-responsive">
                             <table class="table first-table">
                                 <thead>
                                     <tr>
-                                        <th><span class="th-label small-title">Mon</span></th>
-                                        <th><span class="th-label small-title">Tue</span></th>
-                                        <th><span class="th-label small-title">Wed</span></th>
-                                        <th><span class="th-label small-title">Thu</span></th>
-                                        <th><span class="th-label small-title">Fri</span></th>
-                                        <th><span class="th-label small-title">Sat</span></th>
-                                        <th class="sunday"><span class="th-label small-title">Sun</span></th>
-                                        <th class="total"><span class="th-label small-title">Total</span></th>
+                                        <th class="employee-id">
+                                            <span class="th-label small-title">
+                                                <!-- ************************************
+                                                    I N S T R U C T I O N S
+                                                    change class of <i> to
+                                                    "fa fa-caret-up" - ascending order
+                                                    "fa fa-caret-down" - descending order
+                                                    This is same for all table headers
+                                                    ************************************* -->
+                                                <span class="th-date">Employees <a href="#" class="sort-col"><i class="fa fa-sort"></i></a></span>
+                                            </span>
+                                        </th>
+                                        <th *ngFor="let item of weekBucket">
+                                            <span class="th-label small-title">
+                                                <span class="th-date"> {{item | date : 'dd MMM'}}<a href="#" class="sort-col" ><i class="fa fa-sort"></i></a></span>
+                                                <span class="th-day">{{item | date: 'EEE'}}</span>
+                                            </span>
+                                        </th>
+                                        
+                                        <th>
+                                            <span class="th-label small-title">
+                                                <span class="th-date">Total <a href="#" class="sort-col"><i class="fa fa-sort"></i></a></span>
+                                                <span class="th-day">&nbsp;</span>
+                                            </span>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="current">
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
+                                    <tr class="" *ngFor="let item of userData">
+                                        <td class="employee-id">
+                                            <a href="#" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
+                                                <!-- <span class="th-day small-title">&nbsp;</span> -->
+                                                <span class="th-total">{{item.name}}</span>
+                                                <!-- <span class="th-spilt">
                                                     <span class="th-work">9:45</span> -
                                                     <span class="th-break">19:15</span>
+                                                </span> -->
+                                            </a>
+                                        </td>
+                                        <td *ngFor="let workday of item.data">
+                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <!-- <span class="th-day small-title">Oct 10</span> -->
+                                                <span class="th-total">{{workday.total_time}} {{item.data.length}}</span>
+                                                <span class="th-spilt">
+                                                    <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
+                                                    <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
                                                 </span>
                                             </a>
                                         </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
+                                        <td *ngFor="let workday of item.emptySpaces">
                                         </td>
                                         <td class="sunday">
                                             <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
@@ -227,171 +119,7 @@
                                         </td>
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day visi-hide">Week's Total</span>
-                                                <span class="th-total">44:10</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">39:13</span> -
-                                                    <span class="th-break">6:13</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td class="sunday">
-                                            <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a> -->
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day total" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day visi-hide">Week's Total</span>
-                                                <span class="th-total">44:10</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">39:13</span> -
-                                                    <span class="th-break">6:13</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td class="sunday">
-                                            <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a> -->
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day total" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day visi-hide">Week's Total</span>
+                                                <!-- <span class="th-day visi-hide">Week's Total</span> -->
                                                 <span class="th-total">44:10</span>
                                                 <span class="th-spilt">
                                                     <span class="th-work">39:13</span> -
@@ -405,59 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="table-view week show-in-week-view">
-                        <div class="table-responsive">
-                            <table class="table first-table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th class="eq"><span class="th-label small-title">Total</span></th>
-                                        <!-- <th class="eq"><span class="th-label small-title">Work</span></th>
-                                        <th class="eq last"><span class="th-label small-title">Break</span></th> -->
-                                        <th class="wide">
-                                            <span class="th-label small-title pull-left">Day Start</span>
-                                            <span class="th-label small-title pull-right">Day End</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!--class="current"-->
-                                    <tr *ngFor="let data of userData">
-                                        <td>
-                                            <span class="th-day">
-                                                <span class="small-title">{{data.work_date | date:'dd MMM'}}</span>
-                                                <span class="small-title">{{data.work_date | date:'EEE'}}</span>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="th-total total th-time">
-                                                <strong>{{data.total_time ? data.total_time : 'n/a'}}</strong>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="top-meta">
-                                                <span class="th-day-end pull-right">
-                                                    <small>{{(data.end_time ? data.end_time : 'n/a')}} </small> 
-                                                </span>
-                                                <span class="th-day-start">
-                                                    <small>{{(data.start_time ? data.start_time : 'n/a') }} </small> 
-                                                    <!--| date: 'shortTime'-->
-                                                </span>
-                                            </span>
-                                                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    <span class="sr-only">60% Complete</span>
-                                                </div>-->
-                                                <progress style="width:100%;" class="progress progress-striped progress-animated" value="{{data.timeCompleted}}" max="100" aria-describedby="example-caption-5"></progress>
-                                            
-                                        </td>
-                                    </tr>
-                                   
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="stats-view">
+                    <div class="stats-view hidden">
                         <h4 class="card-title hide-in-week-view">Stats since Oct 01</h4>
                         <div class="spacer-20 show-in-week-view"></div>
                         <div class="horizontal-stats">
@@ -498,93 +174,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4 at-top">
-            <div class="spacer-45 hidden-xs hidden-sm"></div>
-            <div class="show-app card">
-                <!-- <div class="grid-bg"></div> -->
-                <div class="the-grid-chart">
-                    <div class="svgElem">
-                        <svg viewBox="0 0 200 260">
-                            <path fill="none" stroke="#e7e7e7" stroke-width="7" [attr.d]="d2" vector-effect="non-scaling-stroke"  />
-                            <path  class="path" fill="none" stroke="#a0d70d" stroke-width="7" [attr.d]="d" vector-effect="non-scaling-stroke">
-                                <!--<animate attributeName="stroke" begin="0s" end="2s"
-                                dur="2000ms" to ="#000000" />-->
-                                
-              
-                            </path>
-                        </svg>
-                    </div>
-                
-                    <div class="centered-text">
-                        <div class="g-c-time">
-                            <strong class="big" >{{today.timeCovered.hrs}}</strong>
-                            <!--<strong class="big">9</strong>-->
-                            <small>hr</small>
-                            <strong class="big" >{{today.timeCovered.mins}}</strong>
-                            <!--<strong class="big">32</strong>-->
-
-                            <small>min</small>
-                        </div>
-                        <!-- <div class="g-c-legend">Covered Today</div> -->
-                    </div>
-                </div>
-                <h3 class="app-title normal">
-                    <span class="big">Today</span>
-                    <span class="small">{{today.date | date : 'd MMMM'}}</span>
-                </h3>
-                <div class="split-times">
-                    <div class="small-time work">
-                        <time>{{today.start_time ? (today.start_time | date: 'shortTime') : 'n/a'}}</time>
-                        <span class="small-title">Start Time</span>
-                    </div>
-                    <div class="small-time break">
-                        <time>{{today.end_time? (today.end_time | date: 'shortTime') : 'n/a'}}</time>
-                        <span class="small-title">End Time</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card notification has-hover hidden-xs">
-                <div class="card-body">
-                    <div class="noti-icon"></div>
-                    <div class="noti-text">
-                        You were <span class="status offline">offline</span> for <time data-toggle="tooltip" data-html="true" data-placement="bottom" title="01:32 PM - 02:13 PM">43 min</time><br>
-                        We've marked it as break
-                    </div>
-                    <a href="#" class="noti-close">&times;</a>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="action-link">It's not a break</a>
-                </div>
-            </div>
-
-            <div class="card notification has-hover hidden-xs">
-                <div class="card-body">
-                    <div class="noti-icon"></div>
-                    <div class="noti-text">
-                        You were <span class="status idle">idle</span> for <time data-toggle="tooltip" data-html="true" data-placement="bottom" title="01:32 PM - 02:13 PM">43 min</time><br>
-                        We've marked it as break
-                    </div>
-                    <a href="#" class="noti-close">&times;</a>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="action-link">It's not a break</a>
-                </div>
-            </div>
-
-            <a href="#" class="card card-link has-hover hidden-xs">View all Notifications <i class="diagonal-arrow"></i></a>
-        </div>
     </div>
 </div>
 
-
-
-
-
-
-
-<!-- this is the old container - old design. hidden and not removed in case this is needed again -->
-
-
-<div class="fixed-top-color btm-big "></div>
+<div class="fixed-bottom-color"></div>

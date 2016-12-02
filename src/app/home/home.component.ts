@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   todaysData: any;
   oldData: any[] = [];
   yesterdaysData: any;
+  weekBucket: any [] = [];
   totalHoursThisWeek: string;
   thisWeekDates: any = {};
   today: any = {
@@ -90,114 +91,97 @@ export class HomeComponent implements OnInit {
           this.thisWeekDates = date;
     };
     getData(date) {
+        let curr = new Date();
+        let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+
+        let firstDay = new Date(curr.setDate(first));
+        this.weekBucket = [];
+        let i = 0;
+        while (i !== 7) {
+          let temp = new Date (firstDay);
+          let nextD = new Date(temp.getFullYear(), temp.getMonth(), temp.getDate() + 1 );
+          this.weekBucket.push(nextD);
+          firstDay = nextD;
+          i++;
+        }
+        console.log(this.weekBucket);
       // this.userDataService.getUserData(1, date).subscribe( (response) => {
         let response = [
           {
-            work_date : '2016-11-29',
-            total_time : '9:00',
-            start_time : '2016-11-29 9:36:35',
-            end_time : '2016-11-29 6:36:35 '
+            name : 'Mohsin',
+            data : [ {
+              work_date : '2016-12-2',
+              total_time : '9:00',
+              start_time : '2016-12-2 9:36:35',
+              end_time : '2016-12-2 6:36:35 '
+            }, {
+              work_date : '2016-12-1',
+              total_time : '9:35',
+              start_time : '2016-12-1 9:30:35',
+              end_time : '2016-12-1 7:00:35 '
+            }, {
+              work_date : '2016-11-30',
+              total_time : '9:35',
+              start_time : '2016-11-30 9:30:35',
+              end_time : '2016-11-30 7:00:35 '
+            }, {
+              work_date : '2016-11-29',
+              total_time : '9:35',
+              start_time : '2016-11-29 9:30:35',
+              end_time : '2016-11-29 7:00:35 '
+            }, {
+              work_date : '2016-11-28',
+              total_time : '9:35',
+              start_time : '2016-11-28 9:30:35',
+              end_time : '2016-11-28 7:00:35 '
+            }]
           }, {
-            work_date : '2016-11-28',
-            total_time : '9:35',
-            start_time : '2016-11-28 9:30:35',
-            end_time : '2016-11-28 7:00:35 '
-          }, {
-            work_date : '2016-11-27',
-            total_time : '9:35',
-            start_time : '2016-11-27 9:30:35',
-            end_time : '2016-11-27 7:00:35 '
-          }, {
-            work_date : '2016-11-26',
-            total_time : '9:35',
-            start_time : '2016-11-26 9:30:35',
-            end_time : '2016-11-26 7:00:35 '
+            name : 'Vaibhav',
+            data : [{
+              work_date : '2016-11-28',
+              total_time : '9:35',
+              start_time : '2016-11-28 9:30:35',
+              end_time : '2016-11-28 7:00:35 '
+            }, {
+              work_date : '2016-12-2',
+              total_time : '9:00',
+              start_time : '2016-12-2 9:36:35',
+              end_time : '2016-12-2 6:36:35 '
+            }, {
+              work_date : '2016-12-1',
+              total_time : '9:35',
+              start_time : '2016-12-1 9:30:35',
+              end_time : '2016-12-1 7:00:35 '
+            }, {
+              work_date : '2016-11-30',
+              total_time : '9:35',
+              start_time : '2016-11-30 9:30:35',
+              end_time : '2016-11-30 7:00:35 '
+            }, {
+              work_date : '2016-11-29',
+              total_time : '9:35',
+              start_time : '2016-11-29 9:30:35',
+              end_time : '2016-11-29 7:00:35 '
+            }, {
+              work_date : '2016-11-28',
+              total_time : '9:35',
+              start_time : '2016-11-28 9:30:35',
+              end_time : '2016-11-28 7:00:35 '
+            }]
           }
         ];
         console.log(response, 'response');
       //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
          this.userData = response;
-         this.userData.forEach( (data) => {
-            if (data.work_date === this.formatDate(new Date()) ) {
-              this.todaysData = data;
-            }
-            else if (data.work_date === this.formatDate(new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ))) {
-              this.yesterdaysData = data;
-            }else {
-              this.oldData.push(data);
-            }
-         });
-         if (this.todaysData) {
-           this.today = {
-             date: new Date(),
-           timeCovered : {
-             hrs : this.todaysData.total_time.split(':')[0],
-              mins : this.todaysData.total_time.split(':')[1]
-            },
-            start_time: this.todaysData.start_time,
-            end_time: this.todaysData.end_time,
-
-          };
-          if ( this.todaysData.total_time || this.todaysData.total_time !== '' ) {
-              let temp = this.todaysData.total_time.split(':');
-              if (parseInt(temp[0], 10) >= 10) {
-                this.today.timeCompleted = 100.00;
-                this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
-              }else {
-                let hrs = parseInt(temp[0], 10);
-                let mins = parseInt(temp[1], 10);
-                let minInPercentage = (mins / 60) * 100;
-                let hrsInPercentage = (hrs / 10) * 100;
-                this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
-
-                this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
-                // 240= 0% and 480 is 100%
+         this.userData.forEach( (user) => {
+              let temp = [];
+              for ( let i = 0; i < (6 - user.data.length); i++) {
+                temp.push(i);
               }
-              this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
-            }
-         }else {
-           this.today = {
-             date: new Date(),
-             timeCovered : {
-             hrs : 0,
-              mins : 0
-            },
-            start_time: 0,
-            end_time: 0,
-           };
-         }
-         if (this.yesterdaysData) {
-           this.yesterday = {
-            date: this.yesterdaysData.work_date,
-            total_time : {
-              hrs: this.yesterdaysData.total_time.split(':')[0],
-              mins: this.yesterdaysData.total_time.split(':')[1]
-            },
-            start_time: this.yesterdaysData.start_time,
-            end_time: this.yesterdaysData.end_time
-
-          };
-         }else {
-           this.yesterday = {
-             date: new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ),
-             total_time : '00:00'
-           };
-         }
-         let sec = 0;
-         this.userData.forEach( (data) => {
-          if (data.total_time !== '') {
-            sec += this.appUtilService.toSeconds(data.total_time);
-          }
-         });
-        this.totalHoursThisWeek =
-          this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
-          this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
-        this.oldData.sort(function(a, b){
-          return  new Date(b.work_date).getTime() - new Date(a.work_date).getTime(); });
-        console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday, this.oldData);
-    //  }, (onerror) => {
-    //    console.log(onerror);
-    //  });
+              user.emptySpaces =  temp;
+              console.log(user.emptySpaces);
+            });
+        
     }
 
 
