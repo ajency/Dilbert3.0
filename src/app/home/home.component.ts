@@ -156,7 +156,7 @@ export class HomeComponent implements OnInit {
             total_time : '44:10',
             data : [{
               work_date : '2016-11-28',
-              total_time : '9:35',
+              total_time : '9:25',
               start_time : '2016-11-28 9:30:35',
               end_time : '2016-11-28 7:00:35 '
             }, {
@@ -190,7 +190,7 @@ export class HomeComponent implements OnInit {
             total_time : '44:10',
             data : [{
               work_date : '2016-11-28',
-              total_time : '9:35',
+              total_time : '9:41',
               start_time : '2016-11-28 9:30:35',
               end_time : '2016-11-28 7:00:35 '
             }, {
