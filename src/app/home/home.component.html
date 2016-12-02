@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <div class="pull-left">
                         <label for="search-table" class="search-emp-names">
-                            <input id="search-table" type="search" class=" form-control" placeholder="Filter by Name">
+                            <input id="search-table" type="search" class=" form-control" placeholder="Filter by Name" (ngModel)="text" (keyup.enter)="onTextChange($event.target.value)" >
                             <i class="fa fa-search empty-icon"></i>
                             <!-- show this icon only if text has been entered - so the text can be cleared as well as the filtered table can be cleared -->
                             <a href="#" class="clear-icon hidden">&times;</a>
@@ -23,7 +23,7 @@
                         <a href="#" class="week-navi next disabled"><i class="fa fa-angle-right"></i></a>
                     </div>
                     <!-- I'm not sure if this is required so I've added the class hidden for now, remove hidden if this elelment is needed -->
-                    <div class="btn-group btn-dropdown filter pull-right hidden">
+                    <div class="btn-group btn-dropdown filter pull-right ">
                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Jump to Date <span class="fa fa-angle-down"></span>
                         </button>
@@ -32,7 +32,7 @@
                                 <h6 class="dd-title">Select a Date</h6>
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
-                                    <label for="find-week-day"><input type="date" id="find-week-day" class="form-control"></label>
+                                    <label for="find-week-day"><input type="date" id="find-week-day" class="form-control" [(ngModel)]="date" (change)="onDateChange(date)"></label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->
                                 <p class="date-not-selected">Select a date to see week start and end dates</p>
@@ -56,7 +56,7 @@
                             <table class="table first-table">
                                 <thead>
                                     <tr>
-                                        <th class="employee-id">
+                                        <th class="employee-id" (click)="sortBy('name')">
                                             <span class="th-label small-title">
                                                 <!-- ************************************
                                                     I N S T R U C T I O N S
@@ -85,7 +85,7 @@
                                 </thead>
                                 <tbody>
                                     <tr class="" *ngFor="let item of userData">
-                                        <td class="employee-id">
+                                        <td class="employee-id" >
                                             <a href="#" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
                                                 <!-- <span class="th-day small-title">&nbsp;</span> -->
                                                 <span class="th-total">{{item.name}}</span>
@@ -98,7 +98,7 @@
                                         <td *ngFor="let workday of item.data">
                                             <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <!-- <span class="th-day small-title">Oct 10</span> -->
-                                                <span class="th-total">{{workday.total_time}} {{item.data.length}}</span>
+                                                <span class="th-total">{{workday.total_time}}</span>
                                                 <span class="th-spilt">
                                                     <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
                                                     <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
@@ -120,7 +120,7 @@
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <!-- <span class="th-day visi-hide">Week's Total</span> -->
-                                                <span class="th-total">44:10</span>
+                                                <span class="th-total">{{item.total_time}}</span>
                                                 <span class="th-spilt">
                                                     <span class="th-work">39:13</span> -
                                                     <span class="th-break">6:13</span>

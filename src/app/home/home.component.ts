@@ -15,11 +15,16 @@ export class HomeComponent implements OnInit {
   weekBucket: any [] = [];
   totalHoursThisWeek: string;
   thisWeekDates: any = {};
-  today: any = {
-    timeCovered : {
-      hrs: null,
-      mins: null
+  saveData: any [ ]= [];
+  sorting: any = {
+    name: {
+      isAsc: false
+    },
+    date: {
+      date: false,
+      isAsc: false
     }
+
   };
   yesterday: any;
   dropDownValue: number;
@@ -27,7 +32,7 @@ export class HomeComponent implements OnInit {
   d2: any;
   constructor(private userDataService: UserDataService, private appUtilService: AppUtilService) {
     this.dropDownValue = 1;
-    this.getUserDate(1);
+    this.getUserDate(1, new Date());
     // 220
   }
 
@@ -79,7 +84,17 @@ export class HomeComponent implements OnInit {
           end : lastDay
         };
     }
-    getUserDate(dropdownValue) {
+    onDateChange(date) {
+      if (date) {
+        this.getData(date);
+      }
+      console.log(date);
+    }
+    onTextChange(text) {
+      console.log(text, this.saveData);
+      this.userData = this.saveData.filter(item => item.name.indexOf(text) !== -1);
+    }
+    getUserDate(dropdownValue, dateswnt) {
 
 
           let dates = this.getStartAndEndOfDate(new Date());
@@ -87,11 +102,11 @@ export class HomeComponent implements OnInit {
             start_date: this.formatDate(dates.start),
             end_date: this.formatDate(dates.end)
           };
-          this.getData(date);
+          this.getData(date.start_date);
           this.thisWeekDates = date;
     };
     getData(date) {
-        let curr = new Date();
+        let curr = new Date(date);
         let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
 
         let firstDay = new Date(curr.setDate(first));
@@ -109,6 +124,7 @@ export class HomeComponent implements OnInit {
         let response = [
           {
             name : 'Mohsin',
+            total_time : '44:10',
             data : [ {
               work_date : '2016-12-2',
               total_time : '9:00',
@@ -137,6 +153,41 @@ export class HomeComponent implements OnInit {
             }]
           }, {
             name : 'Vaibhav',
+            total_time : '44:10',
+            data : [{
+              work_date : '2016-11-28',
+              total_time : '9:35',
+              start_time : '2016-11-28 9:30:35',
+              end_time : '2016-11-28 7:00:35 '
+            }, {
+              work_date : '2016-12-2',
+              total_time : '9:00',
+              start_time : '2016-12-2 9:36:35',
+              end_time : '2016-12-2 6:36:35 '
+            }, {
+              work_date : '2016-12-1',
+              total_time : '9:35',
+              start_time : '2016-12-1 9:30:35',
+              end_time : '2016-12-1 7:00:35 '
+            }, {
+              work_date : '2016-11-30',
+              total_time : '9:35',
+              start_time : '2016-11-30 9:30:35',
+              end_time : '2016-11-30 7:00:35 '
+            }, {
+              work_date : '2016-11-29',
+              total_time : '9:35',
+              start_time : '2016-11-29 9:30:35',
+              end_time : '2016-11-29 7:00:35 '
+            }, {
+              work_date : '2016-11-28',
+              total_time : '9:35',
+              start_time : '2016-11-28 9:30:35',
+              end_time : '2016-11-28 7:00:35 '
+            }]
+          }, {
+            name : 'Sairaj',
+            total_time : '44:10',
             data : [{
               work_date : '2016-11-28',
               total_time : '9:35',
@@ -173,15 +224,31 @@ export class HomeComponent implements OnInit {
         console.log(response, 'response');
       //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
          this.userData = response;
+         this.saveData = response;
          this.userData.forEach( (user) => {
               let temp = [];
-              for ( let i = 0; i < (6 - user.data.length); i++) {
+              for ( i = 0; i < (6 - user.data.length); i++) {
                 temp.push(i);
               }
               user.emptySpaces =  temp;
               console.log(user.emptySpaces);
             });
-        
+    }
+    sortBy(property, date) {
+      if (property === 'name') {
+
+        this.userData.sort( ( a, b) => {
+            let textA = a.name.toUpperCase();
+            let textB = b.name.toUpperCase();
+            if (this.sorting.name.isAsc) {
+              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            }else {
+              return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
+            }
+        });
+
+        this.sorting.name.isAsc = !this.sorting.name.isAsc;
+      }
     }
 
 
