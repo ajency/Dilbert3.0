@@ -117,10 +117,11 @@ Route::get('/user','HomeController@profile');
 Route::patch('/user/edit','HomeController@newprof');
 Route::get('/employees','HomeController@viewEmployees');
 Route::post('/employees/update/{user_id}','HomeController@changeRoles');
+Route::get('/employees/delete/{user_id}','HomeController@deleteUsers');
 
 // view different organizations
 Route::get('/orgs','OrganizationsController@view');// view all the organizations
-Route::get('/orgs/del/{org_id}','OrganizationsController@remove');// delete organization
+Route::get('/orgs/delete/{org_id}','OrganizationsController@remove');// delete organization
 
 Route::get('/roles','RolePermissionController@view');// view all the Roles & their permissions
 Route::get('/roles/add','RolePermissionController@add');
@@ -135,6 +136,10 @@ Route::get('/org/info','OrganizationsController@info');//information of the orga
 
 //Route::get('/log/new','LogsController@newlog');// insert new log -> online, active, idle, offline -> Ajax Calls
 Route::get('/personal','LogsController@viewPersonal');// get log details for activity log // Ajax calls
+
+Route::get('/dashboard', function() { /* Angular2 PWA page route */
+    return View::make('index');
+});
 
 Route::group(['prefix' => 'api'], function () {
 
@@ -282,7 +287,3 @@ Route::group(['prefix' => 'api'], function () {
 Route::get('/trial','LogsController@trial');
 
 Route::get('/per','LogsController@viewAbc');
-
-Route::get('/dashboard', function() {
-    return View::make('index');
-});

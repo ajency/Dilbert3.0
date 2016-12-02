@@ -63,6 +63,26 @@ function confirmRoleChange(index) {
 	});
 }
 
+function confirmDelEmp(index) {
+	var table = document.getElementById("tableEmployee");
+	var pos = $(index).closest('tr').index();
+
+	var confirmation = confirm("Are you sure you really want to delete this employee named '" + $(table.rows.item(pos + 1).cells[0]).text() + "'? Deleting this employee's details will delete all the data associated with it. This move cannot be reversed.");
+	if(confirmation == true){
+		/*var validation = prompt("Please confirm your decision by entering the name of the employee. ");
+		
+		if(validation == $(table.rows.item(pos + 1).cells[0]).text()){
+			return true;
+		}
+		event.preventDefault();
+		return false;*/
+		return true;
+	} else {
+		event.preventDefault();
+		return false;
+	}
+}
+
 function addTableRow(){ // adds new row & 5 columns to the table
 	var table = document.getElementById("newTimeTable");
 

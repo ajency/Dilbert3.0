@@ -41,7 +41,7 @@ class HomeController extends Controller
         }
     }
 
-    public function index() { // 
+    public function index() { // load default home/dashboard page
         //set’s application’s locale
         // app()->setLocale($locale);
 
@@ -107,15 +107,18 @@ class HomeController extends Controller
         //return back();
     }
 
-    public function viewEmployees(Request $request) {
+    public function viewEmployees(Request $request) { /* Display all the employees under that organization */
 
         $users = User::where('org_id', auth()->user()->org_id)->get();
+        $logo = Organization::find(auth()->user()->org_id)->get();
+        $logo = $logo[0]->domain;
+        $orgLogo = Organization::where('id', auth()->user()->org_id)->first();
         $roles = Role::all();
 
-        return view('employees.view', compact('users','roles'));
+        return view('employees.view', compact('users', 'roles', 'logo', 'orgLogo'));
     }
 
-    public function changeRoles(Request $request, $user_id) {
+    public function changeRoles(Request $request, $user_id) { /* Admin/Owner can change his/her(if multiple admins exist) or others roles that was assigned before*/
         $count = 0;
         
         $user = User::where('id',$user_id)->first();
@@ -142,6 +145,30 @@ class HomeController extends Controller
             return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
         } else { /* User doesn't have permission to edit anyone's roles & permissions */
             return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+        }
+    }
+
+    public function deleteUsers(Request $request, $user_id) { /* Delete his/her(if multiple user's exist) or other user's account if he/she has permissions */
+        $count = 0;
+
+        $permissions = Permission::with('roles')->where('name',"edit-users")->get(); // Get role-names who have Admin or Super Admin access using Permissions
+
+        foreach ($permissions[0]->roles as $perRole) {
+            $count += User::where('role',$perRole->name)->count();
+        }
+
+        if(auth()->user()->can('edit-users') && auth()->user()->id != $user_id) {
+            /* If user is authorized to delete & if he is not deleting his account*/
+            User::where('id',$user_id)->delete();
+            return response()->json(['status' => 'Success']);
+        } else if(auth()->user()->can('edit-users') && ($count > 1 && auth()->user()->id == $user_id)) {
+            /* If user is authorized to delete & if he is deleting his account but no of admin/super-admin/owner is > 1 then*/
+            User::where('id',$user_id)->delete();
+            return response()->json(['status' => 'Success']);
+        } else if(auth()->user()->can('edit-users') && auth()->user()->id === $user_id) { /* Only one admin */
+            return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
+        } else { /* User doesn't have permission to delete anyone's account */
+            return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);   
         }
     }
 

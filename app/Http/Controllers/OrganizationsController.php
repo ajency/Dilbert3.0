@@ -143,7 +143,7 @@ class OrganizationsController extends Controller
     	return view('org.view',compact('orgs','logo'));
     }
 
-    public function remove($org_id) {
+    public function remove($org_id) {/* Deleting Organzation */
         //set’s application’s locale
         // app()->setLocale($locale);
 
@@ -163,7 +163,7 @@ class OrganizationsController extends Controller
             $org = Organization::where('id',(int)$org_id)->delete();
             $redis_list = array("org_id" => (int)$org_id);
             
-            event(new EventChrome(json_decode(json_encode($redis_list), false)));
+            //event(new EventChrome(json_decode(json_encode($redis_list), false))); -> for logging out user's from chrome app
 
             if(count($check) > 0){    
                 auth()->logout();// logout of session
