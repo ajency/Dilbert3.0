@@ -234,7 +234,7 @@ export class HomeComponent implements OnInit {
               console.log(user.emptySpaces);
             });
     }
-    sortBy(property, date) {
+    sortBy(property, date, index) {
       if (property === 'name') {
 
         this.userData.sort( ( a, b) => {
@@ -248,6 +248,20 @@ export class HomeComponent implements OnInit {
         });
 
         this.sorting.name.isAsc = !this.sorting.name.isAsc;
+      }
+      else if (property === 'date') {
+        let tempDate = new Date(date);
+        console.log(tempDate);
+        this.userData.sort( ( a, b) => {
+            let dateA = a.data[index];
+            let dateB = b.data[index];
+            if (this.sorting.date.isAsc) {
+              return (dateA.total_time < dateB.total_time) ? -1 : (dateA.total_time > dateB.total_time) ? 1 : 0;
+            }else {
+              return (dateA.total_time > dateB.total_time) ? -1 : (dateA.total_time < dateB.total_time) ? 1 : 0;
+            }
+        });
+        this.sorting.date.isAsc = !this.sorting.date.isAsc;
       }
     }
 
