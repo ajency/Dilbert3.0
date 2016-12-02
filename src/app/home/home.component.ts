@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit {
     date: {
       date: false,
       isAsc: false
+    },
+    total: {
+      isAsc: false
     }
 
   };
@@ -119,7 +122,6 @@ export class HomeComponent implements OnInit {
           firstDay = nextD;
           i++;
         }
-        console.log(this.weekBucket);
       // this.userDataService.getUserData(1, date).subscribe( (response) => {
         let response = [
           {
@@ -153,7 +155,7 @@ export class HomeComponent implements OnInit {
             }]
           }, {
             name : 'Vaibhav',
-            total_time : '44:10',
+            total_time : '43:10',
             data : [{
               work_date : '2016-11-28',
               total_time : '9:25',
@@ -252,15 +254,28 @@ export class HomeComponent implements OnInit {
       else if (property === 'date') {
         this.sorting.date.date = new Date(date);
         this.userData.sort( ( a, b) => {
-            let dateA = a.data[index];
-            let dateB = b.data[index];
+            let dateA = a.data[index] ? a.data[index].total_time : '0' ;
+            let dateB = b.data[index] ? b.data[index].total_time : '0' ;
             if (this.sorting.date.isAsc) {
-              return (dateA.total_time < dateB.total_time) ? -1 : (dateA.total_time > dateB.total_time) ? 1 : 0;
+              return (dateA < dateB) ? -1 : (dateA > dateB) ? 1 : 0;
             }else {
-              return (dateA.total_time > dateB.total_time) ? -1 : (dateA.total_time < dateB.total_time) ? 1 : 0;
+              return (dateA > dateB) ? -1 : (dateA < dateB) ? 1 : 0;
             }
         });
         this.sorting.date.isAsc = !this.sorting.date.isAsc;
+      }
+      else if (property === 'total') {
+        this.userData.sort( ( a, b) => {
+            let dataA = parseFloat(a.total_time);
+            let dataB = parseFloat(b.total_time);
+            if (this.sorting.total.isAsc) {
+              return (dataA < dataB) ? -1 : (dataA > dataB) ? 1 : 0;
+            }else {
+              return (dataA > dataB) ? -1 : (dataA < dataB) ? 1 : 0;
+            }
+        });
+
+        this.sorting.total.isAsc = !this.sorting.total.isAsc;
       }
     }
 
