@@ -250,8 +250,7 @@ export class HomeComponent implements OnInit {
         this.sorting.name.isAsc = !this.sorting.name.isAsc;
       }
       else if (property === 'date') {
-        let tempDate = new Date(date);
-        console.log(tempDate);
+        this.sorting.date.date = new Date(date);
         this.userData.sort( ( a, b) => {
             let dateA = a.data[index];
             let dateB = b.data[index];
