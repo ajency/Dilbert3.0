@@ -37,4 +37,17 @@ export class AppUtilService {
 
     return d;
   }
+  timeConversion(milliseconds) {
+
+        // Get hours from milliseconds
+      let hours = milliseconds / (1000 * 60 * 60);
+      let absoluteHours = Math.floor(hours);
+      let h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+
+      // Get remainder from hours and convert to minutes
+      let minutes = (hours - absoluteHours) * 60;
+      let absoluteMinutes = Math.floor(minutes);
+      let m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+      return h + ':' + m;
+  }
 }

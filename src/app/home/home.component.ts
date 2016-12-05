@@ -24,34 +24,16 @@ export class HomeComponent implements OnInit {
   dropDownValue: number;
   d: any;
   d2: any;
-  constructor(private userDataService: UserDataService, private appUtilService: AppUtilService) {
-    this.dropDownValue = 1;
-    this.getUserData(1);
+  averageHours: any;
+  dayStartDeviation: any;
+  constructor(private userDataService: UserDataService, public appUtilService: AppUtilService) {
+    this.dropDownValue = 2;
+    this.getUserData(2);
     // 220
   }
 
   ngOnInit() {
 
-  }
-  timeConversion(milliseconds) {
-
-        // Get hours from milliseconds
-      let hours = milliseconds / (1000 * 60 * 60);
-      let absoluteHours = Math.floor(hours);
-      let h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-
-      // Get remainder from hours and convert to minutes
-      let minutes = (hours - absoluteHours) * 60;
-      let absoluteMinutes = Math.floor(minutes);
-      let m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
-
-      // // Get remainder from minutes and convert to seconds
-      // let seconds = (minutes - absoluteMinutes) * 60;
-      // let absoluteSeconds = Math.floor(seconds);
-      // let s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-
-
-      return h + ':' + m;
   }
   formatDate(date) {
     let temp = new Date(date);
@@ -156,88 +138,116 @@ export class HomeComponent implements OnInit {
       }
       console.log(response, 'response');
     //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
-        this.userData = response;
-        this.userData.forEach( (data) => {
-          if (data.work_date === this.formatDate(new Date()) ) {
-            this.todaysData = data;
-          }
-          else if (data.work_date === this.formatDate(new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ))) {
-            this.yesterdaysData = data;
+      this.userData = response;
+      this.userData.forEach( (data) => {
+        let nD = new Date();
+        if (data.work_date === this.formatDate(new Date()) ) {
+          this.todaysData = data;
+        }
+        else if (data.work_date === this.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) {
+          this.yesterdaysData = data;
+        }else {
+          this.oldData.push(data);
+        }
+      });
+      if (this.todaysData) {
+        this.today = {
+          date: new Date(),
+        timeCovered : {
+          hrs : this.todaysData.total_time.split(':')[0],
+          mins : this.todaysData.total_time.split(':')[1]
+        },
+        start_time: this.todaysData.start_time,
+        end_time: this.todaysData.end_time,
+
+      };
+      if ( this.todaysData.total_time || this.todaysData.total_time !== '' ) {
+          let temp = this.todaysData.total_time.split(':');
+          if (parseInt(temp[0], 10) >= 10) {
+            this.today.timeCompleted = 100.00;
+            this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
           }else {
-            this.oldData.push(data);
+            let hrs = parseInt(temp[0], 10);
+            let mins = parseInt(temp[1], 10);
+            let minInPercentage = (mins / 60) * 100;
+            let hrsInPercentage = (hrs / 10) * 100;
+            this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
+
+            this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
+            // 240= 0% and 480 is 100%
           }
-        });
-        if (this.todaysData) {
-          this.today = {
-            date: new Date(),
+          this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
+        }
+      }else {
+        this.today = {
+          date: new Date(),
           timeCovered : {
-            hrs : this.todaysData.total_time.split(':')[0],
-            mins : this.todaysData.total_time.split(':')[1]
-          },
-          start_time: this.todaysData.start_time,
-          end_time: this.todaysData.end_time,
-
+          hrs : 0,
+          mins : 0
+        },
+        start_time: 0,
+        end_time: 0,
         };
-        if ( this.todaysData.total_time || this.todaysData.total_time !== '' ) {
-            let temp = this.todaysData.total_time.split(':');
-            if (parseInt(temp[0], 10) >= 10) {
-              this.today.timeCompleted = 100.00;
-              this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
-            }else {
-              let hrs = parseInt(temp[0], 10);
-              let mins = parseInt(temp[1], 10);
-              let minInPercentage = (mins / 60) * 100;
-              let hrsInPercentage = (hrs / 10) * 100;
-              this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
+      }
+      if (this.yesterdaysData) {
+        console.log(this.yesterdaysData, 'YESTERDAY');
+        this.yesterday = {
+        date: this.yesterdaysData.work_date,
+        total_time : {
+          hrs: this.yesterdaysData.total_time.split(':')[0],
+          mins: this.yesterdaysData.total_time.split(':')[1]
+        },
+        start_time: this.yesterdaysData.start_time,
+        end_time: this.yesterdaysData.end_time
 
-              this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
-              // 240= 0% and 480 is 100%
-            }
-            this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
-          }
-        }else {
-          this.today = {
-            date: new Date(),
-            timeCovered : {
-            hrs : 0,
-            mins : 0
-          },
-          start_time: 0,
-          end_time: 0,
-          };
-        }
-        if (this.yesterdaysData) {
-          this.yesterday = {
-          date: this.yesterdaysData.work_date,
-          total_time : {
-            hrs: this.yesterdaysData.total_time.split(':')[0],
-            mins: this.yesterdaysData.total_time.split(':')[1]
-          },
-          start_time: this.yesterdaysData.start_time,
-          end_time: this.yesterdaysData.end_time
-
+      };
+      }else {
+        this.yesterday = {
+          date: new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ),
+          total_time : '00:00'
         };
-        }else {
-          this.yesterday = {
-            date: new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ),
-            total_time : '00:00'
-          };
-        }
-        let sec = 0;
-        this.userData.forEach( (data) => {
+      }
+      let sec = 0;
+      this.userData.forEach( (data) => {
         if (data.total_time !== '') {
           sec += this.appUtilService.toSeconds(data.total_time);
         }
-        });
+      });
       this.totalHoursThisWeek =
         this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
         this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
       this.oldData.sort(function(a, b){
-        return  new Date(b.work_date).getTime() - new Date(a.work_date).getTime(); });
+        return new Date(b.work_date).getTime() - new Date(a.work_date).getTime(); });
       console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday, this.oldData);
+      this.averageHours = parseFloat(this.totalHoursThisWeek) / this.userData.length;
+      // this.dayStartDeviation = this.standardDeviation(this.userData);
+      // console.log(this.dayStartDeviation, 'DEVIATION');
   //  }, (onerror) => {
   //    console.log(onerror);
   //  });
+  }
+  standardDeviation(values) {
+    let avg = this.averageHours;
+    let squareDiffs = values.map(function(value){
+      let val1 = this.appUtilService.toSeconds(new Date (value.start_time).getHours() + ':' + new Date (value.start_time).getMinutes());
+      let val2 = this.appUtilService.toSeconds(avg);
+      let diff =  val1 - val2;
+      let sqrDiff = diff * diff;
+      return sqrDiff;
+    });
+    let avgSquareDiff = this.average2(squareDiffs);
+
+    let stdDev = Math.sqrt(avgSquareDiff);
+    console.log(stdDev);
+    return stdDev;
+  }
+  average2(data) {
+   let sum = data.reduce(function(sum1, value){
+      return sum1 + value;
+    }, 0);
+
+    let avg = sum / data.length;
+    return avg;
   }
 
 

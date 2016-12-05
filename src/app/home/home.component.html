@@ -33,7 +33,7 @@
                     </div>
                     <div class="illustration pull-left"></div>
                     <div class="this-title">
-                        <h2>This Week</h2>
+                        <h2>This {{dropDownValue == 1 ? 'Month' : 'Week'}}</h2>
                         <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="show-opened">
                                 <div class="this-day-total" >
-                                    <strong>{{yesterday.total_time.hrs}}:{{yesterday.total_time.hrs}}</strong>
+                                    <strong>{{yesterday.total_time.hrs}}:{{yesterday.total_time.mins}}</strong>
                                 </div>
                                 <small class="this-week-label">Total hours</small>
                             </div>
@@ -463,7 +463,7 @@
                         <div class="horizontal-stats">
                             <div class="stat-wrap">
                                 <div class="stat-count">
-                                    <strong>109:20</strong>
+                                    <strong>{{totalHoursThisWeek}}</strong>
                                     <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
                                 </div>
                                 <div class="stat-title small-title">Total Time</div>
@@ -477,7 +477,7 @@
                             </div> -->
                             <div class="stat-wrap">
                                 <div class="stat-count">
-                                    <strong>09:52 <span>AM</span></strong>
+                                    <strong> {{averageHours}} <span>AM</span></strong>
                                     <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
                                 </div>
                                 <div class="stat-title small-title">Avg. Say Start</div>
