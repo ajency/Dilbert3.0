@@ -24,7 +24,7 @@
 <div class="container">
     <div class="row order-columns">
         <div class="col-md-8 at-btm visible-xs visible-sm">
-            <!-- if day is monday then hide this and show the div set at line 106 -->
+            <!-- if day is monday then hide this and show the div with class "monday-card" -->
             <div class="card last-week closed">
                 <div class="card-progress" data-weekdays="5" data-width="75"></div>
                 <div class="card-header">
@@ -102,6 +102,7 @@
                     </div>
                 </div>
             </div>
+            <!-- add class hidden to this too, if day is monday -->
             <div class="card-navigation">
                 <div class="btn-group btn-dropdown dropup filter pull-left" style="margin-top: 0;">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
