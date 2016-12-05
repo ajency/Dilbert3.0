@@ -24,6 +24,7 @@
 <div class="container">
     <div class="row order-columns">
         <div class="col-md-8 at-btm visible-xs visible-sm">
+            <!-- if day is monday then hide this and show the div set at line 106 -->
             <div class="card last-week closed">
                 <div class="card-progress" data-weekdays="5" data-width="75"></div>
                 <div class="card-header">
@@ -99,6 +100,45 @@
                             <small class="this-week-label">End Time</small>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card-navigation">
+                <div class="btn-group btn-dropdown dropup filter pull-left" style="margin-top: 0;">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Jump to Date <span class="fa fa-angle-down"></span>
+                    </button>
+                    <ul class="dropdown-menu stay-open">
+                        <li class="select-a-date">
+                            <h6 class="dd-title">Select a Date</h6>
+                            <p>The result will show the week which includes the date you picked</p>
+                            <div class="form-group">
+                                <label for="find-week-day"><input type="date" id="find-week-day" class="form-control"></label>
+                            </div>
+                            <!-- add class hidden as soon as a date has been selected -->
+                            <p class="date-not-selected">Select a date to see week start and end dates</p>
+
+                            <!-- After a date is picked, show this div and hi de the previous one-->
+                            <div class="hidden">
+                                <h6 class="dd-title">The Week</h6>
+                                <p>10 Oct, 2016 - 16 Oct, 2016</p>
+                                <a href="#" class="btn btn-primary pull-right">Done</a>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="table-navi pull-right" style="margin-top: 0;">
+                    <!-- add class disabled to disable the btn/link -->
+                    <a href="#" class="week-navi prev"><i class="fa fa-angle-left"></i></a>
+                    <a href="#" class="week-navi next disabled"><i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
+            <!-- if day is monday - that means no weekly data to show, show this section instead -->
+            <div class="monday-card last-week hidden">
+                <div class="card-header">
+                    <div class="illustration pull-left"></div>
+                    <small class="this-week-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>
                 </div>
             </div>
         </div>

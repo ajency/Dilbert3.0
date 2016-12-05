@@ -497,7 +497,8 @@ select.form-control {
 
 
 // button group styling
-.btn-group.btn-dropdown {
+.btn-group.btn-dropdown,
+.btn-group.btn-dropup {
 	& > .btn {
 		border: 0;
 		margin: 0;
@@ -1441,6 +1442,39 @@ select.form-control {
 		.this-title .this-week-label {
 			width: 48%;
 		}
+	}
+
+	// on monday
+	&.monday-card {
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		.card-header {
+			border-bottom: 0;
+		}
+		.this-week-label {
+			max-width: 250px;
+			white-space: normal;
+			display: block;
+			padding-top: 15px;
+		}
+	}
+}
+.card-navigation {
+	margin-top: -15px;
+	margin-bottom: 45px;
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+	.table-navi .week-navi {
+		padding: 12px 20px;
+	}
+	.btn {
+		padding: 13px;
 	}
 }
 
