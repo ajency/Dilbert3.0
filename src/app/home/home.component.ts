@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   oldData: any[] = [];
   yesterdaysData: any;
   totalHoursThisWeek: string;
+  monthStartDay: number;
   formatDATA: any;
   thisWeekDates: any = {};
   today: any = {
@@ -216,7 +217,6 @@ export class HomeComponent implements OnInit {
           sec += this.appUtilService.toSeconds(data.total_time);
         }
       });
-      this.formatMonthView(this.userData);
       this.totalHoursThisWeek =
         this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
         this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
@@ -226,8 +226,11 @@ export class HomeComponent implements OnInit {
       sec = 0;
       sec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString().split('.')[0] +
         ':' + this.totalHoursThisWeek.toString().split('.')[1]);
-      this.averageHours = parseFloat(this.totalHoursThisWeek) / this.userData.length;
+      this.averageHours = sec / this.userData.length;
       // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
+      if (this.dropDownValue === 1) {
+        this.formatMonthView(this.userData);
+      }
   }
   standardDeviation(values, appUtilService) {
     let avg = this.averageHours.toString();
@@ -257,32 +260,20 @@ export class HomeComponent implements OnInit {
     let month_start = this.getStartAndEndOfDate(userData[0].work_date, true).start;
     let month_end = this.getStartAndEndOfDate(userData[0].work_date, true).end;
     let used = month_start.getDay() + month_end.getDate();
-    let getStartWeek = this.getWeek(month_start);
+    let getStartWeek = this.appUtilService.getWeek(month_start);
     let weekCount =  Math.ceil( used / 7);
     console.log(new Date(month_start).getDay(), weekCount, getStartWeek);
-    // let MonthView = {};
-    // for ( let i = 0; i < weekCount; i++) {
-    //   MonthView['week' + (i + 1)] = [];
-    // }
+    this.monthStartDay = new Date(month_start).getDay();
     console.log();
-    // let formatDATA = {
-    //   Sunday : [],
-    //   Monday : [],
-    //   Tuesday : [],
-    //   Wednesday : [],
-    //   Thursday : [],
-    //   Friday : [],
-    //   Saturday : []
-    // };
     this.formatDATA = [];
     userData.forEach( data => {
-      this.formatDATA[this.getWeek(data.work_date) - getStartWeek] = [];
+      this.formatDATA[this.appUtilService.getWeek(data.work_date) - getStartWeek] = [];
     });
-    for (let i = 0; i < 7 - new Date(month_start).getDay(); i++) {
-      this.formatDATA['0'].push({
-        isEmpty : true
-      });
-    }
+    // for (let i = 0; i < 7 - new Date(month_start).getDay(); i++) {
+    //   this.formatDATA['0'].push({
+    //     isEmpty : true
+    //   });
+    // }
     userData.forEach( data => {
       // console.log (this.getStartAndEndOfDate(data.work_date, false));
       // switch (new Date(data.work_date).getDay()) {
@@ -294,22 +285,26 @@ export class HomeComponent implements OnInit {
       //   case 5 : formatDATA.Friday.push(data); break;
       //   case 6 : formatDATA.Saturday.push(data); break;
       // }
-      data.isEmpty = false;
+      // data.isEmpty = false;
       data.day = new Date(data.work_date).getDay();
-      this.formatDATA[this.getWeek(data.work_date) - getStartWeek].push(data);
+      this.formatDATA[this.appUtilService.getWeek(data.work_date) - getStartWeek].push(data);
     });
     // let array = this.formatDATA.map(this.formatDATA, function(value, index) {
     //   return [value];
     // });
+    this.formatDATA.forEach( (data, key ) => {
+      console.log(data, key);
+      let sec = 0;
+      data.forEach( data2 => {
+        if (data2.total_time !== '') {
+          sec += this.appUtilService.toSeconds(data2.total_time);
+        }
+      });
+      data.totalHrs =
+        this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
+        this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
+    });
 
     console.log(this.formatDATA, 'ARRAY');
   }
-  getWeek (date) {
-    let temp = new Date(date);
-    let onejan = new Date(temp.getFullYear(), 0 , 1);
-    let temp2 = temp.getTime() - onejan.getTime();
-    return Math.ceil(((( temp2) / 86400000) + onejan.getDay() + 1) / 7);
-  }
-
-
 }

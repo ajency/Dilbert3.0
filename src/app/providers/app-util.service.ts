@@ -54,4 +54,10 @@ export class AppUtilService {
     let temp = new Date(date);
     return temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
   }
+  getWeek (date) {
+    let temp = new Date(date);
+    let onejan = new Date(temp.getFullYear(), 0 , 1);
+    let temp2 = temp.getTime() - onejan.getTime();
+    return Math.ceil(((( temp2) / 86400000) + onejan.getDay() + 1) / 7);
+  }
 }

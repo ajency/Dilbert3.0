@@ -227,8 +227,10 @@
                                 </thead>
                                 <tbody>
                                     <tr class="current" *ngFor="let week; let i = index; of formatDATA">
+                                        <td [colSpan]="monthStartDay - 1" *ngIf="i == 0">
+                                        </td>
                                         <td *ngFor="let day of week">
-                                            <a *ngIf="day.isEmpty == false"  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                            <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
                                                 <span class="th-total">{{day.total_time}}</span>
                                                 <span class="th-spilt">
@@ -236,10 +238,8 @@
                                                     <span class="th-break">19:15</span>
                                                 </span>
                                             </a>
-                                            <a *ngIf="i.isEmpty == true">
-                                            </a>
-
-                                            
+                                            <!--<a *ngIf="i.isEmpty == true">
+                                            </a>-->
                                         </td>
                                         <td [colSpan]="6-week.length" *ngIf="i !== 0">
                                         </td>
@@ -256,7 +256,7 @@
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <span class="th-day visi-hide">Week's Total</span>
-                                                <span class="th-total">44:10</span>
+                                                <span class="th-total">{{week.totalHrs}}</span>
                                                 <span class="th-spilt">
                                                     <span class="th-work">9:13</span> -
                                                     <span class="th-break">6:13</span>
@@ -345,7 +345,7 @@
                                     <strong> {{averageHours}} <span>AM</span></strong>
                                     <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
                                 </div>
-                                <div class="stat-title small-title">Avg. Say Start</div>
+                                <div class="stat-title small-title">Avg. Day Start</div>
                             </div>
                             <div class="stat-wrap wide">
                                 <div class="stat-count">
