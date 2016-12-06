@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   oldData: any[] = [];
   yesterdaysData: any;
   totalHoursThisWeek: string;
+  formatDATA: any;
   thisWeekDates: any = {};
   today: any = {
     timeCovered : {
@@ -27,8 +28,8 @@ export class HomeComponent implements OnInit {
   averageHours: any;
   dayStartDeviation: any;
   constructor(private userDataService: UserDataService, public appUtilService: AppUtilService) {
-    this.dropDownValue = 2;
-    this.getUserData(2);
+    this.dropDownValue = 1;
+    this.getUserData(1);
     // 220
   }
 
@@ -95,7 +96,7 @@ export class HomeComponent implements OnInit {
             total_time : '9:35',
             start_time : '2016-12-3 9:30:35',
             end_time : '2016-12-3 7:00:35 '
-          }, {
+          },  {
             work_date : '2016-12-4',
             total_time : '9:35',
             start_time : '2016-12-4 9:30:35',
@@ -105,6 +106,11 @@ export class HomeComponent implements OnInit {
             total_time : '9:35',
             start_time : '2016-12-5 9:30:35',
             end_time : '2016-12-5 7:00:35 '
+          }, {
+            work_date : '2016-12-6',
+            total_time : '9:35',
+            start_time : '2016-12-6 9:30:35',
+            end_time : '2016-12-6 7:00:35 '
           }
         ];
       }
@@ -121,15 +127,15 @@ export class HomeComponent implements OnInit {
             start_time : '2016-12-3 9:30:35',
             end_time : '2016-12-3 7:00:35 '
           }, {
-            work_date : '2016-12-4',
-            total_time : '9:35',
-            start_time : '2016-12-4 9:30:35',
-            end_time : '2016-12-4 7:00:35 '
-          }, {
             work_date : '2016-12-5',
             total_time : '10:35',
             start_time : '2016-12-5 9:30:35',
             end_time : '2016-12-5 7:00:35 '
+          }, {
+            work_date : '2016-12-6',
+            total_time : '9:35',
+            start_time : '2016-12-6 9:30:35',
+            end_time : '2016-12-6 7:00:35 '
           }
         ];
       }
@@ -210,6 +216,7 @@ export class HomeComponent implements OnInit {
           sec += this.appUtilService.toSeconds(data.total_time);
         }
       });
+      this.formatMonthView(this.userData);
       this.totalHoursThisWeek =
         this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
         this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
@@ -245,6 +252,63 @@ export class HomeComponent implements OnInit {
 
     let avg = sum / data.length;
     return avg;
+  }
+  formatMonthView(userData) {
+    let month_start = this.getStartAndEndOfDate(userData[0].work_date, true).start;
+    let month_end = this.getStartAndEndOfDate(userData[0].work_date, true).end;
+    let used = month_start.getDay() + month_end.getDate();
+    let getStartWeek = this.getWeek(month_start);
+    let weekCount =  Math.ceil( used / 7);
+    console.log(new Date(month_start).getDay(), weekCount, getStartWeek);
+    // let MonthView = {};
+    // for ( let i = 0; i < weekCount; i++) {
+    //   MonthView['week' + (i + 1)] = [];
+    // }
+    console.log();
+    // let formatDATA = {
+    //   Sunday : [],
+    //   Monday : [],
+    //   Tuesday : [],
+    //   Wednesday : [],
+    //   Thursday : [],
+    //   Friday : [],
+    //   Saturday : []
+    // };
+    this.formatDATA = [];
+    userData.forEach( data => {
+      this.formatDATA[this.getWeek(data.work_date) - getStartWeek] = [];
+    });
+    for (let i = 0; i < 7 - new Date(month_start).getDay(); i++) {
+      this.formatDATA['0'].push({
+        isEmpty : true
+      });
+    }
+    userData.forEach( data => {
+      // console.log (this.getStartAndEndOfDate(data.work_date, false));
+      // switch (new Date(data.work_date).getDay()) {
+      //   case 0 : formatDATA.Sunday.push(data); break;
+      //   case 1 : formatDATA.Monday.push(data); break;
+      //   case 2 : formatDATA.Tuesday.push(data); break;
+      //   case 3 : formatDATA.Wednesday.push(data); break;
+      //   case 4 : formatDATA.Thursday.push(data); break;
+      //   case 5 : formatDATA.Friday.push(data); break;
+      //   case 6 : formatDATA.Saturday.push(data); break;
+      // }
+      data.isEmpty = false;
+      data.day = new Date(data.work_date).getDay();
+      this.formatDATA[this.getWeek(data.work_date) - getStartWeek].push(data);
+    });
+    // let array = this.formatDATA.map(this.formatDATA, function(value, index) {
+    //   return [value];
+    // });
+
+    console.log(this.formatDATA, 'ARRAY');
+  }
+  getWeek (date) {
+    let temp = new Date(date);
+    let onejan = new Date(temp.getFullYear(), 0 , 1);
+    let temp2 = temp.getTime() - onejan.getTime();
+    return Math.ceil(((( temp2) / 86400000) + onejan.getDay() + 1) / 7);
   }
 
 
