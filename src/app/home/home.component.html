@@ -226,11 +226,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="current" *ngFor="let item of formatDATA">
-                                        <td *ngFor="let i of item">
-                                            <a *ngIf="i.isEmpty == false"  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title"> {{i.work_date}}</span>
-                                                <span class="th-total">9:30</span>
+                                    <tr class="current" *ngFor="let week; let i = index; of formatDATA">
+                                        <td *ngFor="let day of week">
+                                            <a *ngIf="day.isEmpty == false"  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
+                                                <span class="th-total">{{day.total_time}}</span>
                                                 <span class="th-spilt">
                                                     <span class="th-work">9:45</span> -
                                                     <span class="th-break">19:15</span>
@@ -238,17 +238,20 @@
                                             </a>
                                             <a *ngIf="i.isEmpty == true">
                                             </a>
+
                                             
                                         </td>
+                                        <td [colSpan]="6-week.length" *ngIf="i !== 0">
+                                        </td>
                                         <td class="sunday">
-                                            <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                            <!--<a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <span class="th-day small-title">SUNDAY</span>
                                                 <span class="th-total">9:30</span>
                                                 <span class="th-spilt">
                                                     <span class="th-work">9:45</span> -
                                                     <span class="th-break">19:15</span>
                                                 </span>
-                                            </a> 
+                                            </a> -->
                                         </td>
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
