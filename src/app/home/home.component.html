@@ -236,8 +236,8 @@
                                                 <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
                                                 <span class="th-total">{{day.total_time}}</span>
                                                 <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
+                                                    <span class="th-work">{{day.start_time ? (day.start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                                    <span class="th-break">{{(day.end_time ? (day.end_time | date: 'h:mm')  : 'n/a')}} </span>
                                                 </span>
                                             </a>
                                             <!--<a *ngIf="i.isEmpty == true">

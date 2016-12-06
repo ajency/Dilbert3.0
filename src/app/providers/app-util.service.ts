@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 export class AppUtilService {
 
   constructor() { }
-  toSeconds(s) {
-    let p = s.split(':');
-    return parseInt(p[0], 10) * 3600 + parseInt(p[1], 10) * 60 ;
+  toSeconds(timeString) {
+    let p = timeString.split(':');
+    return (parseInt(p[0], 10) * 3600) + (parseInt(p[1], 10) * 60 );
   }
 
   fill(s, digits) {

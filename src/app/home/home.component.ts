@@ -39,6 +39,10 @@ export class HomeComponent implements OnInit {
 
   }
 
+  onDateChange() {
+    this.getUserData(this.dropDownValue);
+  }
+
   getStartAndEndOfDate(date, isMonth) {
       if (isMonth) {
         let temp = new Date(date), y = temp.getFullYear(), m = temp.getMonth();
@@ -224,17 +228,14 @@ export class HomeComponent implements OnInit {
       this.oldData.sort(function(a, b){
         return new Date(b.work_date).getTime() - new Date(a.work_date).getTime();
       });
-      sec = 0;
-      sec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString().split('.')[0] +
-        ':' + this.totalHoursThisWeek.toString().split('.')[1]);
-      this.averageHours = sec / this.userData.length;
+      let totalSec = 0;
+      totalSec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString());
+      let tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
+      this.averageHours = tp.split('.')[0] + ':' + tp.split('.')[1];
       // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
       if (this.dropDownValue === 1) {
         this.formatMonthView(this.userData);
       }
-  }
-  onDateChange() {
-    this.getUserData(this.dropDownValue);
   }
   standardDeviation(values, appUtilService) {
     let avg = this.averageHours.toString();
