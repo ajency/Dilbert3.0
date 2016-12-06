@@ -188,7 +188,9 @@
                                 <h6 class="dd-title">Select a Date</h6>
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
-                                    <label for="find-week-day"><input type="date" id="find-week-day" class="form-control"></label>
+                                    <label for="find-week-day">
+                                        <input type="date" id="find-week-day" class="form-control" [(ngModel)]="dateSelected" (change)="onDateChange()">
+                                    </label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->
                                 <p class="date-not-selected">Select a date to see week start and end dates</p>

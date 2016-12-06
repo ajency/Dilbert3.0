@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
       mins: null
     }
   };
+  dateSelected: Date = new Date();
   yesterday: any;
   dropDownValue: number;
   d: any;
@@ -61,14 +62,14 @@ export class HomeComponent implements OnInit {
       }
   }
   getUserData(dropdownValue) {
-    console.log(dropdownValue);
+    console.log(this.dateSelected);
     this.dropDownValue = dropdownValue;
     let dates = null;
     if (dropdownValue === 1) {
-      dates = this.getStartAndEndOfDate(new Date(), true);
+      dates = this.getStartAndEndOfDate(this.dateSelected, true);
     }
-    else{
-      dates = this.getStartAndEndOfDate(new Date(), false);
+    else {
+      dates = this.getStartAndEndOfDate(this.dateSelected, false);
     }
     let date = {
       start_date: this.appUtilService.formatDate(dates.start),
@@ -97,11 +98,6 @@ export class HomeComponent implements OnInit {
             total_time : '9:35',
             start_time : '2016-12-3 9:30:35',
             end_time : '2016-12-3 7:00:35 '
-          },  {
-            work_date : '2016-12-4',
-            total_time : '9:35',
-            start_time : '2016-12-4 9:30:35',
-            end_time : '2016-12-4 7:00:35 '
           }, {
             work_date : '2016-12-5',
             total_time : '9:35',
@@ -112,6 +108,11 @@ export class HomeComponent implements OnInit {
             total_time : '9:35',
             start_time : '2016-12-6 9:30:35',
             end_time : '2016-12-6 7:00:35 '
+          }, {
+            work_date : '2016-12-7',
+            total_time : '9:35',
+            start_time : '2016-12-7 9:30:35',
+            end_time : '2016-12-7 7:00:35 '
           }
         ];
       }
@@ -231,6 +232,9 @@ export class HomeComponent implements OnInit {
       if (this.dropDownValue === 1) {
         this.formatMonthView(this.userData);
       }
+  }
+  onDateChange() {
+    this.getUserData(this.dropDownValue);
   }
   standardDeviation(values, appUtilService) {
     let avg = this.averageHours.toString();
