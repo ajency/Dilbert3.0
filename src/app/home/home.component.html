@@ -137,7 +137,7 @@
                 <!-- the below 2 line instructions are incase you add some other object inside this div -->
                 <!-- whatever object that needs to be hidden in week view plz add the class 'hide-in-week-view' -->
                 <!-- to show an object in week view plz add class 'show-in-week-view' -->
-                <div class="card-body week-view">
+                <div class="card-body" [class.week-view]="dropDownValue == 2">
                     <div class="table-view month hscroll-table hide-in-week-view">
                         <div class="table-responsive setpadding">
                             <table class="table first-table">

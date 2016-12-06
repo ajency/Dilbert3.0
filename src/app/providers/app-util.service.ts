@@ -50,4 +50,8 @@ export class AppUtilService {
       let m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
       return h + ':' + m;
   }
+  formatDate(date) {
+    let temp = new Date(date);
+    return temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
+  }
 }

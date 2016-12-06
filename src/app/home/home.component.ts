@@ -35,10 +35,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
   }
-  formatDate(date) {
-    let temp = new Date(date);
-    return temp.getFullYear() + '-' + (temp.getMonth() + 1) + '-' + temp.getDate();
-  }
+
   getStartAndEndOfDate(date, isMonth) {
       if (isMonth) {
         let temp = new Date(date), y = temp.getFullYear(), m = temp.getMonth();
@@ -72,8 +69,8 @@ export class HomeComponent implements OnInit {
       dates = this.getStartAndEndOfDate(new Date(), false);
     }
     let date = {
-      start_date: this.formatDate(dates.start),
-      end_date: this.formatDate(dates.end)
+      start_date: this.appUtilService.formatDate(dates.start),
+      end_date: this.appUtilService.formatDate(dates.end)
     };
     this.getData(date);
     this.thisWeekDates = date;
@@ -115,7 +112,7 @@ export class HomeComponent implements OnInit {
         response = [
           {
             work_date : '2016-12-2',
-            total_time : '9:00',
+            total_time : '9:30',
             start_time : '2016-12-2 9:36:35',
             end_time : '2016-12-2 6:36:35 '
           }, {
@@ -130,7 +127,7 @@ export class HomeComponent implements OnInit {
             end_time : '2016-12-4 7:00:35 '
           }, {
             work_date : '2016-12-5',
-            total_time : '9:35',
+            total_time : '10:35',
             start_time : '2016-12-5 9:30:35',
             end_time : '2016-12-5 7:00:35 '
           }
@@ -141,10 +138,10 @@ export class HomeComponent implements OnInit {
       this.userData = response;
       this.userData.forEach( (data) => {
         let nD = new Date();
-        if (data.work_date === this.formatDate(new Date()) ) {
+        if (data.work_date === this.appUtilService.formatDate(new Date()) ) {
           this.todaysData = data;
         }
-        else if (data.work_date === this.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) {
+        else if (data.work_date === this.appUtilService.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) {
           this.yesterdaysData = data;
         }else {
           this.oldData.push(data);
@@ -182,11 +179,11 @@ export class HomeComponent implements OnInit {
         this.today = {
           date: new Date(),
           timeCovered : {
-          hrs : 0,
-          mins : 0
-        },
-        start_time: 0,
-        end_time: 0,
+            hrs : 0,
+            mins : 0
+          },
+          start_time: 0,
+          end_time: 0,
         };
       }
       if (this.yesterdaysData) {
@@ -217,27 +214,27 @@ export class HomeComponent implements OnInit {
         this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
         this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
       this.oldData.sort(function(a, b){
-        return new Date(b.work_date).getTime() - new Date(a.work_date).getTime(); });
-      console.log(this.userData, 'USERDATA', this.today, this.totalHoursThisWeek, this.yesterday, this.oldData);
+        return new Date(b.work_date).getTime() - new Date(a.work_date).getTime();
+      });
+      sec = 0;
+      sec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString().split('.')[0] +
+        ':' + this.totalHoursThisWeek.toString().split('.')[1]);
       this.averageHours = parseFloat(this.totalHoursThisWeek) / this.userData.length;
-      // this.dayStartDeviation = this.standardDeviation(this.userData);
-      // console.log(this.dayStartDeviation, 'DEVIATION');
-  //  }, (onerror) => {
-  //    console.log(onerror);
-  //  });
+      // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
   }
-  standardDeviation(values) {
-    let avg = this.averageHours;
+  standardDeviation(values, appUtilService) {
+    let avg = this.averageHours.toString();
     let squareDiffs = values.map(function(value){
-      let val1 = this.appUtilService.toSeconds(new Date (value.start_time).getHours() + ':' + new Date (value.start_time).getMinutes());
-      let val2 = this.appUtilService.toSeconds(avg);
+      let s = new Date (value.start_time).getHours() + ':' + new Date (value.start_time).getMinutes();
+      let val1 = appUtilService.toSeconds(s.toString());
+      let val2 = appUtilService.toSeconds(avg.split('.')[0] + ':' + avg.split('.')[1]);
       let diff =  val1 - val2;
       let sqrDiff = diff * diff;
       return sqrDiff;
     });
     let avgSquareDiff = this.average2(squareDiffs);
 
-    let stdDev = Math.sqrt(avgSquareDiff);
+    let stdDev = Math.sqrt(avgSquareDiff  * 0.0166667);
     console.log(stdDev);
     return stdDev;
   }
