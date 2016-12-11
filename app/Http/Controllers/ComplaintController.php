@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\ComplaintBox;
+use App\Complaint;
 
-class ComplaintBoxController extends Controller {
+class ComplaintController extends Controller {
     public function issueFaced(Request $request) { // new user but same domain, then asking confirmation
 	    try {
 	    	$this->validate($request, [
@@ -17,7 +17,7 @@ class ComplaintBoxController extends Controller {
 	    		'issueOption' => 'required'
 	    	]);
 	        
-	        $complaint = new ComplaintBox;
+	        $complaint = new Complaint;
 	        $complaint->name = $request->queryName;
 	        $complaint->email = $request->queryEmail;
 	        $complaint->issue = $request->issueOption;
