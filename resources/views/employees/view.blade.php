@@ -31,7 +31,7 @@
         			@foreach($users as $user)
 	        			<tr>
 	        				<td style="padding-top:12px"><p><img src="{{$user->avatar}}" height="15px" class="img-circle"/> {{$user->name}}</p></td>
-	        				<td style="padding-top:12px"> <a href=""></a> </td>
+	        				<td style="padding-top:12px"> <img src="https://www.google.com/a/cpanel/{{$orgLogo->domain}}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:35px;"> </td>
 	        				<td>
 	        					<input type="hidden" name="user_id" value="{{$user->id}}"/>
 	        					<select class="form-control" onchange="confirmRoleChange(this)">
@@ -44,7 +44,7 @@
 	        						@endforeach
 	        					</select> 
 	        				</td>
-	        				<td style="width:10%"> <a href="/orgs/del/{{$user->id}}" class="btn btn-warning" onclick="confirmDelEmp(this)" style="margin:0px"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@lang('lang.delete')</a> </td>
+	        				<td style="width:10%"> <a href="/employees/delete/{{$user->id}}" class="btn btn-warning" onclick="confirmDelEmp(this)" style="margin:0px"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@lang('lang.delete')</a> </td>
 	        			</tr>
         			@endforeach
         		</tbody>
