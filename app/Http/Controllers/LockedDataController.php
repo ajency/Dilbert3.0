@@ -122,14 +122,38 @@ class LockedDataController extends Controller
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-personal')) {// verifies if user has permission
 	        		$output->writeln("Confirmed");
+			        
+	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
+	        			if((int)date('w', strtotime($request->start_date) - 1 ) % 7 > 0) { /* Get start of the week*/
+	        				$days = "-" . ((int)date('w', strtotime($request->start_date) - 1) % 7) . " day";
+	        				$startDate = date('Y-m-d',strtotime($days, strtotime($request->start_date)));
+	        			} else {
+	        				$startDate = $request->start_date;
+	        			}
+
+	        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 5) {/* Get end of that respective week */
+	        				$days = ((int)date('w', strtotime($request->end_date)) + 4) . " day";
+	        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
+	        			} else {
+	        				$endDate = $request->end_date;
+	        			}
+	        		}
+
 			        if(empty($request->start_date) && empty($request->end_date))
 			        	return Locked_Data::where('user_id',$request->user_id)->get();
-			        else if(empty($request->start_date))
+			        else if(empty($request->start_date))/* Start date is empty */
 			        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '<=', $request->end_date],])->get();
-			        else if(empty($request->end_date))
+			        else if(empty($request->end_date))/* End date is empty */
 			        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '>=', $request->start_date],])->get();
-			        else
-			        	return Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$request->start_date, $request->end_date])->get();
+			        else{
+			        	$datas = Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
+			        	
+			        	foreach ($datas as $data) {
+			        		$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
+			        	}
+			        	return $datas;
+			        }
+
 			    } else {
 			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
 			    }
