@@ -127,19 +127,23 @@ class LockedDataController extends Controller
 	        		$output->writeln("Confirmed");
 			        
 	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
-	        			if((int)date('w', strtotime($request->start_date) - 1 ) % 7 > 0) { /* Get start of the week*/
-	        				$days = "-" . ((int)date('w', strtotime($request->start_date) - 1) % 7) . " day";
-	        				$startDate = date('Y-m-d',strtotime($days, strtotime($request->start_date)));
+	        			if($request->start_date == $request->end_date) {
+	        				$startDate = $endDate = $request->start_date;
 	        			} else {
-	        				$startDate = $request->start_date;
-	        			}
+		        			if((int)date('w', strtotime($request->start_date) - 1 ) % 7 > 0) { /* Get start of the week*/
+		        				$days = "-" . ((int)date('w', strtotime($request->start_date) - 1) % 7) . " day";
+		        				$startDate = date('Y-m-d',strtotime($days, strtotime($request->start_date)));
+		        			} else {
+		        				$startDate = $request->start_date;
+		        			}
 
-	        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
-	        				$days = ((int)date('w', strtotime($request->end_date)) + 5) . " day"; /* Get last date of that week */
-	        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
-	        			} else {
-	        				$endDate = $request->end_date; /* This is the last date of the week */
-	        			}
+		        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
+		        				$days = ((int)date('w', strtotime($request->end_date)) + 5) . " day"; /* Get last date of that week */
+		        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
+		        			} else {
+		        				$endDate = $request->end_date; /* This is the last date of the week */
+		        			}
+		        		}
 	        		}
 
 			        if(empty($request->start_date) && empty($request->end_date)) /* If date range is not specified */
