@@ -15,7 +15,7 @@ export class UserDataService {
   constructor(private http: Http) {
       this.headers = new Headers();
       this.headers.append('Content-Type', 'application/json');
-      this.headers.append('X-API-KEY', 'm6MQeb7OJb73YQsfwAUY92PJa10r8zcRdXQrJUoE1BakiM8qsla5TuTU15Bh');
+      this.headers.append('X-API-KEY', 'CWTNWyJN5GyhMCz2PsnXoFddWKMRW04eJWAgTPIoXuDmHRzK0yoEdO6iL70j');
 
   }
   getUserData(id, date): Observable<any> {

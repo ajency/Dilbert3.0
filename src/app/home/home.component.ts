@@ -30,8 +30,8 @@ export class HomeComponent implements OnInit {
   averageHours: any;
   dayStartDeviation: any;
   constructor(private userDataService: UserDataService, public appUtilService: AppUtilService) {
-    this.dropDownValue = 1;
-    this.getUserData(1);
+    this.dropDownValue = 2;
+    this.getUserData(2);
     // 220
   }
 
@@ -42,38 +42,36 @@ export class HomeComponent implements OnInit {
   onDateChange() {
     this.getUserData(this.dropDownValue);
   }
-
-  getStartAndEndOfDate(date, isMonth) {
-      if (isMonth) {
-        let temp = new Date(date), y = temp.getFullYear(), m = temp.getMonth();
-        let firstDay = new Date(y, m, 1);
-        let lastDay = new Date(y, m + 1, 0);
-        return {
-          start : firstDay,
-          end : lastDay
-        };
-      }else {
-        let curr = new Date();
-        let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-        let last = first + 6; // last day is the first day + 6
-
-        let firstDay = new Date(curr.setDate(first));
-        let lastDay = new Date(curr.setDate(last));
-        return {
-          start : firstDay,
-          end : lastDay
-        };
+  fetchData(next) {
+    console.log(this.dateSelected, next, this.dropDownValue);
+    if (this.dropDownValue === 1) {
+      let selectedMonth = new Date(this.dateSelected);
+      if (next) {
+        this.dateSelected = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, selectedMonth.getDate());
+      } else {
+        this.dateSelected = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() - 1, selectedMonth.getDate());
       }
+      console.log('Month');
+    } else {
+      let selectedWeek = new Date(this.dateSelected);
+      if (next) {
+        this.dateSelected = new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7);
+      } else {
+        this.dateSelected = new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7);
+      }
+      console.log('Month');
+      console.log('Week');
+    }
+    this.getUserData(this.dropDownValue);
   }
   getUserData(dropdownValue) {
     console.log(this.dateSelected);
     this.dropDownValue = dropdownValue;
     let dates = null;
     if (dropdownValue === 1) {
-      dates = this.getStartAndEndOfDate(this.dateSelected, true);
-    }
-    else {
-      dates = this.getStartAndEndOfDate(this.dateSelected, false);
+      dates = this.appUtilService.getStartAndEndOfDate(this.dateSelected, true);
+    } else {
+      dates = this.appUtilService.getStartAndEndOfDate(this.dateSelected, false);
     }
     let date = {
       start_date: this.appUtilService.formatDate(dates.start),
@@ -83,68 +81,73 @@ export class HomeComponent implements OnInit {
     this.thisWeekDates = date;
   };
   getData(date) {
-    // this.userDataService.getUserData(1, date).subscribe( (response) => {
-      let response = [];
-      if (this.dropDownValue === 1) {
-        response = [
-          {
-            work_date : '2016-12-1',
-            total_time : '9:00',
-            start_time : '2016-12-1 9:36:35',
-            end_time : '2016-12-1 6:36:35 '
-          }, {
-            work_date : '2016-12-2',
-            total_time : '9:00',
-            start_time : '2016-12-2 9:36:35',
-            end_time : '2016-12-2 6:36:35 '
-          }, {
-            work_date : '2016-12-3',
-            total_time : '9:35',
-            start_time : '2016-12-3 9:30:35',
-            end_time : '2016-12-3 7:00:35 '
-          }, {
-            work_date : '2016-12-5',
-            total_time : '9:35',
-            start_time : '2016-12-5 9:30:35',
-            end_time : '2016-12-5 7:00:35 '
-          }, {
-            work_date : '2016-12-6',
-            total_time : '9:35',
-            start_time : '2016-12-6 9:30:35',
-            end_time : '2016-12-6 7:00:35 '
-          }, {
-            work_date : '2016-12-7',
-            total_time : '9:35',
-            start_time : '2016-12-7 9:30:35',
-            end_time : '2016-12-7 7:00:35 '
-          }
-        ];
-      }
-      else {
-        response = [
-          {
-            work_date : '2016-12-2',
-            total_time : '9:30',
-            start_time : '2016-12-2 9:36:35',
-            end_time : '2016-12-2 6:36:35 '
-          }, {
-            work_date : '2016-12-3',
-            total_time : '9:35',
-            start_time : '2016-12-3 9:30:35',
-            end_time : '2016-12-3 7:00:35 '
-          }, {
-            work_date : '2016-12-5',
-            total_time : '10:35',
-            start_time : '2016-12-5 9:30:35',
-            end_time : '2016-12-5 7:00:35 '
-          }, {
-            work_date : '2016-12-6',
-            total_time : '9:35',
-            start_time : '2016-12-6 9:30:35',
-            end_time : '2016-12-6 7:00:35 '
-          }
-        ];
-      }
+    this.userDataService.getUserData(2, date).subscribe( (response) => {
+      // if (this.dropDownValue === 1) {
+      //   response = [
+      //     {
+      //       work_date : '2016-12-14',
+      //       total_time : '9:00',
+      //       start_time : '2016-12-14 9:36:35',
+      //       end_time : '2016-12-14 6:36:35 '
+      //     },
+      //     {
+      //       work_date : '2016-12-1',
+      //       total_time : '9:00',
+      //       start_time : '2016-12-1 9:36:35',
+      //       end_time : '2016-12-1 6:36:35 '
+      //     }, {
+      //       work_date : '2016-12-2',
+      //       total_time : '9:00',
+      //       start_time : '2016-12-2 9:36:35',
+      //       end_time : '2016-12-2 6:36:35 '
+      //     }, {
+      //       work_date : '2016-12-3',
+      //       total_time : '9:35',
+      //       start_time : '2016-12-3 9:30:35',
+      //       end_time : '2016-12-3 7:00:35 '
+      //     }, {
+      //       work_date : '2016-12-5',
+      //       total_time : '9:35',
+      //       start_time : '2016-12-5 9:30:35',
+      //       end_time : '2016-12-5 7:00:35 '
+      //     }, {
+      //       work_date : '2016-12-6',
+      //       total_time : '9:35',
+      //       start_time : '2016-12-6 9:30:35',
+      //       end_time : '2016-12-6 7:00:35 '
+      //     }, {
+      //       work_date : '2016-12-7',
+      //       total_time : '9:35',
+      //       start_time : '2016-12-7 9:30:35',
+      //       end_time : '2016-12-7 7:00:35 '
+      //     }
+      //   ];
+      // }
+      // else {
+      //   response = [
+      //     {
+      //       work_date : '2016-12-2',
+      //       total_time : '9:30',
+      //       start_time : '2016-12-2 9:36:35',
+      //       end_time : '2016-12-2 6:36:35 '
+      //     }, {
+      //       work_date : '2016-12-3',
+      //       total_time : '9:35',
+      //       start_time : '2016-12-3 9:30:35',
+      //       end_time : '2016-12-3 7:00:35 '
+      //     }, {
+      //       work_date : '2016-12-5',
+      //       total_time : '10:35',
+      //       start_time : '2016-12-5 9:30:35',
+      //       end_time : '2016-12-5 7:00:35 '
+      //     }, {
+      //       work_date : '2016-12-6',
+      //       total_time : '9:35',
+      //       start_time : '2016-12-6 9:30:35',
+      //       end_time : '2016-12-6 7:00:35 '
+      //     }
+      //   ];
+      // }
       console.log(response, 'response');
     //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
       this.userData = response;
@@ -159,45 +162,6 @@ export class HomeComponent implements OnInit {
           this.oldData.push(data);
         }
       });
-      if (this.todaysData) {
-        this.today = {
-          date: new Date(),
-        timeCovered : {
-          hrs : this.todaysData.total_time.split(':')[0],
-          mins : this.todaysData.total_time.split(':')[1]
-        },
-        start_time: this.todaysData.start_time,
-        end_time: this.todaysData.end_time,
-
-      };
-      if ( this.todaysData.total_time || this.todaysData.total_time !== '' ) {
-          let temp = this.todaysData.total_time.split(':');
-          if (parseInt(temp[0], 10) >= 10) {
-            this.today.timeCompleted = 100.00;
-            this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
-          }else {
-            let hrs = parseInt(temp[0], 10);
-            let mins = parseInt(temp[1], 10);
-            let minInPercentage = (mins / 60) * 100;
-            let hrsInPercentage = (hrs / 10) * 100;
-            this.today.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(2);
-
-            this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
-            // 240= 0% and 480 is 100%
-          }
-          this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
-        }
-      }else {
-        this.today = {
-          date: new Date(),
-          timeCovered : {
-            hrs : 0,
-            mins : 0
-          },
-          start_time: 0,
-          end_time: 0,
-        };
-      }
       if (this.yesterdaysData) {
         console.log(this.yesterdaysData, 'YESTERDAY');
         this.yesterday = {
@@ -236,6 +200,7 @@ export class HomeComponent implements OnInit {
       if (this.dropDownValue === 1) {
         this.formatMonthView(this.userData);
       }
+    });
   }
   standardDeviation(values, appUtilService) {
     let avg = this.averageHours.toString();
@@ -262,8 +227,8 @@ export class HomeComponent implements OnInit {
     return avg;
   }
   formatMonthView(userData) {
-    let month_start = this.getStartAndEndOfDate(userData[0].work_date, true).start;
-    let month_end = this.getStartAndEndOfDate(userData[0].work_date, true).end;
+    let month_start = this.appUtilService.getStartAndEndOfDate(userData[0].work_date, true).start;
+    let month_end = this.appUtilService.getStartAndEndOfDate(userData[0].work_date, true).end;
     let used = month_start.getDay() + month_end.getDate();
     let getStartWeek = this.appUtilService.getWeek(month_start);
     let weekCount =  Math.ceil( used / 7);

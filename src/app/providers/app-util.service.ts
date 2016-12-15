@@ -60,4 +60,26 @@ export class AppUtilService {
     let temp2 = temp.getTime() - onejan.getTime();
     return Math.ceil(((( temp2) / 86400000) + onejan.getDay() + 1) / 7);
   }
+   getStartAndEndOfDate(date, isMonth) {
+      if (isMonth) {
+        let temp = new Date(date), y = temp.getFullYear(), m = temp.getMonth();
+        let firstDay = new Date(y, m, 1);
+        let lastDay = new Date(y, m + 1, 0);
+        return {
+          start : firstDay,
+          end : lastDay
+        };
+      }else {
+        let curr = new Date();
+        let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
+        let last = first + 6; // last day is the first day + 6
+
+        let firstDay = new Date(curr.setDate(first));
+        let lastDay = new Date(curr.setDate(last));
+        return {
+          start : firstDay,
+          end : lastDay
+        };
+      }
+  }
 }

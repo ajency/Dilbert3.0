@@ -5,15 +5,3 @@
 /*#progress-completed{
       animation: cubic-bezier(0.895, 0.03, 0.685, 0.22) 2s infinite;
 }*/
-.path {
-  stroke-dasharray: 500;
-  animation: dash 3s linear forwards 1 ;
-}
-
-@keyframes dash {
-  to {
-    stroke-dashoffset: 1000;
-  }from {
-    stroke-dashoffset: 500;
-  }
-}
