@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from '../providers/user-data.service';
 import { AppUtilService } from '../providers/app-util.service';
+import { URLSearchParams } from "@angular/http";
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ export class HomeComponent implements OnInit {
   oldData: any[] = [];
   yesterdaysData: any;
   totalHoursThisWeek: string;
+  nextButtonDisabled: boolean;
   monthStartDay: number;
   formatDATA: any;
   thisWeekDates: any = {};
@@ -33,6 +35,8 @@ export class HomeComponent implements OnInit {
     this.dropDownValue = 2;
     this.getUserData(2);
     // 220
+    let path = window.location.href.split('/');
+    console.log('PARAMS', path[path.length - 1]);
   }
 
   ngOnInit() {
@@ -55,17 +59,16 @@ export class HomeComponent implements OnInit {
     } else {
       let selectedWeek = new Date(this.dateSelected);
       if (next) {
-        this.dateSelected = new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7);
+        this.dateSelected = new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() + 7);
       } else {
         this.dateSelected = new Date(selectedWeek.getFullYear(), selectedWeek.getMonth(), selectedWeek.getDate() - 7);
       }
-      console.log('Month');
       console.log('Week');
     }
     this.getUserData(this.dropDownValue);
   }
   getUserData(dropdownValue) {
-    console.log(this.dateSelected);
+    console.log(this.dateSelected, dropdownValue);
     this.dropDownValue = dropdownValue;
     let dates = null;
     if (dropdownValue === 1) {
@@ -77,88 +80,29 @@ export class HomeComponent implements OnInit {
       start_date: this.appUtilService.formatDate(dates.start),
       end_date: this.appUtilService.formatDate(dates.end)
     };
+    if (new Date(date.end_date) >= new Date()) {
+      this.nextButtonDisabled = true;
+    }else {
+      this.nextButtonDisabled = false;
+    }
     this.getData(date);
     this.thisWeekDates = date;
   };
   getData(date) {
+    console.log(date, 'formatDate');
     this.userDataService.getUserData(2, date).subscribe( (response) => {
-      // if (this.dropDownValue === 1) {
-      //   response = [
-      //     {
-      //       work_date : '2016-12-14',
-      //       total_time : '9:00',
-      //       start_time : '2016-12-14 9:36:35',
-      //       end_time : '2016-12-14 6:36:35 '
-      //     },
-      //     {
-      //       work_date : '2016-12-1',
-      //       total_time : '9:00',
-      //       start_time : '2016-12-1 9:36:35',
-      //       end_time : '2016-12-1 6:36:35 '
-      //     }, {
-      //       work_date : '2016-12-2',
-      //       total_time : '9:00',
-      //       start_time : '2016-12-2 9:36:35',
-      //       end_time : '2016-12-2 6:36:35 '
-      //     }, {
-      //       work_date : '2016-12-3',
-      //       total_time : '9:35',
-      //       start_time : '2016-12-3 9:30:35',
-      //       end_time : '2016-12-3 7:00:35 '
-      //     }, {
-      //       work_date : '2016-12-5',
-      //       total_time : '9:35',
-      //       start_time : '2016-12-5 9:30:35',
-      //       end_time : '2016-12-5 7:00:35 '
-      //     }, {
-      //       work_date : '2016-12-6',
-      //       total_time : '9:35',
-      //       start_time : '2016-12-6 9:30:35',
-      //       end_time : '2016-12-6 7:00:35 '
-      //     }, {
-      //       work_date : '2016-12-7',
-      //       total_time : '9:35',
-      //       start_time : '2016-12-7 9:30:35',
-      //       end_time : '2016-12-7 7:00:35 '
-      //     }
-      //   ];
-      // }
-      // else {
-      //   response = [
-      //     {
-      //       work_date : '2016-12-2',
-      //       total_time : '9:30',
-      //       start_time : '2016-12-2 9:36:35',
-      //       end_time : '2016-12-2 6:36:35 '
-      //     }, {
-      //       work_date : '2016-12-3',
-      //       total_time : '9:35',
-      //       start_time : '2016-12-3 9:30:35',
-      //       end_time : '2016-12-3 7:00:35 '
-      //     }, {
-      //       work_date : '2016-12-5',
-      //       total_time : '10:35',
-      //       start_time : '2016-12-5 9:30:35',
-      //       end_time : '2016-12-5 7:00:35 '
-      //     }, {
-      //       work_date : '2016-12-6',
-      //       total_time : '9:35',
-      //       start_time : '2016-12-6 9:30:35',
-      //       end_time : '2016-12-6 7:00:35 '
-      //     }
-      //   ];
-      // }
       console.log(response, 'response');
     //  let dateFormat = /(^\d{1,4}[\.|\\/|-]\d{1,2}[\.|\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/;
       this.userData = response;
+      this.oldData = [];
+      this.yesterdaysData = null;
       this.userData.forEach( (data) => {
         let nD = new Date();
         if (data.work_date === this.appUtilService.formatDate(new Date()) ) {
           this.todaysData = data;
-        }
-        else if (data.work_date === this.appUtilService.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) {
+        } else if (data.work_date === this.appUtilService.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) {
           this.yesterdaysData = data;
-        }else {
+        } else {
           this.oldData.push(data);
         }
       });

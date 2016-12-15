@@ -41,6 +41,8 @@ export class TodaysCardComponent implements OnInit {
         end_time: response[0].end_time,
 
       };
+
+      this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
       if ( response[0].total_time || response[0].total_time !== '' ) {
           let temp = response[0].total_time.split(':');
           if (parseInt(temp[0], 10) >= 10) {
@@ -56,7 +58,6 @@ export class TodaysCardComponent implements OnInit {
             this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
             // 240= 0% and 480 is 100%
           }
-          this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
         }
       }else {
         this.today = {

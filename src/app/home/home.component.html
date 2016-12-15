@@ -15,7 +15,7 @@
                         <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
                     </div>
                 </div>
-                <div class="listy this-yesterday" *ngIf="yesterday">
+                <div class="listy this-yesterday" *ngIf="yesterdaysData">
                     <div class="list-top">
                         <div class="day-info pull-left">
                             <h3>Yesterday</h3>
@@ -111,7 +111,7 @@
                 <div class="table-navi pull-right" style="margin-top: 0;">
                     <!-- add class disabled to disable the btn/link -->
                     <a href="#" class="week-navi prev" (click)="fetchData(false)"><i class="fa fa-angle-left"></i></a>
-                    <a href="#" class="week-navi next disabled" (click)="fetchData(true)"><i class="fa fa-angle-right"></i></a>
+                    <a href="#" class="week-navi next" (click)="fetchData(true)"><i class="fa fa-angle-right"></i></a>
                 </div>
             </div>
             <!-- if day is monday - that means no weekly data to show, show this section instead -->
@@ -155,7 +155,7 @@
                     <div class="table-navi pull-right" style="margin-top: 0; margin-left: 10px;">
                         <!-- add class disabled to disable the btn/link -->
                         <a href="#" class="week-navi prev" (click)="fetchData(false)"><i class="fa fa-angle-left"></i></a>
-                        <a href="#" class="week-navi next disabled" (click)="fetchData(true)"><i class="fa fa-angle-right"></i></a>
+                        <a href="#" class="week-navi next" (click)="fetchData(true)" [class.disabled]="nextButtonDisabled" ><i class="fa fa-angle-right"></i></a>
                     </div>
 
                     <div class="btn-group btn-dropdown filter pull-right hidd en" style="margin-top: 0;">
@@ -237,11 +237,11 @@
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <span class="th-day visi-hide">Week's Total</span>
-                                                <span class="th-total">{{week.totalHrs}}</span>
-                                                <span class="th-spilt">
+                                                <span class="th-total" *ngIf="week">{{week.totalHrs}}</span>
+                                                <!--<span class="th-spilt">
                                                     <span class="th-work">9:13</span> -
                                                     <span class="th-break">6:13</span>
-                                                </span>
+                                                </span>-->
                                             </a>
                                         </td>
                                     </tr>
@@ -268,6 +268,9 @@
                                 </thead>
                                 <tbody>
                                     <!--class="current"-->
+                                    <tr *ngIf="userData.length == 0" > 
+                                        <td colspan="3" class="noData"> No data to display</td>       
+                                    </tr>
                                     <tr *ngFor="let data of userData">
                                         <td>
                                             <span class="th-day">
@@ -283,10 +286,10 @@
                                         <td>
                                             <span class="top-meta">
                                                 <span class="th-day-end pull-right">
-                                                    <small>{{(data.end_time ? data.end_time : 'n/a')}} </small> 
+                                                    <small>{{data.end_time ? (data.end_time | date : 'hh:mm' ): 'n/a'}} </small> 
                                                 </span>
                                                 <span class="th-day-start">
-                                                    <small>{{(data.start_time ? data.start_time : 'n/a') }} </small> 
+                                                    <small>{{(data.start_time ? (data.start_time | date : 'hh:mm' ) : 'n/a') }} </small> 
                                                     <!--| date: 'shortTime'-->
                                                 </span>
                                             </span>
@@ -310,7 +313,7 @@
                             <div class="stat-wrap">
                                 <div class="stat-count">
                                     <strong>{{totalHoursThisWeek}}</strong>
-                                    <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
+                                    <span class="stat-dev increase" style="display: none;"><i class="fa fa-caret-up"></i> 1.5%</span>
                                 </div>
                                 <div class="stat-title small-title">Total Time</div>
                             </div>
@@ -321,21 +324,21 @@
                                 </div>
                                 <div class="stat-title small-title">Total Work Time</div>
                             </div> -->
-                            <div class="stat-wrap">
+                            <div class="stat-wrap" style="display: none;">
                                 <div class="stat-count">
                                     <strong> {{averageHours}} <span>AM</span></strong>
                                     <span class="stat-dev increase"><i class="fa fa-caret-up"></i> 1.5%</span>
                                 </div>
                                 <div class="stat-title small-title">Avg. Day Start</div>
                             </div>
-                            <div class="stat-wrap wide">
+                            <div class="stat-wrap wide" style="display: none;">
                                 <div class="stat-count">
                                     <strong>0.47</strong>
                                     <span class="stat-dev decrease"><i class="fa fa-caret-down"></i> 1.5%</span>
                                 </div>
                                 <div class="stat-title small-title">Day start deviates by</div>
                             </div>
-                            <div class="stat-wrap text-right">
+                            <div class="stat-wrap text-right"  [hidden]="true">
                                 <a href="#" class="more-stats"><small>More stats</small></a>
                             </div>
                         </div>

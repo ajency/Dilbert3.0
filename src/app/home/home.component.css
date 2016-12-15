@@ -5,3 +5,9 @@
 /*#progress-completed{
       animation: cubic-bezier(0.895, 0.03, 0.685, 0.22) 2s infinite;
 }*/
+app-todays-card{
+      margin: 0 auto;
+}
+.noData {
+      text-align: center;
+}
