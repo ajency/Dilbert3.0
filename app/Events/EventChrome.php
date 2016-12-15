@@ -12,6 +12,7 @@ use App\Log;
 use App\Locked_Data;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LockedDataController;
 use Request;
 use Redis;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -97,6 +98,15 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                             if($redis_list->to_state == "offline") { // user goes offline
                                 User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
+
+                                $output->writeln(" HAS GONE OFFLINE");
+                                if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry && User has gone Offline
+                                    /* Update Summary/ Locaked_Data Table with new Offline state */
+                                    $output->writeln(" UPDATING HAS GONE OFFLINE");
+                                    $userLocked_data = Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->get();
+                                    Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos))))]);
+                                    $output->writeln("UPDATED HAS GONE OFFLINE");
+                                }
                             }
 
                             Redis::lpop('test-channels');// remove the current-log element from queue
@@ -147,6 +157,7 @@ class EventChrome extends Event implements ShouldBroadcast {
             
             if(count($user)){
                 $user_id = $user[0]->id;
+                User::where('id', $user_id)->update(['socket_id' => '']); /* Clear Socket ID */
 
                 $output->writeln("Socket id + !user id -> New Log");
                 $log = new Log;
@@ -158,6 +169,10 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $log->ip_addr = $redis_list->ip_addr;
                 $log->save();
 
+                if(Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry
+                    /* Update Summary/ Locaked_Data Table with new Offline state */
+                    Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos))))]);
+                }
                 $output->writeln("Log out log updated");
 
                 Redis::lpop('test-channels');// remove the current-log element from queue

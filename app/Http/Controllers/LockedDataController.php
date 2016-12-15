@@ -115,12 +115,15 @@ class LockedDataController extends Controller
     	$output = new ConsoleOutput();
         $output->writeln("Personal Lock Data info");
 
-        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){        	
         	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
-        	$output->writeln($user_cnt);
+        	//$output->writeln($user_cnt);
         	if($user_cnt > 0) {
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-personal')) {// verifies if user has permission
+
+	        		$content = []; $json = [];
+
 	        		$output->writeln("Confirmed");
 			        
 	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
@@ -131,15 +134,15 @@ class LockedDataController extends Controller
 	        				$startDate = $request->start_date;
 	        			}
 
-	        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 5) {/* Get end of that respective week */
-	        				$days = ((int)date('w', strtotime($request->end_date)) + 4) . " day";
+	        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
+	        				$days = ((int)date('w', strtotime($request->end_date)) + 5) . " day"; /* Get last date of that week */
 	        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
 	        			} else {
-	        				$endDate = $request->end_date;
+	        				$endDate = $request->end_date; /* This is the last date of the week */
 	        			}
 	        		}
 
-			        if(empty($request->start_date) && empty($request->end_date))
+			        if(empty($request->start_date) && empty($request->end_date)) /* If date range is not specified */
 			        	return Locked_Data::where('user_id',$request->user_id)->get();
 			        else if(empty($request->start_date))/* Start date is empty */
 			        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '<=', $request->end_date],])->get();
@@ -148,10 +151,28 @@ class LockedDataController extends Controller
 			        else{
 			        	$datas = Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
 			        	
-			        	foreach ($datas as $data) {
-			        		$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
+			        	$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
+
+			        	if ((int)date_diff(date_create(),date_create($datas[sizeof($datas) - 1]["work_date"]))->format("%a") == 0 && ($datas[sizeof($datas) - 1]["total_time"] == null || $datas[sizeof($datas) - 1]["total_time"] == "")) { /* Get Current End_Time & Total_time */
+			        		$datas[sizeof($datas) - 1]["end_time"] = date('Y-m-d H:i:s',strtotime('+5 hour +30 minute'));
+							$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
 			        	}
-			        	return $datas;
+			        	
+			        	foreach ($datas as $data) {
+			        		if (sizeof($content) == 0) {
+			        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+			        			$content["data"] = array($data);
+			        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1) {
+			        			array_push($content["data"], $data);
+			        		} else {
+			        			array_push($json, $content);
+			        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+			        			$content["data"] = array($data);
+			        		}
+			        		//$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
+			        	}
+			        	array_push($json, $content);
+			        	return response()->json($json);
 			        }
 
 			    } else {
@@ -206,8 +227,17 @@ class LockedDataController extends Controller
 
     public function getTimeDifference($time1, $time2) {
     	$output = new ConsoleOutput();
-    	$t1 = explode(':', $time1);
-    	$t2 = explode(':', $time2);
+    	if(substr_count($time1, ' ') > 0) { /* If $time1 is in DateTime format */
+    		$t1 = explode(' ', $time1);
+    		$t1 = explode(':', $t1[1]);
+    	} else /* If $time1 is in Time Format */
+    		$t1 = explode(':', $time1);
+    	
+    	if(substr_count($time2, ' ') > 0) { /* If $time2 is in DateTime Format */
+	    	$t2 = explode(' ', $time2);
+	    	$t2 = explode(':', $t2[1]);
+	    } else /* If $time1 is in Time Format */
+	    	$t2 = explode(':', $time2);
 
     	if($t2[0] > $t1[0] || ($t2[0] == $t1[0] && $t2[1] > $t1[1])) { #compare if Time2 > Time1
 	    	$hr = (int)$t2[0] - (int)$t1[0];
