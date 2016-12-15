@@ -155,27 +155,30 @@ class LockedDataController extends Controller
 			        else{
 			        	$datas = Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
 			        	
-			        	$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
+			        	if(sizeof($datas) > 0) {
+			        		//$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
 
-			        	if ((int)date_diff(date_create(),date_create($datas[sizeof($datas) - 1]["work_date"]))->format("%a") == 0 && ($datas[sizeof($datas) - 1]["total_time"] == null || $datas[sizeof($datas) - 1]["total_time"] == "")) { /* Get Current End_Time & Total_time */
-			        		$datas[sizeof($datas) - 1]["end_time"] = date('Y-m-d H:i:s',strtotime('+5 hour +30 minute'));
-							$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
+				        	if ((int)date_diff(date_create(),date_create($datas[sizeof($datas) - 1]["work_date"]))->format("%a") == 0 && ($datas[sizeof($datas) - 1]["total_time"] == null || $datas[sizeof($datas) - 1]["total_time"] == "")) { /* Get Current End_Time & Total_time */
+				        		$datas[sizeof($datas) - 1]["end_time"] = date('Y-m-d H:i:s',strtotime('+5 hour +30 minute'));
+								$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
+				        	}
+
+				        	
+				        	foreach ($datas as $data) {
+				        		if (sizeof($content) == 0) {
+				        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+				        			$content["data"] = array($data);
+				        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1) {
+				        			array_push($content["data"], $data);
+				        		} else {
+				        			array_push($json, $content);
+				        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+				        			$content["data"] = array($data);
+				        		}
+				        		//$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
+				        	}
+				        	array_push($json, $content);
 			        	}
-			        	
-			        	foreach ($datas as $data) {
-			        		if (sizeof($content) == 0) {
-			        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
-			        			$content["data"] = array($data);
-			        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1) {
-			        			array_push($content["data"], $data);
-			        		} else {
-			        			array_push($json, $content);
-			        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
-			        			$content["data"] = array($data);
-			        		}
-			        		//$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
-			        	}
-			        	array_push($json, $content);
 			        	return response()->json($json);
 			        }
 
@@ -186,7 +189,7 @@ class LockedDataController extends Controller
 				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
 	    } else {
-			$output->writeln("In else");
+			//$output->writeln("In else");
 	    	return response()->json(['status' => 'Error', 'msg' => 'Parameters not fullfilled'], 400);
 	    }
 	    /*if($request->header('X-API-KEY') !== null) { // if api key is present in Header
