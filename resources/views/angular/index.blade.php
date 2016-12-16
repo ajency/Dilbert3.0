@@ -49,6 +49,7 @@
 @section('footer')
   <script type="text/javascript">
     window.onload = function() {
+      $('.dropdown-toggle').dropdown();
       localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
     }
   </script>
