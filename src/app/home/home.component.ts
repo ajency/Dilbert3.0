@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   d2: any;
   averageHours: any;
   dayStartDeviation: any;
+  todaysDate: any;
   constructor(private userDataService: UserDataService, public appUtilService: AppUtilService) {
 
   }
@@ -39,6 +40,7 @@ export class HomeComponent implements OnInit {
     this.dropDownValue = 2;
     // 220
     let reg = /^\d+$/;
+    this.todaysDate = this.appUtilService.formatDate(new Date());
     let path = window.location.href.split('/');
     let id = path[path.length - 1];
     console.log('PARAMS', id, reg.test(id));

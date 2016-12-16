@@ -127,7 +127,7 @@
             
             <!-- Dashboard title when the user views this page -->
             <div class="user-page-title">
-                <h1 class="dashboard-title">Welcome, Mohsin</h1>
+                <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
                 <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
             </div>
 
@@ -213,7 +213,7 @@
                                     <tr *ngIf="userData.length == 0" > 
                                         <td colspan="3" class="noData"> No data to display</td>       
                                     </tr>
-                                    <tr *ngFor="let data of userData">
+                                    <tr *ngFor="let data of userData" [class.current]="todaysDate === data.work_date">
                                         <td>
                                             <span class="th-day">
                                                 <span class="small-title">{{data.work_date | date:'dd MMM'}}</span>
