@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from 'ng2-webstorage';
 
 @Injectable()
 export class AppUtilService {
-
-  constructor() { }
+  // @LocalStorage() public user_data: any = {
+  //   name: 'mohsin'
+  // };
+  user_data: any = {};
+  constructor( private localStorage: LocalStorageService ) {
+    this.user_data = this.localStorage.retrieve('user_data');
+  }
   toSeconds(timeString) {
     let p = timeString.split(':');
     return (parseInt(p[0], 10) * 3600) + (parseInt(p[1], 10) * 60 );
@@ -71,11 +77,8 @@ export class AppUtilService {
         };
       }else {
         let curr = new Date(date);
-        let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-        let last = first + 6; // last day is the first day + 6
-
-        let firstDay = new Date(curr.setDate(first));
-        let lastDay = new Date(curr.setDate(last));
+        let firstDay = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
+        let lastDay = new Date (curr.setDate(curr.getDate() - curr.getDay() + 7 ));
         return {
           start : firstDay,
           end : lastDay

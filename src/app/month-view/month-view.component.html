@@ -1,0 +1,57 @@
+<div class="table-view month hscroll-table hide-in-week-view">
+    <div class="table-responsive setpadding">
+        <table class="table first-table">
+            <thead>
+                <tr>
+                    <th><span class="th-label small-title">Mon</span></th>
+                    <th><span class="th-label small-title">Tue</span></th>
+                    <th><span class="th-label small-title">Wed</span></th>
+                    <th><span class="th-label small-title">Thu</span></th>
+                    <th><span class="th-label small-title">Fri</span></th>
+                    <th><span class="th-label small-title">Sat {{monthStartDay}}</span></th>
+                    <th class="sunday"><span class="th-label small-title">Sun</span></th>
+                    <th class="total"><span class="th-label small-title">Total</span></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="monthData">
+                <tr class="current" *ngFor="let week; let i = index; of monthData" >
+                    <td *ngFor="let day of week.data">
+                        <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{day.total_time}}</span>
+                            <span class="th-spilt">
+                                <span class="th-work">{{day.start_time ? (day.start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(day.end_time ? (day.end_time | date: 'h:mm')  : 'n/a')}} </span>
+                            </span>
+                        </a>
+                        <!--<a *ngIf="i.isEmpty == true">
+                        </a>-->
+                    </td>
+                    <td [colSpan]="6-week.data.length">
+                    </td>
+                    <td class="sunday">
+                        <!--<a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title">SUNDAY</span>
+                            <span class="th-total">9:30</span>
+                            <span class="th-spilt">
+                                <span class="th-work">9:45</span> -
+                                <span class="th-break">19:15</span>
+                            </span>
+                        </a> -->
+                    </td>
+                    <td>
+                        <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day visi-hide">Week's Total</span>
+                            <span class="th-total" *ngIf="week.data">{{week.data.totalHrs}}</span>
+                            <!--<span class="th-spilt">
+                                <span class="th-work">9:13</span> -
+                                <span class="th-break">6:13</span>
+                            </span>-->
+                        </a>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>

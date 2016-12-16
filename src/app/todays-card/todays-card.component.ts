@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserDataService } from '../providers/user-data.service';
 import { AppUtilService } from '../providers/app-util.service';
 
@@ -8,6 +8,7 @@ import { AppUtilService } from '../providers/app-util.service';
   styleUrls: ['./todays-card.component.css']
 })
 export class TodaysCardComponent implements OnInit {
+  @Input() userid;
   today: any = {
     timeCovered : {
       hrs: null,
@@ -19,6 +20,7 @@ export class TodaysCardComponent implements OnInit {
   constructor(public userDataService: UserDataService, public appUtilService: AppUtilService ) { }
 
   ngOnInit() {
+    console.log(this.userid);
     let todaysDate = this.appUtilService.formatDate(new Date());
     let date = {
       start_date: todaysDate,
@@ -27,24 +29,26 @@ export class TodaysCardComponent implements OnInit {
     this.getData(date);
   }
   getData(date) {
-    this.userDataService.getUserData(2, date).subscribe( (response) => {
+    this.userDataService.getUserData(this.userid, date).subscribe( (response) => {
       console.log(response);
-      this.today = response[0];
-      if (response[0]) {
+
+      this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
+      let t = response;
+      if (response.length !== 0) {
+        t = response[0].data[0];
         this.today = {
           date: new Date(),
         timeCovered : {
-          hrs : response[0].total_time.split(':')[0],
-          mins : response[0].total_time.split(':')[1]
+          hrs : t.total_time.split(':')[0],
+          mins : t.total_time.split(':')[1]
         },
-        start_time: response[0].start_time,
-        end_time: response[0].end_time,
+        start_time: t.start_time,
+        end_time: t.end_time,
 
       };
 
-      this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
-      if ( response[0].total_time || response[0].total_time !== '' ) {
-          let temp = response[0].total_time.split(':');
+      if ( t.total_time || t.total_time !== '' ) {
+          let temp = t.total_time.split(':');
           if (parseInt(temp[0], 10) >= 10) {
             this.today.timeCompleted = 100.00;
             this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);

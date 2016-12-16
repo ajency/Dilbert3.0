@@ -9,3 +9,4 @@ Homestead.json
 *.sublime-project
 *.sublime-workspace
 /bootstrap
+/dist

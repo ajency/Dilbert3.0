@@ -111,7 +111,7 @@
                 <div class="table-navi pull-right" style="margin-top: 0;">
                     <!-- add class disabled to disable the btn/link -->
                     <a href="#" class="week-navi prev" (click)="fetchData(false)"><i class="fa fa-angle-left"></i></a>
-                    <a href="#" class="week-navi next" (click)="fetchData(true)"><i class="fa fa-angle-right"></i></a>
+                    <a href="#" class="week-navi next" (click)="fetchData(true)" [class.disabled]="nextButtonDisabled"><i class="fa fa-angle-right"></i></a>
                 </div>
             </div>
             <!-- if day is monday - that means no weekly data to show, show this section instead -->
@@ -191,65 +191,7 @@
                 <!-- whatever object that needs to be hidden in week view plz add the class 'hide-in-week-view' -->
                 <!-- to show an object in week view plz add class 'show-in-week-view' -->
                 <div class="card-body" [class.week-view]="dropDownValue == 2">
-                    <div class="table-view month hscroll-table hide-in-week-view">
-                        <div class="table-responsive setpadding">
-                            <table class="table first-table">
-                                <thead>
-                                    <tr>
-                                        <th><span class="th-label small-title">Mon</span></th>
-                                        <th><span class="th-label small-title">Tue</span></th>
-                                        <th><span class="th-label small-title">Wed</span></th>
-                                        <th><span class="th-label small-title">Thu</span></th>
-                                        <th><span class="th-label small-title">Fri</span></th>
-                                        <th><span class="th-label small-title">Sat</span></th>
-                                        <th class="sunday"><span class="th-label small-title">Sun</span></th>
-                                        <th class="total"><span class="th-label small-title">Total</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="current" *ngFor="let week; let i = index; of formatDATA">
-                                        <td [colSpan]="monthStartDay - 1" *ngIf="i == 0">
-                                        </td>
-                                        <td *ngFor="let day of week">
-                                            <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
-                                                <span class="th-total">{{day.total_time}}</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">{{day.start_time ? (day.start_time | date: 'h:mm') : 'n/a'}} </span> -
-                                                    <span class="th-break">{{(day.end_time ? (day.end_time | date: 'h:mm')  : 'n/a')}} </span>
-                                                </span>
-                                            </a>
-                                            <!--<a *ngIf="i.isEmpty == true">
-                                            </a>-->
-                                        </td>
-                                        <td [colSpan]="6-week.length" *ngIf="i !== 0">
-                                        </td>
-                                        <td class="sunday">
-                                            <!--<a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">SUNDAY</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a> -->
-                                        </td>
-                                        <td>
-                                            <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day visi-hide">Week's Total</span>
-                                                <span class="th-total" *ngIf="week">{{week.totalHrs}}</span>
-                                                <!--<span class="th-spilt">
-                                                    <span class="th-work">9:13</span> -
-                                                    <span class="th-break">6:13</span>
-                                                </span>-->
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <app-month-view [monthData]="formatDATA" *ngIf="dropDownValue == 1 && formatDATA"></app-month-view>
 
                     <div class="table-view week show-in-week-view">
                         <div class="table-responsive">
@@ -307,7 +249,7 @@
                     </div>
 
                     <div class="stats-view">
-                        <h4 class="card-title hide-in-week-view">Stats since Oct 01</h4>
+                        <h4 class="card-title hide-in-week-view">Stats since {{thisWeekDates.start_date | date: 'MMM dd' }}</h4>
                         <div class="spacer-20 show-in-week-view"></div>
                         <div class="horizontal-stats">
                             <div class="stat-wrap">
@@ -338,7 +280,7 @@
                                 </div>
                                 <div class="stat-title small-title">Day start deviates by</div>
                             </div>
-                            <div class="stat-wrap text-right"  [hidden]="true">
+                            <div class="stat-wrap text-right"  style="display: none;">
                                 <a href="#" class="more-stats"><small>More stats</small></a>
                             </div>
                         </div>
@@ -347,7 +289,7 @@
                 </div>
             </div>
         </div>
-        <app-todays-card></app-todays-card>
+        <app-todays-card [userid]="userid" *ngIf="userid"></app-todays-card>
        
     </div>
 </div>
