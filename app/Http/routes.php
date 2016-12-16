@@ -138,7 +138,7 @@ Route::get('/org/info','OrganizationsController@info');//information of the orga
 Route::get('/personal','LogsController@viewPersonal');// get log details for activity log // Ajax calls
 
 Route::get('/dashboard', function() { /* Angular2 PWA page route */
-    return View::make('index');
+    return view('angular.index');
 });
 
 Route::group(['prefix' => 'api'], function () {
