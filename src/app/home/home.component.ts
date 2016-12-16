@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   totalHoursThisWeek: string;
   nextButtonDisabled: boolean;
   monthStartDay: number;
+  displayDateRange: any;
   userid: any;
   formatDATA: any;
   thisWeekDates: any = {};
@@ -47,12 +48,19 @@ export class HomeComponent implements OnInit {
     if (reg.test(id)) {
       this.userid = id;
     } else {
-      this.userid = 2;
+      this.userid = this.appUtilService.user_data.id;
     }
     this.getUserData(this.dropDownValue);
   }
 
-  onDateChange() {
+  onDateChange(dateSlct) {
+    console.log(dateSlct, 'DATE CHANGE');
+    this.displayDateRange = this.appUtilService.getStartAndEndOfDate(dateSlct, this.dropDownValue === 1 ? true : false);
+    console.log(this.displayDateRange, 'DATE RANGE');
+  }
+  getDateRangeData(dateSlct) {
+
+    this.dateSelected = dateSlct;
     this.getUserData(this.dropDownValue);
   }
   fetchData(next) {
@@ -104,6 +112,8 @@ export class HomeComponent implements OnInit {
   getData(date) {
     this.userDataService.getUserData(this.userid, date).subscribe( (response) => {
       this.userData = [];
+
+      this.yesterdaysData = null;
       if (this.dropDownValue === 2) {
         if (response.length !== 0) {
           this.userData = response[0].data;

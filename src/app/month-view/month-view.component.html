@@ -14,6 +14,9 @@
                 </tr>
             </thead>
             <tbody *ngIf="monthData">
+                 <tr *ngIf="monthData.length == 0" > 
+                    <td colspan="8" class="noData"> No data to display</td>       
+                </tr>
                 <tr class="current" *ngFor="let week; let i = index; of monthData" >
                     <td *ngFor="let day of week.data">
                         <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
