@@ -24,4 +24,31 @@ export class MonthViewComponent implements OnInit {
     // let weekCount =  Math.ceil( used / 7);
     // this.monthStartDay = new Date(month_start).getDay();
   }
+
+  // ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  //   let curr = changes['monthData'].currentValue;
+  //   if (curr.length > 0) {
+  //     this.noData = false;
+  //     this.formatMonthView(curr);
+  //   }else {
+  //     this.noData = true;
+  //   }
+  //    console.log(curr, this.noData);
+  // }
+  // formatMonthView(userData) {
+  //   let formatDATA = [];
+  //   formatDATA = userData;
+  //   userData.forEach( (month, key ) => {
+  //     let sec = 0;
+  //     month.data.forEach( data2 => {
+  //       if (data2.total_time !== '') {
+  //         sec += this.appUtilService.toSeconds(data2.total_time);
+  //       }
+  //     });
+  //     month.data.totalHrs =
+  //       this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
+  //       this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
+  //   });
+  //   this.userData = formatDATA;
+  // }
 }
