@@ -150,7 +150,6 @@ class HomeController extends Controller
 
     public function deleteUsers(Request $request, $user_id) { /* Delete his/her(if multiple user's exist) or other user's account if he/she has permissions */
         $count = 0;
-
         $permissions = Permission::with('roles')->where('name',"edit-users")->get(); // Get role-names who have Admin or Super Admin access using Permissions
 
         foreach ($permissions[0]->roles as $perRole) {
@@ -159,16 +158,19 @@ class HomeController extends Controller
 
         if(auth()->user()->can('edit-users') && auth()->user()->id != $user_id) {
             /* If user is authorized to delete & if he is not deleting his account*/
+            $userName = User::where('id',$user_id)->first()->name;
             User::where('id',$user_id)->delete();
-            return response()->json(['status' => 'Success']);
+            //return response()->json(['status' => 'Success']);
+            return back()->with(['status' => 'success', 'user' => $userName]);
         } else if(auth()->user()->can('edit-users') && ($count > 1 && auth()->user()->id == $user_id)) {
             /* If user is authorized to delete & if he is deleting his account but no of admin/super-admin/owner is > 1 then*/
             User::where('id',$user_id)->delete();
-            return response()->json(['status' => 'Success']);
-        } else if(auth()->user()->can('edit-users') && auth()->user()->id === $user_id) { /* Only one admin */
-            return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
+            auth()->logout();// logout of session
+            return redirect('/login');//return response()->json(['status' => 'Success']);
+        } else if(auth()->user()->can('edit-users') && auth()->user()->id == $user_id) { /* Only one admin */
+            return back()->with('status','invalid');//return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
         } else { /* User doesn't have permission to delete anyone's account */
-            return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);   
+            return back()->with('status','error');//return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);   
         }
     }
 

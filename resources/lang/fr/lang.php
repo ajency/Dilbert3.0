@@ -44,6 +44,10 @@
 	  'update_success' => 'Profil mis à jour avec succès!',
 	  'update_fail' => 'Vous êtes le seul administrateur de l\'organisation.',
 	  'time_zone' => 'Fuseau horaire',
+	  'succ_del' => 'Supprimé avec succès',
+	  'per_denied' => 'Permission refusée',
+	  'cant_delete' => 'Impossible de supprimer votre compte',
+	  'only_admin' => 'Vous êtes le seul admin.',
 
 	  //main page
 	  'hero_title' => 'Temps de piste. Fiche de travail',

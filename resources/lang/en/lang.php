@@ -44,6 +44,10 @@
 	  'update_success' => 'Profile successfully updated!',
 	  'update_fail' => 'You are the only admin for this organization.',
 	  'time_zone' => 'Time zone',
+	  'succ_del' => 'Successfully deleted',
+	  'per_denied' => 'Permission Denied',
+	  'cant_delete' => 'Cannot delete your account',
+	  'only_admin' => 'You are the only admin.',
 	  
 	  //main page
 	  'hero_title' => 'Track Time. Record Work',

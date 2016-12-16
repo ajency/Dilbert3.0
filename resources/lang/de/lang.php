@@ -44,6 +44,10 @@
 	  'update_success' => 'Profil erfolgreich aktualisiert!',
 	  'update_fail' => 'Sie sind der einzige Administrator der Organisation.',
 	  'time_zone' => 'Zeitzone',
+	  'succ_del' => 'Erfolgreich gelöscht',
+	  'per_denied' => 'Erlaubnis verweigert',
+	  'cant_delete' => 'Ihr Konto kann nicht gelöscht werden',
+	  'only_admin' => 'Sie sind der einzige Administrator.',
 	  
 	  //main page
 	  'hero_title' => 'Zeit auf der Strecke. Rekord Arbeit',

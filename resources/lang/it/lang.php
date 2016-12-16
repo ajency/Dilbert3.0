@@ -44,6 +44,10 @@
 	  'update_success' => 'Profilo aggiornata con successo!',// profile updated successfully!
 	  'update_fail' => 'Tu sei l\'unico amministratore per questa organizzazione.',
 	  'time_zone' => 'Fuso orario',
+	  'succ_del' => 'Cancellato con successo',
+	  'per_denied' => 'Permesso negato',
+	  'cant_delete' => 'Impossibile eliminare il tuo account',
+	  'only_admin' => 'Tu sei l\'unico amministratore.',
 
 	  //main page
 	  'hero_title' => 'Tempo traccia. Record lavoro',

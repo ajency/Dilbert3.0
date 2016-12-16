@@ -16,6 +16,29 @@
 
 @section('content')
 <div class="container">
+	@if (session()->has('status'))
+		<div class="row">
+		        <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-xs-12">
+		        	@if(session('status') == "success")
+			            <div class="alert alert-success alert-dismissible alert-fixed" role="alert">
+			              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			              <center>@lang('lang.succ_del')  <strong>{{ session('name')}}</strong> !</center>
+			            </div>
+			        @elseif(session('status') == "invalid")
+			        	<div class="alert alert-warning alert-dismissible alert-fixed" role="alert">
+			              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			              <center><strong>@lang('lang.sorry')</strong>! @lang('lang.cant_delete'). @lang('lang.only_admin')</center>
+			            </div>
+			        @else
+			        	<div class="alert alert-danger alert-dismissible alert-fixed" role="alert">
+			              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			              <center><strong>@lang('lang.per_denied')</strong>!</center>
+			            </div>
+			        @endif
+		        </div>
+		    </div>
+		</div>
+	@endif
     <div class="row">
         <div class="col-xs-12 col-md-8 col-md-offset-2">
         	<center><h3>Organizations</h3></center>
