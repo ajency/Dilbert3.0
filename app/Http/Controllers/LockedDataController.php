@@ -138,7 +138,7 @@ class LockedDataController extends Controller
 		        			}
 
 		        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
-		        				$days = ((int)date('w', strtotime($request->end_date)) + 5) . " day"; /* Get last date of that week */
+		        				$days = (7 - (int)date('w', strtotime($request->end_date))) . " day"; /* Get last date of that week */
 		        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
 		        			} else {
 		        				$endDate = $request->end_date; /* This is the last date of the week */
