@@ -138,7 +138,17 @@ Route::get('/org/info','OrganizationsController@info');//information of the orga
 Route::get('/personal','LogsController@viewPersonal');// get log details for activity log // Ajax calls
 
 Route::get('/dashboard', function() { /* Angular2 PWA page route */
-    return view('angular.index');
+
+    if(!auth()->guest()) { /* If user is Authorized, then access Dashboard, else Redirect to Login page */
+        $org_id = App\User::where('email',auth()->user()->email)->get();
+            
+        $logo = App\Organization::find($org_id[0]->org_id)->get();
+        $logo = $logo[0]->domain;
+        $logs = App\Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
+        
+        return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id)));
+    } else 
+        return redirect('/login');
 });
 
 Route::group(['prefix' => 'api'], function () {

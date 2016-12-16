@@ -52,7 +52,9 @@ class HomeController extends Controller
         $logs = Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
 
         //$this->setLang(auth()->user()->lang);
-        return view('home',compact('logo','logs'));
+        //return view('home',compact('logo','logs'));
+        
+        return redirect('/dashboard');
     }
 
     public function profile() {// view profile details

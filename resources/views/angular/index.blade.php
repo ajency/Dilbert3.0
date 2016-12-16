@@ -47,6 +47,11 @@
 @endsection
 
 @section('footer')
+  <script type="text/javascript">
+    window.onload = function() {
+      localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+    }
+  </script>
   <script type="text/javascript" src="{{ url('/views/inline.js') }}"></script>
   <script type="text/javascript" src="{{ url('/views/styles.bundle.js') }}"></script>
   <script type="text/javascript" src="{{ url('/views/scripts.bundle.js') }}"></script>
