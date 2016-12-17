@@ -8,10 +8,10 @@
   <!-- <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./assets/css/styles.css"> -->
   <script type="text/javascript">
-    window.onload = function() {
+    //window.onload = function() {
       $('.dropdown-toggle').dropdown();
       localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-    }
+    //}
   </script>
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
