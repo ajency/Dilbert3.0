@@ -1575,6 +1575,58 @@ svg {
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   }
 }
+.loading {
+  border: 4px solid #ffdf00;
+  border-right-color: transparent;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin: 25px auto;
+  -webkit-transform: rotateZ(0);
+          transform: rotateZ(0);
+  -webkit-animation: rotate 1.5s linear infinite;
+          animation: rotate 1.5s linear infinite;
+}
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: rotateZ(0);
+            transform: rotateZ(0);
+    border-color: #ffdf00;
+    border-right-color: transparent;
+  }
+  50% {
+    -webkit-transform: rotateZ(360deg);
+            transform: rotateZ(360deg);
+    border-color: #f0d200;
+    border-right-color: transparent;
+  }
+  100% {
+    -webkit-transform: rotateZ(720deg);
+            transform: rotateZ(720deg);
+    border-color: #ffdf00;
+    border-right-color: transparent;
+  }
+}
+@keyframes rotate {
+  0% {
+    -webkit-transform: rotateZ(0);
+            transform: rotateZ(0);
+    border-color: #ffdf00;
+    border-right-color: transparent;
+  }
+  50% {
+    -webkit-transform: rotateZ(360deg);
+            transform: rotateZ(360deg);
+    border-color: #f0d200;
+    border-right-color: transparent;
+  }
+  100% {
+    -webkit-transform: rotateZ(720deg);
+            transform: rotateZ(720deg);
+    border-color: #ffdf00;
+    border-right-color: transparent;
+  }
+}
 .max-767 {
   width: 767px;
   margin: 0 auto;
