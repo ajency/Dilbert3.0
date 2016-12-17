@@ -36,7 +36,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   -->
   <!-- <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script> -->
-
+  <script type="text/javascript">
+    window.onload = function() {
+      $('.dropdown-toggle').dropdown();
+      localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+    }
+  </script>
 @endsection
 
 @section('content')
@@ -47,12 +52,6 @@
 @endsection
 
 @section('footer')
-  <script type="text/javascript">
-    window.onload = function() {
-      $('.dropdown-toggle').dropdown();
-      localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-    }
-  </script>
   <script type="text/javascript" src="{{ url('/views/inline.js') }}"></script>
   <script type="text/javascript" src="{{ url('/views/styles.bundle.js') }}"></script>
   <script type="text/javascript" src="{{ url('/views/scripts.bundle.js') }}"></script>

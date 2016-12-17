@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('header')
+<script type="text/javascript">
+    window.onload = function() {
+        localStorage.removeItem("ng2-webstorage|user_data");
+    }
+</script>
+@endsection
 @section('content')
 <div class="container max-420">
     <div class="row">
