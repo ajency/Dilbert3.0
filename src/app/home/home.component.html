@@ -115,6 +115,8 @@
                     <a href="#" class="week-navi next" (click)="fetchData(true)" [class.disabled]="nextButtonDisabled"><i class="fa fa-angle-right"></i></a>
                 </div>
             </div>
+            <!-- loader -->
+            <div class="loading"></div>
             <!-- if day is monday - that means no weekly data to show, show this section instead -->
             <div class="monday-card last-week" [class.hidden]="userData.length > 1">
                 <div class="card-header">
