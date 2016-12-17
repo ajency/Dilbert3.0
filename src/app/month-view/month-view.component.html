@@ -18,6 +18,9 @@
                     <td colspan="8" class="noData"> No data to display</td>       
                 </tr>
                 <tr class="current" *ngFor="let week; let i = index; of monthData" >
+                    <td [colSpan]="week.data[0].day">
+
+                    </td>
                     <td *ngFor="let day of week.data">
                         <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                             <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
@@ -30,17 +33,16 @@
                         <!--<a *ngIf="i.isEmpty == true">
                         </a>-->
                     </td>
-                    <td [colSpan]="6-week.data.length">
-                    </td>
+             
                     <td class="sunday">
-                        <!--<a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                            <span class="th-day small-title">SUNDAY</span>
-                            <span class="th-total">9:30</span>
+                        <!--<a  *ngIf="week.data[6]" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{week.data[0].total_time}}</span>
                             <span class="th-spilt">
-                                <span class="th-work">9:45</span> -
-                                <span class="th-break">19:15</span>
+                                <span class="th-work">{{week.data[0].start_time ? (week.data[0].start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(week.data[0].end_time ? (week.data[0].end_time | date: 'h:mm')  : 'n/a')}} </span>
                             </span>
-                        </a> -->
+                        </a>-->
                     </td>
                     <td>
                         <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
@@ -58,3 +60,55 @@
         </table>
     </div>
 </div>
+
+<!--
+       <td>
+                        <a *ngIf="week.data[1]" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{week.data[0].total_time}}</span>
+                            <span class="th-spilt">
+                                <span class="th-work">{{week.data[0].start_time ? (week.data[0].start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(week.data[0].end_time ? (week.data[0].end_time | date: 'h:mm')  : 'n/a')}} </span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <a  *ngIf="week.data[2]" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{week.data[0].total_time}}</span>
+                            <span class="th-spilt">
+                                <span class="th-work">{{week.data[0].start_time ? (week.data[0].start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(week.data[0].end_time ? (week.data[0].end_time | date: 'h:mm')  : 'n/a')}} </span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <a  *ngIf="week.data[3]" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{week.data[0].total_time}}</span>
+                            <span class="th-spilt">
+                                <span class="th-work">{{week.data[0].start_time ? (week.data[0].start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(week.data[0].end_time ? (week.data[0].end_time | date: 'h:mm')  : 'n/a')}} </span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <a *ngIf="week.data[4]"  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{week.data[0].total_time}}</span>
+                            <span class="th-spilt">
+                                <span class="th-work">{{week.data[0].start_time ? (week.data[0].start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(week.data[0].end_time ? (week.data[0].end_time | date: 'h:mm')  : 'n/a')}} </span>
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <a *ngIf="week.data[5]"  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>
+                            <span class="th-total">{{week.data[0].total_time}}</span>
+                            <span class="th-spilt">
+                                <span class="th-work">{{week.data[0].start_time ? (week.data[0].start_time | date: 'h:mm') : 'n/a'}} </span> -
+                                <span class="th-break">{{(week.data[0].end_time ? (week.data[0].end_time | date: 'h:mm')  : 'n/a')}} </span>
+                            </span>
+                        </a>
+                    </td>-->

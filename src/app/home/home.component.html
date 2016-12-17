@@ -80,7 +80,7 @@
                 </div>
             </div>
             <!-- add class hidden to this too, if day is monday -->
-            <div class="card-navigation">
+            <div class="card-navigation" [class.hidden]="userData.length <= 1">
                 <div class="btn-group btn-dropdown dropup filter pull-left" style="margin-top: 0;">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Jump to Date <span class="fa fa-angle-down"></span>
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <!-- if day is monday - that means no weekly data to show, show this section instead -->
-            <div class="monday-card last-week hidden">
+            <div class="monday-card last-week" [class.hidden]="userData.length > 1">
                 <div class="card-header">
                     <div class="illustration pull-left"></div>
                     <small class="this-week-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>

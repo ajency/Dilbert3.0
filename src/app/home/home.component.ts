@@ -34,11 +34,11 @@ export class HomeComponent implements OnInit {
   dayStartDeviation: any;
   todaysDate: any;
   constructor(private userDataService: UserDataService, public appUtilService: AppUtilService) {
-
+    console.log(navigator, 'navigator');
   }
 
   ngOnInit() {
-    this.dropDownValue = 2;
+    this.dropDownValue = 1;
     // 220
     let reg = /^\d+$/;
     this.todaysDate = this.appUtilService.formatDate(new Date());
@@ -185,9 +185,6 @@ export class HomeComponent implements OnInit {
   formatMonthView(userData) {
     this.formatDATA = [];
     // userData.forEach( data => {
-    //   this.formatDATA[this.appUtilService.getWeek(data.work_date) - getStartWeek] = [];
-    // });
-    // userData.forEach( data => {
     //   // console.log (this.getStartAndEndOfDate(data.work_date, false));
     //   // switch (new Date(data.work_date).getDay()) {
     //   //   case 0 : formatDATA.Sunday.push(data); break;
@@ -207,11 +204,16 @@ export class HomeComponent implements OnInit {
     // });
     this.formatDATA = userData;
     this.formatDATA.forEach( (month, key ) => {
-      console.log(month.data, key, 'MONTH');
       let sec = 0;
       month.data.forEach( data2 => {
         if (data2.total_time !== '') {
           sec += this.appUtilService.toSeconds(data2.total_time);
+        }
+        let day = new Date(data2.work_date).getDay();
+        if (day === 0) {
+          data2.day = 6;
+        } else {
+          data2.day = day - 1;
         }
       });
       month.data.totalHrs =
