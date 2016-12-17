@@ -13,7 +13,7 @@
     <meta name="msapplication-tap-highlight" content="no">
 
     <!-- Web Application Manifest -->
-    <link rel="manifest" href="{{ url('/assets/manifest.webmanifest') }}">
+    <!-- <link rel="manifest" href="{{ url('/assets/manifest.webmanifest') }}"> -->
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -67,6 +67,7 @@
         }*/
         window.onload = function() {
           $('.dropdown-toggle').dropdown();
+          localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
           };
       </script>
       <script type="text/javascript" src="{{ url('/views/inline.js') }}"></script>

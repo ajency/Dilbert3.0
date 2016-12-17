@@ -41,7 +41,7 @@ class SocialAuthController extends Controller {
                     if($status == "exist") {
                         auth()->login($user);
                         $this->setLang(auth()->user()->lang);
-                        return redirect()->to('/home');
+                        return redirect()->to('/home')->with('reload', "true");
                     } else if($status == "present") {// join organization
                         $company = $org[0]->name;
                         $domain = $org[0]->domain;

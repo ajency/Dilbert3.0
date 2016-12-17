@@ -53,8 +53,11 @@ class HomeController extends Controller
 
         //$this->setLang(auth()->user()->lang);
         //return view('home',compact('logo','logs'));
-        
-        return redirect('/dashboard');
+        if(session()->has("reload")) {
+            return redirect('/dashboard')->with('reload', "true");
+        } else {
+            return redirect('/dashboard');
+        }
     }
 
     public function profile() {// view profile details
