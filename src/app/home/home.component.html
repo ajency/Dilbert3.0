@@ -2,6 +2,7 @@
     <div class="row order-columns">
         <div class="col-md-8 at-btm visible-xs visible-sm">
             <!-- if day is monday then hide this and show the div with class "monday-card" -->
+            
             <div class="card last-week closed">
                 <div class="card-progress" data-weekdays="5" data-width="75"></div>
                 <div class="card-header">
@@ -15,6 +16,7 @@
                         <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
                     </div>
                 </div>
+                <div *ngIf="showLoader" class="loading"></div>
                 <div class="listy this-yesterday" *ngIf="yesterdaysData">
                     <div class="list-top">
                         <div class="day-info pull-left">
@@ -116,9 +118,8 @@
                 </div>
             </div>
             <!-- loader -->
-            <div class="loading"></div>
             <!-- if day is monday - that means no weekly data to show, show this section instead -->
-            <div class="monday-card last-week" [class.hidden]="userData.length > 1">
+            <div class="monday-card last-week" [class.hidden]="userData.length > 1 && !showLoader">
                 <div class="card-header">
                     <div class="illustration pull-left"></div>
                     <small class="this-week-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>
@@ -214,8 +215,12 @@
                                 </thead>
                                 <tbody>
                                     <!--class="current"-->
-                                    <tr *ngIf="userData.length == 0" > 
+                                    <tr *ngIf="userData.length == 0 && !showLoader" > 
                                         <td colspan="3" class="noData"> No data to display</td>       
+                                    </tr>
+                                    <tr *ngIf="showLoader">
+
+                                        <td colspan="3"><div class="loading"></div></td>
                                     </tr>
                                     <tr *ngFor="let data of userData" [class.current]="todaysDate === data.work_date">
                                         <td>
@@ -294,7 +299,7 @@
             </div>
         </div>
         <app-todays-card [userid]="userid" *ngIf="userid"></app-todays-card>
-       
+        
     </div>
 </div>
 

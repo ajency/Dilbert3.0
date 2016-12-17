@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   userData: any[] = [];
   todaysData: any;
   oldData: any[] = [];
+  showLoader: boolean = true;
   yesterdaysData: any;
   totalHoursThisWeek: string;
   nextButtonDisabled: boolean;
@@ -34,11 +35,11 @@ export class HomeComponent implements OnInit {
   dayStartDeviation: any;
   todaysDate: any;
   constructor(private userDataService: UserDataService, public appUtilService: AppUtilService) {
-    console.log(navigator, 'navigator');
+
   }
 
   ngOnInit() {
-    this.dropDownValue = 1;
+    this.dropDownValue = 2;
     // 220
     let reg = /^\d+$/;
     this.todaysDate = this.appUtilService.formatDate(new Date());
@@ -110,7 +111,9 @@ export class HomeComponent implements OnInit {
     this.thisWeekDates = date;
   };
   getData(date) {
+    this.showLoader = true;
     this.userDataService.getUserData(this.userid, date).subscribe( (response) => {
+      this.showLoader = false;
       this.userData = [];
 
       this.yesterdaysData = null;
@@ -151,7 +154,7 @@ export class HomeComponent implements OnInit {
       // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
     }, onerror => {
       this.userData = [];
-
+      this.showLoader = false;
       this.oldData = [];
       this.yesterdaysData = null;
       this.totalHoursThisWeek = '00:00';
