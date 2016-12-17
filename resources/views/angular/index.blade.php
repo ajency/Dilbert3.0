@@ -7,12 +7,7 @@
   <link rel="stylesheet" href="{{ url('/assets/css/font.css') }}" />
   <!-- <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="stylesheet" href="./assets/css/styles.css"> -->
-  <script type="text/javascript">
-    //window.onload = function() {
-      $('.dropdown-toggle').dropdown();
-      localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-    //}
-  </script>
+
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
@@ -54,5 +49,11 @@
   <script type="text/javascript" src="{{ url('/views/inline.js') }}"></script>
   <script type="text/javascript" src="{{ url('/views/styles.bundle.js') }}"></script>
   <script type="text/javascript" src="{{ url('/views/scripts.bundle.js') }}"></script>
+  <script type="text/javascript">
+    window.onload = function() {
+      $('.dropdown-toggle').dropdown();
+      localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+    }
+  </script>
   <script type="text/javascript" src="{{ url('/views/main.bundle.js') }}"></script>
 @endsection
