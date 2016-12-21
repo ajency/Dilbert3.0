@@ -101,7 +101,7 @@ class OrganizationsController extends Controller
             Session::set('locale', $user[0]->lang);
         }
 
-        return redirect()->to('/home');
+        return redirect()->to('/home')->with('reload', "true");
     	//return redirect('/redirect/google');
     }
 
