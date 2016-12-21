@@ -24,7 +24,7 @@
                     <td *ngFor="let day of week.data">
                         <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                             <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
-                            <span class="th-total">{{day.total_time}}</span>
+                            <span class="th-total">{{day.total_time ? day.total_time : 'n/a'}}</span>
                             <span class="th-spilt">
                                 <span class="th-work">{{day.start_time ? (day.start_time | date: 'h:mm') : 'n/a'}} </span> -
                                 <span class="th-break">{{(day.end_time ? (day.end_time | date: 'h:mm')  : 'n/a')}} </span>
@@ -33,7 +33,9 @@
                         <!--<a *ngIf="i.isEmpty == true">
                         </a>-->
                     </td>
-             
+                    <td [colSpan]="week.data[week.data.length-1].day + 1" *ngIf="week.data[week.data.length-1].day !== 5">
+
+                    </td>
                     <td class="sunday">
                         <!--<a  *ngIf="week.data[6]" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                             <span class="th-day small-title"> {{week.data[0].work_date | date : 'd MMM'}}</span>

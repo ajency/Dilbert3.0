@@ -61,8 +61,7 @@ export class TodaysCardComponent implements OnInit {
             let mins = parseInt(temp[1], 10);
             let minInPercentage = (mins / 60) * 100;
             let hrsInPercentage = (hrs / 10) * 100;
-            this.today.timeCompleted = (hrsInPercentage +  (2 * (minInPercentage / 100 ))).toFixed(2);
-
+            this.today.timeCompleted = (hrsInPercentage +  (10 * (minInPercentage / 100 ))).toFixed(2);
             this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
             // 240= 0% and 480 is 100%
           }

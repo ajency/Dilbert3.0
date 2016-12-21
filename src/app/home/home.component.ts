@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dropDownValue = 2;
+    this.dropDownValue = 1;
     // 220
     let reg = /^\d+$/;
     this.todaysDate = this.appUtilService.formatDate(new Date());
@@ -206,20 +206,44 @@ export class HomeComponent implements OnInit {
     //   return [value];
     // });
     this.formatDATA = userData;
-    this.formatDATA.forEach( (month, key ) => {
+    this.formatDATA.forEach( (week, key ) => {
       let sec = 0;
-      month.data.forEach( data2 => {
+      week.data.forEach( (data2, index ) => {
         if (data2.total_time !== '') {
           sec += this.appUtilService.toSeconds(data2.total_time);
         }
+        let t2 = null;
+        if ( week.data[index + 1]) {
+          t2 = new Date(week.data[index + 1].work_date).toDateString();
+
+        }
+        // let nDD = new Date(data2.work_date);
+        let currD = new Date(data2.work_date);
+        let trr = currD;
+        let nxtD = new Date(trr.setDate( trr.getDate() + 1));
         let day = new Date(data2.work_date).getDay();
+        if ( t2 !== nxtD.toDateString() && t2 !== null && nxtD.getDay() !== 0 && nxtD.getDay() !== 6) {
+          week.data.push( {
+            start_time: null,
+            end_time: null,
+            total_time: '00:00',
+            work_date: nxtD.toDateString(),
+            day: nxtD.getDay(),
+            isEmpty: true
+          });
+        }
+        data2.isEmpty = false;
         if (day === 0) {
           data2.day = 6;
         } else {
           data2.day = day - 1;
         }
       });
-      month.data.totalHrs =
+      console.log(week.data, 'WEEK');
+      week.data.sort( (a, b) => {
+        return new Date(a.work_date).getTime() - new Date(b.work_date).getTime();
+      });
+      week.data.totalHrs =
         this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
         this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
     });
