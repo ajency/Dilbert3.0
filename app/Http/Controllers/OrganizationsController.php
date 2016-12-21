@@ -122,7 +122,7 @@ class OrganizationsController extends Controller
                 $user[0]->roles()->attach($member->id); // id only
 
                 auth()->login($user[0]);
-                return redirect()->to('/home');
+                return redirect()->to('/home')->with('reload', "true");
             }
         } catch (Exception $e) {
             
