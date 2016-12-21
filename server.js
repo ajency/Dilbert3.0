@@ -27,14 +27,14 @@ io.on('connection', function (socket) {
 
   /*console.log("Socket engine");
   console.log(socket.id);*/// display client socket ID
-  console.log(socket.client.id);
-  console.log(socket.id);
+  //console.log(socket.client.id);
+  //console.log(socket.id);
   socket.on('my_log', function (data) { // data from chrome app/client
     /*console.log("Data from chrome");
     console.log(data.user_id);*/
-    console.log("Socket ID " + socket.id);
-    console.log("Socket ID " + socket.client.id);
-    console.log("Client's socket " + data.socket_id);
+    //console.log("Socket ID " + socket.id);
+    //console.log("Socket ID " + socket.client.id);
+    //console.log("Client's socket " + data.socket_id);
     if(data.user_id != -1) {
       // client data on state change
       var user = JSON.stringify({
@@ -109,17 +109,17 @@ io.on('connection', function (socket) {
         //pub.del('test-channels ' + message.data.data.socket_id);// delete the content from queue after sending Response to client
         
         if(message.data.data.socket_status == "return") {
-          console.log("Returning back to Chrome app");
+          //console.log("Returning back to Chrome app");
           io.to(message.data.data.socket_id).emit(channel + ':' + message.event, message.data);// send the response to specific client, using socket ID
           //io.emit(channel + ':' + message.event, message.data);
         } else if(message.data.data.socket_status == "close") {
-            console.log("Socket ID " + message.data.data.socket_id + " successfully closed..");
+            //console.log("Socket ID " + message.data.data.socket_id + " successfully closed..");
             io.to(message.data.data.socket_id).emit(channel + ':' + message.event, message.data);// send the response to specific client, using socket ID
         } else {
           io.to(message.data.data.socket_id).emit(channel + ':' + message.event, message.data);// send the response to specific client, using socket ID
         }
         pub.lpop('test-channels');
-        console.log("Received from Laravel");
+        //console.log("Received from Laravel");
       } else if(message.data.data.socket_status == "org_id_deleted") {
         io.emit(channel + ':' + message.event, message.data);
       } else if(message.data.data.socket_status == "invalid_auth") {
@@ -157,8 +157,8 @@ io.on('connection', function (socket) {
     });
 
     pub.rpush('test-channels', user, function(err, reply) {
-      console.log("Reply of set ");
-      console.log(reply);
+      //console.log("Reply of set ");
+      //console.log(reply);
     });
 
     request(laravel_server + "/api/fire", function (error, response, body) { // load that page for event call
