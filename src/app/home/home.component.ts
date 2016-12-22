@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dropDownValue = 1;
+    this.dropDownValue = 2;
     // 220
     let reg = /^\d+$/;
     this.todaysDate = this.appUtilService.formatDate(new Date());
