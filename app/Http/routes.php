@@ -108,8 +108,8 @@ Route::get('/logout/google', 'SocialAuthController@logout');
 
 // add new Organization details
 Route::get('/org', 'OrganizationsController@index');
-Route::post('/org/save','OrganizationsController@save');
-Route::get('/orgpresent','OrganizationsController@domainPresent');
+Route::post('/org/save','OrganizationsController@save');// Creates Organization
+Route::get('/orgpresent','OrganizationsController@domainPresent');// Assigns to that Organization
 Route::post('/query','ComplaintController@issueFaced');
 
 //user info
