@@ -151,6 +151,22 @@ Route::get('/dashboard', function() { /* Angular2 PWA page route */
         return redirect('/login');
 });
 
+Route::get('/dashboard/{emp_id}', function($emp_id) { /* Angular2 PWA page route */
+
+    if(!auth()->guest()) { /* If user is Authorized, then access Dashboard, else Redirect to Login page */
+        $org_id = App\User::where('email',auth()->user()->email)->get();
+        
+        $emp_details = App\User::where('id',$emp_id)->first();
+
+        $logo = App\Organization::find($org_id[0]->org_id)->get();
+        $logo = $logo[0]->domain;
+        $logs = App\Log::where([['user_id', $emp_id],['work_date', date('Y-m-d')],])->get();// get data based on today's date
+        
+        return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id, "emp_id" => $emp_id, "emp_name" => $emp_details->name, "emp_email" => $emp_details->email, "other_emp" => "true")));
+    } else 
+        return redirect('/login');
+});
+
 Route::group(['prefix' => 'api'], function () {
 
     // for app -> using AJAX call -> API auth in Org Controller
@@ -289,7 +305,9 @@ Route::group(['prefix' => 'api'], function () {
 
     Route::get('/data/save','LockedDataController@save'); // generate summary of logs & save in locked_data
     Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
-    Route::get('/data/employees','LockedDataController@employees_log_summary'); // get all the employee's log summary
+    //Route::get('/data/users/{emp_id}','LockedDataController@other_users_log_summary'); // get other employee's log summary
+    Route::get('/data/users','LockedDataController@other_users_log_summary'); // get other employee's log summary
+    Route::get('/data/employees','LockedDataController@employees_log_summary'); // get all the employees log summary
     
     Route::get('/data/role','RolePermissionController@role'); // Create new set of roles for the first time
 });

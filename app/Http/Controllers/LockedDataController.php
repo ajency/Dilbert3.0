@@ -201,6 +201,36 @@ class LockedDataController extends Controller
         }*/
     }
 
+    public function other_users_log_summary(Request $request) {// Get other employee's Logged details 
+    	$output = new ConsoleOutput();
+        $output->writeln("Other user's Lock Data info");
+
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+        	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count(); // Check if user with that userID & API_token exist & get the count of those user's
+        	if($user_cnt > 0) {
+	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
+	        	if ($user->can('edit-users')) {// verifies if user has permission to read other's data
+	        		$output->writeln("Confirmed");
+			        if(empty($request->start_date) && empty($request->end_date))
+			        	return Locked_Data::where('user_id', $request->emp_id)->orderBy('work_date')->get();
+			        /*else if(empty($request->start_date))
+			        	return Locked_Data::where('user_id', $request->emp_id)->where('work_date', '<=', $request->end_date)->orderBy('user_id')->get();
+			        else if(empty($request->end_date))
+			        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();*/
+			        else
+			        	return Locked_Data::where('user_id', $request->emp_id)->whereBetween('work_date',[$request->start_date, $request->end_date])->orderBy('work_date')->get();
+	        	}  else {
+			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
+			    }
+			} else {
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
+			}
+	    } else {
+			//$output->writeln("In else");	    	
+	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
+	    }
+    }
+
     public function employees_log_summary(Request $request) {
     	$output = new ConsoleOutput();
         $output->writeln("Employees Lock Data info");

@@ -140,8 +140,8 @@ class HomeController extends Controller
             $new_role = Role::where('name',$request->role)->first();// create new role
 
             //$user->roles()->sync($new_role->id); // id only
-            $user->roles()->detach($old_role->id);
-            $user->roles()->attach($new_role->id);
+            $user->roles()->detach($old_role->id); /* Delete that user's old role */
+            $user->roles()->attach($new_role->id); /* Assign new role to that user */
 
             User::where('id',$user_id)->update(['role' => $request->role]);
 

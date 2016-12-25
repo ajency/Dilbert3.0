@@ -59,7 +59,20 @@
         };
       </script>
     @endif
-    @else
+  @elseif(count(explode('/',request()->url())) == 5)
+    <script type="text/javascript">
+        window.onload = function() {
+          $('.dropdown-toggle').dropdown();
+          if(!JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("other_emp")) {
+            localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+            window.location.reload();
+          } else {
+            console.log("Executed");
+            localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+          }
+        };
+      </script>
+  @else
       <script type="text/javascript">
         /*window.onload = function() {
           $('.dropdown-toggle').dropdown();
@@ -68,12 +81,11 @@
         window.onload = function() {
           $('.dropdown-toggle').dropdown();
           localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-          };
+        };
       </script>
-      <script type="text/javascript" src="{{ url('/views/inline.js') }}"></script>
-      <script type="text/javascript" src="{{ url('/views/styles.bundle.js') }}"></script>
-      <script type="text/javascript" src="{{ url('/views/scripts.bundle.js') }}"></script>
-      <script type="text/javascript" src="{{ url('/views/main.bundle.js') }}"></script>
   @endif
-  
+  <script type="text/javascript" src="{{ url('/views/inline.js') }}"></script>
+  <script type="text/javascript" src="{{ url('/views/styles.bundle.js') }}"></script>
+  <script type="text/javascript" src="{{ url('/views/scripts.bundle.js') }}"></script>
+  <script type="text/javascript" src="{{ url('/views/main.bundle.js') }}"></script> 
 @endsection
