@@ -57,6 +57,34 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $output->writeln("Socket + user id confirmed");
 
                 $user = User::where('id', $redis_list->user_id)->get();
+
+                // Get User's TimeZone
+                $userTimeZone = $user[0]->timeZone;
+
+                // Get the TimeZone value from the whole content
+                $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
+
+                // Check the time slot & get Hours, Minutes & +/- sign
+                if(strpos($tempTimeZone[0], "+") === False) { /* It doesn't have '+' timezone*/
+                    $zoneValues = explode("+", $tempTimeZone);
+                    $hr = $zoneValues[1];
+                    $min = $tempTimeZone[1];
+                    $sign = '+';
+                } elseif(strpos($tempTimeZone[0], "-") === False) { /* It doesn't have '-' timezone*/
+                    $zoneValues = explode("-", $tempTimeZone);
+                    $hr = $zoneValues[1];
+                    $min = $tempTimeZone[1];
+                    $sign = '-';
+                } else { /* No TimeZone assinged */
+                    $hr = '00';
+                    $min = '00';
+                    $sign = '+';
+                }
+
+                /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
+                $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s'))); 
+                $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
+
                 $output->writeln("User count");
                 $output->writeln(count($user));
 
@@ -71,16 +99,16 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                 if(count($org_ipList)) { /* Check if that organization exist */
                     
-                    if(Log::where(['user_id' => $redis_list->user_id, 'work_date' => date("Y-m-d"), 'cos' => $redis_list->cos, 'from_state' => $redis_list->from_state, 'to_state' => $redis_list->to_state])->count() <= 0) { /* If the new log doesn't exist in the table, then enter the data */
+                    if(Log::where(['user_id' => $redis_list->user_id, 'work_date' => date("Y-m-d"), 'cos' => $timeZone, 'from_state' => $redis_list->from_state, 'to_state' => $redis_list->to_state])->count() <= 0) { /* If the new log doesn't exist in the table, then enter the data */
 
                         $output->writeln(count($org_ipList));
-                        $org_ipList = unserialize($org_ipList->ip_lists);
+                        $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */
                         
                         if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
                             $log = new Log;
 
                             $log->work_date = date("Y-m-d");
-                            $log->cos = $redis_list->cos;
+                            $log->cos = $timeZone;
                             $log->user_id = $redis_list->user_id;
                             $log->from_state = $redis_list->from_state;
                             $log->to_state = $redis_list->to_state;
@@ -97,7 +125,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                             }
 
                             if($redis_list->to_state == "New Session") {
-                                if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's 
+                                if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it exist
                                     Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => null, "total_time" => null]);
                                 }
                             }
@@ -108,7 +136,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry && User has gone Offline
                                     /* Update Summary/ Locaked_Data Table with new Offline state */
                                     $userLocked_data = Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->get();
-                                    Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos))))]);
+                                    Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);
                                 }
                             }
 
@@ -160,13 +188,42 @@ class EventChrome extends Event implements ShouldBroadcast {
             
             if(count($user)){
                 $user_id = $user[0]->id;
+
+                // Get User's TimeZone
+                $userTimeZone = $user[0]->timeZone;
+
+                // Get the TimeZone value from the whole content
+                $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
+
+                // Check the time slot & get Hours, Minutes & +/- sign
+                if(strpos($tempTimeZone[0], "+") === False) { /* It doesn't have '+' timezone*/
+                    $zoneValues = explode("+", $tempTimeZone);
+                    $hr = $zoneValues[1];
+                    $min = $tempTimeZone[1];
+                    $sign = '+';
+                } elseif(strpos($tempTimeZone[0], "-") === False) { /* It doesn't have '-' timezone*/
+                    $zoneValues = explode("-", $tempTimeZone);
+                    $hr = $zoneValues[1];
+                    $min = $tempTimeZone[1];
+                    $sign = '-';
+                } else { /* No TimeZone assinged */
+                    $hr = '00';
+                    $min = '00';
+                    $sign = '+';
+                }
+
+                /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
+                $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s'))); 
+                $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
+                
+
                 User::where('id', $user_id)->update(['socket_id' => '']); /* Clear Socket ID */
 
                 $output->writeln("Socket id + !user id -> New Log");
                 $log = new Log;
                 $log->user_id = $user_id;
                 $log->work_date = date("Y-m-d");
-                $log->cos = $redis_list->cos;
+                $log->cos = $timeZone;
                 $log->from_state = $redis_list->from_state;
                 $log->to_state = $redis_list->to_state;
                 $log->ip_addr = $redis_list->ip_addr;
@@ -174,7 +231,7 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                 if(Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry
                     /* Update Summary/ Locaked_Data Table with new Offline state */
-                    Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$redis_list->cos))))]);
+                    Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);
                 }
                 $output->writeln("Log out log updated");
 
