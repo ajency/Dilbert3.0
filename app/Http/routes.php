@@ -172,7 +172,7 @@ Route::group(['prefix' => 'api'], function () {
     // for app -> using AJAX call -> API auth in Org Controller
     Route::get('/org/info','OrganizationsController@info');//info of the organization, employee comes under
 
-    // for app + node -> using Socket.io (or) for app -> using ajax
+    // for app + nodeJS server -> using Socket.io (or) for app -> using ajax
     Route::get('fire', function (Request $request) {
         // this fires the event
         $output = new ConsoleOutput();

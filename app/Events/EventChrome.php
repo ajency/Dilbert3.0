@@ -65,13 +65,13 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
 
                 // Check the time slot & get Hours, Minutes & +/- sign
-                if(strpos($tempTimeZone[0], "+") === False) { /* It doesn't have '+' timezone*/
-                    $zoneValues = explode("+", $tempTimeZone);
+                if(strpos($tempTimeZone[0], "+") !== False) { /* It doesn't have '+' timezone*/
+                    $zoneValues = explode("+", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '+';
-                } elseif(strpos($tempTimeZone[0], "-") === False) { /* It doesn't have '-' timezone*/
-                    $zoneValues = explode("-", $tempTimeZone);
+                } elseif(strpos($tempTimeZone[0], "-") !== False) { /* It doesn't have '-' timezone*/
+                    $zoneValues = explode("-", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '-';
@@ -191,18 +191,18 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                 // Get User's TimeZone
                 $userTimeZone = $user[0]->timeZone;
-
+                
                 // Get the TimeZone value from the whole content
                 $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
 
                 // Check the time slot & get Hours, Minutes & +/- sign
-                if(strpos($tempTimeZone[0], "+") === False) { /* It doesn't have '+' timezone*/
-                    $zoneValues = explode("+", $tempTimeZone);
+                if(strpos($tempTimeZone[0], "+") !== False) { /* It doesn't have '+' timezone*/
+                    $zoneValues = explode("+", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '+';
-                } elseif(strpos($tempTimeZone[0], "-") === False) { /* It doesn't have '-' timezone*/
-                    $zoneValues = explode("-", $tempTimeZone);
+                } elseif(strpos($tempTimeZone[0], "-") !== False) { /* It doesn't have '-' timezone*/
+                    $zoneValues = explode("-", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '-';
@@ -215,7 +215,6 @@ class EventChrome extends Event implements ShouldBroadcast {
                 /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
                 $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s'))); 
                 $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
-                
 
                 User::where('id', $user_id)->update(['socket_id' => '']); /* Clear Socket ID */
 
