@@ -67,20 +67,26 @@ class SocialAuthController extends Controller {
     }
     
     public function logout() { // overrided the default login -> for chrome App
-        if (array_key_exists(auth()->user()->lang, Config::get('app.locales'))) {
-            Session::set('locale', "en");
-        }
+        try {
+            if (array_key_exists(auth()->user()->lang, Config::get('app.locales'))) {
+                Session::set('locale', "en");
+            }
 
-        auth()->logout();
-        //return redirect()->to(session('locale').'/home');
-        return redirect('/login');
+            auth()->logout();
+            //return redirect()->to(session('locale').'/home');
+            return redirect('/login');
+        } catch (Exception $e) {
+            Session::set('locale', "en");
+            auth()->logout();
+            return redirect('/login');
+        }
     }
     
     // for app
     public function getConfirm(Request $request) { // confirms if user & organization exist
         $output = new ConsoleOutput();
 
-        $output->writeln("Confirmation");
+        //$output->writeln("Confirmation");
         $user_id = User::where('email',$request->email)->get();
         
         if(count($user_id) > 0) {
