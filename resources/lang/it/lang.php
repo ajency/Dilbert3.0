@@ -36,6 +36,7 @@
 	  'hour' => 'ora',
 	  'minute' => 'minuto',
 	  'roles_n_permissions' => 'Ruoli e autorizzazioni',
+	  'go_2_dashbrd' => 'Andare al Cruscotto',
 	  
 	  // profile page
 	  'per_details' => 'Dati personali',
@@ -65,6 +66,7 @@
 	  'main_get_title' => 'Ottieni il tuo Dilbert ora',
 	  'main_get_sub_title' => 'È sufficiente accedere con il tuo account Google e lasciare il caos n trambusto a noi!',
 	  'main_get_sub_btn' => 'Iscriviti Dilbert ora',
+	  'main_get_sub_dashbrd_btn' => 'Vai a Dashboard ora',
 	  
 	  //employee list page
 	  'company_name' => 'Nome della Società',

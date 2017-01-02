@@ -7,7 +7,11 @@
         <h1 class="hero-title"> @lang('lang.hero_title') </h1>
         <p class="hero-tag">@lang('lang.hero_tag')</p>
 
-        <a href="{{ url('/register') }}" class="btn btn-primary btn-hero">@lang('lang.sign_up') @lang('lang.now')!</a>
+        @if(auth->guest())
+            <a href="{{ url('/register') }}" class="btn btn-primary btn-hero">@lang('lang.sign_up') @lang('lang.now')!</a>
+        @else
+            <a href="{{ url('/home') }}" class="btn btn-primary btn-hero">@lang('lang.go_2_dashbrd')!</a>
+        @endif
 
         <div class="hero-image">
             <img src="img/hero-img.png" class="img-responsive" alt="">
@@ -87,7 +91,11 @@
                 <div class="cta-sub-title">@lang('lang.main_get_sub_title')</div>
             </div>
             <div class="col-md-4 col-sm-6 text-right text-center-xs">
-                <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a>
+                @if(auth->guest())
+                    <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a>
+                @else
+                    <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_dashbrd_btn')</a>
+                @endif
             </div>
         </div>
     </div>

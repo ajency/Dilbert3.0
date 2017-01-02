@@ -36,6 +36,7 @@
 	  'hour' => 'hour',
 	  'minute' => 'minute',
 	  'roles_n_permissions' => 'Roles and permissions',
+	  'go_2_dashbrd' => 'Go to Dashboard',
 
 	  //profile page
 	  'per_details' => 'Personal Details',
@@ -65,6 +66,7 @@
 	  'main_get_title' => 'Get your own Dilbert now',
 	  'main_get_sub_title' => 'Just sign in using your Google account and leave the hustle n bustle to us!',
 	  'main_get_sub_btn' => 'Sign up for Dilbert now',
+	  'main_get_sub_dashbrd_btn' => 'Goto Dashboard Now',
 
 	  //employee list page
 	  'company_name' => 'Company\'s Name',

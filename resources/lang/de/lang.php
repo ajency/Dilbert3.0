@@ -36,6 +36,7 @@
 	  'hour' => 'stunde',
 	  'minute' => 'minute',
 	  'roles_n_permissions' => 'Rollen und Berechtigungen',
+	  'go_2_dashbrd' => 'Gehen Sie zum Dashboard',
 
 	  //profile page
 	  'per_details' => 'Persönliche Details',
@@ -65,6 +66,7 @@
 	  'main_get_title' => 'Erhalten Sie Ihren eigenen Dilbert jetzt',
 	  'main_get_sub_title' => 'Melden Sie sich einfach mit Ihrem Google-Konto an und überlassen Sie uns die Hektik!',
 	  'main_get_sub_btn' => 'Melden Sie sich jetzt für Dilbert an',
+	  'main_get_sub_dashbrd_btn' => 'Gehe zu Dashboard jetzt',
 	  
 	  //employee list page
 	  'company_name' => 'Firmenname',

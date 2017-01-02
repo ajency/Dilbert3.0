@@ -8,7 +8,7 @@
 </script>
 @endsection
 @section('content')
-    @if (!session()->has('session') and  session('session') == "session_timeout")
+    @if (!session()->has('session') and session('session') == "session_timeout")
         <div class="row">
             <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
                 <div class="alert alert-warning alert-dismissible" role="alert">
