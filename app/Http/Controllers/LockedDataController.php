@@ -211,14 +211,63 @@ class LockedDataController extends Controller
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-users')) {// verifies if user has permission to read other's data
 	        		$output->writeln("Confirmed");
+			        
+			        if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
+	        			if($request->start_date == $request->end_date) {
+	        				$startDate = $endDate = $request->start_date;
+	        			} else {
+		        			if((int)date('w', strtotime($request->start_date) - 1 ) % 7 > 0) { /* Get start of the week*/
+		        				$days = "-" . ((int)date('w', strtotime($request->start_date) - 1) % 7) . " day";
+		        				$startDate = date('Y-m-d',strtotime($days, strtotime($request->start_date)));
+		        			} else {
+		        				$startDate = $request->start_date;
+		        			}
+
+		        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
+		        				$days = (7 - (int)date('w', strtotime($request->end_date))) . " day"; /* Get last date of that week */
+		        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
+		        			} else {
+		        				$endDate = $request->end_date; /* This is the last date of the week */
+		        			}
+		        		}
+	        		}
+
 			        if(empty($request->start_date) && empty($request->end_date))
 			        	return Locked_Data::where('user_id', $request->emp_id)->orderBy('work_date')->get();
 			        /*else if(empty($request->start_date))
 			        	return Locked_Data::where('user_id', $request->emp_id)->where('work_date', '<=', $request->end_date)->orderBy('user_id')->get();
 			        else if(empty($request->end_date))
 			        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();*/
-			        else
-			        	return Locked_Data::where('user_id', $request->emp_id)->whereBetween('work_date',[$request->start_date, $request->end_date])->orderBy('work_date')->get();
+			        else {
+			        	$datas = Locked_Data::where('user_id',$request->emp_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
+			        	
+			        	if(sizeof($datas) > 0) {
+			        		//$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
+
+				        	if ((int)date_diff(date_create(),date_create($datas[sizeof($datas) - 1]["work_date"]))->format("%a") == 0 && ($datas[sizeof($datas) - 1]["total_time"] == null || $datas[sizeof($datas) - 1]["total_time"] == "")) { /* Get Current End_Time & Total_time */
+				        		$datas[sizeof($datas) - 1]["end_time"] = date('Y-m-d H:i:s',strtotime('+5 hour +30 minute'));
+								$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
+				        	}
+
+				        	
+				        	foreach ($datas as $data) {
+				        		if (sizeof($content) == 0) {
+				        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+				        			$content["data"] = array($data);
+				        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1) {
+				        			array_push($content["data"], $data);
+				        		} else {
+				        			array_push($json, $content);
+				        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+				        			$content["data"] = array($data);
+				        		}
+				        		//$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
+				        	}
+				        	array_push($json, $content);
+			        	}
+			        	return response()->json($json);
+			        }
+			        	
 	        	}  else {
 			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
 			    }
