@@ -113,7 +113,7 @@ class LockedDataController extends Controller
 
     public function user_log_summary(Request $request) {// display specific user's locked data in JSON
     	$output = new ConsoleOutput();
-        $output->writeln("Personal Lock Data info");
+        //$output->writeln("Personal Lock Data info");
 
         if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){        	
         	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
@@ -124,7 +124,7 @@ class LockedDataController extends Controller
 
 	        		$content = []; $json = [];
 
-	        		$output->writeln("Confirmed");
+	        		//$output->writeln("Confirmed");
 			        
 	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
 	        			if($request->start_date == $request->end_date) {
@@ -203,14 +203,16 @@ class LockedDataController extends Controller
 
     public function other_users_log_summary(Request $request) {// Get other employee's Logged details 
     	$output = new ConsoleOutput();
-        $output->writeln("Other user's Lock Data info");
+        //$output->writeln("Other user's Lock Data info");
 
         if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
         	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count(); // Check if user with that userID & API_token exist & get the count of those user's
         	if($user_cnt > 0) {
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-users')) {// verifies if user has permission to read other's data
-	        		$output->writeln("Confirmed");
+	        		
+	        		$content = []; $json = [];
+	        		//$output->writeln("Confirmed");
 			        
 			        if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
 	        			if($request->start_date == $request->end_date) {
@@ -282,7 +284,7 @@ class LockedDataController extends Controller
 
     public function employees_log_summary(Request $request) {
     	$output = new ConsoleOutput();
-        $output->writeln("Employees Lock Data info");
+        //$output->writeln("Employees Lock Data info");
 
         if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
         	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
@@ -290,7 +292,7 @@ class LockedDataController extends Controller
         	if($user_cnt > 0) {
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-users')) {// verifies if user has permission
-	        		$output->writeln("Confirmed");
+	        		//$output->writeln("Confirmed");
 			        if(empty($request->start_date) && empty($request->end_date))
 			        	return Locked_Data::orderBy('user_id')->get();
 			        else if(empty($request->start_date))
