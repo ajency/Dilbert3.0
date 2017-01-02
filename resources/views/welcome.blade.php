@@ -7,7 +7,7 @@
         <h1 class="hero-title"> @lang('lang.hero_title') </h1>
         <p class="hero-tag">@lang('lang.hero_tag')</p>
 
-        @if(auth->guest())
+        @if(Auth::guest())
             <a href="{{ url('/register') }}" class="btn btn-primary btn-hero">@lang('lang.sign_up') @lang('lang.now')!</a>
         @else
             <a href="{{ url('/home') }}" class="btn btn-primary btn-hero">@lang('lang.go_2_dashbrd')!</a>
@@ -91,7 +91,7 @@
                 <div class="cta-sub-title">@lang('lang.main_get_sub_title')</div>
             </div>
             <div class="col-md-4 col-sm-6 text-right text-center-xs">
-                @if(auth->guest())
+                @if(Auth::guest())
                     <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a>
                 @else
                     <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_dashbrd_btn')</a>
