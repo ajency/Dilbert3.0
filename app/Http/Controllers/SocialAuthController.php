@@ -81,12 +81,12 @@ class SocialAuthController extends Controller {
             } else { // User's Session Timed out
                 Session::set('locale', "en");
                 auth()->logout();
-                return redirect('/login');
+                return redirect('/login')->with('message', "session_timeout");
             }
         } catch (Exception $e) { // User session validation Exception
             Session::set('locale', "en");
             auth()->logout();
-            return redirect('/login');
+            return redirect('/login')->with('message', "session_timeout");
         }
     }
     
