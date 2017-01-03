@@ -205,7 +205,7 @@ Route::group(['prefix' => 'api'], function () {
                 } else {
                     $output->writeln("no content");
                 }
-            } else { // API token auth is not used for offline function
+            } else { // API token authentication is not used for offline function
                 $redis_list = json_decode(Redis::lindex('test-channels', 0), false);// take 1st element
 
                 if($redis_list->to_state == "offline") {
