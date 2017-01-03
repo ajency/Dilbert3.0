@@ -124,7 +124,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $locking_today_data->save();
                             }
 
-                            if($redis_list->to_state == "New Session") {
+                            if($redis_list->to_state == "New Session" || $redis_list->to_state == "active") {
                                 if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it exist
                                     Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => null, "total_time" => null]);
                                 }
