@@ -209,7 +209,7 @@ class LockedDataController extends Controller
         	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count(); // Check if user with that userID & API_token exist & get the count of those user's
         	if($user_cnt > 0) {
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
-	        	if ($user->can('edit-users')) {// verifies if user has permission to read other's data
+	        	if ($user->can('edit-personal')) {// This permission can access self & other user's data//if ($user->can('edit-users')) {// verifies if user has permission to read other's data
 	        		
 	        		$content = []; $json = [];
 	        		//$output->writeln("Confirmed");

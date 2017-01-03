@@ -53,7 +53,7 @@
         		<tbody>
         			@foreach($users as $user)
 	        			<tr>
-	        				<td style="padding-top:12px"><p><img src="{{$user->avatar}}" height="15px" class="img-circle"/>@if(auth()->user()->name != $user->name)<a style="color:#606060" href="/dashboard/{{$user->id}}">{{$user->name}}</a>@else{{$user->name}}@endif</p></td>
+	        				<td style="padding-top:12px"><p><img src="{{$user->avatar}}" height="15px" class="img-circle"/>@if(auth()->user()->name != $user->name)<a style="color:#606060" href="/dashboard/{{$user->email}}">{{$user->name}}</a>@else{{$user->name}}@endif</p></td>
 	        				<td style="padding-top:12px"> <img src="https://www.google.com/a/cpanel/{{$orgLogo->domain}}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:35px;"> </td>
 	        				<td>
 	        					<input type="hidden" name="user_id" value="{{$user->id}}"/>
