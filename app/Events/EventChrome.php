@@ -48,10 +48,10 @@ class EventChrome extends Event implements ShouldBroadcast {
 
         if(isset($redis_list->user_id) && $redis_list->user_id > 0) { // if user is not disconnected
             $output->writeln("Socket id - Event Chrome inside if");
-            $output->writeln($redis_list->socket_id);
+            //$output->writeln($redis_list->socket_id);
 
-            $output->writeln(gettype($redis_list->user_id));
-            $output->writeln($redis_list->user_id);
+            //$output->writeln(gettype($redis_list->user_id));
+            //$output->writeln($redis_list->user_id);
             if(isset($redis_list->socket_id)) { // checks if user has socket ID
                 //
                 $output->writeln("Socket + user id confirmed");
@@ -65,12 +65,12 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
 
                 // Check the time slot & get Hours, Minutes & +/- sign
-                if(strpos($tempTimeZone[0], "+") !== False) { /* It doesn't have '+' timezone*/
+                if(strpos($tempTimeZone[0], "+") !== False) { /* It does have '+' timezone*/
                     $zoneValues = explode("+", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '+';
-                } elseif(strpos($tempTimeZone[0], "-") !== False) { /* It doesn't have '-' timezone*/
+                } elseif(strpos($tempTimeZone[0], "-") !== False) { /* It does have '-' timezone*/
                     $zoneValues = explode("-", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
@@ -82,11 +82,11 @@ class EventChrome extends Event implements ShouldBroadcast {
                 }
 
                 /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
-                $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s'))); 
+                $x = strtotime($sign . $hr . " hour " . $sign . $min . " min", strtotime(date('Y-m-d H:i:s'))); 
                 $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
 
-                $output->writeln("User count");
-                $output->writeln(count($user));
+                //$output->writeln("User count");
+                //$output->writeln(count($user));
 
                 if(count($user) > 0){
                     User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
@@ -99,7 +99,7 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                 if(count($org_ipList)) { /* Check if that organization exist */
                     
-                    if(Log::where(['user_id' => $redis_list->user_id, 'work_date' => date("Y-m-d"), 'cos' => $timeZone, 'from_state' => $redis_list->from_state, 'to_state' => $redis_list->to_state])->count() <= 0) { /* If the new log doesn't exist in the table, then enter the data */
+                    if(Log::where(['user_id' => $redis_list->user_id, 'work_date' => date("Y-m-d"), 'cos' => $timeZone, 'from_state' => $redis_list->from_state, 'to_state' => $redis_list->to_state])->count() <= 0) { /* If the new log doesn't exist in the table, then enter the data */ // -> To avoid recursive data
 
                         $output->writeln(count($org_ipList));
                         $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */
@@ -130,11 +130,12 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 }
                             }
 
-                            if($redis_list->to_state == "offline") { // user goes offline
-                                User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
+                            if($redis_list->to_state == "offline" || $redis_list->to_state == "idle") { // user goes offline or idle
+                                if($redis_list->to_state == "offline") /*  If User is offline, then delete the SocketID */
+                                    User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
 
                                 if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry && User has gone Offline
-                                    /* Update Summary/ Locaked_Data Table with new Offline state */
+                                    /* Update Summary/ Locked_Data Table with new Offline state */
                                     $userLocked_data = Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->get();
                                     Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);
                                 }
@@ -186,7 +187,7 @@ class EventChrome extends Event implements ShouldBroadcast {
             $user = User::where('socket_id', $redis_list->socket_id)->get();//update(['socket_id' => '']);
             $output->writeln("Socket id + !user id -> get");
             
-            if(count($user)){
+            if(count($user)){ // User exist
                 $user_id = $user[0]->id;
 
                 // Get User's TimeZone
@@ -196,12 +197,12 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
 
                 // Check the time slot & get Hours, Minutes & +/- sign
-                if(strpos($tempTimeZone[0], "+") !== False) { /* It doesn't have '+' timezone*/
+                if(strpos($tempTimeZone[0], "+") !== False) { /* It does have '+' timezone*/
                     $zoneValues = explode("+", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '+';
-                } elseif(strpos($tempTimeZone[0], "-") !== False) { /* It doesn't have '-' timezone*/
+                } elseif(strpos($tempTimeZone[0], "-") !== False) { /* It does have '-' timezone*/
                     $zoneValues = explode("-", $tempTimeZone[0]);
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];

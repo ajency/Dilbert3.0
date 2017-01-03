@@ -49,7 +49,7 @@ class LockedDataController extends Controller
 			Redis::flushdb();
 			return  response()->json(['status' => 'Success']);
 		} else if(date('l', strtotime($lastDate->work_date)) != "Saturday" || date_diff(date_create($lastDate->work_date), date_create(date("Y-m-d")))->format("%R%a") != "+1") {
-			/*if (previous date is not saturday) or (today's & last summary date difference is not +1)*/
+			/*if (previous date is not saturday) or (last summary date & today's date difference is not +1)*/
 			
 			$user_ids = Log::select('user_id')->groupBy('user_id')->get();//Only Distinct user id's
 
@@ -212,8 +212,7 @@ class LockedDataController extends Controller
 	        	if ($user->can('edit-personal')) {// This permission can access self & other user's data//if ($user->can('edit-users')) {// verifies if user has permission to read other's data
 	        		
 	        		$content = []; $json = [];
-	        		//$output->writeln("Confirmed");
-			        
+	        		
 			        if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
 	        			if($request->start_date == $request->end_date) {
 	        				$startDate = $endDate = $request->start_date;

@@ -23,46 +23,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 //Route::get('localization/{locale}','LocalizationController@index');
 Route::get('lang/{lang}', ['as'=>'lang.switch', 'uses'=>'LocalizationController@switchLang']);
 
-/*Route::get('/', function () {
-    //$locale = "en";
-    //session(['locale' => $locale]); // set the language for the page that user chose
-    //echo session('locale');
-    //exit();
-    //app()->setLocale($locale);
-    //Config::set('app.locale', "en");
-    if(auth()->guest())
-        return view('welcome',compact('locale'));
-    else{
-        $org_id = User::where('email',auth()->user()->email)->get();
-        
-        $logo = Organization::find($org_id[0]->org_id)->get();
-        $logo = $logo[0]->domain;
-        return view('welcome',compact('logo','locale'));
-    }
-});
-
-Route::group( ['prefix' => '{locale}'], function() {
-    Route::get('/', function ($locale) {
-        session(['locale' => $locale]); // set the language for the page that user chose
-        app()->setLocale($locale);
-        //echo session()->get('locale');
-        //exit();
-        if(auth()->guest())
-            return view('welcome',compact('locale'));
-        else{
-            $org_id = User::where('email',auth()->user()->email)->get();
-            
-            $logo = Organization::find($org_id[0]->org_id)->get();
-            $logo = $logo[0]->domain;
-            return view('welcome',compact('logo','locale'));
-        }
-    });
-
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
-});*/
-
 Route::get('/', function () {
     $locale = "en";
     //app()->setLocale($locale);
@@ -81,30 +41,10 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-//Route::get('language/{lang}', 'HomeController@language')->where('lang', '[A-Za-z_-]+');
-
-
-
-//Route::auth(); // for '/login' & '/register'
-/*Route::get('/login', function () {
-    return redirect('/' . App::getLocale(). '/login');
-});*/
-
-//$this->get('/{locale}/login', 'Auth\AuthController@showLoginForm');
-//$this->post('login', 'Auth\AuthController@login');
-//$this->get('logout', 'Auth\AuthController@logout');
-
-// Registration Routes...
-//$this->get('{locale}/register', 'Auth\AuthController@showRegistrationForm');
-//$this->post('register', 'Auth\AuthController@register');
-
 // google authentication
 Route::get('/redirect/google', 'SocialAuthController@redirect');
 Route::get('/callback/google', 'SocialAuthController@callback');
 Route::get('/logout/google', 'SocialAuthController@logout');
-
-//Route::get('/redirect/gplus', 'GPlusAuthController@redirect');// won't work like that as both GPlus & Social share same 'google' driver
-//Route::get('/callback/gplus', 'GPlusAuthController@callback');// won't work like that as both GPlus & Social share same 'google' driver
 
 // add new Organization details
 Route::get('/org', 'OrganizationsController@index');
@@ -151,7 +91,7 @@ Route::get('/dashboard', function() { /* Angular2 PWA page route */
         return redirect('/login');
 });
 
-Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page route */
+Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page route */ /* For other members page */
 
     if(!auth()->guest()) { /* If user is Authorized, then access Dashboard, else Redirect to Login page */
         $org_id = App\User::where('email',auth()->user()->email)->get();
@@ -186,18 +126,19 @@ Route::group(['prefix' => 'api'], function () {
                 $output->writeln("Login Redis");
                 $redis_list = $request;
                 
+                $redis_list->ip = request()->ip(); /* Get IP address using Request */
                 event(new App\Events\EventChrome($redis_list));
             } else if ($request->to_state === "offline") {
                 $output->writeln("Logout Redis");
 
                 $redis_list = $request;
+                $redis_list->ip = request()->ip(); /* Get IP address using request */
                 event(new App\Events\EventChrome($redis_list));
             }
 
         } else { /* Request has come from nodeJS */
-            //Redis::flushall();
             $output->writeln("requested from nodeJS");
-            //$output->writeln("Flush Redis buffer");
+            
             if(\Request::header( 'X-API-KEY' ) !== "") { // if api key is present in Header
                 $output->writeln("Header Present");
                 $output->writeln(\Request::header( 'X-API-KEY' ));
@@ -207,12 +148,9 @@ Route::group(['prefix' => 'api'], function () {
                 if($redis_list) {
                     //$output->writeln("REDIS data to JSON:" . $redis_list->user_id);
                     $request_user_id = $redis_list->user_id;
-                    //$output->writeln("User ID:xxxxxx");
                     $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
-                    //$user = User::where(['id' => $request_user_id])->get();
                     $output->writeln("User ID:".$request_user_id);
                     
-                    //Redis::flushall(); // clear all the data in queue
                     if(count($user) > 0) { // if the user exist
                         $output->writeln("APi key Present");
                         
@@ -222,25 +160,11 @@ Route::group(['prefix' => 'api'], function () {
                         $queue_list_len = Redis::llen('test-channels');// get length of queue list
                         $output->writeln($queue_list_len);
 
-                        /*$output->writeln("Keys ");
-                        $output->writeln($redis_keys);
-                        $output->writeln("Key 0");*/                
-
-                        /*if($queue_list_len > 0) {
-                            foreach (Redis::LRANGE('test-channels', 0, -1) as $key){ // get all the queue contents
-                                $output->writeln($key);
-                            }
-                        }*/
-
-                        //$output->writeln("Redis List");
-
                         if (isset($redis_list->socket_id)) { // check if the 1st content contains Socket_id
                             $output->writeln("Present");
                         } else {
                             $output->writeln("not Present");
                         }
-
-                        //$output->writeln($redis_list);
 
                         event(new App\Events\EventChrome($redis_list));
                     } else if($request_user_id == 0) { // If user_id = 0, then the user related to that socket_id has gone offline
@@ -255,19 +179,12 @@ Route::group(['prefix' => 'api'], function () {
                         $output->writeln(count($user));                
                         if(count($user)) {
                             $output->writeln("User ID before save:".$user[0]->id);
-                            //$redis_list->user_id = $user[0]->id;
-
-                            //$output->writeln("User ID:".$redis_list->user_id);
                             
                             $redis_keys = Redis::keys('*');
 
                             $output->writeln("Length");
                             $queue_list_len = Redis::llen('test-channels');// get length of queue list
                             $output->writeln($queue_list_len);
-
-                            /*$output->writeln("Keys ");
-                            $output->writeln($redis_keys);
-                            $output->writeln("Key 0");*/
 
                             $output->writeln("Redis List");
 
@@ -276,8 +193,6 @@ Route::group(['prefix' => 'api'], function () {
                             } else {
                                 $output->writeln("not Present");
                             }
-
-                            //$output->writeln($redis_list);
 
                             event(new App\Events\EventChrome($redis_list));
                         } else { /* No such socket-ID exist */
