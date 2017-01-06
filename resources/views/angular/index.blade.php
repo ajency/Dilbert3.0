@@ -63,7 +63,7 @@
     <script type="text/javascript">
         window.onload = function() {
           $('.dropdown-toggle').dropdown();
-          if(!JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("other_emp")) {
+          if(!JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name") || (JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name") && JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).emp_email != <?php echo explode('/',request()->url())[4] ?>)) {
             localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
             window.location.reload();
           } else {
