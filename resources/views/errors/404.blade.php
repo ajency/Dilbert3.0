@@ -7,21 +7,38 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3 col-xs-4 col-xs-offset-2">
 			<div class="card">
-				<h2 class="title-404"> Oops!! </h2>
-				<p class="content-404">@lang('lang.wrong_turn'). @lang('lang.dont_worry').... @lang('lang.it_happens').</p>
-				<p class="content-404">@lang('lang.little_map_track') :</p>
-				<div class="row">
-					<div class="col-md-6 btn-404">
-			        	<a href="{{ url('/') }}" class="btn btn-hero">@lang('lang.back_2_main')</a>
-			        </div>
-					<div class="col-md-6 btn-404">
-						@if(Auth::guest())
-				            <a href="{{ url('/login') }}" class="btn btn-hero">@lang('lang.back_2_login')</a>
-				        @else
-				            <a href="{{ url('/home') }}" class="btn btn-hero">@lang('lang.back_2_dashboard')</a>
-				        @endif
-			        </div>
-			    </div>
+				@if (session()->has('msg') && session('msg') == "invalid_emailID")
+					<h2 class="title-404"> Sorry!! </h2>
+					<p class="content-404">Seems like you have entered wrong Email address. Please Check if the email address is correct.</p>
+					<div class="row">
+						<div class="col-md-6 btn-404">
+				        	<a href="{{ url('/') }}" class="btn btn-hero">@lang('lang.back_2_main')</a>
+				        </div>
+						<div class="col-md-6 btn-404">
+							@if(Auth::guest())
+					            <a href="{{ url('/login') }}" class="btn btn-hero">@lang('lang.back_2_login')</a>
+					        @else
+					            <a href="{{ url('/home') }}" class="btn btn-hero">@lang('lang.back_2_dashboard')</a>
+					        @endif
+				        </div>
+				    </div>
+				@else
+					<h2 class="title-404"> Oops!! </h2>
+					<p class="content-404">@lang('lang.wrong_turn'). @lang('lang.dont_worry').... @lang('lang.it_happens').</p>
+					<p class="content-404">@lang('lang.little_map_track') :</p>
+					<div class="row">
+						<div class="col-md-6 btn-404">
+				        	<a href="{{ url('/') }}" class="btn btn-hero">@lang('lang.back_2_main')</a>
+				        </div>
+						<div class="col-md-6 btn-404">
+							@if(Auth::guest())
+					            <a href="{{ url('/login') }}" class="btn btn-hero">@lang('lang.back_2_login')</a>
+					        @else
+					            <a href="{{ url('/home') }}" class="btn btn-hero">@lang('lang.back_2_dashboard')</a>
+					        @endif
+				        </div>
+				    </div>
+				@endif
 			</div>
 		</div>
 	</div>
