@@ -46,7 +46,7 @@ class EventChrome extends Event implements ShouldBroadcast {
             );
         }
 
-        if(isset($redis_list->user_id) && $redis_list->user_id > 0) { // if user is not disconnected
+        if(isset($redis_list->user_id) && $redis_list->user_id > 0) { // if user is not disconnected i.e. connected to socket
             $output->writeln("Socket id - Event Chrome inside if");
             //$output->writeln($redis_list->socket_id);
 
@@ -75,7 +75,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                     $hr = $zoneValues[1];
                     $min = $tempTimeZone[1];
                     $sign = '-';
-                } else { /* No TimeZone assinged */
+                } else { /* No TimeZone assigned */
                     $hr = '00';
                     $min = '00';
                     $sign = '+';
@@ -88,21 +88,21 @@ class EventChrome extends Event implements ShouldBroadcast {
                 //$output->writeln("User count");
                 //$output->writeln(count($user));
 
-                if(count($user) > 0){
+                if(count($user) > 0){ /* Update the new Socket ID in User's table */
                     User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
                     $output->writeln("Socket id + user id -> update");
                 }
                 
                 $output->writeln("Organization process complete");
                 
-                $org_ipList = Organization::where('id',$user[0]->org_id)->first();
+                $org_ipList = Organization::where('id',$user[0]->org_id)->first(); // Get the Details of that Organization
 
                 if(count($org_ipList)) { /* Check if that organization exist */
                     
                     if(Log::where(['user_id' => $redis_list->user_id, 'work_date' => date("Y-m-d"), 'cos' => $timeZone, 'from_state' => $redis_list->from_state, 'to_state' => $redis_list->to_state])->count() <= 0) { /* If the new log doesn't exist in the table, then enter the data */ // -> To avoid recursive data
 
                         $output->writeln(count($org_ipList));
-                        $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */
+                        $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */ /* Get all the IP List assigned by that Organization */
                         
                         if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
                             $log = new Log;
@@ -124,7 +124,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $locking_today_data->save();
                             }
 
-                            if($redis_list->to_state == "New Session" || $redis_list->to_state == "active") {
+                            if($redis_list->to_state == "New Session" || $redis_list->to_state == "active") { // If it is a New Session or Active Session
                                 if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it exist
                                     Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => null, "total_time" => null]);
                                 }
@@ -134,7 +134,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 if($redis_list->to_state == "offline") /*  If User is offline, then delete the SocketID */
                                     User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
 
-                                if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry && User has gone Offline
+                                if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then today's is not 1st entry && User has gone Offline or idle
                                     /* Update Summary/ Locked_Data Table with new Offline state */
                                     $userLocked_data = Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->get();
                                     Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);

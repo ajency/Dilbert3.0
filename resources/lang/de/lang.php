@@ -83,5 +83,14 @@
 	  'already_hv_acc_in_dil' => 'Sie haben bereits ein Konto bei Dilbert?',
 	  'not_conn_2_dilbert' => 'Sie haben noch nichts mit Dilbert verbunden?',
 	  'conn_using_google_acc' => 'Stellen Sie einfach eine Verbindung zu Ihrem Google-Konto her',
+
+	  // 404 page
+	  'wrong_turn' => 'Es sieht so aus, als hättest du eine falsche Wendung genommen',
+	  'dont_worry' => 'Keine Sorge',
+	  'it_happens' => 'Es geschieht den Besten von uns',
+	  'little_map_track' => 'Hier ist eine kleine Karte, die Ihnen helfen könnte, wieder auf den richtigen Weg zu kommen',
+	  'back_2_login' => 'Zurück zur Login-Seite',
+	  'back_2_dashboard' => 'Zurück zum Dashboard',
+	  'back_2_main' => 'Zurück zur Hauptseite',
 	];
 ?>

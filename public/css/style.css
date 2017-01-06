@@ -20,6 +20,29 @@
 	}
 }
 
+.background-404 {
+	background-image: url("../img/dilbert_404.png");
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.title-404 {
+	text-align: center;
+	font-size: 50px;
+	color: #808080;
+}
+
+.content-404 {
+}
+
+.btn-404 {
+	margin-left: 10%;
+	margin-right: 10%;
+	width: 30%;
+}
+
 /*.footer {
 	position: absolute;
 	bottom: 0;

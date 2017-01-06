@@ -127,9 +127,9 @@ class LockedDataController extends Controller
 	        		//$output->writeln("Confirmed");
 			        
 	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
-	        			if($request->start_date == $request->end_date) {
+	        			if($request->start_date == $request->end_date) { // If start date & end-date is same, then fetch only that date's data
 	        				$startDate = $endDate = $request->start_date;
-	        			} else {
+	        			} else {/* Fetch the data based on week format */
 		        			if((int)date('w', strtotime($request->start_date) - 1 ) % 7 > 0) { /* Get start of the week*/
 		        				$days = "-" . ((int)date('w', strtotime($request->start_date) - 1) % 7) . " day";
 		        				$startDate = date('Y-m-d',strtotime($days, strtotime($request->start_date)));

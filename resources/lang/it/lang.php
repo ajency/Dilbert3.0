@@ -83,5 +83,14 @@
 	  'already_hv_acc_in_dil' => 'Già si dispone di un account su Dilbert?',
 	  'not_conn_2_dilbert' => 'Non ancora collegato a Dilbert?',// Not yet connected to dilbert
 	  'conn_using_google_acc' => 'Basta collegare il tuo account Google',
+
+	  // 404 page
+	  'wrong_turn' => 'Sembra che si può avere preso una strada sbagliata',
+	  'dont_worry' => 'Non si preoccupi',
+	  'it_happens' => 'Succede al meglio di noi',
+	  'little_map_track' => 'Ecco una piccola mappa che potrebbe aiutare a tornare in pista',
+	  'back_2_login' => 'Torna alla pagina di login',
+	  'back_2_dashboard' => 'Torna alla Dashboard',
+	  'back_2_main' => 'Torna alla pagina principale',
 	];
 ?>
