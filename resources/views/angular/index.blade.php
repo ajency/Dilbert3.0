@@ -80,7 +80,12 @@
         }*/
         window.onload = function() {
           $('.dropdown-toggle').dropdown();
-          localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+          if(JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name")){
+            localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+            window.location.reload();
+          } else {
+            localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
+          }
         };
       </script>
   @endif
