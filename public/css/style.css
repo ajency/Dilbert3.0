@@ -1,3 +1,7 @@
+body {
+	/*min-height: 100%;*/
+}
+
 .google-plus-btn {
 	/*background-image: url('../images/gplus_white.png');*/
 	/*background-image: url('../images/btn_google_signin_web.svg');*/
@@ -48,3 +52,24 @@
 	bottom: 0;
 	width: 100%;
 }*/
+
+/*.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}*/
+
+/*.footer {
+	bottom: 0px;
+	clear:both;
+}*/
+
+.loading_dashboard {
+	display: block;
+	margin-left: 40%;
+	vertical-align: middle;
+}

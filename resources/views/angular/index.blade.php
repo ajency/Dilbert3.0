@@ -41,11 +41,15 @@
 @endsection
 
 @section('content')
-  
+  <div id="user-log-content">
   @if (!session()->has('reload'))
-    <app-root></app-root>
+    <app-root> <div class="loading_dashboard"><img src="/img/yellow_loading.gif" width="90px"/></div> </app-root>
+  @else
+    <div class="loading_dashboard"><img src="/img/yellow_loading.gif" width="90px"/></div>
   @endif
-
+  <!-- <div class="fixed-bottom-color"></div> -->
+  <div class="fixed-top-color btm-big "></div>
+  </div>
 @endsection
 
 @section('footer')

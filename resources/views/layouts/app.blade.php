@@ -149,7 +149,7 @@
             </div>
         </nav>
 
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="min-height: 850px;">
             @yield('content')
         </div>
 
