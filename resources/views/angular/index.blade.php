@@ -43,9 +43,9 @@
 @section('content')
   <div id="user-log-content">
   @if (!session()->has('reload'))
-    <app-root> <div class="loading_dashboard"><img src="/img/yellow_loading.gif" width="90px"/></div> </app-root>
+    <app-root> <div class="loading_dashboard"><img src="/img/loading_circles.gif" width="150px"/></div> </app-root>
   @else
-    <div class="loading_dashboard"><img src="/img/yellow_loading.gif" width="90px"/></div>
+    <div class="loading_dashboard"><img src="/img/loading_circles.gif" width="150px"/></div>
   @endif
   <!-- <div class="fixed-bottom-color"></div> -->
   <div class="fixed-top-color btm-big "></div>
