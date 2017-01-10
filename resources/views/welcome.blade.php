@@ -92,9 +92,11 @@
             </div>
             <div class="col-md-4 col-sm-6 text-right text-center-xs">
                 @if(Auth::guest())
-                    <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a>
+                    <!-- <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a> -->
+                    <a href="{{ url('/register') }}" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_btn')</a>
                 @else
-                    <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_dashbrd_btn')</a>
+                    <!-- <a href="#" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_dashbrd_btn')</a> -->
+                    <a href="{{ url('/home') }}" class="btn btn-primary btn-cta">@lang('lang.main_get_sub_dashbrd_btn')</a>
                 @endif
             </div>
         </div>
