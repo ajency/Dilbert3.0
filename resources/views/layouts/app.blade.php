@@ -76,7 +76,8 @@
                             <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                             @endif
                             <li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
-                            <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li>
+                            <!-- Tuckshop -->
+                            <!-- <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li> -->
                             <li><a href="{{ url('/logout/google') }}"><i class="fa fa-btn fa-sign-out"></i>@lang('lang.logout')</a></li>
                         </ul>
                     </div>
@@ -143,7 +144,8 @@
                                 </ul>
                             </li>
                         @endif
-                        <li><a href="#">@lang('lang.contact_us')</a></li>
+                        <!-- Contact Us -->
+                        <!-- <li><a href="#">@lang('lang.contact_us')</a></li> -->
                     </ul>
                 </div>
             </div>

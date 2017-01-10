@@ -82,3 +82,7 @@ body {
 .loading_dashboard img {
 	width: 90px;
 }
+
+.table-view.week tbody tr {
+  cursor: default;
+}
