@@ -62,19 +62,6 @@
         };
       </script>
     @endif
-  @elseif(count(explode('/',request()->url())) == 5)
-    <script type="text/javascript">
-        window.onload = function() {
-          $('.dropdown-toggle').dropdown();
-          if(!JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name") || (JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name") && JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).emp_email != <?php echo json_encode(explode('/',request()->url())[4]) ?> )) {
-            localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-            window.location.reload();
-          } else {
-            console.log("Executed");
-            localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-          }
-        };
-      </script>
   @else
       <script type="text/javascript">
         /*window.onload = function() {
@@ -83,12 +70,12 @@
         }*/
         window.onload = function() {
           $('.dropdown-toggle').dropdown();
-          if(JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name")){
+          /*if(JSON.parse(localStorage.getItem("ng2-webstorage|user_data")).hasOwnProperty("emp_name")){
             localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
             window.location.reload();
-          } else {
+          } else {*/
             localStorage.setItem("ng2-webstorage|user_data", JSON.stringify(<?php echo $leads ?>));
-          }
+          //}
         };
       </script>
   @endif
