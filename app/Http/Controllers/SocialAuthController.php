@@ -90,6 +90,38 @@ class SocialAuthController extends Controller {
         }
     }
     
+    // for PWA - Progressive Web App
+    public function getName(Request $request) {
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+            $user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count(); // Check if user with that userID & API_token exist & get the count of those user's
+            if($user_cnt > 0) {
+                $user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
+                if ($user->can('edit-personal')) {// This permission can access self & other user's data//if ($user->can('edit-users')) {// verifies if user has permission to read other's data
+                    
+                    $content = []; $json = [];
+
+                    $emp_data = User::where(['email' => $request->emp_email])->first();
+                    if($emp_data != null) { // The Email ID exist in the database
+                        $content["name"] = $emp_data->name;
+                        $content["email"] = $request->emp_email;
+                        
+                        array_push($json, $content); // push the content to the array
+                        return response()->json($json);
+                    }  else {
+                        return response()->json(['status' => 'Error', 'msg' => 'Invalid ID'], 401);
+                    }
+                } else {
+                    return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
+                }
+            } else {
+                return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
+            }
+        } else {
+            //$output->writeln("In else");          
+            return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
+        }
+    }
+
     // for app
     public function getConfirm(Request $request) { // confirms if user & organization exist
         $output = new ConsoleOutput();
