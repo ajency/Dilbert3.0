@@ -122,7 +122,7 @@
             <div class="monday-card last-week" [class.hidden]="userData.length > 1 && !showLoader">
                 <div class="card-header">
                     <div class="illustration pull-left"></div>
-                    <small class="this-week-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>
+                    <small class="noinfo-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>
                 </div>
             </div>
         </div>
@@ -298,7 +298,7 @@
                 </div>
             </div>
         </div>
-        <app-todays-card [userid]="userid" *ngIf="userid"></app-todays-card>
+        <app-todays-card [userid]="userid" *ngIf="userid" class="fullwidth"></app-todays-card>
         
     </div>
 </div>

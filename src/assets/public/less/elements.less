@@ -497,8 +497,7 @@ select.form-control {
 
 
 // button group styling
-.btn-group.btn-dropdown,
-.btn-group.btn-dropup {
+.btn-group.btn-dropdown {
 	& > .btn {
 		border: 0;
 		margin: 0;
@@ -1286,6 +1285,7 @@ select.form-control {
 		// display: none;
 	}
 	.card-header, .listy {
+	// .listy {
 		padding: 0 20px 10px;
 		margin: 0 -15px;
 		border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -1305,6 +1305,16 @@ select.form-control {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+	.noinfo-label {
+		font-size: 13px;
+		display: block;
+		max-width: 310px;
+		padding-top: 23px;
+		padding-bottom: 23px;
+	}
+	&.monday-card .card-header {
+		border-bottom: 0;
 	}
 	h2 {
 		font-size: 18px;
@@ -1443,39 +1453,6 @@ select.form-control {
 			width: 48%;
 		}
 	}
-
-	// on monday
-	&.monday-card {
-		&:after {
-			content: '';
-			display: block;
-			clear: both;
-		}
-		.card-header {
-			border-bottom: 0;
-		}
-		.this-week-label {
-			max-width: 250px;
-			white-space: normal;
-			display: block;
-			padding-top: 15px;
-		}
-	}
-}
-.card-navigation {
-	margin-top: -15px;
-	margin-bottom: 45px;
-	&:after {
-		content: '';
-		display: block;
-		clear: both;
-	}
-	.table-navi .week-navi {
-		padding: 12px 20px;
-	}
-	.btn {
-		padding: 13px;
-	}
 }
 
 
@@ -1518,8 +1495,8 @@ svg {
 	}
 	.navbar {
 		.userdata a {
-			padding: 25px 13px;
-			border-bottom: 1px solid #ddd;
+			// padding: 25px 13px;
+			// border-bottom: 1px solid #ddd;
 		}
 		.userdata img {
 			width: 40px;
@@ -1557,35 +1534,5 @@ svg {
 		color: #fff;
 		text-align: center;
 		text-shadow: 0 0 5px rgba(0,0,0,0.2);
-	}
-}
-
-
-// loader
-.loading {
-	border: 4px solid @ajencyYellow;
-	border-right-color: transparent;
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	margin: 25px auto;
-	transform: rotateZ(0);
-	animation: rotate 1.5s linear infinite;
-}
-@keyframes rotate {
-	0% {
-		transform: rotateZ(0);
-		border-color: @ajencyYellow;
-		border-right-color: transparent;
-	}
-	50% {
-		transform: rotateZ(360deg);
-		border-color: darken(@ajencyYellow, 3%);
-		border-right-color: transparent;
-	}
-	100% {
-		transform: rotateZ(720deg);
-		border-color: @ajencyYellow;
-		border-right-color: transparent;
 	}
 }
