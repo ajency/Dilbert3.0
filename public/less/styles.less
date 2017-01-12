@@ -8,7 +8,7 @@
 	margin: 0 auto;
 }
 .max-420 {
-	width: 420px;
+	max-width: 420px;
 	margin: 0 auto;
 }
 .max-w-767 {
@@ -22,13 +22,13 @@
 
 .navbar.header	{
 	border: 0;
-	border-bottom: 1px solid #eee;
-	background: #fff;
+	border-bottom: 0;
+	background: transparent;
 	border-radius: 0;
 	// padding: 20px 15px;
 	.navbar-nav a {
 		color: @bodyGrey;
-		font-weight: 600;
+		font-weight: 500;
 		text-decoration: none;
 		font-size: 13px;
 		&:hover {
@@ -39,6 +39,13 @@
 .navbar-header {
 	position: relative;
 	z-index: 5;
+}
+.navbar {
+	.dropdown-menu {
+		.glyphicon, .fa {
+			margin-right: 15px;
+		}
+	}
 }
 @media screen and (max-width: 767px) {
 	.navbar-collapse.posrel {
@@ -58,10 +65,16 @@
 		line-height: 27px;
 	}
 }
+.navbar .dropdown a {
+	color: @bodyGrey;
+	font-weight: 500;
+	text-decoration: none;
+	font-size: 13px;
+}
 .logo {
 	margin: 0;
 	text-transform: uppercase;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 19px;
 	a {
 		color: @titleDark;
@@ -107,7 +120,7 @@
 		margin: 0;
 		margin-top: 35px;
 		strong {
-			font-weight: 600;
+			font-weight: 500;
 		}
 	}
 }
@@ -116,14 +129,14 @@
 	color: @titleDark;
 	margin-top: 50px;
 	margin-bottom: 6px;
-	font-weight: 600;
+	font-weight: 500;
 }
 .sub-title {
 	margin-top: 3px;
 	margin-bottom: 20px;
 	font-size: 13px;
 	color: @bodyGrey;
-	font-weight: 600;
+	font-weight: 500;
 	&.dash {
 		font-size: 14px;
 		font-weight: 300;
@@ -165,7 +178,7 @@ form {
 }
 
 .organisation-icon {
-	background: url(../img/company-icon.png) no-repeat center;
+	background: url(../images/company-icon.png) no-repeat center;
 	width: 88px;
 	height: 48px;
 	display: block;
@@ -184,7 +197,7 @@ form {
 		padding-bottom: 15px;
 	}
 	p {
-		opacity: 0.8;
+		opacity: 0.5;
 		margin-bottom: 15px;
 	}
 }
@@ -258,7 +271,7 @@ form {
 		text-align: center;
 		text-decoration: underline;
 		font-size: 15px;
-		font-weight: 600;
+		font-weight: 500;
 	}
 }
 
@@ -317,7 +330,7 @@ form {
 .why-sub-t {
 	color: @bodyGrey;
 	font-size: 22px;
-	font-weight: 600;
+	font-weight: 500;
 	margin-top: 25px;
 	margin-bottom: 15px;
 	padding: 25px 0;
@@ -340,12 +353,20 @@ form {
 	.text-center-xs {
 		text-align: center;
 	}
+	// .navbar.header {
+	// 	// padding: 15px;
+	// 	padding: 0;
+	// 	margin-bottom: 0;
+	// }
 	.navbar.header,
 	.landing-page .navbar.header {
 		padding: 15px;
+		margin-bottom: 20px;
 	}
 	.navbar-default .navbar-toggle {
 		border: 0;
+		// margin-right: 0;
+		margin-left: 8px;
 	}
 	.navbar-collapse:after {
 		pointer-events: none;
@@ -357,7 +378,7 @@ form {
 		width: 100%;
 		height: 65px;
 		margin: auto;
-		background: url(../img/shade-btm.png) no-repeat bottom center;
+		background: url(../images/shade-btm.png) no-repeat bottom center;
 		background-size: contain;
 		z-index: 5;
 	}
@@ -437,6 +458,15 @@ form {
 }
 
 
+.bg-gradient() {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
+	background: @ajencyYellow; /* Old browsers */
+	background: -moz-linear-gradient(45deg,  @ajencyYellow 0%, @ligterYellow 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@ajencyYellow', endColorstr='@ligterYellow',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
 .fixed-bottom-color {
 	position: fixed;
 	bottom: 0;
@@ -444,11 +474,22 @@ form {
 	right: 0;
 	height: 58%;
 	z-index: -1;
+	.bg-gradient
+}
 
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
-	background: @ajencyYellow; /* Old browsers */
-	background: -moz-linear-gradient(45deg,  @ajencyYellow 0%, @ligterYellow 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(45deg,  @ajencyYellow 0%,@ligterYellow 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@ajencyYellow', endColorstr='@ligterYellow',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+.fixed-top-color {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40%;
+	z-index: -1;
+	.bg-gradient;
+	@media screen and (min-width: 992px) {
+		&.btm-big {
+			top: auto;
+			bottom: 0;
+			height: 58%;
+		}
+	}
 }
