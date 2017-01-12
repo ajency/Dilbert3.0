@@ -40,6 +40,13 @@
 	position: relative;
 	z-index: 5;
 }
+.navbar {
+	.dropdown-menu {
+		.glyphicon, .fa {
+			margin-right: 15px;
+		}
+	}
+}
 @media screen and (max-width: 767px) {
 	.navbar-collapse.posrel {
 		margin: 15px 0;
@@ -56,6 +63,12 @@
 	.navbar-nav .open .dropdown-menu>li>a {
 		padding-left: 0;
 		line-height: 27px;
+	}
+	.navbar .dropdown a {
+		color: @bodyGrey;
+		font-weight: 600;
+		text-decoration: none;
+		font-size: 13px;
 	}
 }
 .logo {
@@ -118,6 +131,17 @@
 	margin-top: 50px;
 	margin-bottom: 6px;
 	font-weight: 600;
+	@media screen and (max-width: 767px) {
+		font-size: 18px;
+		margin-top: 22px;
+		margin-bottom: 18px;
+		text-align: center;
+		// color: #fff;
+		font-weight: normal;
+	}
+}
+.wi100 {
+	width: 100%;
 }
 .sub-title {
 	margin-top: 3px;

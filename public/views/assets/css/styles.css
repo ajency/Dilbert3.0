@@ -636,6 +636,16 @@ select.form-control {
   margin-top: 25px;
   font-size: 16px;
 }
+.card-navigation {
+  margin-bottom: 0;
+  padding: 10px 15px;
+  border-radius: 4px 4px 0 0;
+}
+.card-navigation:after {
+  content: '';
+  clear: both;
+  display: block;
+}
 .btn-group.btn-dropdown > .btn {
   border: 0;
   margin: 0;
@@ -822,6 +832,11 @@ select.form-control {
   width: 70%;
   min-width: 320px;
 }
+.table-view.week {
+  /*tbody tr {
+			cursor: pointer;
+		}*/
+}
 .table-view.week th:first-child {
   width: 130px;
 }
@@ -831,9 +846,6 @@ select.form-control {
 .table-view.week .th-day big {
   color: #828282;
 }
-/*.table-view.week tbody tr {
-  cursor: pointer;
-}*/
 .table-view .top-meta {
   font-size: 12px;
   display: block;
@@ -1299,6 +1311,7 @@ select.form-control {
 }
 .last-week {
   position: relative;
+  border-radius: 0 0 4px 4px;
 }
 .last-week .card-progress {
   position: absolute;
@@ -1476,7 +1489,8 @@ svg {
   .navbar .container > .navbar-collapse {
     position: fixed;
     background: #ffffff;
-    right: 0px;
+    right: auto;
+    left: -100%;
     top: 0px;
     bottom: 0px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px, rgba(0, 0, 0, 0.0980392) 0px 0px 28px 5px;
@@ -1484,6 +1498,8 @@ svg {
     margin: 0px;
     overflow-y: auto;
     z-index: 6;
+    display: block;
+    transition: all 0.5s;
   }
   .navbar .container > .navbar-collapse .nav {
     margin: 0;
@@ -1492,6 +1508,9 @@ svg {
     border-top: 1px solid #ddd;
     padding-top: 20px;
     margin-top: 20px;
+  }
+  .navbar .container > .navbar-collapse.in {
+    left: 0;
   }
   .navbar .userdata img {
     width: 40px;
@@ -1566,6 +1585,10 @@ svg {
   position: relative;
   z-index: 5;
 }
+.navbar .dropdown-menu .glyphicon,
+.navbar .dropdown-menu .fa {
+  margin-right: 15px;
+}
 @media screen and (max-width: 767px) {
   .navbar-collapse.posrel {
     margin: 15px 0;
@@ -1582,6 +1605,12 @@ svg {
   .navbar-nav .open .dropdown-menu > li > a {
     padding-left: 0;
     line-height: 27px;
+  }
+  .navbar .dropdown a {
+    color: #828282;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 13px;
   }
 }
 .logo {
@@ -1636,6 +1665,18 @@ svg {
   margin-top: 50px;
   margin-bottom: 6px;
   font-weight: 600;
+}
+@media screen and (max-width: 767px) {
+  .dashboard-title {
+    font-size: 18px;
+    margin-top: 22px;
+    margin-bottom: 18px;
+    text-align: center;
+    font-weight: normal;
+  }
+}
+.wi100 {
+  width: 100%;
 }
 .sub-title {
   margin-top: 3px;
