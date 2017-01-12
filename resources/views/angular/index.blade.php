@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
 
+    <link rel="stylesheet" href="{{ url('/css/clock.css') }}" />
     <link rel="stylesheet" href="{{ url('/assets/css/font.css') }}" />
     <!-- <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="stylesheet" href="./assets/css/styles.css"> -->
@@ -40,11 +41,19 @@
   @endif
 @endsection
 @section('content')
+  <link rel="stylesheet" type="text/css" href="http://localhost:8000/css/clock.css">
   <div id="user-log-content">
   @if (!session()->has('reload'))
-    <app-root> <div class="loading_dashboard"><img src="/img/ring.svg"/></div> </app-root>
+    <!-- <app-root> <div class="loading_dashboard"><img src="/img/ring.svg"/></div> </app-root> -->
+    <app-root>
+      <div class="loading_dashboard">
+        <div class='uil-clock-css' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div>
+      </div>
+    </app-root>
   @else
-    <div class="loading_dashboard"><img src="/img/ring.svg"/></div>
+    <div class="loading_dashboard">
+      <div class='uil-clock-css' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div>
+    </div>
   @endif
   <!-- <div class="fixed-bottom-color"></div> -->
   <div class="fixed-top-color btm-big "></div>
