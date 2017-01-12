@@ -23,7 +23,7 @@
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
 
-    <link rel="shortcut icon" href="img/favicon.png" >
+    <link rel="shortcut icon" href="{{ url('img/favicon.png') }}" >
 
     <style>
         /*body {
