@@ -162,17 +162,11 @@ textarea:focus {
     flex-wrap: wrap;
   }
   .row.order-columns .at-top {
-    -webkit-box-ordinal-group: 2;
-    -webkit-order: 1;
-        -ms-flex-order: 1;
-            order: 1;
+    order: 1;
     width: 100%;
   }
   .row.order-columns .at-btm {
-    -webkit-box-ordinal-group: 3;
-    -webkit-order: 2;
-        -ms-flex-order: 2;
-            order: 2;
+    order: 2;
     width: 100%;
   }
 }
@@ -196,8 +190,7 @@ textarea:focus {
   top: -4px;
   font-size: 82px;
   opacity: .2;
-  -webkit-transform: rotateZ(30deg);
-          transform: rotateZ(30deg);
+  transform: rotateZ(30deg);
 }
 .alert .close {
   position: absolute;
@@ -295,8 +288,7 @@ textarea:focus {
   box-shadow: none;
   border-radius: 0;
   line-height: normal;
-  -webkit-transition: all 0.5s;
-          transition: all 0.5s;
+  transition: all 0.5s;
 }
 .form-control:hover {
   border-color: #757575;
@@ -633,8 +625,7 @@ select.form-control {
 .card.has-hover {
   position: relative;
   top: 0;
-  -webkit-transition: box-shadow 0.5s, top 0.5s;
-          transition: box-shadow 0.5s, top 0.5s;
+  transition: box-shadow 0.5s, top 0.5s;
 }
 .card.has-hover:hover {
   top: -1px;
@@ -645,30 +636,24 @@ select.form-control {
   margin-top: 25px;
   font-size: 16px;
 }
-.btn-group.btn-dropdown > .btn,
-.btn-group.btn-dropup > .btn {
+.btn-group.btn-dropdown > .btn {
   border: 0;
   margin: 0;
-  border-bottom: 2px solid #ffdf00;
+  border-bottom: 2px solid #FFDF00;
   padding-left: 0;
   padding-right: 0;
   background: transparent;
 }
-.btn-group.btn-dropdown > .btn span,
-.btn-group.btn-dropup > .btn span {
+.btn-group.btn-dropdown > .btn span {
   margin-left: 5px;
 }
 .btn-group.btn-dropdown > .btn:hover,
-.btn-group.btn-dropup > .btn:hover,
 .btn-group.btn-dropdown > .btn:active,
-.btn-group.btn-dropup > .btn:active,
-.btn-group.btn-dropdown > .btn:focus,
-.btn-group.btn-dropup > .btn:focus {
+.btn-group.btn-dropdown > .btn:focus {
   border-color: #a400d8;
   box-shadow: none;
 }
-.btn-group.btn-dropdown.open > .btn,
-.btn-group.btn-dropup.open > .btn {
+.btn-group.btn-dropdown.open > .btn {
   border-color: #a400d8;
   box-shadow: none;
 }
@@ -678,7 +663,7 @@ select.form-control {
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:focus,
 .dropdown-menu > .active > a:hover {
-  background: #ffdf00;
+  background: #FFDF00;
   color: #303030;
   font-weight: 600;
 }
@@ -704,6 +689,7 @@ select.form-control {
     width: 50px;
     opacity: 0.1;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+1,1+100 */
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, #000000 100%);
     /* FF3.6-15 */
     background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, #000000 100%);
     /* Chrome10-25,Safari5.1-6 */
@@ -811,9 +797,9 @@ select.form-control {
 }
 .table-view .first-table tbody tr:hover {
   opacity: 1;
-  /*box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);*/
+  -moz-box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
 }
 .table-view .first-table tbody tr.current {
   opacity: 1;
@@ -845,9 +831,9 @@ select.form-control {
 .table-view.week .th-day big {
   color: #828282;
 }
-.table-view.week tbody tr {
+/*.table-view.week tbody tr {
   cursor: pointer;
-}
+}*/
 .table-view .top-meta {
   font-size: 12px;
   display: block;
@@ -1052,8 +1038,7 @@ select.form-control {
   width: 16px;
   height: 2px;
   background: #a400d8;
-  -webkit-transform: rotateZ(-45deg);
-          transform: rotateZ(-45deg);
+  transform: rotateZ(-45deg);
   right: 15px;
   top: 24px;
 }
@@ -1066,15 +1051,13 @@ select.form-control {
   background: #a400d8;
 }
 .card-link .diagonal-arrow:before {
-  -webkit-transform: rotateZ(45deg);
-          transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
   top: -4px;
   right: 0;
   left: auto;
 }
 .card-link .diagonal-arrow:after {
-  -webkit-transform: rotateZ(-45deg);
-          transform: rotateZ(-45deg);
+  transform: rotateZ(-45deg);
   bottom: -4px;
   right: 0;
   left: auto;
@@ -1082,7 +1065,6 @@ select.form-control {
 .the-grid-chart {
   height: 200px;
   background-color: transparent;
-  background-image: -webkit-linear-gradient(90deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent), -webkit-linear-gradient(0deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent);
   background-image: linear-gradient(0deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent);
   background-size: 18px 18px;
   overflow: hidden;
@@ -1311,7 +1293,6 @@ select.form-control {
   width: 100%;
   height: 220px;
   background-color: transparent;
-  background-image: -webkit-linear-gradient(90deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent), -webkit-linear-gradient(0deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent);
   background-image: linear-gradient(0deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(75, 75, 75, 0.05) 25%, rgba(75, 75, 75, 0.05) 26%, transparent 27%, transparent 74%, rgba(75, 75, 75, 0.05) 75%, rgba(75, 75, 75, 0.05) 76%, transparent 77%, transparent);
   height: 100%;
   background-size: 18px 18px;
@@ -1325,7 +1306,7 @@ select.form-control {
   left: 0;
   width: 0;
   height: 5px;
-  background: #ffdf00;
+  background: #FFDF00;
 }
 .last-week .card-header,
 .last-week .listy {
@@ -1349,6 +1330,16 @@ select.form-control {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.last-week .noinfo-label {
+  font-size: 13px;
+  display: block;
+  max-width: 310px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+}
+.last-week.monday-card .card-header {
+  border-bottom: 0;
 }
 .last-week h2 {
   font-size: 18px;
@@ -1395,8 +1386,7 @@ select.form-control {
 .last-week .listy {
   padding-bottom: 17px;
   position: relative;
-  -webkit-transition: all 0.5s;
-          transition: all 0.5s;
+  transition: all 0.5s;
 }
 .last-week .listy:last-child {
   border-bottom: 0;
@@ -1412,8 +1402,7 @@ select.form-control {
   opacity: 0;
   position: absolute;
   bottom: 0;
-  -webkit-transition: all 0.5s;
-          transition: all 0.5s;
+  transition: all 0.5s;
 }
 .last-week.closed .this-yesterday.listy {
   border-bottom: 0;
@@ -1479,35 +1468,6 @@ select.form-control {
     width: 48%;
   }
 }
-.last-week.monday-card:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-.last-week.monday-card .card-header {
-  border-bottom: 0;
-}
-.last-week.monday-card .this-week-label {
-  max-width: 250px;
-  white-space: normal;
-  display: block;
-  padding-top: 15px;
-}
-.card-navigation {
-  margin-top: -15px;
-  margin-bottom: 45px;
-}
-.card-navigation:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-.card-navigation .table-navi .week-navi {
-  padding: 12px 20px;
-}
-.card-navigation .btn {
-  padding: 13px;
-}
 svg {
   width: 100%;
   height: 260px;
@@ -1532,10 +1492,6 @@ svg {
     border-top: 1px solid #ddd;
     padding-top: 20px;
     margin-top: 20px;
-  }
-  .navbar .userdata a {
-    padding: 25px 13px;
-    border-bottom: 1px solid #ddd;
   }
   .navbar .userdata img {
     width: 40px;
@@ -1573,58 +1529,6 @@ svg {
     color: #fff;
     text-align: center;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-}
-.loading {
-  border: 4px solid #ffdf00;
-  border-right-color: transparent;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  margin: 25px auto;
-  -webkit-transform: rotateZ(0);
-          transform: rotateZ(0);
-  -webkit-animation: rotate 1.5s linear infinite;
-          animation: rotate 1.5s linear infinite;
-}
-@-webkit-keyframes rotate {
-  0% {
-    -webkit-transform: rotateZ(0);
-            transform: rotateZ(0);
-    border-color: #ffdf00;
-    border-right-color: transparent;
-  }
-  50% {
-    -webkit-transform: rotateZ(360deg);
-            transform: rotateZ(360deg);
-    border-color: #f0d200;
-    border-right-color: transparent;
-  }
-  100% {
-    -webkit-transform: rotateZ(720deg);
-            transform: rotateZ(720deg);
-    border-color: #ffdf00;
-    border-right-color: transparent;
-  }
-}
-@keyframes rotate {
-  0% {
-    -webkit-transform: rotateZ(0);
-            transform: rotateZ(0);
-    border-color: #ffdf00;
-    border-right-color: transparent;
-  }
-  50% {
-    -webkit-transform: rotateZ(360deg);
-            transform: rotateZ(360deg);
-    border-color: #f0d200;
-    border-right-color: transparent;
-  }
-  100% {
-    -webkit-transform: rotateZ(720deg);
-            transform: rotateZ(720deg);
-    border-color: #ffdf00;
-    border-right-color: transparent;
   }
 }
 .max-767 {
@@ -1716,7 +1620,7 @@ svg {
   }
 }
 .dropdown.userdata.visible-xs {
-  padding: 15px;
+  padding: 0;
 }
 .page-title h1 {
   font-size: 20px;
@@ -2022,32 +1926,34 @@ form label {
   height: 58%;
   z-index: -1;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
-  background: #ffdf00;
+  background: #FFDF00;
   /* Old browsers */
+  background: -moz-linear-gradient(45deg, #FFDF00 0%, #FFDA33 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(45deg, #ffdf00 0%, #ffda33 100%);
+  background: -webkit-linear-gradient(45deg, #FFDF00 0%, #FFDA33 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(45deg, #ffdf00 0%, #ffda33 100%);
+  background: linear-gradient(45deg, #FFDF00 0%, #FFDA33 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@ajencyYellow', endColorstr='@ligterYellow', GradientType=1)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@ajencyYellow', endColorstr='@ligterYellow', GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
 }
 .fixed-top-color {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 40%;
   z-index: -1;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffee32+0,ffdf00+100 */
-  background: #ffdf00;
+  background: #FFDF00;
   /* Old browsers */
+  background: -moz-linear-gradient(45deg, #FFDF00 0%, #FFDA33 100%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(45deg, #ffdf00 0%, #ffda33 100%);
+  background: -webkit-linear-gradient(45deg, #FFDF00 0%, #FFDA33 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(45deg, #ffdf00 0%, #ffda33 100%);
+  background: linear-gradient(45deg, #FFDF00 0%, #FFDA33 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@ajencyYellow', endColorstr='@ligterYellow', GradientType=1)
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@ajencyYellow', endColorstr='@ligterYellow', GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
 }
 @media screen and (min-width: 992px) {
@@ -2056,4 +1962,14 @@ form label {
     bottom: 0;
     height: 58%;
   }
+}
+.container > .navbar-header {
+  margin: 0;
+}
+.navbar-toggle {
+  margin-right: 0;
+}
+app-todays-card[_ngcontent-xqe-1],
+.fullwidth {
+  width: 100%;
 }
