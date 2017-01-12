@@ -1,4 +1,4 @@
-.vscode
+/.vscode
 /vendor
 /storage
 /node_modules
