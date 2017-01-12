@@ -3,6 +3,42 @@
         <div class="col-md-8 at-btm visible-xs visible-sm">
             <!-- if day is monday then hide this and show the div with class "monday-card" -->
             
+            <!-- add class hidden to this too, if day is monday -->
+            <div class="card card-navigation" [class.hidden]="userData.length <= 1">
+                <div class="btn-group btn-dropdown dropup filter pull-left" style="margin-top: 0;">
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Jump to Date <span class="fa fa-angle-down"></span>
+                    </button>
+                     <ul class="dropdown-menu">
+                            <li class="select-a-date">
+                                <h6 class="dd-title">Select a Date</h6>
+                                <p>The result will show the week which includes the date you picked</p>
+                                <div class="form-group">
+                                    <label for="find-week-day">
+                                        <input type="date" id="find-week-day" class="form-control" [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
+                                    </label>
+                                </div>
+                                <!-- add class hidden as soon as a date has been selected -->
+                                <p class="date-not-selected" [class.hidden]="dateSlct">Select a date to see week start and end dates</p>
+
+                                <!-- After a date is picked, show this div and hi de the previous one-->
+                                <div [class.hidden]="!dateSlct">
+                                    <h6 class="dd-title">The {{dropDownValue == 1 ? 'Month' : 'Week'}}</h6>
+                                    <p *ngIf="displayDateRange"> {{displayDateRange.start ? (displayDateRange.start | date: 'dd MMM, yyyy') : '' }} - 
+                                        {{displayDateRange.end ? (displayDateRange.end | date: 'dd MMM, yyyy') : '' }}</p>
+                                    <a href="#" class="btn btn-primary pull-right" (click)="getDateRangeData(dateSlct)">Done</a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="table-navi pull-right" style="margin-top: 0;">
+                    <!-- add class disabled to disable the btn/link -->
+                    <a href="#" class="week-navi prev" (click)="fetchData(false)"><i class="fa fa-angle-left"></i></a>
+                    <a href="#" class="week-navi next" (click)="fetchData(true)" [class.disabled]="nextButtonDisabled"><i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
             <div class="card last-week closed">
                 <div class="card-progress" data-weekdays="5" data-width="75"></div>
                 <div class="card-header">
@@ -79,42 +115,6 @@
                             <small class="this-week-label">End Time</small>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- add class hidden to this too, if day is monday -->
-            <div class="card-navigation" [class.hidden]="userData.length <= 1">
-                <div class="btn-group btn-dropdown dropup filter pull-left" style="margin-top: 0;">
-                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Jump to Date <span class="fa fa-angle-down"></span>
-                    </button>
-                     <ul class="dropdown-menu">
-                            <li class="select-a-date">
-                                <h6 class="dd-title">Select a Date</h6>
-                                <p>The result will show the week which includes the date you picked</p>
-                                <div class="form-group">
-                                    <label for="find-week-day">
-                                        <input type="date" id="find-week-day" class="form-control" [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
-                                    </label>
-                                </div>
-                                <!-- add class hidden as soon as a date has been selected -->
-                                <p class="date-not-selected" [class.hidden]="dateSlct">Select a date to see week start and end dates</p>
-
-                                <!-- After a date is picked, show this div and hi de the previous one-->
-                                <div [class.hidden]="!dateSlct">
-                                    <h6 class="dd-title">The {{dropDownValue == 1 ? 'Month' : 'Week'}}</h6>
-                                    <p *ngIf="displayDateRange"> {{displayDateRange.start ? (displayDateRange.start | date: 'dd MMM, yyyy') : '' }} - 
-                                        {{displayDateRange.end ? (displayDateRange.end | date: 'dd MMM, yyyy') : '' }}</p>
-                                    <a href="#" class="btn btn-primary pull-right" (click)="getDateRangeData(dateSlct)">Done</a>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="table-navi pull-right" style="margin-top: 0;">
-                    <!-- add class disabled to disable the btn/link -->
-                    <a href="#" class="week-navi prev" (click)="fetchData(false)"><i class="fa fa-angle-left"></i></a>
-                    <a href="#" class="week-navi next" (click)="fetchData(true)" [class.disabled]="nextButtonDisabled"><i class="fa fa-angle-right"></i></a>
                 </div>
             </div>
             <!-- loader -->

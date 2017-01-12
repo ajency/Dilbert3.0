@@ -40,6 +40,13 @@
 	position: relative;
 	z-index: 5;
 }
+.navbar {
+	.dropdown-menu {
+		.glyphicon, .fa {
+			margin-right: 15px;
+		}
+	}
+}
 @media screen and (max-width: 767px) {
 	.navbar-collapse.posrel {
 		margin: 15px 0;
@@ -56,6 +63,12 @@
 	.navbar-nav .open .dropdown-menu>li>a {
 		padding-left: 0;
 		line-height: 27px;
+	}
+	.navbar .dropdown a {
+		color: @bodyGrey;
+		font-weight: 600;
+		text-decoration: none;
+		font-size: 13px;
 	}
 }
 .logo {

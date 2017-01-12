@@ -494,6 +494,16 @@ select.form-control {
 		font-size: 16px;
 	}
 }
+.card-navigation {
+	margin-bottom: 0;
+	padding: 10px 15px;
+	border-radius: 4px 4px 0 0;
+	&:after {
+		content: '';
+		clear: both;
+		display: block;
+	}
+}
 
 
 // button group styling
@@ -1275,6 +1285,7 @@ select.form-control {
 // this/last week card
 .last-week {
 	position: relative;
+	border-radius: 0 0 4px 4px;
 	.card-progress {
 		position: absolute;
 		top: 0;
@@ -1468,7 +1479,9 @@ svg {
 	.navbar .container > .navbar-collapse {
 		position: fixed;
 		background: rgb(255, 255, 255);
-		right: 0px;
+		// right: 0px;
+		right: auto;
+		left: -100%;
 		top: 0px;
 		bottom: 0px;
 		box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px, rgba(0, 0, 0, 0.0980392) 0px 0px 28px 5px;
@@ -1476,6 +1489,8 @@ svg {
 		margin: 0px;
 		overflow-y: auto;
 		z-index: 6;
+		display: block;
+		transition: all 0.5s;
 		.nav {
 			margin: 0;
 			// &:first-child li:first-child {
@@ -1491,6 +1506,10 @@ svg {
 			border-top: 1px solid #ddd;
 			padding-top: 20px;
 			margin-top: 20px;
+		}
+		&.in {
+			// right: 0;
+			left: 0;
 		}
 	}
 	.navbar {
