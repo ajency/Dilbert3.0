@@ -1,6 +1,7 @@
 <div class="container">
     <div class="row order-columns">
         <div class="col-md-8 at-btm visible-xs visible-sm">
+            <!-- Mobile Week view -->
             <!-- if day is monday then hide this and show the div with class "monday-card" -->
             
             <!-- add class hidden to this too, if day is monday -->
@@ -129,7 +130,7 @@
         </div>
 
         <div class="col-md-8 hidden-xs hidden-sm">
-            
+            <!-- Desktop week view -->
             <!-- Dashboard title when the user views this page -->
             <div class="user-page-title" *ngIf="!withUrl">
                 <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
@@ -306,14 +307,25 @@
         </div>
         <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class="loading"></div> </app-todays-card>-->
         <app-todays-card [userid]="userid" *ngIf="userid" class="fullwidth"></app-todays-card>
+        
+        <div class="col-md-8 at-btm visible-xs visible-sm">
+            <!-- Dashboard title when the user views this page -->
+            <div class="user-page-title" *ngIf="!withUrl">
+                <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
+            </div>
+
+            <!-- Dashboard title when the company views this page -->
+            <div class="company-page-title" *ngIf="withUrl">
+                <div *ngIf="empname">
+                    <h1 class="dashboard-title">{{empname}}'s Time at Work</h1>
+                </div>
+                <div *ngIf="!empname">
+                    <h1 class="dashboard-title"><div class="loading"></div></h1>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
-
-
-
-
 
 <!-- this is the old container - old design. hidden and not removed in case this is needed again -->
 <!--<div class="fixed-top-color btm-big "></div>-->
