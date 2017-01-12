@@ -7,3 +7,5 @@ Homestead.json
 .env
 *.sublime-project
 *.sublime-workspace
+.vscode
+.DS_Store
