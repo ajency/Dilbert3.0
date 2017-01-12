@@ -1,5 +1,21 @@
 <div class="container">
     <div class="row order-columns">
+        <div class="col-md-8 visible-xs visible-sm wi100">
+            <!-- Dashboard title when the user views this page -->
+            <div class="user-page-title hidden" *ngIf="!withUrl">
+                <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
+            </div>
+
+            <!-- Dashboard title when the company views this page -->
+            <div class="company-page-title" *ngIf="withUrl">
+                <div *ngIf="empname">
+                    <h1 class="dashboard-title">{{empname}}'s Time at Work</h1>
+                </div>
+                <div *ngIf="!empname">
+                    <h1 class="dashboard-title"><div class="loading"></div></h1>
+                </div>
+            </div>
+        </div>
         <div class="col-md-8 at-btm visible-xs visible-sm">
             <!-- Mobile Week view -->
             <!-- if day is monday then hide this and show the div with class "monday-card" -->
@@ -307,23 +323,6 @@
         </div>
         <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class="loading"></div> </app-todays-card>-->
         <app-todays-card [userid]="userid" *ngIf="userid" class="fullwidth"></app-todays-card>
-        
-        <div class="col-md-8 at-btm visible-xs visible-sm">
-            <!-- Dashboard title when the user views this page -->
-            <div class="user-page-title" *ngIf="!withUrl">
-                <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
-            </div>
-
-            <!-- Dashboard title when the company views this page -->
-            <div class="company-page-title" *ngIf="withUrl">
-                <div *ngIf="empname">
-                    <h1 class="dashboard-title">{{empname}}'s Time at Work</h1>
-                </div>
-                <div *ngIf="!empname">
-                    <h1 class="dashboard-title"><div class="loading"></div></h1>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

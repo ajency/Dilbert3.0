@@ -1666,6 +1666,18 @@ svg {
   margin-bottom: 6px;
   font-weight: 600;
 }
+@media screen and (max-width: 767px) {
+  .dashboard-title {
+    font-size: 18px;
+    margin-top: 22px;
+    margin-bottom: 18px;
+    text-align: center;
+    font-weight: normal;
+  }
+}
+.wi100 {
+  width: 100%;
+}
 .sub-title {
   margin-top: 3px;
   margin-bottom: 20px;
