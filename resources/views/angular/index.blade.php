@@ -41,7 +41,6 @@
   @endif
 @endsection
 @section('content')
-  <link rel="stylesheet" type="text/css" href="http://localhost:8000/css/clock.css">
   <div id="user-log-content">
   @if (!session()->has('reload'))
     <!-- <app-root> <div class="loading_dashboard"><img src="/img/ring.svg"/></div> </app-root> -->
@@ -55,8 +54,8 @@
       <div class='uil-clock-css' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div>
     </div>
   @endif
-  <!-- <div class="fixed-bottom-color"></div> -->
-  <div class="fixed-top-color btm-big "></div>
+  <div class="fixed-bottom-color"></div>
+  <!-- <div class="fixed-top-color btm-big"></div> -->
   </div>
 @endsection
 
