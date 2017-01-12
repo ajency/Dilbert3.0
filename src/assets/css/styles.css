@@ -831,9 +831,9 @@ select.form-control {
 .table-view.week .th-day big {
   color: #828282;
 }
-.table-view.week tbody tr {
+/*.table-view.week tbody tr {
   cursor: pointer;
-}
+}*/
 .table-view .top-meta {
   font-size: 12px;
   display: block;

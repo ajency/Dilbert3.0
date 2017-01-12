@@ -122,6 +122,7 @@
             <div class="monday-card last-week" [class.hidden]="userData.length > 1 && !showLoader">
                 <div class="card-header">
                     <div class="illustration pull-left"></div>
+                    <!--<small class="this-week-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>-->
                     <small class="noinfo-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>
                 </div>
             </div>
@@ -130,15 +131,20 @@
         <div class="col-md-8 hidden-xs hidden-sm">
             
             <!-- Dashboard title when the user views this page -->
-            <div class="user-page-title">
+            <div class="user-page-title" *ngIf="!withUrl">
                 <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
                 <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
             </div>
 
             <!-- Dashboard title when the company views this page -->
-            <div class="company-page-title hidden">
-                <h1 class="dashboard-title">Mohsin's Time at Work</h1>
-                <h4 class="sub-title dash">A detailed view of how much time Mohsin spends at office</h4>
+            <div class="company-page-title" *ngIf="withUrl">
+                <div *ngIf="empname">
+                    <h1 class="dashboard-title">{{empname}}'s Time at Work</h1>
+                    <h4 class="sub-title dash">A detailed view of how much time {{empname}} spends at office</h4>
+                </div>
+                <div *ngIf="!empname">
+                    <h1 class="dashboard-title"><div class="loading"></div></h1>
+                </div>
             </div>
 
             <div class="last-few-days card">
@@ -196,7 +202,7 @@
                 <!-- whatever object that needs to be hidden in week view plz add the class 'hide-in-week-view' -->
                 <!-- to show an object in week view plz add class 'show-in-week-view' -->
                 <div class="card-body" [class.week-view]="dropDownValue == 2">
-                    <app-month-view [monthData]="formatDATA" *ngIf="dropDownValue == 1 && formatDATA"></app-month-view>
+                    <app-month-view [monthData]="formatDATA" *ngIf="dropDownValue == 1 && formatDATA"><img src="dist/assets/images/ring.svg" alt="Loading ..."></app-month-view>
 
                     <div class="table-view week show-in-week-view">
                         <div class="table-responsive">
@@ -298,8 +304,8 @@
                 </div>
             </div>
         </div>
+        <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class="loading"></div> </app-todays-card>-->
         <app-todays-card [userid]="userid" *ngIf="userid" class="fullwidth"></app-todays-card>
-        
     </div>
 </div>
 
@@ -310,6 +316,4 @@
 
 
 <!-- this is the old container - old design. hidden and not removed in case this is needed again -->
-
-
-<div class="fixed-top-color btm-big "></div>
+<!--<div class="fixed-top-color btm-big "></div>-->

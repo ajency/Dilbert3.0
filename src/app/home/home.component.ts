@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   userData: any[] = [];
   todaysData: any;
   oldData: any[] = [];
+  withUrl: any;
   showLoader: boolean = true;
   yesterdaysData: any;
   totalHoursThisWeek: string;
@@ -18,6 +19,8 @@ export class HomeComponent implements OnInit {
   monthStartDay: number;
   displayDateRange: any;
   userid: any;
+  empid: any;
+  empname: any = null;
   formatDATA: any;
   thisWeekDates: any = {};
   today: any = {
@@ -39,17 +42,32 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dropDownValue = 2;
+    this.dropDownValue = 2; // This is for the JSON response i.e. whether the Data exist in 1 level below or 2 level below
     // 220
-    let reg = /^\d+$/;
+    // let reg = /^\d+$/;
+    let reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // Checks if the URL has email ID
     this.todaysDate = this.appUtilService.formatDate(new Date());
     let path = window.location.href.split('/');
-    let id = path[path.length - 1];
+    let id = path[path.length - 1]; // Get the last data from the URL
     console.log('PARAMS', id, reg.test(id));
-    if (reg.test(id)) {
-      this.userid = id;
-    } else {
+    this.empname = null;
+    if (reg.test(id)) { // checks if the URL has emailID
       this.userid = this.appUtilService.user_data.id;
+      this.empid = id;
+      this.withUrl = true;
+      this.userDataService.getOtherUserName(this.userid, this.empid).subscribe( (response) => {
+        if (response.length !== 0) {
+          this.empname = response[0].name;// Get Employee's Name using his/her Email-ID
+        }else {
+          this.empname = this.appUtilService.user_data.name; // Else replace it with User's Email ID
+        }
+      })
+    } else {
+
+      this.withUrl = false;
+      this.userid = this.appUtilService.user_data.id;
+      this.empid = undefined;//this.appUtilService.user_data.emp_email;
+      this.empname = undefined;
     }
     this.getUserData(this.dropDownValue);
   }
@@ -112,54 +130,107 @@ export class HomeComponent implements OnInit {
   };
   getData(date) {
     this.showLoader = true;
-    this.userDataService.getUserData(this.userid, date).subscribe( (response) => {
-      this.showLoader = false;
-      this.userData = [];
+    //console.log("Yeah");
+    //console.log(this.appUtilService.user_data.hasOwnProperty('emp_id'));
+    if(this.empid == undefined) { /*Emp's email Doesn't exist in the URL */
+      this.userDataService.getUserData(this.userid, date).subscribe( (response) => {
+        this.showLoader = false;
+        this.userData = [];
 
-      this.yesterdaysData = null;
-      if (this.dropDownValue === 2) {
-        if (response.length !== 0) {
-          this.userData = response[0].data;
-          this.formatWeekView(this.userData);
-        }else {
-          this.userData = [];
-          this.oldData = [];
-        }
-      } else {
-        if (response.length !== 0) {
-          this.userData = response;
-          this.formatMonthView(this.userData);
-        }else {
-          this.userData = [];
-          this.oldData = [];
-          this.formatDATA = [];
-        }
-      }
-      console.log(response, 'response');
-      let sec = 0;
-      response.forEach( (week) => {
-        week.data.forEach((day) => {
-          if (day.total_time !== '') {
-            sec += this.appUtilService.toSeconds(day.total_time);
+        this.yesterdaysData = null;
+        if (this.dropDownValue === 2) {
+          if (response.length !== 0) {
+            this.userData = response[0].data;
+            this.formatWeekView(this.userData);
+          }else {
+            this.userData = [];
+            this.oldData = [];
           }
+        } else {
+          if (response.length !== 0) {
+            this.userData = response;
+            this.formatMonthView(this.userData);
+          }else {
+            this.userData = [];
+            this.oldData = [];
+            this.formatDATA = [];
+          }
+        }
+        console.log(response, 'response');
+        let sec = 0;
+        response.forEach( (week) => {
+          week.data.forEach((day) => {
+            if (day.total_time !== '') {
+              sec += this.appUtilService.toSeconds(day.total_time);
+            }
+          });
         });
+        this.totalHoursThisWeek =
+          this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
+          this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
+        let totalSec = 0;
+        totalSec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString());
+        let tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
+        this.averageHours = tp.split('.')[0] + ':' + tp.split('.')[1];
+        // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
+      }, onerror => {
+        this.userData = [];
+        this.showLoader = false;
+        this.oldData = [];
+        this.yesterdaysData = null;
+        this.totalHoursThisWeek = '00:00';
+        console.log(onerror, 'ERROR');
       });
-      this.totalHoursThisWeek =
-        this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
-        this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
-      let totalSec = 0;
-      totalSec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString());
-      let tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
-      this.averageHours = tp.split('.')[0] + ':' + tp.split('.')[1];
-      // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
-    }, onerror => {
-      this.userData = [];
-      this.showLoader = false;
-      this.oldData = [];
-      this.yesterdaysData = null;
-      this.totalHoursThisWeek = '00:00';
-      console.log(onerror, 'ERROR');
-    });
+    } else { /* The URL has emp's emailID */
+      this.userDataService.getOtherUserData(this.userid, this.empid, date).subscribe( (response) => {
+        this.showLoader = false;
+        this.userData = [];
+
+        this.yesterdaysData = null;
+        if (this.dropDownValue === 2) {
+          if (response.length !== 0) {
+            this.userData = response[0].data;
+            this.formatWeekView(this.userData);
+          }else {
+            this.userData = [];
+            this.oldData = [];
+          }
+        } else {
+          if (response.length !== 0) {
+            this.userData = response;
+            this.formatMonthView(this.userData);
+          }else {
+            this.userData = [];
+            this.oldData = [];
+            this.formatDATA = [];
+          }
+        }
+        console.log(response, 'response');
+        let sec = 0;
+        response.forEach( (week) => {
+          week.data.forEach((day) => {
+            if (day.total_time !== '') {
+              sec += this.appUtilService.toSeconds(day.total_time);
+            }
+          });
+        });
+        this.totalHoursThisWeek =
+          this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
+          this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
+        let totalSec = 0;
+        totalSec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString());
+        let tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
+        this.averageHours = tp.split('.')[0] + ':' + tp.split('.')[1];
+        // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
+      }, onerror => {
+        this.userData = [];
+        this.showLoader = false;
+        this.oldData = [];
+        this.yesterdaysData = null;
+        this.totalHoursThisWeek = '00:00';
+        console.log(onerror, 'ERROR');
+      });
+    }
   }
   standardDeviation(values, appUtilService) {
     let avg = this.averageHours.toString();

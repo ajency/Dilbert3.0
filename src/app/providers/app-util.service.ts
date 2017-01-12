@@ -8,7 +8,7 @@ export class AppUtilService {
   // };
   user_data: any = {};
   constructor( private localStorage: LocalStorageService ) {
-    this.user_data = this.localStorage.retrieve('user_data');
+    this.user_data = this.localStorage.retrieve('user_data'); // Read Data from localStorage key - "ng2-webstorage|user_data"
   }
   toSeconds(timeString) {
     let p = timeString.split(':');

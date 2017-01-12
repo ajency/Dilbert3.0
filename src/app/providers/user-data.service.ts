@@ -29,6 +29,21 @@ export class UserDataService {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
+  getOtherUserName(id, emp_email): Observable<any> { /* To get User's Name w.r.t that Email-ID */
+    let fetchurl = `${apiURL}/username?user_id=${id}&emp_email=${emp_email}`;
+    return this.http.get(fetchurl, { headers: this.headers })
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  getOtherUserData(id, emp_id, date): Observable<any> {
+    let fetchurl = `${apiURL}/users?user_id=${id}&emp_id=${emp_id}`;
+    if (date) {
+      fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
+    }
+    return this.http.get(fetchurl, { headers: this.headers })
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
   private extractData(res: Response) {
     return res.json();
   }
