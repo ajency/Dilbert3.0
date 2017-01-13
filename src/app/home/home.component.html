@@ -115,7 +115,7 @@
                             <small class="this-week-label">End Time</small>
                         </div>
                     </div>
-                    <div class="list-footer" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
+                    <div class="list-footer hidden" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
                         <!-- User was on leave that day -->
                         <!--<span class="listy on-leave">
                             Status: {{ yesterday.status }}
@@ -167,7 +167,7 @@
                                 <small class="this-week-label">End Time</small>
                             </div>
                         </div>
-                        <div class="list-footer" *ngIf="!(item.status === null || item.status === 'present')">
+                        <div class="list-footer hidden" *ngIf="!(item.status === null || item.status === 'present')">
                             <!-- User was on leave that day -->
                             <!--<span class="listy on-leave">
                                 Status: {{ item.status }}
@@ -308,9 +308,10 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="th-total total th-time">
+                                            <span class="th-total total th-time" *ngIf="data.status === null || data.status === 'present'">
                                                 <strong>{{data.total_time ? data.total_time : 'n/a'}}</strong>
                                             </span>
+                                            <span class="th-total total th-time" *ngIf="!(data.status === null || data.status === 'present')">--</span>
                                         </td>
                                         <td>
                                             <div *ngIf="data.status === null || data.status === 'present'">
@@ -329,9 +330,9 @@
                                                     </div>-->
                                                     <progress style="width:100%;" class="progress progress-striped progress-animated" value="{{data.timeCompleted}}" max="100" aria-describedby="example-caption-5"></progress>
                                             </div>
-                                            <div *ngIf="!(data.status === null || data.status === 'present')">
+                                            <div class="status" *ngIf="!(data.status === null || data.status === 'present')">
                                                 <!-- Don't Leave statement if absent -->
-                                                <span class="listy on-leave">
+                                                <span class="on-leave">
                                                     Status: {{ data.status }}
                                                 </span>
                                             </div>
