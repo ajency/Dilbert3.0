@@ -1616,6 +1616,11 @@ svg {
 .navbar .dropdown-menu .fa {
   margin-right: 15px;
 }
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: transparent;
+}
 @media screen and (max-width: 767px) {
   .navbar-collapse.posrel {
     margin: 15px 0;
