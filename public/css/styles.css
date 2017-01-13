@@ -28,7 +28,7 @@ a.disabled {
   pointer-events: none;
 }
 strong {
-  font-weight: 500;
+  font-weight: 600;
 }
 .small-link {
   font-size: 12px;
@@ -130,7 +130,7 @@ textarea:focus {
 }
 .dd-title {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: #828282;
   margin-bottom: 6px;
 }
@@ -267,7 +267,7 @@ textarea:focus {
   display: none;
 }
 .steps-wrapper .step.current .step-title {
-  font-weight: 500;
+  font-weight: 600;
 }
 .steps-wrapper .step-label {
   font-size: 11px;
@@ -403,7 +403,7 @@ select.form-control {
   font-size: 14px;
   background: #a400d8;
   padding: 10px 25px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .btn.btn-primary:hover {
   background: #730596;
@@ -440,7 +440,7 @@ select.form-control {
   padding: 16px;
   text-align: center;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 2px;
   text-decoration: none;
 }
@@ -455,7 +455,7 @@ select.form-control {
   border: 1px solid;
   font-size: 13px;
   padding: 15px 25px;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 2px;
 }
 .btn.btn-with-rt-icon i {
@@ -527,7 +527,7 @@ select.form-control {
 }
 .hero-title {
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .hero-tag {
   font-size: 14px;
@@ -542,7 +542,7 @@ select.form-control {
 }
 .cta .cta-title {
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 5px;
 }
 .cta .cta-sub-title {
@@ -681,7 +681,7 @@ select.form-control {
 .dropdown-menu > .active > a:hover {
   background: #FFDF00;
   color: #303030;
-  font-weight: 500;
+  font-weight: 600;
 }
 .filter {
   margin-top: 6px;
@@ -784,7 +784,7 @@ select.form-control {
 .table-view .th-total {
   display: block;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   color: #303030;
 }
 .table-view .th-total.work {
@@ -1043,7 +1043,7 @@ select.form-control {
 .card-link {
   display: block;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   position: relative;
 }
 .card-link:hover {
@@ -1601,7 +1601,7 @@ svg {
 }
 .navbar.header .navbar-nav a {
   color: #828282;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   font-size: 13px;
 }
@@ -1636,14 +1636,14 @@ svg {
 }
 .navbar .dropdown a {
   color: #828282;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   font-size: 13px;
 }
 .logo {
   margin: 0;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19px;
 }
 .logo a {
@@ -1684,21 +1684,21 @@ svg {
   margin-top: 35px;
 }
 .page-title h1 strong {
-  font-weight: 500;
+  font-weight: 600;
 }
 .dashboard-title {
   font-size: 28px;
   color: #303030;
   margin-top: 50px;
   margin-bottom: 6px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .sub-title {
   margin-top: 3px;
   margin-bottom: 20px;
   font-size: 13px;
   color: #828282;
-  font-weight: 500;
+  font-weight: 600;
 }
 .sub-title.dash {
   font-size: 14px;
@@ -1821,7 +1821,7 @@ form label {
   text-align: center;
   text-decoration: underline;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .landing-page .navbar.header {
   border: 0;
@@ -1871,7 +1871,7 @@ form label {
 .why-sub-t {
   color: #828282;
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 25px;
   margin-bottom: 15px;
   padding: 25px 0;
