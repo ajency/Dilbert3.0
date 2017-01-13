@@ -117,9 +117,19 @@
                     </div>
                     <div class="list-footer" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
                         <!-- User was on leave that day -->
-                        <span class="listy on-leave">
+                        <!--<span class="listy on-leave">
                             Status: {{ yesterday.status }}
-                        </span>
+                        </span>-->
+                        <div class="start-time tims">
+                            <div class="icon"></div>
+                            <div class="day-times">--:--</div>
+                            <small class="this-week-label">Start Time</small>
+                        </div>
+                        <div class="end-time tims">
+                            <div class="icon"></div>
+                            <div class="day-times">--:--</div>
+                            <small class="this-week-label">End Time</small>
+                        </div>
                     </div>
                 </div>
                 
