@@ -1474,7 +1474,8 @@ select.form-control {
 	}
 }
 .card-navigation {
-	margin-top: -15px;
+	padding: 4px 15px !important;
+	// margin-top: -15px;
 	margin-bottom: 45px;
 	&:after {
 		content: '';
@@ -1536,13 +1537,15 @@ svg {
 		}
 	}
 	.navbar {
-		.userdata a {
-			padding: 25px 13px;
-			border-bottom: 1px solid #ddd;
+		.userdata a.dropdown-toggle {
+			display: block;
+			padding: 9px 0 !important;
+			// padding: 25px 13px;
+			// border-bottom: 1px solid #ddd;
 		}
 		.userdata img {
-			width: 40px;
-			height: 40px;
+			width: 30px !important;
+			height: 30px !important;
 			margin-right: 8px;
 			border-radius: 50%;
 		}
@@ -1550,6 +1553,9 @@ svg {
 			margin-right: 15px;
 		}
 	}
+	// .dropdown.userdata img {
+	// 	vertical-align: middle !important;
+	// }
 	.lang {
 		padding: 13px;
 	}

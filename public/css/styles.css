@@ -1490,7 +1490,7 @@ select.form-control {
   padding-top: 15px;
 }
 .card-navigation {
-  margin-top: -15px;
+  padding: 4px 15px !important;
   margin-bottom: 45px;
 }
 .card-navigation:after {
@@ -1535,13 +1535,13 @@ svg {
   .navbar .container > .navbar-collapse.in {
     left: 0;
   }
-  .navbar .userdata a {
-    padding: 25px 13px;
-    border-bottom: 1px solid #ddd;
+  .navbar .userdata a.dropdown-toggle {
+    display: block;
+    padding: 9px 0 !important;
   }
   .navbar .userdata img {
-    width: 40px;
-    height: 40px;
+    width: 30px !important;
+    height: 30px !important;
     margin-right: 8px;
     border-radius: 50%;
   }
@@ -1664,12 +1664,16 @@ svg {
   border-radius: 3px;
 }
 .dropdown-menu li a {
-  padding: 9px 20px;
+  padding: 13px 20px !important;
   color: #303030;
+  border-bottom: 1px solid #ddd;
+}
+.dropdown-menu li:last-child a {
+  border-bottom: 0;
 }
 .dropdown.userdata img {
   display: inline-block;
-  vertical-align: bottom;
+  vertical-align: middle !important;
   margin-right: 5px;
 }
 .dropdown.userdata i {
