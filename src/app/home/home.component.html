@@ -110,7 +110,9 @@
                     </div>
                     <div class="list-footer" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
                         <!-- User was on leave that day -->
-                        Status: {{ yesterday.status }}
+                        <span class="listy on-leave">
+                            Status: {{ yesterday.status }}
+                        </span>
                     </div>
                 </div>
                 
@@ -145,7 +147,9 @@
                         </div>
                         <div class="list-footer" *ngIf="!(item.status === null || item.status === 'present')">
                             <!-- User was on leave that day -->
-                            Status: {{ item.status }}
+                            <span class="listy on-leave">
+                                Status: {{ item.status }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -259,12 +263,12 @@
                                     <tr *ngIf="userData.length == 0 && !showLoader" > 
                                         <td colspan="3" class="noData"> No data to display</td>       
                                     </tr>
-                                    <tr *ngIf="showLoader">
 
+                                    <tr *ngIf="showLoader">
                                         <td colspan="3"><div class="loading"></div></td>
                                     </tr>
                                     <!-- Display Log Data -->
-                                    <tr *ngFor="let data of userData" [class.current]="todaysDate === data.work_date">
+                                    <tr *ngFor="let data of userData.slice().reverse()" [class.current]="todaysDate === data.work_date">
                                         <td>
                                             <span class="th-day">
                                                 <span class="small-title">{{data.work_date | date:'dd MMM'}}</span>
@@ -295,7 +299,7 @@
                                             </div>
                                             <div *ngIf="!(data.status === null || data.status === 'present')">
                                                 <!-- Don't Leave statement if absent -->
-                                                <span>
+                                                <span class="listy on-leave">
                                                     Status: {{ data.status }}
                                                 </span>
                                             </div>

@@ -319,6 +319,7 @@ export class HomeComponent implements OnInit {
         this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
     });
     console.log(this.formatDATA, 'ARRAY');
+    //this.formatDATA = this.formatDATA.slice().reverse();
   }
   formatWeekView(userData) {
       this.oldData = [];
@@ -346,7 +347,7 @@ export class HomeComponent implements OnInit {
         }
        
       });
-      if (this.yesterdaysData) {
+      if (this.yesterdaysData) { // set data for Yesterday's data -> For Mobile Interface
         this.yesterday = {
         date: this.yesterdaysData.work_date,
         total_time : {
@@ -358,7 +359,7 @@ export class HomeComponent implements OnInit {
         status: this.yesterdaysData.status
 
       };
-      }else {
+      }else { // No Yesterday's data
         this.yesterday = {
           date: new Date ( new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1 ),
           total_time : '00:00'
