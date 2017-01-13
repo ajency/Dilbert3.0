@@ -323,7 +323,7 @@ export class HomeComponent implements OnInit {
   formatWeekView(userData) {
       this.oldData = [];
       this.yesterdaysData = null;
-      userData.forEach( (data) => {
+      userData.forEach( (data) => { // Loop the weeks data
          if ( data.total_time || data.total_time !== '' ) {
           let temp = data.total_time.split(':');
           if (parseInt(temp[0], 10) >= 10) {
@@ -337,13 +337,14 @@ export class HomeComponent implements OnInit {
           }
         }
         let nD = new Date();
-        if (data.work_date === this.appUtilService.formatDate(new Date()) ) {
+        if (this.appUtilService.formatDate(data.work_date) === this.appUtilService.formatDate(new Date()) ) {// If data is related to Today's, then store in this
           this.todaysData = data;
-        } else if (data.work_date === this.appUtilService.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) {
+        } else if (this.appUtilService.formatDate(data.work_date) === this.appUtilService.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) { // If the work_date is yesterday (i.e. betn Mon-Thurs)
           this.yesterdaysData = data;
-        } else {
+        } else { // Else store in oldData
           this.oldData.push(data);
         }
+       
       });
       if (this.yesterdaysData) {
         this.yesterday = {
@@ -353,7 +354,8 @@ export class HomeComponent implements OnInit {
           mins: this.yesterdaysData.total_time.split(':')[1]
         },
         start_time: this.yesterdaysData.start_time,
-        end_time: this.yesterdaysData.end_time
+        end_time: this.yesterdaysData.end_time,
+        status: this.yesterdaysData.status
 
       };
       }else {

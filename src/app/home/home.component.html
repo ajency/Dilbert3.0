@@ -1,6 +1,7 @@
 <div class="container">
     <div class="row order-columns">
         <div class="col-md-8 visible-xs visible-sm wi100">
+            <!-- Mobile view -->
             <!-- Dashboard title when the user views this page -->
             <div class="user-page-title hidden" *ngIf="!withUrl">
                 <h1 class="dashboard-title">Welcome, {{appUtilService.user_data.user_name}}</h1>
@@ -70,7 +71,9 @@
                     </div>
                 </div>
                 <div *ngIf="showLoader" class="loading"></div>
+                
                 <div class="listy this-yesterday" *ngIf="yesterdaysData">
+                    <!-- Yesterday's Card -->
                     <div class="list-top">
                         <div class="day-info pull-left">
                             <h3>Yesterday</h3>
@@ -92,7 +95,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="list-footer">
+                    <!-- Yesterday's card in expanded mode -->
+                    <div class="list-footer" *ngIf="yesterday.status === null || yesterday.status === 'present'">
                         <div class="start-time tims">
                             <div class="icon"></div>
                             <div class="day-times">{{yesterday.start_time ? (yesterday.start_time | date:'hh:mm' ): 'n/a'}}</div>
@@ -104,32 +108,44 @@
                             <small class="this-week-label">End Time</small>
                         </div>
                     </div>
+                    <div class="list-footer" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
+                        <!-- User was on leave that day -->
+                        Status: {{ yesterday.status }}
+                    </div>
                 </div>
-                <div class="listy show-opened" *ngFor="let item of oldData">
-                    <div class="list-top">
-                        <div class="day-info pull-left">
-                            <h3>{{item.work_date | date: 'EEEE'}}</h3>
-                            <small class="this-week-label">{{item.work_date | date: 'dd MMMM'}}</small>
-                        </div>
-                        <div class="day-total pull-right text-right">
-                            <div class="show-opened">
-                                <div class="this-day-total">
-                                    <strong>{{item.total_time ? item.total_time : 'n/a'}}</strong>
+                
+                <div *ngFor="let item of oldData">
+                    <div class="listy show-opened" *ngIf="this.appUtilService.formatDate(item.work_date) !== todaysDate">
+                        <!-- Display all previous date's except today's date in the list -->
+                        <div class="list-top">
+                            <div class="day-info pull-left">
+                                <h3>{{item.work_date | date: 'EEEE'}}</h3>
+                                <small class="this-week-label">{{item.work_date | date: 'dd MMMM'}}</small>
+                            </div>
+                            <div class="day-total pull-right text-right">
+                                <div class="show-opened">
+                                    <div class="this-day-total">
+                                        <strong>{{item.total_time ? item.total_time : 'n/a'}}</strong>
+                                    </div>
+                                    <small class="this-week-label">Total hours</small>
                                 </div>
-                                <small class="this-week-label">Total hours</small>
                             </div>
                         </div>
-                    </div>
-                    <div class="list-footer">
-                        <div class="start-time tims">
-                            <div class="icon"></div>
-                            <div class="day-times">{{item.start_time ? (item.start_time | date:'hh:mm' ): 'n/a'}}</div>
-                            <small class="this-week-label">Start Time</small>
+                        <div class="list-footer" *ngIf="item.status === null || item.status === 'present'">
+                            <div class="start-time tims">
+                                <div class="icon"></div>
+                                <div class="day-times">{{item.start_time ? (item.start_time | date:'hh:mm' ): 'n/a'}}</div>
+                                <small class="this-week-label">Start Time</small>
+                            </div>
+                            <div class="end-time tims">
+                                <div class="icon"></div>
+                                <div class="day-times">{{item.end_time ? (item.end_time | date:'hh:mm' ): 'n/a'}}</div>
+                                <small class="this-week-label">End Time</small>
+                            </div>
                         </div>
-                        <div class="end-time tims">
-                            <div class="icon"></div>
-                            <div class="day-times">{{item.end_time ? (item.end_time | date:'hh:mm' ): 'n/a'}}</div>
-                            <small class="this-week-label">End Time</small>
+                        <div class="list-footer" *ngIf="!(item.status === null || item.status === 'present')">
+                            <!-- User was on leave that day -->
+                            Status: {{ item.status }}
                         </div>
                     </div>
                 </div>
