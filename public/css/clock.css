@@ -261,6 +261,7 @@ width: 100%;
   position: relative;
   width: 200px;
   height: 200px;
+  margin: 25px auto;
 }
 .uil-clock-css .clock {
   position: absolute;
@@ -299,5 +300,12 @@ width: 100%;
   -webkit-animation: uil-clock-rotate2 1s linear infinite;
   -o-animation: uil-clock-rotate2 1s linear infinite;
   animation: uil-clock-rotate2 1s linear infinite;
-  opacity: 0;
+  // opacity: 0;
+}
+.yellow-loader .clock {
+  border-color: #ffd600;
+  background: transparent;
+}
+.yellow-loader .ptr1 {
+  background: #ffd600;
 }
