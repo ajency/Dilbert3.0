@@ -13,7 +13,7 @@
                     <h1 class="dashboard-title">{{empname}}'s Time at Work</h1>
                 </div>
                 <div *ngIf="!empname">
-                    <h1 class="dashboard-title"><div class="loading"></div></h1>
+                    <h1 class="dashboard-title"><div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div></h1>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                         <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
                     </div>
                 </div>
-                <div *ngIf="showLoader" class="loading"></div>
+                <div *ngIf="showLoader"><div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div></div>
                 
                 <div class="listy on-leave this-yesterday" *ngIf="yesterdaysData">
                     <!-- Yesterday's Card -->
@@ -188,7 +188,7 @@
             </div>
             <!-- loader -->
             <!-- if day is monday - that means no weekly data to show, show this section instead -->
-            <div class="monday-card last-week" [class.hidden]="userData.length > 1 && !showLoader">
+            <div class="monday-card last-week" [class.hidden]="userData.length > 1 || yesterdaysData || !showLoader">
                 <div class="card-header">
                     <div class="illustration pull-left"></div>
                     <!-- This Month is for Now commented for Basic Web -->
@@ -213,7 +213,7 @@
                     <h4 class="sub-title dash">A detailed view of how much time {{empname}} spends at office</h4>
                 </div>
                 <div *ngIf="!empname">
-                    <h1 class="dashboard-title"><div class="loading"></div></h1>
+                    <h1 class="dashboard-title"><div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div></h1>
                 </div>
             </div>
 
@@ -297,10 +297,10 @@
                                     </tr>
 
                                     <tr *ngIf="showLoader">
-                                        <td colspan="3"><div class="loading"></div></td>
+                                        <td colspan="3"><div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div></td>
                                     </tr>
                                     <!-- Display Log Data -->
-                                    <tr *ngFor="let data of userData.slice().reverse()" [class.current]="todaysDate === data.work_date">
+                                    <tr *ngFor="let data of userData.slice().reverse()" [class.current]="todaysDate === data.work_date" [class.on-leave]="!(data.status === null || data.status === 'present')">
                                         <td>
                                             <span class="th-day">
                                                 <span class="small-title">{{data.work_date | date:'dd MMM'}}</span>
@@ -332,7 +332,7 @@
                                             </div>
                                             <div class="status" *ngIf="!(data.status === null || data.status === 'present')">
                                                 <!-- Don't Leave statement if absent -->
-                                                <span class="on-leave">
+                                                <span>
                                                     Status: {{ data.status }}
                                                 </span>
                                             </div>
@@ -385,7 +385,7 @@
                 </div>
             </div>
         </div>
-        <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class="loading"></div> </app-todays-card>-->
+        <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div> </app-todays-card>-->
         <app-todays-card [userid]="userid" *ngIf="userid" class="fullwidth"></app-todays-card>
     </div>
 </div>
