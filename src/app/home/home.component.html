@@ -72,7 +72,7 @@
                 </div>
                 <div *ngIf="showLoader" class="loading"></div>
                 
-                <div class="listy this-yesterday" *ngIf="yesterdaysData">
+                <div class="listy on-leave this-yesterday" *ngIf="yesterdaysData">
                     <!-- Yesterday's Card -->
                     <div class="list-top">
                         <div class="day-info pull-left">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 
-                <div class="listy show-opened" *ngFor="let item of oldData">
+                <div class="listy on-leave show-opened" *ngFor="let item of oldData">
                     <div *ngIf="this.appUtilService.formatDate(item.work_date) !== todaysDate">
                         <!-- Display all previous date's except today's date in the list -->
                         <div class="list-top">
