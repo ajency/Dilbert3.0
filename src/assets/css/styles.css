@@ -814,6 +814,15 @@ select.form-control {
 .table-view .first-table tbody tr.current {
   opacity: 1;
 }
+.table-view tr.on-leave {
+  background: #fff6f6;
+}
+.table-view tr.on-leave .th-total {
+  padding-top: 4px;
+}
+.table-view tr.on-leave .status {
+  padding-top: 6px;
+}
 .table-view .fixed-right {
   position: absolute;
   right: 0;
@@ -1451,6 +1460,10 @@ select.form-control {
 .last-week.opened .listy {
   padding-bottom: 60px;
 }
+.last-week.opened .listy.on-leave {
+  padding-bottom: 0;
+  background: #fff6f6;
+}
 .last-week .tims {
   float: left;
   width: 41%;
@@ -1512,9 +1525,14 @@ svg {
   .navbar .container > .navbar-collapse.in {
     left: 0;
   }
+  .navbar .userdata a {
+    display: block;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
   .navbar .userdata img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     margin-right: 8px;
     border-radius: 50%;
   }
@@ -1637,7 +1655,7 @@ svg {
 }
 .dropdown.userdata img {
   display: inline-block;
-  vertical-align: bottom;
+  vertical-align: middle;
   margin-right: 5px;
 }
 .dropdown.userdata i {

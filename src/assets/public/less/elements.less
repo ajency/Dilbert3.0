@@ -677,6 +677,15 @@ select.form-control {
 			opacity: 1;
 		}
 	}
+	tr.on-leave {
+		background: #fff6f6;
+		.th-total {
+			padding-top: 4px;
+		}
+		.status {
+			padding-top: 6px;
+		}
+	}
 	.fixed-right {
 		position: absolute;
 		right: 0;
@@ -1428,6 +1437,10 @@ select.form-control {
 		}
 		.listy {
 			padding-bottom: 60px;
+			&.on-leave {
+				padding-bottom: 0;
+				background: #fff6f6;
+			}
 		}
 		// .card-progress {
 		// 	display: block;
@@ -1514,12 +1527,16 @@ svg {
 	}
 	.navbar {
 		.userdata a {
+			display: block;
+			padding-top: 9px;
+			padding-bottom: 9px;
+			// }
 			// padding: 25px 13px;
 			// border-bottom: 1px solid #ddd;
 		}
 		.userdata img {
-			width: 40px;
-			height: 40px;
+			width: 30px;
+			height: 30px;
 			margin-right: 8px;
 			border-radius: 50%;
 		}
