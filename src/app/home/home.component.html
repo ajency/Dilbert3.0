@@ -80,18 +80,25 @@
                             <small class="this-week-label" >{{yesterday.date | date: 'dd MMMM'}}</small>
                         </div>
                         <div class="day-total pull-right text-right">
-                            <div class="show-collapsed">
+                            <div class="show-collapsed" *ngIf="yesterday.status === null || yesterday.status === 'present'">
                                 <div class="this-day-total" >
                                     <strong>{{yesterday.total_time.hrs}}</strong><small>hr</small>
                                     <strong>{{yesterday.total_time.mins}}</strong><small>min</small>
                                 </div>
                                 <small class="this-week-label">Total yesterday</small>
                             </div>
-                            <div class="show-opened">
+                            <div class="show-opened" *ngIf="yesterday.status === null || yesterday.status === 'present'">
                                 <div class="this-day-total" >
                                     <strong>{{yesterday.total_time.hrs}}:{{yesterday.total_time.mins}}</strong>
                                 </div>
                                 <small class="this-week-label">Total hours</small>
+                            </div>
+                            <div class="show-o pened" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
+                                <!-- User was on leave that day -->
+                                <div class="this-day-total" >
+                                    {{ yesterday.status }}
+                                </div>
+                                <small class="this-week-label">Status</small>
                             </div>
                         </div>
                     </div>
@@ -108,14 +115,11 @@
                             <small class="this-week-label">End Time</small>
                         </div>
                     </div>
-                    <div class="list-footer" *ngIf="!(yesterday.status === null || yesterday.status === 'present')">
-                        <!-- User was on leave that day -->
-                        Status: {{ yesterday.status }}
-                    </div>
+                    
                 </div>
                 
-                <div *ngFor="let item of oldData">
-                    <div class="listy show-opened" *ngIf="this.appUtilService.formatDate(item.work_date) !== todaysDate">
+                <div class="listy show-opened" *ngFor="let item of oldData">
+                    <div *ngIf="this.appUtilService.formatDate(item.work_date) !== todaysDate">
                         <!-- Display all previous date's except today's date in the list -->
                         <div class="list-top">
                             <div class="day-info pull-left">
@@ -123,11 +127,16 @@
                                 <small class="this-week-label">{{item.work_date | date: 'dd MMMM'}}</small>
                             </div>
                             <div class="day-total pull-right text-right">
-                                <div class="show-opened">
+                                <div class="show-opened" *ngIf="item.status === null || item.status === 'present'">
                                     <div class="this-day-total">
                                         <strong>{{item.total_time ? item.total_time : 'n/a'}}</strong>
                                     </div>
                                     <small class="this-week-label">Total hours</small>
+                                </div>
+                                <div class="show-opened" *ngIf="!(item.status === null || item.status === 'present')">
+                                    <!-- User was on leave that day -->
+                                    <div class="this-day-total">{{ item.status }}</div>
+                                    <small class="this-week-label">Status</small>
                                 </div>
                             </div>
                         </div>
@@ -143,10 +152,7 @@
                                 <small class="this-week-label">End Time</small>
                             </div>
                         </div>
-                        <div class="list-footer" *ngIf="!(item.status === null || item.status === 'present')">
-                            <!-- User was on leave that day -->
-                            Status: {{ item.status }}
-                        </div>
+                        
                     </div>
                 </div>
             </div>
