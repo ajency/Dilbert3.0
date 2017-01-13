@@ -814,6 +814,15 @@ select.form-control {
 .table-view .first-table tbody tr.current {
   opacity: 1;
 }
+.table-view tr.on-leave {
+  background: #fff6f6;
+}
+.table-view tr.on-leave .th-total {
+  padding-top: 4px;
+}
+.table-view tr.on-leave .status {
+  padding-top: 6px;
+}
 .table-view .fixed-right {
   position: absolute;
   right: 0;
