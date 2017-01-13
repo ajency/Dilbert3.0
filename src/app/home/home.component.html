@@ -139,7 +139,8 @@
             <div class="monday-card last-week" [class.hidden]="userData.length > 1 && !showLoader">
                 <div class="card-header">
                     <div class="illustration pull-left"></div>
-                    <!--<small class="this-week-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>-->
+                    <!-- This Month is for Now commented for Basic Web -->
+                    <small class="this-week-label" ng-disabled="true">You'll see this week's data from tomorrow. Have agreat week! :)</small>
                     <small class="noinfo-label">You'll see this week's data from tomorrow. Have agreat week! :)</small>
                 </div>
             </div>
@@ -171,7 +172,8 @@
                         This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>
+                            <!--<li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>-->
+                            <li class="disabled"><a >This Month</a></li>
                             <li [class.active]="dropDownValue == 2"><a (click)="getUserData(2)">This Week</a></li>
                             <!-- <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
@@ -245,6 +247,7 @@
 
                                         <td colspan="3"><div class="loading"></div></td>
                                     </tr>
+                                    <!-- Display Log Data -->
                                     <tr *ngFor="let data of userData" [class.current]="todaysDate === data.work_date">
                                         <td>
                                             <span class="th-day">
@@ -258,20 +261,28 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="top-meta">
-                                                <span class="th-day-end pull-right">
-                                                    <small>{{data.end_time ? (data.end_time | date : 'hh:mm' ): 'n/a'}} </small> 
+                                            <div *ngIf="data.status === null || data.status === 'present'">
+                                                <!-- Show progress bar if Present -->
+                                                <span class="top-meta">
+                                                    <span class="th-day-end pull-right">
+                                                        <small>{{data.end_time ? (data.end_time | date : 'hh:mm' ): 'n/a'}} </small> 
+                                                    </span>
+                                                    <span class="th-day-start">
+                                                        <small>{{(data.start_time ? (data.start_time | date : 'hh:mm' ) : 'n/a') }} </small> 
+                                                        <!--| date: 'shortTime'-->
+                                                    </span>
                                                 </span>
-                                                <span class="th-day-start">
-                                                    <small>{{(data.start_time ? (data.start_time | date : 'hh:mm' ) : 'n/a') }} </small> 
-                                                    <!--| date: 'shortTime'-->
+                                                    <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                        <span class="sr-only">60% Complete</span>
+                                                    </div>-->
+                                                    <progress style="width:100%;" class="progress progress-striped progress-animated" value="{{data.timeCompleted}}" max="100" aria-describedby="example-caption-5"></progress>
+                                            </div>
+                                            <div *ngIf="!(data.status === null || data.status === 'present')">
+                                                <!-- Don't Leave statement if absent -->
+                                                <span>
+                                                    Status: {{ data.status }}
                                                 </span>
-                                            </span>
-                                                <!--<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    <span class="sr-only">60% Complete</span>
-                                                </div>-->
-                                                <progress style="width:100%;" class="progress progress-striped progress-animated" value="{{data.timeCompleted}}" max="100" aria-describedby="example-caption-5"></progress>
-                                            
+                                            </div>
                                         </td>
                                     </tr>
                                    
