@@ -26,13 +26,13 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class LockedDataController extends Controller
 {
-	public function save(Request $request) { // Fetches data from logs & enter data in Locked-Table
+	/*public function save(Request $request) { // Fetches data from logs & enter data in Locked-Table
 		$lastDate = Locked_Data::orderBy('work_date', 'desc')->first();// Get the last working date from Locked_data, to check if DB is empty or contains data
 
 		if($lastDate === null) {// Data is entered for the 1st time in Table
 			$user_ids = Log::select('user_id', 'work_date')->groupBy('user_id', 'work_date')->get();//Distinct user id's & dates w.r.t to those users
 			
-			foreach($user_ids as $user) {/* loop through each user's data */
+			foreach($user_ids as $user) {// loop through each user's data
 				$log_first = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->first();// Get 1st timing of that day's log
 				$log_last = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get last timing of that day's log
 
@@ -48,8 +48,7 @@ class LockedDataController extends Controller
 			Redis::flushall();
 			Redis::flushdb();
 			return  response()->json(['status' => 'Success']);
-		} else if(date('l', strtotime($lastDate->work_date)) != "Saturday" || date_diff(date_create($lastDate->work_date), date_create(date("Y-m-d")))->format("%R%a") != "+1") {
-			/*if (previous date is not saturday) or (last summary date & today's date difference is not +1)*/
+		} else if(date('l', strtotime($lastDate->work_date)) != "Saturday" || date_diff(date_create($lastDate->work_date), date_create(date("Y-m-d")))->format("%R%a") != "+1") { //if (previous date is not saturday) or (last summary date & today's date difference is not +1)
 			
 			$user_ids = Log::select('user_id')->groupBy('user_id')->get();//Only Distinct user id's
 
@@ -57,8 +56,7 @@ class LockedDataController extends Controller
 				$lastLogDatesUser = Log::select('user_id','work_date')->where('user_id',$user->user_id)->max('work_date');// Get that users last log date
 				$lastLockedDatesUser = Locked_Data::select('user_id','work_date')->where('user_id',$user->user_id)->max('work_date'); // Get that user's last Summary date
 
-				if((int)date_diff(date_create($lastLogDatesUser), date_create($lastLockedDatesUser))->format("%R%a") == 0) {
-					/* If  the date is same means the content of that user is up-to-date*/
+				if((int)date_diff(date_create($lastLogDatesUser), date_create($lastLockedDatesUser))->format("%R%a") == 0) {// If  the date is same means the content of that user is up-to-date
 					$log_first = Log::where(['user_id'=> $user->user_id,'work_date' => $lastLogDatesUser])->first();
 					$log_last = Log::where(['user_id'=> $user->user_id,'work_date' => $lastLogDatesUser])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();
 					
@@ -69,15 +67,14 @@ class LockedDataController extends Controller
 					$summary->end_time = date("Y-m-d H:i:s",strtotime($lastLockedDatesUser.' '.$log_last->cos));//$log_last->cos;
 					$summary->total_time = $this->getTimeDifference($log_first->cos, $log_last->cos);
 					$summary->update();
-				} else if((int)date_diff(date_create($lastLockedDatesUser), date_create($lastLogDatesUser))->format("%R%a") > 0) {
-					/* If date in Logs is leading, then update all the logs in Locked_Data table */
+				} else if((int)date_diff(date_create($lastLockedDatesUser), date_create($lastLogDatesUser))->format("%R%a") > 0) { // If date in Logs is leading, then update all the logs in Locked_Data table
 					$user_logs = Log::select('user_id', 'work_date')->where(['user_id' => $user->user_id, ['work_date', '>=',$lastLockedDatesUser]])->groupBy('user_id', 'work_date')->get();// Get all the data on & after the Last Date in Locked_Data & group based on user id & work_date
 
-					foreach($user_logs as $user_log) { /* Loop through all the dates */
+					foreach($user_logs as $user_log) {// Loop through all the dates
 						if(date('l', strtotime($user_log->work_date)) != "Sunday") {
-							$log_first = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->first();/* Get the 1st time of that day's log */
-							$log_last = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();/* Get the last time of that day's log*/
-							if(Locked_Data::where(['user_id' => $user_log->user_id, 'work_date' => $user_log->work_date])->count() > 0) { /* If that date exist in Locked_data, then update the content */
+							$log_first = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->first();// Get the 1st time of that day's log 
+							$log_last = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get the last time of that day's log
+							if(Locked_Data::where(['user_id' => $user_log->user_id, 'work_date' => $user_log->work_date])->count() > 0) { //If that date exist in Locked_data, then update the content 
 								$summary = Locked_Data::where(['user_id' => $user_log->user_id, 'work_date' => $user_log->work_date])->first();
 								$summary->user_id = $user_log->user_id;
 								$summary->work_date = $user_log->work_date;
@@ -85,7 +82,7 @@ class LockedDataController extends Controller
 								$summary->end_time = date("Y-m-d H:i:s",strtotime($lastLockedDatesUser.' '.$log_last->cos));//$log_last->cos;
 								$summary->total_time = $this->getTimeDifference($log_first->cos, $log_last->cos);
 								$summary->update();
-							} else {/* Else the data doesn't exist in Locked_Data, hence Insert the new Logs */
+							} else { //Else the data doesn't exist in Locked_Data, hence Insert the new Logs 
 								$summary = new Locked_Data;
 								$summary->user_id = $user_log->user_id;
 								$summary->work_date = $user_log->work_date;
@@ -98,6 +95,72 @@ class LockedDataController extends Controller
 					}// end of foreach($user_logs as $user_log)
 				}// end of if-elseif
 			}// End of foreach($user_ids as $user)
+			Redis::flushall();// Clear all the buffer
+			Redis::flushdb();// Clear all the queue
+			return  response()->json(['status' => 'Success']);
+		} else { // Last date i.e. Yesterday was Saturday
+			Redis::flushall();
+			Redis::flushdb();
+			return  response()->json(['status' => 'Exist']);
+		}
+		Redis::flushall();
+		Redis::flushdb();
+		return  response()->json(['status' => 'Error']);
+	}*/
+
+	public function save(Request $request) { // Fetches data from logs & enter data in Locked-Table
+		$lastDate = Locked_Data::orderBy('work_date', 'desc')->first();// Get the last working date from Locked_data, to check if DB is empty or contains data
+
+		if($lastDate === null) {// Data is entered for the 1st time in Table
+			$user_ids = Log::select('user_id', 'work_date')->groupBy('user_id', 'work_date')->get();//Distinct user id's & dates w.r.t to those users
+			
+			foreach($user_ids as $user) {// loop through each user's data
+				$log_first = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->first();// Get 1st timing of that day's log
+				$log_last = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get last timing of that day's log
+
+				$summary = new Locked_Data;
+				$summary->user_id = $user->user_id;
+				$summary->work_date = $user->work_date;
+				$summary->start_time = date("Y-m-d H:i:s",strtotime($user->work_date.' '.$log_first->cos));
+				$summary->end_time = date("Y-m-d H:i:s",strtotime($user->work_date.' '.$log_last->cos));
+				$summary->total_time = $this->getTimeDifference($log_first->cos, $log_last->cos);
+				$summary->save();
+			}
+
+			Redis::flushall();
+			Redis::flushdb();
+			return  response()->json(['status' => 'Success']);
+		} else if(date('l', strtotime($lastDate->work_date)) != "Sunday") {//if (today is not Sunday)
+			$x = [];$y = [];$z = [];
+
+			// Get all the User's ID from User table
+			foreach(User::select('id')->distinct('id')->get() as $id){
+				array_push($x, $id->id);
+			}
+
+			// Get all the User's ID form Locked_Data a.k.a Taala_Data
+			foreach(Locked_Data::where('work_date', $lastDate->work_date)->select('user_id')->distinct('user_id')->get() as $userid) {
+				array_push($y, (int)$userid->user_id);
+			}
+
+			if(count($y) != 0 && count($x) - count($y) > 0) { // If Locked_Data has 1 or more members & that the Difference between User & Locked_Data count is greater than 0
+				//$z = array_diff($x, $y); // Gets key-value pair & assigns values to that key/index
+				foreach($x as $value) { // Get the values from array
+					if(!in_array($value, $y)){ // check is that array doesn't contain that value
+						array_push($z, $value); // Push the User-ID's that are not in the Locked-Data
+					}
+				}
+
+				foreach ($z as $value) {// Mark those user's absent
+					$summary = new Locked_Data;
+					$summary->user_id = $value;
+					$summary->work_date = $lastDate->work_date;
+					$summary->total_time = "00:00";
+					$summary->status = "absent";
+					$summary->save();
+				}
+			}		
+			
 			Redis::flushall();// Clear all the buffer
 			Redis::flushdb();// Clear all the queue
 			return  response()->json(['status' => 'Success']);
