@@ -67,12 +67,12 @@
                     <div class="illustration pull-left"></div>
                     <div class="this-title">
                         <h2>This {{dropDownValue == 1 ? 'Month' : 'Week'}}</h2>
-                        <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}} - {{thisWeekDates.end_date | date : 'dd MMMM'}}</small>
+                        <small class="this-week-label">{{thisWeekDates.start_date | date : 'dd'}}{{ toDate_th(thisWeekDates.start_date) }} - {{thisWeekDates.end_date | date : 'dd'}}{{ toDate_th(thisWeekDates.end_date) }} {{thisWeekDates.end_date | date : 'MMMM'}}</small>
                     </div>
                 </div>
                 <div *ngIf="showLoader"><div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div></div>
                 
-                <div class="listy on-leave this-yesterday" *ngIf="yesterdaysData">
+                <div class="listy this-yesterday" *ngIf="yesterdaysData" [class.on-leave]="yesterdaysData && !(yesterday.status === null || yesterday.status === 'present')">
                     <!-- Yesterday's Card -->
                     <div class="list-top">
                         <div class="day-info pull-left">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
                 
-                <div class="listy on-leave show-opened" *ngFor="let item of oldData">
+                <div class="listy show-opened" *ngFor="let item of oldData">
                     <div *ngIf="this.appUtilService.formatDate(item.work_date) !== todaysDate">
                         <!-- Display all previous date's except today's date in the list -->
                         <div class="list-top">

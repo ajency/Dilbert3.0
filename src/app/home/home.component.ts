@@ -370,4 +370,17 @@ export class HomeComponent implements OnInit {
       });
       console.log(userData, 'DATA');
   }
+
+  toDate_th(dataValue) {
+    let dateNo = parseInt(dataValue);
+
+    if(dateNo % 10 === 1)
+      return "st";
+    else if(dateNo % 10 === 2)
+      return "nd";
+    else if (dateNo % 10 === 3)
+      return "rd";
+    else
+      return "th";
+  }
 }
