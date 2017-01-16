@@ -388,7 +388,8 @@
             </div>
         </div>
         <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div> </app-todays-card>-->
-        <app-todays-card [userid]="userid" (uploaded)="toDate_th($dateValue)"> *ngIf="userid" class="fullwidth"></app-todays-card>
+        <!--<app-todays-card [userid]="userid" (uploaded)="toDate_th($dateValue)"> *ngIf="userid" class="fullwidth"></app-todays-card>-->
+        <app-todays-card [userid]="userid"> *ngIf="userid" class="fullwidth"></app-todays-card>
     </div>
 </div>
 

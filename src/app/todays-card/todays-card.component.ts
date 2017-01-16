@@ -9,7 +9,7 @@ import { AppUtilService } from '../providers/app-util.service';
 })
 export class TodaysCardComponent implements OnInit {
   @Input() userid;
-  //@Output() uploaded:EventEmitter<string> = new EventEmitter();
+  //@Output() uploaded:EventEmitter<string> = new EventEmitter(); // This Event Was created to prevent repetition of 'toDate_th()' function by referring Parent 'toDate_th()' function
   empid: any;
   today: any = {
     timeCovered : {
@@ -43,7 +43,7 @@ export class TodaysCardComponent implements OnInit {
 
     // }, 60000);
   }
-  // uploadComplete(dateValue) {
+  // uploadComplete(dateValue) { // This function Was created to prevent repetition of 'toDate_th()' function
   //   console.log(dateValue);
   //   this.uploaded.emit(dateValue);
   // }
@@ -60,7 +60,7 @@ export class TodaysCardComponent implements OnInit {
     else
       return "th";
   }
-  
+
   getData(date) {
     if(this.empid == undefined) { /* Employee's Email Address is not present in the URL */
       this.userDataService.getUserData(this.userid, date).subscribe( (response) => {

@@ -5,7 +5,7 @@ import { AppUtilService } from '../providers/app-util.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  // directives: [ TodaysCardComponent ],
+  // directives: [ TodaysCardComponent ], // Was Created ti pass the function control on Child request for 'toDate_th()' function
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
