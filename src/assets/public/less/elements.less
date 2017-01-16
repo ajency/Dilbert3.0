@@ -685,6 +685,26 @@ select.form-control {
 		.status {
 			padding-top: 6px;
 			color: @titleDark;
+			position: relative;
+			text-align: center;
+			&:before {
+				content: '';
+				position: absolute;
+				border-bottom: 1px dashed #ddd;
+				left: 0;
+				right: 0;
+				top: 17px;
+				z-index: 0;
+			}
+			span {
+				color: red;
+				background: #fff6f6;
+				position: relative;
+				z-index: 5;
+				padding-right: 10px;
+				display: inline-block;
+				padding-left: 10px;
+			}
 		}
 	}
 	.fixed-right {
