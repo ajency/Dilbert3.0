@@ -372,13 +372,13 @@ export class HomeComponent implements OnInit {
   }
 
   toDate_th(dataValue) {
-    let dateNo = parseInt(dataValue);
+    let dateNo = new Date(dataValue).getDate();
 
-    if(dateNo % 10 === 1)
+    if(dateNo % 10 === 1 && dateNo % 100 !== 11) // 1st, 21st,....101st but it's 11th not 11st
       return "st";
-    else if(dateNo % 10 === 2)
+    else if(dateNo % 10 === 2 && dateNo % 100 !== 12) // 2nd, 22nd,....102nd but it's 12th not 12nd
       return "nd";
-    else if (dateNo % 10 === 3)
+    else if (dateNo % 10 === 3 && dateNo % 100 !== 13) // 3rd, 23rd,....103rd but it's 13th not 13rd
       return "rd";
     else
       return "th";

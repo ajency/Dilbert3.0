@@ -140,7 +140,7 @@
                         <div class="list-top">
                             <div class="day-info pull-left">
                                 <h3>{{item.work_date | date: 'EEEE'}}</h3>
-                                <small class="this-week-label">{{item.work_date | date: 'dd MMMM'}}</small>
+                                <small class="this-week-label">{{item.work_date | date: 'dd'}}{{ toDate_th(item.work_date) }} {{item.work_date | date: 'MMMM'}}</small>
                             </div>
                             <div class="day-total pull-right text-right">
                                 <div class="show-opened" *ngIf="item.status === null || item.status.toLowerCase() === 'present'">
@@ -223,8 +223,8 @@
                     <div class="btn-group btn-dropdown change-last-view">
                         <!--<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
-                        </button>-->
-                        <button class="btn dropdown-toggle">This {{dropDownValue == 1 ? 'Month' : 'Week'}} </button>
+                        </button><--></-->
+                        <h4> This {{dropDownValue == 1 ? 'Month' : 'Week'}} </h4>
                         <ul class="dropdown-menu">
                             <!--<li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>-->
                             <li class="disabled"><a >This Month</a></li>
@@ -305,7 +305,7 @@
                                     <tr *ngFor="let data of userData.slice().reverse()" [class.current]="todaysDate === data.work_date" [class.on-leave]="!(data.status === null || data.status.toLowerCase() === 'present')">
                                         <td>
                                             <span class="th-day">
-                                                <span class="small-title">{{data.work_date | date:'dd MMM'}}</span>
+                                                <span class="small-title">{{data.work_date | date:'dd'}}{{ toDate_th(data.work_date) }} {{data.work_date | date:'MMM'}}</span>
                                                 <span class="small-title">{{data.work_date | date:'EEE'}}</span>
                                             </span>
                                         </td>
