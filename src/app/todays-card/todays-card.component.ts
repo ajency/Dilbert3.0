@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserDataService } from '../providers/user-data.service';
 import { AppUtilService } from '../providers/app-util.service';
 
@@ -9,6 +9,7 @@ import { AppUtilService } from '../providers/app-util.service';
 })
 export class TodaysCardComponent implements OnInit {
   @Input() userid;
+  //@Output() uploaded:EventEmitter<string> = new EventEmitter();
   empid: any;
   today: any = {
     timeCovered : {
@@ -42,6 +43,24 @@ export class TodaysCardComponent implements OnInit {
 
     // }, 60000);
   }
+  // uploadComplete(dateValue) {
+  //   console.log(dateValue);
+  //   this.uploaded.emit(dateValue);
+  // }
+  toDate_th(dateValue) {
+    console.log(dateValue);
+    let dateNo = new Date(dateValue).getDate();
+
+    if(dateNo % 10 === 1 && dateNo % 100 !== 11) // 1st, 21st,....101st but it's 11th not 11st
+      return "st";
+    else if(dateNo % 10 === 2 && dateNo % 100 !== 12) // 2nd, 22nd,....102nd but it's 12th not 12nd
+      return "nd";
+    else if (dateNo % 10 === 3 && dateNo % 100 !== 13) // 3rd, 23rd,....103rd but it's 13th not 13rd
+      return "rd";
+    else
+      return "th";
+  }
+  
   getData(date) {
     if(this.empid == undefined) { /* Employee's Email Address is not present in the URL */
       this.userDataService.getUserData(this.userid, date).subscribe( (response) => {

@@ -221,9 +221,9 @@
             <div class="last-few-days card">
                 <div class="card-header">
                     <div class="btn-group btn-dropdown change-last-view">
-                        <!--<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!-- <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
-                        </button><--></-->
+                        </button> -->
                         <h4> This {{dropDownValue == 1 ? 'Month' : 'Week'}} </h4>
                         <ul class="dropdown-menu">
                             <!--<li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>-->
@@ -388,7 +388,7 @@
             </div>
         </div>
         <!--<app-todays-card [userid]="userid" *ngIf="userid"> <div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div> </app-todays-card>-->
-        <app-todays-card [userid]="userid" *ngIf="userid" class="fullwidth"></app-todays-card>
+        <app-todays-card [userid]="userid" (uploaded)="toDate_th($dateValue)"> *ngIf="userid" class="fullwidth"></app-todays-card>
     </div>
 </div>
 

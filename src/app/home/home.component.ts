@@ -5,6 +5,7 @@ import { AppUtilService } from '../providers/app-util.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  // directives: [ TodaysCardComponent ],
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
@@ -371,8 +372,9 @@ export class HomeComponent implements OnInit {
       console.log(userData, 'DATA');
   }
 
-  toDate_th(dataValue) {
-    let dateNo = new Date(dataValue).getDate();
+  toDate_th(dateValue) {
+    console.log(dateValue);
+    let dateNo = new Date(dateValue).getDate();
 
     if(dateNo % 10 === 1 && dateNo % 100 !== 11) // 1st, 21st,....101st but it's 11th not 11st
       return "st";
