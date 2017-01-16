@@ -221,9 +221,10 @@
             <div class="last-few-days card">
                 <div class="card-header">
                     <div class="btn-group btn-dropdown change-last-view">
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!--<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
-                        </button>
+                        </button>-->
+                        <button class="btn dropdown-toggle">This {{dropDownValue == 1 ? 'Month' : 'Week'}} </button>
                         <ul class="dropdown-menu">
                             <!--<li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>-->
                             <li class="disabled"><a >This Month</a></li>
