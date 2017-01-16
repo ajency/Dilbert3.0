@@ -9,9 +9,31 @@ $(document).ready(function() {
 				$(this).addClass('opened').removeClass('closed');
 				
 				$totalWeekdays = $(this).find('.card-progress').attr('data-weekdays');
-				$weekdaysDone = $(this).find('.listy').length;
+				//$weekdaysDone = $(this).find('.listy').length; // Get Number of records that week
+				$weekdaysLeave = $('.last-week').find('.listy').find('.show-opened');
+				$weekdaysDone = $weekdaysLeave.length; // Get Number of records that week
+				$leavetaken = 0;
+
+				$leaveKeyWorkList = ["Absent", "Leave"]; // Leave Key word list -> This list can later be upgraded to AJAX call to remain up-to-date
+
+				// $weekdaysDone.each(function(index) {
+				for (var index = 0; index < $weekdaysLeave.length; index++) { // Made it Synchronous
+					if ($weekdaysLeave != undefined && $weekdaysLeave[index].outerHTML.search('Status') != -1){
+						
+						// If not -1, then there exist Status key word & Status keyword is only used for leave
+						for(var i = 0; i < $leaveKeyWorkList.length; i++) { // checks if it is matching the list
+							if($weekdaysLeave[index].outerHTML.search($leaveKeyWorkList[i]) != -1) {
+								$leavetaken += 1;
+							}
+						}
+					}
+				}
+
 				$eachDay = 100 / $totalWeekdays;
-				$percentToday = $eachDay * $weekdaysDone;
+				$percentToday = $eachDay * ($weekdaysDone - $leavetaken);
+				if($percentToday > 100) { // Saturday is not a working day - hence some request to Work on Sat, else Mon-Fri is considered working hence if progress is greater than 100%, then set it back to 100%
+					$percentToday = 100;
+				} 
 				$(this).find('.card-progress').attr('data-width', $percentToday);
 
 				$wid = $(this).find('.card-progress').attr('data-width') + '%';
