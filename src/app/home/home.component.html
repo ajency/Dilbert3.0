@@ -22,7 +22,7 @@
             <!-- if day is monday then hide this and show the div with class "monday-card" -->
             
             <!-- add class hidden to this too, if day is monday -->
-            <div class="card card-navigation" [class.hidden]="userData.length < 1">
+            <div class="card card-navigation" [class.hidden]="userData.length < 0">
                 <!-- Display JumpTo Date option if userData is >= 1 -->
                 <div class="btn-group btn-dropdown dropup filter pull-left" style="margin-top: 0;">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
