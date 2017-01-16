@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-  @if (!session()->has('reload'))
+  <!-- @if (!session()->has('reload')) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
 
@@ -38,7 +38,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     -->
     <!-- <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script> -->
-  @endif
+  <!-- @endif -->
 @endsection
 @section('content')
   <div id="user-log-content">
