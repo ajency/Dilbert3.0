@@ -23,17 +23,17 @@ export class TodaysCardComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.userid);
-    let reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // Checks if the URL has email ID
-    let path = window.location.href.split('/');
-    let id = path[path.length - 1]; // Get the last data from the URL
+    var reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // Checks if the URL has email ID
+    var path = window.location.href.split('/');
+    var id = path[path.length - 1]; // Get the last data from the URL
     console.log('PARAMS', id, reg.test(id));
     if (reg.test(id)) { // checks if the URL has emailID
       this.empid = id;
     } else {
       this.empid = undefined;
     }
-    let todaysDate = this.appUtilService.formatDate(new Date());
-    let date = {
+    var todaysDate = this.appUtilService.formatDate(new Date());
+    var date = {
       start_date: todaysDate,
       end_date: todaysDate,
     };
@@ -49,7 +49,7 @@ export class TodaysCardComponent implements OnInit {
   // }
   toDate_th(dateValue) {
     console.log(dateValue);
-    let dateNo = new Date(dateValue).getDate();
+    var dateNo = new Date(dateValue).getDate();
 
     if(dateNo % 10 === 1 && dateNo % 100 !== 11) // 1st, 21st,....101st but it's 11th not 11st
       return "st";
@@ -67,7 +67,7 @@ export class TodaysCardComponent implements OnInit {
         console.log(response);
 
         this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
-        let t = response;
+        var t = response;
         if (response.length !== 0) {
           t = response[0].data[0];
           this.today = {
@@ -82,15 +82,15 @@ export class TodaysCardComponent implements OnInit {
         };
 
         if ( t.total_time || t.total_time !== '' ) {
-            let temp = t.total_time.split(':');
+            var temp = t.total_time.split(':');
             if (parseInt(temp[0], 10) >= 10) {
               this.today.timeCompleted = 100.00;
               this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
             }else {
-              let hrs = parseInt(temp[0], 10);
-              let mins = parseInt(temp[1], 10);
-              let minInPercentage = (mins / 60);
-              let hrsInPercentage = (hrs / 10) * 100;
+              var hrs = parseInt(temp[0], 10);
+              var mins = parseInt(temp[1], 10);
+              var minInPercentage = (mins / 60);
+              var hrsInPercentage = (hrs / 10) * 100;
               this.today.timeCompleted = (hrsInPercentage +  (10 * (minInPercentage ))).toFixed(2);
               console.log(this.today.timeCompleted);
               this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
@@ -114,7 +114,7 @@ export class TodaysCardComponent implements OnInit {
         console.log(response);
 
         this.d2 = this.appUtilService.describeArc(100, 130, 100, 240, 480);
-        let t = response;
+        var t = response;
         if (response.length !== 0) {
           t = response[0].data[0];
           this.today = {
@@ -129,15 +129,15 @@ export class TodaysCardComponent implements OnInit {
         };
 
         if ( t.total_time || t.total_time !== '' ) {
-            let temp = t.total_time.split(':');
+            var temp = t.total_time.split(':');
             if (parseInt(temp[0], 10) >= 10) {
               this.today.timeCompleted = 100.00;
               this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);
             }else {
-              let hrs = parseInt(temp[0], 10);
-              let mins = parseInt(temp[1], 10);
-              let minInPercentage = (mins / 60);
-              let hrsInPercentage = (hrs / 10) * 100;
+              var hrs = parseInt(temp[0], 10);
+              var mins = parseInt(temp[1], 10);
+              var minInPercentage = (mins / 60);
+              var hrsInPercentage = (hrs / 10) * 100;
               this.today.timeCompleted = (hrsInPercentage +  (10 * (minInPercentage ))).toFixed(2);
               console.log(this.today.timeCompleted);
               this.d = this.appUtilService.describeArc(100, 130, 100, 240, (this.today.timeCompleted * 2.4 ) + 240);

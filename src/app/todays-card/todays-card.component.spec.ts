@@ -6,8 +6,8 @@ import { DebugElement } from '@angular/core';
 import { TodaysCardComponent } from './todays-card.component';
 
 describe('TodaysCardComponent', () => {
-  let component: TodaysCardComponent;
-  let fixture: ComponentFixture<TodaysCardComponent>;
+  var component: TodaysCardComponent;
+  var fixture: ComponentFixture<TodaysCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

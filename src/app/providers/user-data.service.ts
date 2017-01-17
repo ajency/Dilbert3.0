@@ -21,7 +21,7 @@ export class UserDataService {
 
   }
   getUserData(id, date): Observable<any> {
-    let fetchurl = `${apiURL}/user?user_id=${id}`;
+    var fetchurl = `${apiURL}/user?user_id=${id}`;
     if (date) {
       fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
     }
@@ -30,13 +30,13 @@ export class UserDataService {
                     .catch(this.handleError);
   }
   getOtherUserName(id, emp_email): Observable<any> { /* To get User's Name w.r.t that Email-ID */
-    let fetchurl = `${apiURL}/username?user_id=${id}&emp_email=${emp_email}`;
+    var fetchurl = `${apiURL}/username?user_id=${id}&emp_email=${emp_email}`;
     return this.http.get(fetchurl, { headers: this.headers })
                     .map(this.extractData)
                     .catch(this.handleError);
   }
   getOtherUserData(id, emp_id, date): Observable<any> {
-    let fetchurl = `${apiURL}/users?user_id=${id}&emp_id=${emp_id}`;
+    var fetchurl = `${apiURL}/users?user_id=${id}&emp_id=${emp_id}`;
     if (date) {
       fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
     }
@@ -50,7 +50,7 @@ export class UserDataService {
   private handleError (error: Response | any) {
     console.log(error);
     // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
+    var errMsg: string;
     // if (error instanceof Response) {
     //   const body = error.json() || '';
     //   const err = body.error || JSON.stringify(body);

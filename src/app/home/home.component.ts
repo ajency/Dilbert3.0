@@ -45,11 +45,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.dropDownValue = 2; // This is for the JSON response i.e. whether the Data exist in 1 level below or 2 level below
     // 220
-    // let reg = /^\d+$/;
-    let reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // Checks if the URL has email ID
+    // var reg = /^\d+$/;
+    var reg = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // Checks if the URL has email ID
     this.todaysDate = this.appUtilService.formatDate(new Date());
-    let path = window.location.href.split('/');
-    let id = path[path.length - 1]; // Get the last data from the URL
+    var path = window.location.href.split('/');
+    var id = path[path.length - 1]; // Get the last data from the URL
     console.log('PARAMS', id, reg.test(id));
     this.empname = null;
     if (reg.test(id)) { // checks if the URL has emailID
@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
   fetchData(next) {
     console.log(this.dateSelected, next, this.dropDownValue);
     if (this.dropDownValue === 1) {
-      let selectedMonth = new Date(this.dateSelected);
+      var selectedMonth = new Date(this.dateSelected);
       if (next) {
         this.dateSelected = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, selectedMonth.getDate());
       } else {
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
       console.log('Month');
       this.getUserData(this.dropDownValue);
     } else {
-      let selectedWeek = new Date(this.dateSelected);
+      var selectedWeek = new Date(this.dateSelected);
       if (next) {
         selectedWeek.setDate(selectedWeek.getDate() + 7 );
         this.dateSelected = new Date(selectedWeek);
@@ -111,13 +111,13 @@ export class HomeComponent implements OnInit {
   getUserData(dropdownValue) {
     console.log(this.dateSelected, dropdownValue);
     this.dropDownValue = dropdownValue;
-    let dates = null;
+    var dates = null;
     if (dropdownValue === 1) {
       dates = this.appUtilService.getStartAndEndOfDate(this.dateSelected, true);
     } else {
       dates = this.appUtilService.getStartAndEndOfDate(this.dateSelected, false);
     }
-    let date = {
+    var date = {
       start_date: this.appUtilService.formatDate(dates.start),
       end_date: this.appUtilService.formatDate(dates.end)
     };
@@ -158,7 +158,7 @@ export class HomeComponent implements OnInit {
           }
         }
         console.log(response, 'response');
-        let sec = 0;
+        var sec = 0;
         response.forEach( (week) => {
           week.data.forEach((day) => {
             if (day.total_time !== '') {
@@ -169,9 +169,9 @@ export class HomeComponent implements OnInit {
         this.totalHoursThisWeek =
           this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
           this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
-        let totalSec = 0;
+        var totalSec = 0;
         totalSec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString());
-        let tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
+        var tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
         this.averageHours = tp.split('.')[0] + ':' + tp.split('.')[1];
         // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
       }, onerror => {
@@ -207,7 +207,7 @@ export class HomeComponent implements OnInit {
           }
         }
         console.log(response, 'response');
-        let sec = 0;
+        var sec = 0;
         response.forEach( (week) => {
           week.data.forEach((day) => {
             if (day.total_time !== '') {
@@ -218,9 +218,9 @@ export class HomeComponent implements OnInit {
         this.totalHoursThisWeek =
           this.appUtilService.fill(Math.floor(sec / 3600), 2) + ':' +
           this.appUtilService.fill(Math.floor(sec / 60) % 60, 2);
-        let totalSec = 0;
+        var totalSec = 0;
         totalSec += this.appUtilService.toSeconds(this.totalHoursThisWeek.toString());
-        let tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
+        var tp = ((totalSec / this.userData.length) / 3600 ).toFixed(2);
         this.averageHours = tp.split('.')[0] + ':' + tp.split('.')[1];
         // this.dayStartDeviation = this.standardDeviation(this.userData, this.appUtilService);
       }, onerror => {
@@ -234,27 +234,27 @@ export class HomeComponent implements OnInit {
     }
   }
   standardDeviation(values, appUtilService) {
-    let avg = this.averageHours.toString();
-    let squareDiffs = values.map(function(value){
-      let s = new Date (value.start_time).getHours() + ':' + new Date (value.start_time).getMinutes();
-      let val1 = appUtilService.toSeconds(s.toString());
-      let val2 = appUtilService.toSeconds(avg.split('.')[0] + ':' + avg.split('.')[1]);
-      let diff =  val1 - val2;
-      let sqrDiff = diff * diff;
+    var avg = this.averageHours.toString();
+    var squareDiffs = values.map(function(value){
+      var s = new Date (value.start_time).getHours() + ':' + new Date (value.start_time).getMinutes();
+      var val1 = appUtilService.toSeconds(s.toString());
+      var val2 = appUtilService.toSeconds(avg.split('.')[0] + ':' + avg.split('.')[1]);
+      var diff =  val1 - val2;
+      var sqrDiff = diff * diff;
       return sqrDiff;
     });
-    let avgSquareDiff = this.average2(squareDiffs);
+    var avgSquareDiff = this.average2(squareDiffs);
 
-    let stdDev = Math.sqrt(avgSquareDiff  * 0.0166667);
+    var stdDev = Math.sqrt(avgSquareDiff  * 0.0166667);
     console.log(stdDev);
     return stdDev;
   }
   average2(data) {
-   let sum = data.reduce(function(sum1, value){
+   var sum = data.reduce(function(sum1, value){
       return sum1 + value;
     }, 0);
 
-    let avg = sum / data.length;
+    var avg = sum / data.length;
     return avg;
   }
   formatMonthView(userData) {
@@ -274,26 +274,26 @@ export class HomeComponent implements OnInit {
     //   data.day = new Date(data.work_date).getDay();
     //   this.formatDATA[this.appUtilService.getWeek(data.work_date) - getStartWeek].push(data);
     // });
-    // let array = this.formatDATA.map(this.formatDATA, function(value, index) {
+    // var array = this.formatDATA.map(this.formatDATA, function(value, index) {
     //   return [value];
     // });
     this.formatDATA = userData;
     this.formatDATA.forEach( (week, key ) => {
-      let sec = 0;
+      var sec = 0;
       week.data.forEach( (data2, index ) => {
         if (data2.total_time !== '') {
           sec += this.appUtilService.toSeconds(data2.total_time);
         }
-        let t2 = null;
+        var t2 = null;
         if ( week.data[index + 1]) {
           t2 = new Date(week.data[index + 1].work_date).toDateString();
 
         }
-        // let nDD = new Date(data2.work_date);
-        let currD = new Date(data2.work_date);
-        let trr = currD;
-        let nxtD = new Date(trr.setDate( trr.getDate() + 1));
-        let day = new Date(data2.work_date).getDay();
+        // var nDD = new Date(data2.work_date);
+        var currD = new Date(data2.work_date);
+        var trr = currD;
+        var nxtD = new Date(trr.setDate( trr.getDate() + 1));
+        var day = new Date(data2.work_date).getDay();
         if ( t2 !== nxtD.toDateString() && t2 !== null && nxtD.getDay() !== 0 && nxtD.getDay() !== 6) {
           week.data.push( {
             start_time: null,
@@ -327,18 +327,18 @@ export class HomeComponent implements OnInit {
       this.yesterdaysData = null;
       userData.forEach( (data) => { // Loop the weeks data
          if ( data.total_time || data.total_time !== '' ) {
-          let temp = data.total_time.split(':');
+          var temp = data.total_time.split(':');
           if (parseInt(temp[0], 10) >= 10) {
             data.timeCompleted = '100';
           }else {
-            let hrs = parseInt(temp[0], 10);
-            let mins = parseInt(temp[1], 10);
-            let minInPercentage = (mins / 60) * 100;
-            let hrsInPercentage = (hrs / 10) * 100;
+            var hrs = parseInt(temp[0], 10);
+            var mins = parseInt(temp[1], 10);
+            var minInPercentage = (mins / 60) * 100;
+            var hrsInPercentage = (hrs / 10) * 100;
             data.timeCompleted = (hrsInPercentage + (minInPercentage / 100 )).toFixed(0);
           }
         }
-        let nD = new Date();
+        var nD = new Date();
         if (this.appUtilService.formatDate(data.work_date) === this.appUtilService.formatDate(new Date()) ) {// If data is related to Today's, then store in this
           this.todaysData = data;
         } else if (this.appUtilService.formatDate(data.work_date) === this.appUtilService.formatDate(new Date ( nD.getFullYear(), nD.getMonth(), nD.getDate() - 1 ))) { // If the work_date is yesterday (i.e. betn Mon-Thurs)
@@ -374,7 +374,7 @@ export class HomeComponent implements OnInit {
 
   toDate_th(dateValue) {
     console.log(dateValue);
-    let dateNo = new Date(dateValue).getDate();
+    var dateNo = new Date(dateValue).getDate();
 
     if(dateNo % 10 === 1 && dateNo % 100 !== 11) // 1st, 21st,....101st but it's 11th not 11st
       return "st";
