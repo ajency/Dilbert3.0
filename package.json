@@ -9,7 +9,6 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    
     "clean": "rm -rf dist",
     "serve": "http-server . -p 4200",
     "build": "npm run clean && tsc",
@@ -28,6 +27,7 @@
     "@angular/router": "~3.1.0",
     "bootstrap": "^3.3.6",
     "core-js": "^2.4.1",
+    "es6-shim": "^0.35.0",
     "firebase": "^3.6.0",
     "jquery": "^2.2.3",
     "ng2-webstorage": "^1.4.2",
