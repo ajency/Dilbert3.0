@@ -1684,9 +1684,6 @@ svg {
     text-align: right;
   }
 }
-.dropdown.userdata.visible-xs {
-  padding: 15px;
-}
 .page-title h1 {
   font-size: 20px;
   margin: 0;
@@ -1904,7 +1901,7 @@ form label {
   .navbar.header,
   .landing-page .navbar.header {
     padding: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 0;
   }
   .navbar-default .navbar-toggle {
     border: 0;

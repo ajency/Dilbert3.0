@@ -85,15 +85,15 @@
                     @endif
 
                     <!-- Branding Image -->
-                    <a href="{{ url('/') }}">
-                        <h3 class="logo navbar-brand">
+                    <h3 class="logo navbar-brand">
+                        <a href="{{ url('/') }}">
                             @if (Auth::guest() || empty($logo))
                                 Dilbert
                             @else
                                <img src="https://www.google.com/a/cpanel/{{ $logo }}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:40px;margin-top:-7px;">
                             @endif
-                        </h3>
-                    </a>
+                        </a>
+                    </h3>
                 </div>
 
                 <div class="collapse navbar-collapse posrel" id="app-navbar-collapse">
