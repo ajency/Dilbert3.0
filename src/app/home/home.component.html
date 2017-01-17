@@ -334,7 +334,7 @@
                                             </div>
                                             <div class="status" *ngIf="!(data.status === null || data.status.toLowerCase() === 'present')">
                                                 <!-- Don't Leave statement if absent -->
-                                                <span>
+                                                <span class="label label-danger">
                                                     {{ data.status }}
                                                 </span>
                                             </div>
