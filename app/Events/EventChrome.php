@@ -121,6 +121,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $locking_today_data->user_id = $log->user_id;
                                 $locking_today_data->work_date = $log->work_date;
                                 $locking_today_data->start_time = date("Y-m-d H:i:s",strtotime($log->work_date.' '.$log->cos));
+                                $locking_today_data->status = "Present"; // mark the status as Present
                                 $locking_today_data->save();
                             }
 

@@ -25,3 +25,24 @@
 	bottom: 0;
 	width: 100%;
 }*/
+
+.loading_dashboard {
+  	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 60px;
+    height: 60px;
+}
+.loading_dashboard .uil-clock-css {
+	margin: 0;
+	margin-left: -33px;
+	width: auto;
+	height: auto;
+}
+
+.loading_dashboard img {
+	width: 90px;
+}

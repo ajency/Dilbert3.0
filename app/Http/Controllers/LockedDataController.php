@@ -156,7 +156,7 @@ class LockedDataController extends Controller
 					$summary->user_id = $value;
 					$summary->work_date = $lastDate->work_date;
 					$summary->total_time = "00:00";
-					$summary->status = "absent";
+					$summary->status = "Leave";
 					$summary->save();
 				}
 			}		
