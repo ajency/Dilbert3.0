@@ -152,6 +152,7 @@ Route::group(['prefix' => 'api'], function () {
                     //$output->writeln("REDIS data to JSON:" . $redis_list->user_id);
                     $request_user_id = $redis_list->user_id;
                     $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
+                    //$user = User::where(['gen_id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
                     $output->writeln("User ID:".$request_user_id);
                     
                     if(count($user) > 0) { // if the user exist

@@ -17,11 +17,12 @@ class SocialAccountService
         if (!$user) { // if the email & info is not present in the list, then create new
             $user = new User;
             $user->email = $providerUser->email;
+            $user->gen_id = (int)strtotime(date('Y-m-d H:i:s.u')) * 1000; // New Generated_userID a.k.a EmployeeID -> for API Request & maybe for the URL
             $user->name = $providerUser->name;
             $user->password = "user";
             $user->avatar = $providerUser->avatar;
             $user->acd = date('Y-m-d');
-            $user->api_token = str_random(60);
+            $user->api_token = str_random(60); // Generate 1 time API token for the User
             $user->org_id = 0;
             $user->lang = "en";
             $user->role = "member";
