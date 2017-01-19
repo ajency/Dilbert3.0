@@ -34,7 +34,7 @@
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
                                     <label for="find-week-day">
-                                        <input type="date" id="find-week-day" class="form-control" [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
+                                        <input type="date" id="find-week-day" class="form-control" max={{onFormatDate(todaysDate)}} [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
                                     </label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->
@@ -251,7 +251,7 @@
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
                                     <label for="find-week-day">
-                                        <input type="date" id="find-week-day" class="form-control" [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
+                                        <input type="date" id="find-week-day" class="form-control" max={{onFormatDate(todaysDate)}}  [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
                                     </label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->

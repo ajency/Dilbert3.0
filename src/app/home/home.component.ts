@@ -372,7 +372,7 @@ export class HomeComponent implements OnInit {
       console.log(userData, 'DATA');
   }
 
-  toDate_th(dateValue) {
+  toDate_th(dateValue) { // return 'st', 'nd'. 'rd' or 'th' w.r.t to that date
     console.log(dateValue);
     var dateNo = new Date(dateValue).getDate();
 
@@ -384,5 +384,14 @@ export class HomeComponent implements OnInit {
       return "rd";
     else
       return "th";
+  }
+
+  onFormatDate(dateValue) { // Format any form Date to 'yyyy-mm-dd'
+    var date = new Date(dateValue);
+
+    var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1).toString() : (date.getMonth() + 1).toString();
+    var day = (date.getDate()) < 10 ? '0' + (date.getDate()).toString() : (date.getDate()).toString();
+
+    return date.getFullYear() + '-' + month + '-' + day;
   }
 }
