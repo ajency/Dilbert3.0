@@ -8,7 +8,7 @@
 		<div class="col-md-6 col-md-offset-3 col-xs-4 col-xs-offset-2">
 			<div class="card">
 				<h2 class="title-404"> Sorry!! </h2>
-				<p class="content-404">Seems like you have entered wrong Email address. Please Check if the email address is correct.</p>
+				<p class="content-404">Seems like you have entered wrong Email address. Please Check if the email address is correct. If not then the Email address not registered or is deleted.</p>
 				<div class="row">
 					<div class="col-md-6 btn-404">
 			        	<a href="{{ url('/') }}" class="btn btn-hero">@lang('lang.back_2_main')</a>
