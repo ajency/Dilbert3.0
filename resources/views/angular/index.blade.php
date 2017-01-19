@@ -57,8 +57,8 @@
       <div class='uil-clock-css' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div>
     </div>
   @endif
-  <div class="fixed-bottom-color"></div>
-  <!-- <div class="fixed-top-color btm-big"></div> -->
+  <!-- <div class="fixed-bottom-color"></div> -->
+  <div class="fixed-top-color btm-big"></div>
   </div>
 @endsection
 

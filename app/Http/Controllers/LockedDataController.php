@@ -246,14 +246,14 @@ class LockedDataController extends Controller
 			        }
 
 			    } else {
-			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
+			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403); // Forbidden
 			    }
 			} else {
-				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);// UnAuthorized
 			}
 	    } else {
 			//$output->writeln("In else");
-	    	return response()->json(['status' => 'Error', 'msg' => 'Parameters not fullfilled'], 400);
+	    	return response()->json(['status' => 'Error', 'msg' => 'Parameters not fullfilled'], 400); // Bad Request
 	    }
 	    /*if($request->header('X-API-KEY') !== null) { // if api key is present in Header
             $output->writeln($request->header('X-API-KEY'));
