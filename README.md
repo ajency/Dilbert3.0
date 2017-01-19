@@ -1,5 +1,6 @@
 # Dilbert3.0
 
+Description:
 Dilbert is Time-manager & attendance log which helps the Employers/Admin to keep track of the time spent by their fellow employees.
 
 It has an Admin/Employer level interface & User/Employee level interface.
@@ -34,7 +35,7 @@ Chrome app -> Trevor:
 Technologies, Frameworks & Packages used used:
 * Languages: HTML, CSS, Javascript, PHP
 * Database: MySQL
-* Frameworks: AngularJS, NodeJS, Laravel
+* Frameworks: AngularJS (1.x & 2.x), NodeJS, Laravel(5.2)
 * Packages & Technologies used:
 	- Laravel:
 		* Socialite(laravel/socialite) - For Google Authentication
@@ -45,9 +46,19 @@ Technologies, Frameworks & Packages used used:
 		* SocketIO
 		* Redis Queue System
 	- AngularJS:
-		* Angular-translate(pascalprecht.translate) - for i18n
+		* Angular-translate(pascalprecht.translate) - for i18n (for Chrome App)
 		* SocketIO(socket-io) - to interact with NodeJS
 
+
+Project Info:
+* Version: 1.x
+* Type: Basic functionality
+* Features:
+	* Track all the employees Start time & End time of that day & hours contributed.
+	* Week view where in Employee/User gets to see his/her hours contributed per day & for that week (in total)
+	* Employee/Members under that Organization
+	* View Personal Profile, change TimeZone(from the list selected by the Organization), & language(for both website & Chrome app)
+	* Chrome App keeping track of user log even if User closes the window.
 
 
 Issues:
