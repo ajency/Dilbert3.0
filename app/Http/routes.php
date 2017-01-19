@@ -94,16 +94,22 @@ Route::get('/dashboard', function() { /* Angular2 PWA page route */
 Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page route */ /* For other members page */
 
     if(!auth()->guest()) { /* If user is Authorized, then access Dashboard, else Redirect to Login page */
-        $org_id = App\User::where('email',auth()->user()->email)->get();
-        
-        $emp_details = App\User::where('email',$emp_email)->first();
-        if(count($emp_details) > 0){
-            $logo = App\Organization::find($org_id[0]->org_id)->get();
-            $logo = $logo[0]->domain;
-            $logs = App\Log::where([['user_id', $emp_details->id],['work_date', date('Y-m-d')],])->get();// get data based on today's date
+        if(filter_var($emp_email, FILTER_VALIDATE_EMAIL)) { // Check if the URL subsection has email address
+            $org_id = App\User::where('email',auth()->user()->email)->get();
             
-            return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id, "emp_id" => $emp_details->id, "emp_name" => $emp_details->name, "emp_email" => $emp_email, "other_emp" => "true")));
-        } else {
+            $emp_details = App\User::where('email',$emp_email)->first();
+            if(count($emp_details) > 0){
+                $logo = App\Organization::find($org_id[0]->org_id)->get();
+                $logo = $logo[0]->domain;
+                $logs = App\Log::where([['user_id', $emp_details->id],['work_date', date('Y-m-d')],])->get();// get data based on today's date
+                
+                /*return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id, "emp_id" => $emp_details->id, "emp_name" => $emp_details->name, "emp_email" => $emp_email, "other_emp" => "true")));*/
+                return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id)));
+            } else { // This email address doesn't exist
+                abort(412);
+                //abort(404);
+            }
+        } else { // it is not an Email Address
             abort(404);
         }
     } else 
