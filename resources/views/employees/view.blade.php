@@ -41,50 +41,57 @@
 	@endif
     <div class="row">
         <div class="col-xs-12 col-md-8 col-md-offset-2">
-        	<center><h3>Team Members</h3></center>
-        	<table class="table table- striped table-hover team-table" id="tableEmployee" style="margin-top: 40px;">
-        		<thead>
-        			<tr>
-	        			<th style="padding-left: 20px;">@lang('lang.name')</th>
-	        			<!-- <th>@lang('lang.company_name')</th> -->
-	        			<th>@lang('lang.role')</th>
-	        			<th></th>
-	        		</tr>
-        		</thead>
-        		<tbody>
-        			@foreach($users as $user)
-	        			<tr>
-	        				<td class="team-table__cell team-table--username">
-	        					<img src="{{$user->avatar}}" class="img-circle"/>
-	        					@if(auth()->user()->name != $user->name)
-	        						<a href="/dashboard/{{$user->email}}" class="username">{{$user->name}}</a>
-	        					@else{{$user->name}}@endif</p>
-	        				</td>
-	        				<!-- <td style="padding-top:12px"> <img src="https://www.google.com/a/cpanel/{{$orgLogo->domain}}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:35px;"> </td> -->
-	        				<td class="team-table__cell" style="width: 50%;">
-	        					<input type="hidden" name="user_id" value="{{$user->id}}"/>
-	        					<div class="form-group posrel">
-		        					<select class="form-control" onchange="confirmRoleChange(this)">
-		        						@foreach($roles as $role)
-		        							@if($role->name == $user->role)
-		        								<option value="{{$role->name}}" selected> {{ $role->display_name }} </option>
-		        							@else
-		        								<option value="{{$role->name}}"> {{ $role->display_name }} </option>
-		        							@endif
-		        						@endforeach
-		        					</select>
-		        					<i class="fa fa-sort noclick"></i>
-		        				</div>
-	        				</td>
-	        				<td class="team-table__cell" style="width:10%">
-	        					<a href="/employees/delete/{{$user->id}}" class="btn btn-link delete" title="Delete" onclick="confirmDelEmp(this)" style="margin:0px"><span class="fa fa-trash-o"></span><!-- @lang('lang.delete') --></a>
-	        				</td>
-	        			</tr>
-        			@endforeach
-        		</tbody>
-        	</table>
+        	<center><h3 style="margin-bottom: 25px;">Team Members</h3></center>
+        	<div class="card">
+        		<div class="table-card-inner">
+		        	<table class="table table- striped table-hover team-table" id="tableEmployee" style="margin-bottom: 0px;">
+		        		<thead>
+		        			<tr>
+			        			<th style="padding-left: 25px;">@lang('lang.name')</th>
+			        			<!-- <th>@lang('lang.company_name')</th> -->
+			        			<th>@lang('lang.role')</th>
+			        			<th></th>
+			        		</tr>
+		        		</thead>
+		        		<tbody>
+		        			@foreach($users as $user)
+			        			<tr>
+			        				<td class="team-table__cell team-table--username">
+			        					<img src="{{$user->avatar}}" class="img-circle"/>
+			        					@if(auth()->user()->name != $user->name)
+			        						<a href="/dashboard/{{$user->email}}" class="username">{{$user->name}}</a>
+			        					@else{{$user->name}}@endif</p>
+			        				</td>
+			        				<!-- <td style="padding-top:12px"> <img src="https://www.google.com/a/cpanel/{{$orgLogo->domain}}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:35px;"> </td> -->
+			        				<td class="team-table__cell" style="width: 50%;">
+			        					<input type="hidden" name="user_id" value="{{$user->id}}"/>
+			        					<div class="form-group posrel">
+				        					<select class="form-control" onchange="confirmRoleChange(this)">
+				        						@foreach($roles as $role)
+				        							@if($role->name == $user->role)
+				        								<option value="{{$role->name}}" selected> {{ $role->display_name }} </option>
+				        							@else
+				        								<option value="{{$role->name}}"> {{ $role->display_name }} </option>
+				        							@endif
+				        						@endforeach
+				        					</select>
+				        					<i class="fa fa-sort noclick"></i>
+				        				</div>
+				        				<a href="#" class="save"><i class="fa fa-check"></i></a>
+			        				</td>
+			        				<td class="team-table__cell" style="width:10%">
+			        					<a href="/employees/delete/{{$user->id}}" class="btn btn-link delete" title="Delete" onclick="confirmDelEmp(this)" style="margin:0px"><span class="fa fa-trash-o"></span><!-- @lang('lang.delete') --></a>
+			        				</td>
+			        			</tr>
+		        			@endforeach
+		        		</tbody>
+		        	</table>
+		        </div>
+	        </div>
         </div>
     </div>
 </div>
+
+<div class="fixed-top-color btm-big"></div>
 
 @endsection

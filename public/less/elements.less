@@ -178,6 +178,10 @@ select.form-control {
 		opacity: 0.5;
 		pointer-events: none;
 	}
+	label {
+		margin-bottom: 0;
+		opacity: 0.5;
+	}
 }
 .search-emp-names {
 	position: relative;
@@ -1601,8 +1605,14 @@ svg {
 		border-top: 1px solid #f3f3f3;
 		margin-top: 10px;
 		&.team-table--username {
-			padding-left: 20px;
+			padding-left: 25px;
 		}
+		&.rtp {
+			padding-right: 25px;
+		}
+	}
+	&>thead>tr>th {
+		border: 0;
 	}
 	.username {
 		text-decoration: none;
@@ -1628,4 +1638,26 @@ svg {
 			opacity: 1;
 		}
 	}
+	.save {
+		display: inline-block;
+		padding: 6px 8px;
+		margin-left: 5px;
+	}
+}
+.team-roles span {
+	display: block;
+	&:after {
+		// content: ', ';
+	}
+	&:last-child:after {
+		// display: none;
+	}
+}
+.table-card-inner {
+	margin: -15px;
+}
+
+.form-card-inner {
+	margin-top: 12px;
+	padding: 10px;
 }
