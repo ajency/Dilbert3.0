@@ -1584,3 +1584,48 @@ svg {
 		text-shadow: 0 0 5px rgba(0,0,0,0.2);
 	}
 }
+
+
+// team memebers page
+.team-table {
+	td {
+		vertical-align: middle;
+	}
+	img {
+		height: 40px;
+		margin-right: 8px;
+	}
+	& &__cell {
+		padding-top: 24px;
+		padding-bottom: 15px;
+		border-top: 1px solid #f3f3f3;
+		margin-top: 10px;
+		&.team-table--username {
+			padding-left: 20px;
+		}
+	}
+	.username {
+		text-decoration: none;
+		font-weight: bold;
+		color: @titleLight;
+		&:hover {
+			color: @primary;
+		}
+	}
+	.form-group {
+		margin-bottom: 0;
+		display: inline-block;
+	}
+	.form-control {
+		background: transparent;
+		margin-right: 18px;
+	}
+	.btn.delete {
+		color: @titleLight;
+		opacity: 0.6;
+		&:hover {
+			color: @danger;
+			opacity: 1;
+		}
+	}
+}
