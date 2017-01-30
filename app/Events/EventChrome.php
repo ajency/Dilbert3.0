@@ -93,8 +93,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                     $output->writeln("Socket id + user id -> update");
                 }
                 
-                // $output->writeln("Organization process complete");
-                
+                //$output->writeln("Organization process complete");
                 $org_ipList = Organization::where('id',$user[0]->org_id)->first(); // Get the Details of that Organization
 
                 if(count($org_ipList)) { /* Check if that organization exist */

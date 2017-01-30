@@ -43,48 +43,52 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                        	<form action="/roles/create" method="post">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="status" value="{{$display}}"/>
-                                <div class="form-group">
-                                	Role Name:
-                                	<input type="text" name="rolename" class="form-control" placeholder="Role" value="" required autofocus/>
+                            <div class="card">
+                                <div class="form-card-inner">
+                                	<form action="/roles/create" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="status" value="{{$display}}"/>
+                                        <div class="form-group">
+                                        	<label for="">Role Name:</label>
+                                        	<input type="text" name="rolename" class="form-control" placeholder="Role" value="" required autofocus/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Role Display Name:</label>
+                                            <input type="text" name="roledisplayname" class="form-control" placeholder="Role Display" required/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Role Description:</label>
+                                            <input type="text" name="roledescription" class="form-control" placeholder="Role Description" required/>
+                                        </div>
+                                        <div class="form-group posrel">
+                                        	<label for="">Permission for the Role:</label>
+                                        	<select name="newpermission" id="newpermission" class="form-control">
+                                        		<option value="">-- Select permission for role --</option>
+                                        		@foreach($permissions as $permission)
+                                                    <option value="{{$permission->name}}">{{$permission->display_name}}</option>
+                                                @endforeach
+                                                <option value="-1">Add new Permission</option>
+                                        	</select>
+                                            <i class="fa fa-sort noclick"></i>
+                                        </div>
+                                        <div class="form-group permission" style="display:none">
+                                            <label for="">Permission Name:</label>
+                                            <input type="text" name="permissionname" class="form-control" placeholder="Permission" value=""/>
+                                        </div>
+                                        <div class="form-group permission" style="display:none">
+                                            <label for="">Permission Display Name:</label>
+                                            <input type="text" name="permissiondisplayname" class="form-control" placeholder="Permission Display"/>
+                                        </div>
+                                        <div class="form-group permission" style="display:none">
+                                            <label for="">Permission Description:</label>
+                                            <input type="text" name="permissiondescription" class="form-control" placeholder="Permission Description"/>
+                                        </div>
+                                        <div class="form-group">
+                                        	<center><button type="submit" class="btn btn-primary"> Create new Role </button></center>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    Role Display Name:
-                                    <input type="text" name="roledisplayname" class="form-control" placeholder="Role Display" required/>
-                                </div>
-                                <div class="form-group">
-                                    Role Description:
-                                    <input type="text" name="roledescription" class="form-control" placeholder="Role Description" required/>
-                                </div>
-                                <div class="form-group posrel">
-                                	Permission for the Role:
-                                	<select name="newpermission" id="newpermission" class="form-control">
-                                		<option value="">-- Select permission for role --</option>
-                                		@foreach($permissions as $permission)
-                                            <option value="{{$permission->name}}">{{$permission->display_name}}</option>
-                                        @endforeach
-                                        <option value="-1">Add new Permission</option>
-                                	</select>
-                                    <i class="fa fa-sort noclick"></i>
-                                </div>
-                                <div class="form-group permission" style="display:none">
-                                    Permission Name:
-                                    <input type="text" name="permissionname" class="form-control" placeholder="Permission" value=""/>
-                                </div>
-                                <div class="form-group permission" style="display:none">
-                                    Permission Display Name:
-                                    <input type="text" name="permissiondisplayname" class="form-control" placeholder="Permission Display"/>
-                                </div>
-                                <div class="form-group permission" style="display:none">
-                                    Permission Description:
-                                    <input type="text" name="permissiondescription" class="form-control" placeholder="Permission Description"/>
-                                </div>
-                                <div class="form-group">
-                                	<center><button type="submit" class="btn btn-primary"> Create new Role </button></center>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,50 +101,54 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="/roles/edits" method="post">
-                                {{ csrf_field() }}
-                                {{ method_field('PATCH') }}
-                                 <input type="hidden" name="status" value="{{$display}}"/>
-                                 <input type="hidden" name="roleid" value="{{$role->id}}"/>
-                                <div class="form-group">
-                                    Role Name:
-                                    <strong>{{$role->name}}</strong><input type="hidden" name="rolename" value="{{$role->name}}"/>
+                            <div class="card">
+                                <div class="form-card-inner">
+                                    <form action="/roles/edits" method="post">
+                                        {{ csrf_field() }}
+                                        {{ method_field('PATCH') }}
+                                         <input type="hidden" name="status" value="{{$display}}"/>
+                                         <input type="hidden" name="roleid" value="{{$role->id}}"/>
+                                        <div class="form-group">
+                                            <label for="">Role Name:</label>
+                                            <strong>{{$role->name}}</strong><input type="hidden" name="rolename" value="{{$role->name}}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Role Display Name:</label>
+                                            <input type="text" name="roledisplayname" class="form-control" placeholder="Role Display" value="{{$role->display_name}}" required autofocus/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Role Description:</label>
+                                            <input type="text" name="roledescription" class="form-control" placeholder="Role Description" value="{{$role->description}}" required/>
+                                        </div>
+                                        <div class="form-group posrel">
+                                            <label for="">Permission for the Role:</label>
+                                            <select name="newpermission" id="newpermission" class="form-control">
+                                                <option value="">-- Select permission for role --</option>
+                                                @foreach($permissions as $permission)
+                                                    <option value="{{$permission->name}}">{{$permission->display_name}}</option>
+                                                @endforeach
+                                                <option value="-1">Add new Permission</option>
+                                            </select>
+                                            <i class="fa fa-sort noclick"></i>
+                                        </div>
+                                        <div class="form-group permission" style="display:none">
+                                            <label for="">Permission Name:</label>
+                                            <input type="text" name="permissionname" class="form-control" placeholder="Permission" value=""/>
+                                        </div>
+                                        <div class="form-group permission" style="display:none">
+                                            <label for="">Permission Display Name:</label>
+                                            <input type="text" name="permissiondisplayname" class="form-control" placeholder="Permission Display" value=""/>
+                                        </div>
+                                        <div class="form-group permission" style="display:none">
+                                            <label for="">Permission Description:</label>
+                                            <input type="text" name="permissiondescription" class="form-control" placeholder="Permission Description" value=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <center><button type="submit" class="btn btn-primary"> Update this Role </button></center>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    Role Display Name:
-                                    <input type="text" name="roledisplayname" class="form-control" placeholder="Role Display" value="{{$role->display_name}}" required autofocus/>
-                                </div>
-                                <div class="form-group">
-                                    Role Description:
-                                    <input type="text" name="roledescription" class="form-control" placeholder="Role Description" value="{{$role->description}}" required/>
-                                </div>
-                                <div class="form-group posrel">
-                                    Permission for the Role:
-                                    <select name="newpermission" id="newpermission" class="form-control">
-                                        <option value="">-- Select permission for role --</option>
-                                        @foreach($permissions as $permission)
-                                            <option value="{{$permission->name}}">{{$permission->display_name}}</option>
-                                        @endforeach
-                                        <option value="-1">Add new Permission</option>
-                                    </select>
-                                    <i class="fa fa-sort noclick"></i>
-                                </div>
-                                <div class="form-group permission" style="display:none">
-                                    Permission Name:
-                                    <input type="text" name="permissionname" class="form-control" placeholder="Permission" value=""/>
-                                </div>
-                                <div class="form-group permission" style="display:none">
-                                    Permission Display Name:
-                                    <input type="text" name="permissiondisplayname" class="form-control" placeholder="Permission Display" value=""/>
-                                </div>
-                                <div class="form-group permission" style="display:none">
-                                    Permission Description:
-                                    <input type="text" name="permissiondescription" class="form-control" placeholder="Permission Description" value=""/>
-                                </div>
-                                <div class="form-group">
-                                    <center><button type="submit" class="btn btn-primary"> Update this Role </button></center>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,4 +157,5 @@
     </div>
 </div>
 
+<div class="fixed-top-color btm-big"></div>
 @endsection

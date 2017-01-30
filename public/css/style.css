@@ -25,7 +25,7 @@ body {
 }
 
 .background-404 {
-	background-image: url("../img/dilbert_404.png");
+	background-image: url("../images/dilbert_404.png");
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

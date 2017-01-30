@@ -343,6 +343,10 @@ select.form-control {
   opacity: 0.5;
   pointer-events: none;
 }
+.form-group label {
+  margin-bottom: 0;
+  opacity: 0.5;
+}
 .search-emp-names {
   position: relative;
   width: 210px;
@@ -1385,6 +1389,67 @@ svg {
     text-align: center;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   }
+}
+.team-table td {
+  vertical-align: middle;
+}
+.team-table img {
+  height: 40px;
+  margin-right: 8px;
+}
+.team-table .team-table__cell {
+  padding-top: 24px;
+  padding-bottom: 15px;
+  border-top: 1px solid #f3f3f3;
+  margin-top: 10px;
+}
+.team-table .team-table__cell.team-table--username {
+  padding-left: 25px;
+}
+.team-table .team-table__cell.rtp {
+  padding-right: 25px;
+}
+.team-table > thead > tr > th {
+  border: 0;
+}
+.team-table .username {
+  text-decoration: none;
+  font-weight: bold;
+  color: #626262;
+}
+.team-table .username:hover {
+  color: #a400d8;
+}
+.team-table .form-group {
+  margin-bottom: 0;
+  display: inline-block;
+}
+.team-table .form-control {
+  background: transparent;
+  margin-right: 18px;
+}
+.team-table .btn.delete {
+  color: #626262;
+  opacity: 0.6;
+}
+.team-table .btn.delete:hover {
+  color: #fb522b;
+  opacity: 1;
+}
+.team-table .save {
+  display: inline-block;
+  padding: 6px 8px;
+  margin-left: 5px;
+}
+.team-roles span {
+  display: block;
+}
+.table-card-inner {
+  margin: -15px;
+}
+.form-card-inner {
+  margin-top: 12px;
+  padding: 10px;
 }
 .max-767 {
   width: 767px;

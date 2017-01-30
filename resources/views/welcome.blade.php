@@ -14,14 +14,14 @@
         @endif
 
         <div class="hero-image">
-            <img src="img/hero-img.png" class="img-responsive" alt="">
+            <img src="images/hero-img.png" class="img-responsive" alt="">
         </div>
     </div>
     
     <div class="chrome-store-section max-w-767">
         <div class="row">
             <div class="col-md-4 col-sm-5 text-center-xs">
-                <img src="img/web-store.png" class="chrome-badge" alt="">
+                <img src="images/web-store.png" class="chrome-badge" alt="">
             </div>
             <div class="col-md-8 col-sm-7 text-right text-center-xs">
                 <div class="btn-group">
@@ -39,7 +39,7 @@
         <p class="hero-tag text-center">@lang('lang.main_hero_tag')</p>
         <div class="row feature-row">
             <div class="col-xs-12 text-center visible-xs">
-                <img src="img/feat-01.png" alt="" class="feature-img">
+                <img src="images/feat-01.png" alt="" class="feature-img">
             </div>
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
                 <h3 class="why-sub-t">
@@ -50,12 +50,12 @@
                 </ul>
             </div>
             <div class="col-md-6 col-sm-5 text-center hidden-xs">
-                <img src="img/feat-01.png" alt="" class="feature-img">
+                <img src="images/feat-01.png" alt="" class="feature-img">
             </div>
         </div>
         <div class="row feature-row">
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
-                <img src="img/feat-02.png" alt="" class="feature-img">
+                <img src="images/feat-02.png" alt="" class="feature-img">
             </div>
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
                 <h3 class="why-sub-t">
@@ -68,7 +68,7 @@
         </div>
         <div class="row feature-row">
             <div class="col-xs-12 text-center visible-xs">
-                <img src="img/feat-03.png" alt="" class="feature-img">
+                <img src="images/feat-03.png" alt="" class="feature-img">
             </div>
             <div class="col-md-5 col-md-push-1 col-sm-6 text-center-xs col-xs-12">
                 <h3 class="why-sub-t">
@@ -79,7 +79,7 @@
                 </ul>
             </div>
             <div class="col-md-6 col-sm-6 text-center hidden-xs">
-                <img src="img/feat-03.png" alt="" class="feature-img">
+                <img src="images/feat-03.png" alt="" class="feature-img">
             </div>
         </div>
     </div>
