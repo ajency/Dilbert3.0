@@ -26,7 +26,7 @@
                 <div class="panel-body text-center">
 
                     <div class="dilbert-logo">
-                        <img src="{{ url('img/dilbert.jpg') }}" alt="">
+                        <img src="{{ url('images/dilbert.jpg') }}" alt="">
                         <h3 class="logo">Dilbert</h3>
                         <div class="sub-title">@lang('lang.hero_title')</div>
                     </div>
@@ -85,7 +85,7 @@
                                 <a href="{{ url('redirect/google') }}" class="btn google-signin">
                                     <i class="fa fa-google-plus"></i>
                                     @lang('lang.sign_in') @lang('lang.with_google')
-                                    <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
+                                    <img src="images/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
                                 </a>
                                 <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
                             </div>
@@ -145,7 +145,7 @@
                                 <a href="{{ url('redirect/google') }}" class="btn google-signin">
                                     <i class="fa fa-google-plus"></i>
                                     @lang('lang.sign_in') with Google
-                                    <img src="img/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
+                                    <img src="images/btn_google_signin_dark_web.png" width="160" id="google_btn" alt="">
                                 </a>
                                 <!-- <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a> -->
                             </div>
