@@ -114,7 +114,7 @@ class HomeController extends Controller
 
     public function viewEmployees(Request $request) { /* Display all the employees under that organization */
 
-        $users = User::where('org_id', auth()->user()->org_id)->get();
+        $users = User::where('org_id', auth()->user()->org_id)->orderBy('name', 'asc')->get();
         $logo = Organization::find(auth()->user()->org_id)->get();
         $logo = $logo[0]->domain;
         $orgLogo = Organization::where('id', auth()->user()->org_id)->first();
