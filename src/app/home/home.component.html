@@ -34,7 +34,10 @@
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
                                     <label for="find-week-day">
-                                        <input type="date" id="find-week-day" class="form-control" max={{onFormatDate(todaysDate)}} [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
+                                    <!--<label for="find-week-day" class="wrapper">-->
+                                        <input type="date" id="find-week-day" class="form-control" max={{onFormatDate(todaysDate)}}  [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
+                                        <!--<input type="date" id="find-week-day" class="form-control date" [(ngModel)]="dateSlct">
+                                        <input type="date" class="form-control picker" max={{onFormatDate(todaysDate)}} [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">-->
                                     </label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->
@@ -221,13 +224,13 @@
             <div class="last-few-days card">
                 <div class="card-header">
                     <div class="btn-group btn-dropdown change-last-view">
-                        <!-- <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         This {{dropDownValue == 1 ? 'Month' : 'Week'}} <span class="fa fa-angle-down"></span>
-                        </button> -->
-                        <h4> This {{dropDownValue == 1 ? 'Month' : 'Week'}} </h4>
+                        </button> 
+                        <!--<h4> This {{dropDownValue == 1 ? 'Month' : 'Week'}} </h4>-->
                         <ul class="dropdown-menu">
-                            <!--<li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>-->
-                            <li class="disabled"><a >This Month</a></li>
+                            <li [class.active]="dropDownValue == 1"><a (click)="getUserData(1)">This Month</a></li>
+                            <!--<li class="disabled"><a >This Month</a></li>-->
                             <li [class.active]="dropDownValue == 2"><a (click)="getUserData(2)">This Week</a></li>
                             <!-- <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
@@ -251,7 +254,10 @@
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
                                     <label for="find-week-day">
+                                    <!--<label for="find-week-day" class="wrapper">-->
                                         <input type="date" id="find-week-day" class="form-control" max={{onFormatDate(todaysDate)}}  [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">
+                                        <!--<input type="date" id="find-week-day" class="date form-control" [(ngModel)]="dateSlct">
+                                        <input type="date" class="picker form-control" max={{onFormatDate(todaysDate)}} [(ngModel)]="dateSlct" (change)="onDateChange(dateSlct)">-->
                                     </label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->
@@ -274,6 +280,7 @@
                 <!-- the below 2 line instructions are incase you add some other object inside this div -->
                 <!-- whatever object that needs to be hidden in week view plz add the class 'hide-in-week-view' -->
                 <!-- to show an object in week view plz add class 'show-in-week-view' -->
+
                 <div class="card-body" [class.week-view]="dropDownValue == 2">
                     <app-month-view [monthData]="formatDATA" *ngIf="dropDownValue == 1 && formatDATA"><img src="dist/assets/images/ring.svg" alt="Loading ..."></app-month-view>
 
@@ -302,7 +309,7 @@
                                         <td colspan="3"><div class='uil-clock-css yellow-loader def' style='transform:scale(0.3);'><div class="clock"></div><div class="ptr1"></div><div class="ptr2"></div></div></td>
                                     </tr>
                                     <!-- Display Log Data -->
-                                    <tr *ngFor="let data of userData.slice().reverse()" [class.current]="todaysDate === data.work_date" [class.on-leave]="!(data.status === null || data.status.toLowerCase() === 'present')">
+                                    <tr *ngFor="let data of userData.slice().reverse()" [class.current]="todaysDate === this.appUtilService.formatDate(data.work_date)" [class.on-leave]="!(data.status === null || (data.status && data.status.toLowerCase() === 'present'))">
                                         <td>
                                             <span class="th-day">
                                                 <span class="small-title">{{data.work_date | date:'dd'}}{{ toDate_th(data.work_date) }} {{data.work_date | date:'MMM'}}</span>
@@ -310,13 +317,13 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="th-total total th-time" *ngIf="data.status === null || data.status.toLowerCase() === 'present'">
+                                            <span class="th-total total th-time" *ngIf="data.status === null || (data.status && data.status.toLowerCase() === 'present')">
                                                 <strong>{{data.total_time ? data.total_time : 'n/a'}}</strong>
                                             </span>
-                                            <span class="th-total total th-time" *ngIf="!(data.status === null || data.status.toLowerCase() === 'present')">--</span>
+                                            <span class="th-total total th-time" *ngIf="!(data.status === null || (data.status && data.status.toLowerCase() === 'present'))">--</span>
                                         </td>
                                         <td>
-                                            <div *ngIf="data.status === null || data.status.toLowerCase() === 'present'">
+                                            <div *ngIf="data.status === null || (data.status && data.status.toLowerCase() === 'present')">
                                                 <!-- Show progress bar if Present -->
                                                 <span class="top-meta">
                                                     <span class="th-day-end pull-right">
@@ -332,7 +339,7 @@
                                                     </div>-->
                                                     <progress style="width:100%;" class="progress progress-striped progress-animated" value="{{data.timeCompleted}}" max="100" aria-describedby="example-caption-5"></progress>
                                             </div>
-                                            <div class="status" *ngIf="!(data.status === null || data.status.toLowerCase() === 'present')">
+                                            <div class="status" *ngIf="!(data.status === null || (data.status && data.status.toLowerCase() === 'present'))">
                                                 <!-- Don't Leave statement if absent -->
                                                 <span class="label label-danger">
                                                     {{ data.status }}

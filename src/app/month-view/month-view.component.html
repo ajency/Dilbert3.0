@@ -18,11 +18,11 @@
                     <td colspan="8" class="noData"> No data to display</td>       
                 </tr>
                 <tr class="current" *ngFor="let week; let i = index; of monthData" >
-                    <td [colSpan]="week.data[0].day">
+                    <!--<td [colSpan]="week.data[0].day">
 
-                    </td>
+                    </td>-->
                     <td *ngFor="let day of week.data">
-                        <a  href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                        <a *ngIf="(day.status === null || (day.status && day.status.toLowerCase() === 'present'))" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                             <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
                             <span class="th-total">{{day.total_time ? day.total_time : 'n/a'}}</span>
                             <span class="th-spilt">
@@ -30,10 +30,15 @@
                                 <span class="th-break">{{(day.end_time ? (day.end_time | date: 'h:mm')  : 'n/a')}} </span>
                             </span>
                         </a>
+                        <a *ngIf="!(day.status === null || (day.status && day.status.toLowerCase() === 'present'))" href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                            <span class="th-day small-title"> {{day.work_date | date : 'd MMM'}}</span>
+                            <span class="th-total" style="color:red">{{day.status }}</span>
+                        </a>
                         <!--<a *ngIf="i.isEmpty == true">
                         </a>-->
                     </td>
-                    <td [colSpan]="week.data[week.data.length-1].day + 1" *ngIf="week.data[week.data.length-1].day !== 5">
+                    <!--<td [colSpan]="6 - week.data[week.data.length-1].day - 1" *ngIf="week.data[week.data.length-1].day !== 5">-->
+                    <td [colSpan]="6 - week.data.length" *ngIf="week.data.length !== 6">
 
                     </td>
                     <td class="sunday">

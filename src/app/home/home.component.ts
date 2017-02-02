@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
       mins: null
     }
   };
-  dateSelected: Date = new Date();
+  dateSelected: Date = new Date(); // Set initially to Today's date
   yesterday: any;
   dropDownValue: number;
   d: any;
@@ -74,8 +74,10 @@ export class HomeComponent implements OnInit {
   }
 
   onDateChange(dateSlct) {
+    // var date = dateSlct;
+    // document.getElementById("find-week-day").value = date;
     console.log(dateSlct, 'DATE CHANGE');
-    this.displayDateRange = this.appUtilService.getStartAndEndOfDate(dateSlct, this.dropDownValue === 1 ? true : false);
+    this.displayDateRange = this.appUtilService.getStartAndEndOfDate(dateSlct, this.dropDownValue === 1 ? true : false); // Receives the Start & End date for the API
     console.log(this.displayDateRange, 'DATE RANGE');
   }
   getDateRangeData(dateSlct) {
@@ -326,7 +328,7 @@ export class HomeComponent implements OnInit {
       this.oldData = [];
       this.yesterdaysData = null;
       userData.forEach( (data) => { // Loop the weeks data
-         if ( data.total_time || data.total_time !== '' ) {
+         if ( data.total_time && data.total_time !== '' ) {
           var temp = data.total_time.split(':');
           if (parseInt(temp[0], 10) >= 10) {
             data.timeCompleted = '100';

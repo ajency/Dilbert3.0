@@ -66,7 +66,7 @@ export class AppUtilService {
     var temp2 = temp.getTime() - onejan.getTime();
     return Math.ceil(((( temp2) / 86400000) + onejan.getDay() + 1) / 7);
   }
-   getStartAndEndOfDate(date, isMonth) {
+   getStartAndEndOfDate(date, isMonth) { // Get the start & end date for the API
       if (isMonth) {
         var temp = new Date(date), y = temp.getFullYear(), m = temp.getMonth();
         var firstDay = new Date(y, m, 1);
