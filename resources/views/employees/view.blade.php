@@ -64,9 +64,10 @@
 			        				</td>
 			        				<!-- <td style="padding-top:12px"> <img src="https://www.google.com/a/cpanel/{{$orgLogo->domain}}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:35px;"> </td> -->
 			        				<td class="team-table__cell" style="width: 50%;">
-			        					<input type="hidden" name="user_id" value="{{$user->id}}"/>
+			        					<!-- <input type="hidden" name="user_email" value="{{$user->email}}"/> -->
 			        					<div class="form-group posrel">
-				        					<select class="form-control" onchange="confirmRoleChange(this)">
+				        					<!-- <select class="form-control" onchange="confirmRoleChange(this)"> -->
+				        					<select class="form-control">
 				        						@foreach($roles as $role)
 				        							@if($role->name == $user->role)
 				        								<option value="{{$role->name}}" selected> {{ $role->display_name }} </option>
@@ -77,7 +78,7 @@
 				        					</select>
 				        					<i class="fa fa-sort noclick"></i>
 				        				</div>
-				        				<a href="#" class="save"><i class="fa fa-check"></i></a>
+				        				<a href="#" class="save" onclick="confirmRoleChange(this,'{{$user->email}}')"><i class="fa fa-check"></i></a>
 			        				</td>
 			        				<td class="team-table__cell" style="width:10%">
 			        					<a href="/employees/delete/{{$user->id}}" class="btn btn-link delete" title="Delete" onclick="confirmDelEmp(this)" style="margin:0px"><span class="fa fa-trash-o"></span><!-- @lang('lang.delete') --></a>
