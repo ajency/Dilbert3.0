@@ -123,10 +123,10 @@ class HomeController extends Controller
         return view('employees.view', compact('users', 'roles', 'logo', 'orgLogo'));
     }
 
-    public function changeRoles(Request $request, $user_id) { /* Admin/Owner can change his/her(if multiple admins exist) or others roles that was assigned before*/
+    public function changeRoles(Request $request, $user_email) { /* Admin/Owner can change his/her(if multiple admins exist) or others roles that was assigned before*/
         $count = 0;
         
-        $user = User::where('id',$user_id)->first();
+        $user = User::where('email',$user_email)->first();
         
         $permissions = Permission::with('roles')->where('name',"edit-users")->get(); // Get role-names who have Admin or Super Admin access using Permissions
 
@@ -134,7 +134,7 @@ class HomeController extends Controller
             $count += User::where('role',$perRole->name)->count();
         }
 
-        if(auth()->user()->can('edit-users') && ((auth()->user()->id != $user_id) || ($count > 1 && auth()->user()->id == $user_id))) { 
+        if(auth()->user()->can('edit-users') && ((auth()->user()->email != $user_email) || ($count > 1 && auth()->user()->email == $user_email))) { 
             /* If user is authorized to edit & ((if he is not editing his permission) or(if he is editing his permissions but no of admin/super-admin/owner is > 1)) then*/
             $old_role = Role::where('name',$user->role)->first();//delete the old role
             $new_role = Role::where('name',$request->role)->first();// create new role
@@ -143,10 +143,10 @@ class HomeController extends Controller
             $user->roles()->detach($old_role->id); /* Delete that user's old role */
             $user->roles()->attach($new_role->id); /* Assign new role to that user */
 
-            User::where('id',$user_id)->update(['role' => $request->role]);
+            User::where('email',$user_email)->update(['role' => $request->role]);
 
             return response()->json(['status' => 'Success']);
-        } else if(auth()->user()->can('edit-users') && auth()->user()->id === $user_id) { /* Only one admin */
+        } else if(auth()->user()->can('edit-users') && auth()->user()->email === $user_email) { /* Only one admin */
             return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
         } else { /* User doesn't have permission to edit anyone's roles & permissions */
             return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);

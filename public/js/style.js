@@ -31,23 +31,23 @@ function confirmDel(index) {
 	}
 }
 
-function confirmRoleChange(index) {
+function confirmRoleChange(index, user_email) {
 	var table = document.getElementById("tableEmployee");
-	var user_id = $(index).parent().find('input[name="user_id"]').val();
+	//var user_email = $(index).parent().parent().find('input[name="user_email"]').val();
 	if(window.location.hostname == "localhost")
 		var website_url = window.location.hostname + ":8000";
 	else
 		var website_url = window.location.hostname;
 
 	$.ajax({
-		url: "/employees/update/" + user_id,
+		url: "/employees/update/" + user_email,
 		type: 'POST',
 		crossDomain : true,
 		headers: {
         	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     	},
         data: {
-        	"role" : $(index).val()
+        	"role" : $(index).parent().find("select").val();
         }, success: function(result) {
         	console.log(result);
 		}, error: function(XMLHttpRequest, textStatus, errorThrown) {

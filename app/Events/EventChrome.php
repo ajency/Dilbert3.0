@@ -101,7 +101,7 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                         //$output->writeln(count($org_ipList));
                         $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */ /* Get all the IP List assigned by that Organization */
-                        
+
                         if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
                             $log = new Log;
 
