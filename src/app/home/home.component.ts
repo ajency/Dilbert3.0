@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
       mins: null
     }
   };
-  dateSelected: Date = new Date(); // Set initially to Today's date
+  dateSelected: Date = new Date(); // Set initially to Today's date 
   yesterday: any;
   dropDownValue: number;
   d: any;
@@ -64,7 +64,6 @@ export class HomeComponent implements OnInit {
         }
       })
     } else {
-
       this.withUrl = false;
       this.userid = this.appUtilService.user_data.id;
       this.empid = undefined;//this.appUtilService.user_data.emp_email;
