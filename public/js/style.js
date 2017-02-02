@@ -47,7 +47,7 @@ function confirmRoleChange(index, user_email) {
         	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     	},
         data: {
-        	"role" : $(index).parent().find("select").val();
+        	"role" : $(index).parent().find("select").val()
         }, success: function(result) {
         	console.log(result);
 		}, error: function(XMLHttpRequest, textStatus, errorThrown) {
