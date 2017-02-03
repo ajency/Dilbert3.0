@@ -7,9 +7,10 @@ var redis = new Redis();*/
 var redis = require('redis');
 
 var laravel_server = "http://localhost:80";
+//var laravel_server = "http://localhost:8000";
 
 io.on('connection', function (socket) {
- 
+  console.log("Users connected " + Object.keys(io.sockets.connected).length.toString());
   /*console.log("new client connected");*/
   
   //var address = socket.handshake.address; // get IP address of those (different) systems
@@ -75,7 +76,7 @@ io.on('connection', function (socket) {
       }
     }
     
-    pub.rpush('test-channels', user, function(err, reply) {
+    pub.rpush('test-channels', user, function(err, reply) { // Push the data to the Redis Channel
       /*console.log("Reply of set ");
       console.log(reply);
       console.log("set replied");*/
@@ -175,10 +176,10 @@ io.on('connection', function (socket) {
       pub.lpop('test-channels');
     });
 
-    console.log(user);
+    //console.log(user);
     
     console.log("disconnected..");
-    console.log(socket.id);
+    //console.log(socket.id);
     redisClient.quit();
   });// end of socket.on('disconnect')
 });
