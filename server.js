@@ -134,6 +134,7 @@ io.on('connection', function (socket) {
   });
  
   socket.on('disconnect', function() { // when client closes the chrome app
+    console.log("Connected users left " + Object.keys(io.sockets.connected).length.toString());
     var t = new Date(); // for now -> get current time
     if(t.getHours() < 10)
         var hr = '0' + t.getHours().toString();
@@ -157,27 +158,26 @@ io.on('connection', function (socket) {
       'socket_id': socket.client.id,//socket.id,
     });
 
-    pub.rpush('test-channels', user, function(err, reply) {
+    pub.rpush('test-channels', user, function(err, reply) { // Push data to the queue
       //console.log("Reply of set ");
       //console.log(reply);
     });
 
     request(laravel_server + "/api/fire", function (error, response, body) { // load that page for event call
       if (!error && response.statusCode == 200) {
-          console.log("fire");
-       } else {
+          console.log("Success!! Data stored");
+      } else {
         if (response != undefined && response.statusCode != undefined) {
-          console.log("not fired " + error + response.statusCode.toString());
+          console.log("Not stored. Error: " + error  + ' ' + response.statusCode.toString());
         } else {
-          console.log("not fired " + error + "God knows");
+          console.log("Not stored. Error: " + error + " God knows");
         }
-       }
+      }
       //pub.del('test-channels ' + socket.id);// delete old data
-      pub.lpop('test-channels');
+      pub.lpop('test-channels');// Pop data from test channels - Redis queue
     });
 
     //console.log(user);
-    
     console.log("disconnected..");
     //console.log(socket.id);
     redisClient.quit();
