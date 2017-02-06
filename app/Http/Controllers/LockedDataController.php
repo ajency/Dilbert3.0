@@ -264,7 +264,7 @@ class LockedDataController extends Controller
         }*/
     }
 
-    public function other_users_log_summary(Request $request) {// Get other employee's Logged details 
+    public function other_users_log_summary(Request $request) {// Get other specific users's Logged details -> for week/mpnth view
     	$output = new ConsoleOutput();
         //$output->writeln("Other user's Lock Data info");
 
@@ -350,7 +350,7 @@ class LockedDataController extends Controller
 	    }
     }
 
-    public function employees_log_summary(Request $request) {
+    /*public function employees_log_summary(Request $request) {
     	$output = new ConsoleOutput();
         //$output->writeln("Employees Lock Data info");
 
@@ -372,6 +372,95 @@ class LockedDataController extends Controller
 	        	} else {
 			    	return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 403);
 			    }
+			} else {
+				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
+			}
+	    } else {
+			//$output->writeln("In else");	    	
+	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
+	    }
+    }*/
+
+    public function employees_log_summary(Request $request) {
+    	$output = new ConsoleOutput();
+        //$output->writeln("Employees Lock Data info");
+
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+        	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
+        	//$user_cnt = User::where('id', $request->user_id)->count();
+        	if($user_cnt > 0) {
+	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
+	        	if ($user->can('edit-personal')) {// verifies if user has permission
+
+	        		$summary = []; $content = []; $json = [];
+
+	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
+	        			if((int)date('w', strtotime($request->start_date) - 1 ) % 7 > 0) { /* Get start of the week*/
+	        				$days = "-" . ((int)date('w', strtotime($request->start_date) - 1) % 7) . " day"; // convert date to week format [0-6]
+	        				$startDate = date('Y-m-d',strtotime($days, strtotime($request->start_date)));
+	        			} else {
+	        				$startDate = $request->start_date;
+	        			}
+
+	        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
+	        				$days = (7 - (int)date('w', strtotime($request->end_date))) . " day"; // convert date to week format [0-6] /* Get last date of that week */  
+	        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
+	        			} else {
+	        				$endDate = $request->end_date; /* This is the last date of the week */
+	        			}
+	        		}
+
+	        		if(empty($request->start_date) && empty($request->end_date))
+			        	return Locked_Data::orderBy('work_date')->orderBy('user_id')->get();
+			        /*else if(empty($request->start_date))
+			        	return Locked_Data::where('user_id', $emp_id)->where('work_date', '<=', $request->end_date)->orderBy('user_id')->get();
+			        else if(empty($request->end_date))
+			        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();*/
+			        else {
+			        	$users = User::orderBy('name')->get();
+
+			        	foreach ($users as $key => $user) {
+				        	$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
+							
+							$summary = []; $content = [];				        	
+				        	if(sizeof($datas) > 0) {
+				        		//$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
+				        		$summary['name'] = $user->name;
+				        		$summary['email'] = $user->email;
+				        		$summary['avatar'] = $user->avatar;
+
+				        		// If the End Time & Total_time is empty, then assign current time & it's diff as end_time & total_time
+					        	if ((int)date_diff(date_create(),date_create($datas[sizeof($datas) - 1]["work_date"]))->format("%a") == 0 && ($datas[sizeof($datas) - 1]["total_time"] == null || $datas[sizeof($datas) - 1]["total_time"] == "")) { /* Get Current End_Time & Total_time */
+					        		$datas[sizeof($datas) - 1]["end_time"] = date('Y-m-d H:i:s',strtotime('+5 hour +30 minute'));
+									$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
+					        	}
+
+					        	foreach ($datas as $data) {
+					        		if (sizeof($content) == 0) {
+					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+					        			$content["data"] = array($data);
+					        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1) { // If a date is coming under same week ,then add it to that array
+					        			array_push($content["data"], $data);
+					        		} else {
+					        			//array_push($summary["summary"], $content);
+					        			$summary["summary"] = $content;
+					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+					        			$content["data"] = array($data);
+					        		}
+					        		//$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
+					        	}
+					        	//array_push($summary, $content);
+					        	$summary["summary"] = $content;
+				        	}
+				        	array_push($json, $summary);
+				        	//return response()->json($json);
+				        }
+				    	return response()->json($json);
+				    }
+
+	        	} else {
+					return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
+				}
 			} else {
 				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
