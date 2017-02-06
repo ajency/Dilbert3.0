@@ -422,13 +422,12 @@ class LockedDataController extends Controller
 			        	foreach ($users as $key => $user) {
 				        	$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
 							
-							$summary = []; $content = [];				        	
+							$summary = []; $content = [];
+							$summary['name'] = $user->name;
+			        		$summary['email'] = $user->email;
+			        		$summary['avatar'] = $user->avatar;
 				        	if(sizeof($datas) > 0) {
 				        		//$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
-				        		$summary['name'] = $user->name;
-				        		$summary['email'] = $user->email;
-				        		$summary['avatar'] = $user->avatar;
-
 				        		// If the End Time & Total_time is empty, then assign current time & it's diff as end_time & total_time
 					        	if ((int)date_diff(date_create(),date_create($datas[sizeof($datas) - 1]["work_date"]))->format("%a") == 0 && ($datas[sizeof($datas) - 1]["total_time"] == null || $datas[sizeof($datas) - 1]["total_time"] == "")) { /* Get Current End_Time & Total_time */
 					        		$datas[sizeof($datas) - 1]["end_time"] = date('Y-m-d H:i:s',strtotime('+5 hour +30 minute'));
