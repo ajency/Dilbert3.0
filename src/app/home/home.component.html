@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <div class="pull-left">
                         <label for="search-table" class="search-emp-names">
-                            <input id="search-table" type="search" class=" form-control" placeholder="Filter by Name" (ngModel)="text" (keyup.enter)="onTextChange($event.target.value)" >
+                            <input id="search-table" type="search" class=" form-control" placeholder="Filter by Name" (ngModel)="text" (keyup)="onTextChange($event.target.value)" >
                             <i class="fa fa-search empty-icon"></i>
                             <!-- show this icon only if text has been entered - so the text can be cleared as well as the filtered table can be cleared -->
                             <a href="#" class="clear-icon hidden">&times;</a>
@@ -19,8 +19,8 @@
                     </div>
                     <div class="table-navi pull-right">
                         <!-- add class disabled to disable the btn/link -->
-                        <a href="#" class="week-navi prev"><i class="fa fa-angle-left"></i></a>
-                        <a href="#" class="week-navi next disabled"><i class="fa fa-angle-right"></i></a>
+                        <a href="#" class="week-navi prev" (click)="fetchData(false)"><i class="fa fa-angle-left"></i></a>
+                        <a href="#" class="week-navi next" (click)="fetchData(true)" [class.disabled]="nxtBtnDisable"><i class="fa fa-angle-right"></i></a>
                     </div>
                     <!-- I'm not sure if this is required so I've added the class hidden for now, remove hidden if this elelment is needed -->
                     <div class="btn-group btn-dropdown filter pull-right ">
@@ -32,7 +32,11 @@
                                 <h6 class="dd-title">Select a Date</h6>
                                 <p>The result will show the week which includes the date you picked</p>
                                 <div class="form-group">
-                                    <label for="find-week-day"><input type="date" id="find-week-day" class="form-control" [(ngModel)]="date" (change)="onDateChange(date)"></label>
+                                    <!--<label for="find-week-day"><input type="date" id="find-week-day" class="form-control" [(ngModel)]="date" (change)="onDateChange(date)"></label>-->
+                                    <label for="find-week-day" class="wrapper">
+                                        <input type="date" id="find-week-day" class="date form-control" [(ngModel)]="date">
+                                        <input type="date" class="picker form-control" max={{onFormatDate(todaysDate)}} [(ngModel)]="date" (change)="onDateChange(date)">
+                                    </label>
                                 </div>
                                 <!-- add class hidden as soon as a date has been selected -->
                                 <p class="date-not-selected">Select a date to see week start and end dates</p>
@@ -84,9 +88,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr *ngIf="userData.length == 0" > 
+                                        <td colspan="3" class="noData"> No data to display</td>       
+                                    </tr>
                                     <tr class="" *ngFor="let item of userData">
-                                        <td class="employee-id" >
-                                            <a href="#" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
+                                        <td class="employee-id">
+                                            <a href="/dashboard/{{item.email}}" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
                                                 <!-- <span class="th-day small-title">&nbsp;</span> -->
                                                 <span class="th-total">{{item.name}}</span>
                                                 <!-- <span class="th-spilt">
@@ -95,28 +102,44 @@
                                                 </span> -->
                                             </a>
                                         </td>
-                                        <td *ngFor="let workday of item.data">
-                                            <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <!-- <span class="th-day small-title">Oct 10</span> -->
-                                                <span class="th-total">{{workday.total_time}}</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
-                                                    <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td *ngFor="let workday of item.emptySpaces">
-                                        </td>
-                                        <td class="sunday">
-                                            <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <span class="th-day small-title">Oct 10</span>
-                                                <span class="th-total">9:30</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span>
-                                            </a> -->
-                                        </td>
+                                        <ng-container *ngIf="item.summary.length == 0">
+                                            <td [colSpan]="7" class="noData">
+                                                <span class="th-total">No Data Acquired</span>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="item.summary.length != 0">
+                                            <td *ngFor="let workday of item.summary.data">
+                                                <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                    <!-- <span class="th-day small-title">Oct 10</span> -->
+                                                    <div *ngIf="workday.status === null || (workday.status && workday.status.toLowerCase() === 'present')">
+                                                        <span class="th-total">{{workday.total_time != null ? workday.total_time : "n/a" }}</span>
+                                                        <span class="th-spilt">
+                                                            <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
+                                                            <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
+                                                        </span>
+                                                    </div>
+                                                    <div *ngIf="!(workday.status === null || (workday.status && workday.status.toLowerCase() === 'present'))">
+                                                        <span class="th-total">{{workday.status}}</span>
+                                                        <span class="th-spilt">
+                                                            <span class="th-work"></span> - <span class="th-break"></span>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <!--<td *ngFor="let workday of item.emptySpaces">
+                                            </td>-->
+                                            <td [colSpan]="6 - item.summary.data.length" *ngIf="item.summary.data.length !== 6"></td>
+                                            <td class="sunday">
+                                                <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                    <span class="th-day small-title">Oct 10</span>
+                                                    <span class="th-total">9:30</span>
+                                                    <span class="th-spilt">
+                                                        <span class="th-work">9:45</span> -
+                                                        <span class="th-break">19:15</span>
+                                                    </span>
+                                                </a> -->
+                                            </td>
+                                        </ng-container>
                                         <td>
                                             <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
                                                 <!-- <span class="th-day visi-hide">Week's Total</span> -->

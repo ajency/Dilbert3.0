@@ -7,19 +7,29 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/throw';
+import { AppUtilService } from '../providers/app-util.service';
 
-const apiURL = 'http://dilbertapp.ajency.in/api/data';
+//const apiURL = 'http://dilbertapp.ajency.in/api/data';
+const apiURL = 'http://dilbert.ajency.in/api/data';
 @Injectable()
 export class UserDataService {
   headers: any;
-  constructor(private http: Http) {
+  constructor(private http: Http, private appUtilService: AppUtilService) {
       this.headers = new Headers();
       this.headers.append('Content-Type', 'application/json');
-      this.headers.append('X-API-KEY', 'm6MQeb7OJb73YQsfwAUY92PJa10r8zcRdXQrJUoE1BakiM8qsla5TuTU15Bh');
-
+      this.headers.append('X-API-KEY', this.appUtilService.user_data.api_token);
   }
   getUserData(id, date): Observable<any> {
     let fetchurl = `${apiURL}/user?user_id=${id}`;
+    if (date) {
+      fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
+    }
+    return this.http.get(fetchurl, { headers: this.headers })
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  getAllUsersData(id, date): Observable<any> { // Get the user's Summary view - week format
+    var fetchurl = `${apiURL}/employees?user_id=${id}`;
     if (date) {
       fetchurl += `&start_date=${date.start_date}&end_date=${date.end_date}`;
     }

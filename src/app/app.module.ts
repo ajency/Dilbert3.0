@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Ng2Webstorage } from 'ng2-webstorage';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -16,7 +17,8 @@ import { AppUtilService } from './providers/app-util.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    Ng2Webstorage
   ],
   providers: [UserDataService, AppUtilService],
   bootstrap: [AppComponent]
