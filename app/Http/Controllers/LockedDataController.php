@@ -451,7 +451,7 @@ class LockedDataController extends Controller
 					        	//array_push($summary, $content);
 					        	$summary["summary"] = $content;
 				        	}else {
-				        		$summary["summary"] = [];
+				        		$summary["summary"] = [];//json_encode(new stdClass);
 				        	}
 				        	array_push($json, $summary);
 				        	//return response()->json($json);
