@@ -86,7 +86,7 @@ Route::get('/dashboard', function() { /* Angular2 PWA page route */
         $logo = $logo[0]->domain;
         $logs = App\Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
         
-        return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id)));
+        return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_domain" => $logo)));
     } else 
         return redirect('/login');
 });
@@ -104,7 +104,7 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
                 $logs = App\Log::where([['user_id', $emp_details->id],['work_date', date('Y-m-d')],])->get();// get data based on today's date
                 
                 /*return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id, "emp_id" => $emp_details->id, "emp_name" => $emp_details->name, "emp_email" => $emp_email, "other_emp" => "true")));*/
-                return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id)));
+                return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_domain" => $logo)));
             } else { // This email address doesn't exist
                 abort(412);
                 //abort(404);
@@ -112,6 +112,18 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
         } else { // it is not an Email Address
             abort(404);
         }
+    } else 
+        return redirect('/login');
+});
+
+Route::get('/summary', function() {
+    if(!auth()->guest()) { /* If user is Authorized, then access Summary page, else Redirect to Login page */
+        $org_id = App\User::where('email',auth()->user()->email)->get();
+            
+        $logo = App\Organization::find($org_id[0]->org_id)->get();
+        $logo = $logo[0]->domain;
+        $logs = App\Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
+        return view('angular.summary', compact('logo','logs'));
     } else 
         return redirect('/login');
 });
