@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 class EventChrome extends Event implements ShouldBroadcast {
     use SerializesModels;
 
-    public $data;
+    //public $data;
     /**
      * Create a new event instance.
      *
@@ -28,33 +28,33 @@ class EventChrome extends Event implements ShouldBroadcast {
      */
     public function __construct($redis_list) {
         
-        $output = new ConsoleOutput();
+        // $output = new ConsoleOutput();
 
-        $output->writeln("Socket id - Event Chrome");
+        // $output->writeln("Socket id - Event Chrome");
         
         if(isset($redis_list->auth) && isset($redis_list->socket_id)){ // unauthorized data entry
-            $output->writeln("Invalid Authentication");
+            //$output->writeln("Invalid Authentication");
             $this->data = array(
                 'socket_status' => "invalid_auth", 'socket_id' => $redis_list->socket_id
             );
         }
 
         if(isset($redis_list->org_id)){ // Broadcast if any organization is deleted
-            $output->writeln("Socket + org_id confirmed");
+            //$output->writeln("Socket + org_id confirmed");
             $this->data = array(
                 'socket_status' => "org_id_deleted", 'org_id' => $redis_list->org_id
             );
         }
 
         if(isset($redis_list->user_id) && $redis_list->user_id > 0) { // if user is not disconnected i.e. connected to socket
-            $output->writeln("Socket id - Event Chrome inside if");
+            //$output->writeln("Socket id - Event Chrome inside if");
             //$output->writeln($redis_list->socket_id);
 
             //$output->writeln(gettype($redis_list->user_id));
             //$output->writeln($redis_list->user_id);
             if(isset($redis_list->socket_id)) { // checks if user has socket ID
                 //
-                $output->writeln("Socket + user id confirmed");
+                //$output->writeln("Socket + user id confirmed");
 
                 $user = User::where('id', $redis_list->user_id)->get();
 
@@ -89,8 +89,11 @@ class EventChrome extends Event implements ShouldBroadcast {
                 //$output->writeln(count($user));
 
                 if(count($user) > 0){ /* Update the new Socket ID in User's table */
-                    User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
-                    $output->writeln("Socket id + user id -> update");
+                    if(isset($redis_list->chrome_app_version))
+                        User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id, 'app_version' => $redis_list->chrome_app_version]);// Update with new socket id & chrome app version
+                    else
+                        User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
+                    //$output->writeln("Socket id + user id -> update");
                 }
                 
                 //$output->writeln("Organization process complete");
@@ -181,10 +184,10 @@ class EventChrome extends Event implements ShouldBroadcast {
             }
         } else if(isset($redis_list->socket_id) && isset($redis_list->user_id) && $redis_list->user_id == 0){  // User closed chrome app or app got disconnected
             // user closed chrome app
-            $output->writeln("Socket id + !user id");
+            //$output->writeln("Socket id + !user id");
             
             $user = User::where('socket_id', $redis_list->socket_id)->get();//update(['socket_id' => '']);
-            $output->writeln("Socket id + !user id -> get");
+            //$output->writeln("Socket id + !user id -> get");
             
             if(count($user)){ // User exist
                 $user_id = $user[0]->id;
@@ -218,7 +221,7 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                 User::where('id', $user_id)->update(['socket_id' => '']); /* Clear Socket ID */
 
-                $output->writeln("Socket id + !user id -> New Log");
+                //$output->writeln("Socket id + !user id -> New Log");
                 $log = new Log;
                 $log->user_id = $user_id;
                 $log->work_date = date("Y-m-d");
@@ -233,7 +236,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                     $userLocked_data = Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->get();
                     Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);
                 }
-                $output->writeln("Log out log updated");
+                //$output->writeln("Log out log updated");
 
                 Redis::lpop('test-channels');// remove the current-log element from queue
                 $this->data = array(
@@ -247,7 +250,7 @@ class EventChrome extends Event implements ShouldBroadcast {
             }
         } else {
             Redis::lpop('test-channels');// remove the current-log element from queue
-            $output->writeln("Executed none");
+            //$output->writeln("Executed none");
         }
     }
 
@@ -257,12 +260,12 @@ class EventChrome extends Event implements ShouldBroadcast {
      * @return array
      */
     public function broadcastOn() {
-        $output = new ConsoleOutput();
-        $output->writeln("Prepare for broadcast");
+        //$output = new ConsoleOutput();
+        //$output->writeln("Prepare for broadcast");
         
         $redis = Redis::connection();
 
-        $output->writeln("Broadcasting");
+        //$output->writeln("Broadcasting");
         
         return ['test-channel'];
     }
