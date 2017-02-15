@@ -14,7 +14,7 @@ class CreateComplaintsTable extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->increments('id');
-             $table->string('email');
+            $table->string('email');
             $table->string('name');
             $table->string('issue');// Will contain a dropdown with list of common issues & other
             $table->string('issue_content')->nullable();// if user has chosen 'other', then this textbox is displayed & user has to type the issue

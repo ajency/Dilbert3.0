@@ -89,7 +89,10 @@ class EventChrome extends Event implements ShouldBroadcast {
                 //$output->writeln(count($user));
 
                 if(count($user) > 0){ /* Update the new Socket ID in User's table */
-                    User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
+                    if(isset($redis_list->chrome_app_version))
+                        User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id, 'app_version' => $redis_list->chrome_app_version]);// Update with new socket id & chrome app version
+                    else
+                        User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
                     //$output->writeln("Socket id + user id -> update");
                 }
                 
