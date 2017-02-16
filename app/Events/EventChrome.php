@@ -89,10 +89,14 @@ class EventChrome extends Event implements ShouldBroadcast {
                 //$output->writeln(count($user));
 
                 if(count($user) > 0){ /* Update the new Socket ID in User's table */
-                    if(isset($redis_list->chrome_app_version))
-                        User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id, 'app_version' => $redis_list->chrome_app_version]);// Update with new socket id & chrome app version
-                    else
-                        User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
+                    if(isset($redis_list->to_state) && $redis_list->to_state == "offline") /*  If User is offline, then delete the SocketID */
+                        User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
+                    else { // User is either Idle, active or created a New Session
+                        if(isset($redis_list->chrome_app_version))
+                            User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id, 'app_version' => $redis_list->chrome_app_version]);// Update with new socket id & chrome app version
+                        else
+                            User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
+                    }
                     //$output->writeln("Socket id + user id -> update");
                 }
                 
@@ -133,9 +137,6 @@ class EventChrome extends Event implements ShouldBroadcast {
                             }
 
                             if($redis_list->to_state == "offline" || $redis_list->to_state == "idle") { // user goes offline or idle
-                                if($redis_list->to_state == "offline") /*  If User is offline, then delete the SocketID */
-                                    User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
-
                                 if(Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then today's is not 1st entry && User has gone Offline or idle
                                     /* Update Summary/ Locked_Data Table with new Offline state */
                                     $userLocked_data = Locked_Data::where(['user_id' => $redis_list->user_id, 'work_date' => $log->work_date])->get();
