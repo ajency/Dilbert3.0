@@ -92,8 +92,8 @@ class EventChrome extends Event implements ShouldBroadcast {
                     if(isset($redis_list->to_state) && $redis_list->to_state == "offline") /*  If User is offline, then delete the SocketID */
                         User::where('id', $redis_list->user_id)->update(['socket_id' => ""]);
                     else { // User is either Idle, active or created a New Session
-                        if(isset($redis_list->chrome_app_version))
-                            User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id, 'app_version' => $redis_list->chrome_app_version]);// Update with new socket id & chrome app version
+                        if(isset($redis_list->chrome_app_version) && isset($redis_list->chrome_browser_version))
+                            User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id, 'app_version' => $redis_list->chrome_app_version, 'browser_version' => $redis_list->chrome_browser_version]);// Update with new socket id, chrome app version & chrome browser version
                         else
                             User::where('id', $redis_list->user_id)->update(['socket_id' => $redis_list->socket_id]);// Update with new socket id
                     }
