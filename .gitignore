@@ -5,6 +5,7 @@
 Homestead.yaml
 Homestead.json
 .env
+.env.example
 *.sublime-project
 *.sublime-workspace
 .vscode

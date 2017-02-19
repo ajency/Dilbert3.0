@@ -47,15 +47,22 @@
 		        	<table class="table table- striped table-hover team-table" id="tableEmployee" style="margin-bottom: 0px;">
 		        		<thead>
 		        			<tr>
+			        			<th>@lang('lang.company_name')</th>
 			        			<th style="padding-left: 25px;">@lang('lang.name')</th>
-			        			<!-- <th>@lang('lang.company_name')</th> -->
 			        			<th>@lang('lang.role')</th>
 			        			<th></th>
 			        		</tr>
 		        		</thead>
 		        		<tbody>
-		        			@foreach($users as $user)
+		        			@foreach($users as $key => $user)
 			        			<tr>
+			        				@if($key == 0)
+			        					<td class="team-table__cell"> 
+			        						<img src="https://www.google.com/a/cpanel/{{$orgLogo->domain}}/images/logo.gif?alpha=1&service=google_default" alt="" style="height:35px;">
+			        					</td>
+			        				@else
+			        					<td class="team-table__cell" style="border-top: 1px solid transparent"></td> 
+			        				@endif
 			        				<td class="team-table__cell team-table--username">
 			        					<img src="{{$user->avatar}}" class="img-circle"/>
 			        					@if(auth()->user()->name != $user->name)
