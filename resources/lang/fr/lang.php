@@ -49,6 +49,7 @@
 	  'per_denied' => 'Permission refusée',
 	  'cant_delete' => 'Impossible de supprimer votre compte',
 	  'only_admin' => 'Vous êtes le seul admin.',
+	  'date_of_birth' => 'Date de Naissance',
 
 	  //main page
 	  'hero_title' => 'Temps de piste. Fiche de travail',

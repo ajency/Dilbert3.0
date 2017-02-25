@@ -49,6 +49,7 @@
 	  'per_denied' => 'Permesso negato',
 	  'cant_delete' => 'Impossibile eliminare il tuo account',
 	  'only_admin' => 'Tu sei l\'unico amministratore.',
+	  'date_of_birth' => 'Data di Nascita',
 
 	  //main page
 	  'hero_title' => 'Tempo traccia. Record lavoro',

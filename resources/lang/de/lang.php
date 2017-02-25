@@ -49,6 +49,7 @@
 	  'per_denied' => 'Erlaubnis verweigert',
 	  'cant_delete' => 'Ihr Konto kann nicht gelöscht werden',
 	  'only_admin' => 'Sie sind der einzige Administrator.',
+	  'date_of_birth' => 'Geburtsdatum',
 	  
 	  //main page
 	  'hero_title' => 'Zeit auf der Strecke. Rekord Arbeit',

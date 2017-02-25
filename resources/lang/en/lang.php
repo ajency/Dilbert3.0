@@ -49,6 +49,7 @@
 	  'per_denied' => 'Permission Denied',
 	  'cant_delete' => 'Cannot delete your account',
 	  'only_admin' => 'You are the only admin.',
+	  'date_of_birth' => 'Date of Birth',
 	  
 	  //main page
 	  'hero_title' => 'Track Time. Record Work',

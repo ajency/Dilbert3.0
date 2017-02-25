@@ -41,7 +41,7 @@
                                     <input type="hidden" name="empid" value="{{ Auth::user()->id }}"/>
                                     <div class="form-group">
                                     	<label for="">@lang('lang.ur_name'):</label>
-                                    	<input type="text" name="empname" class="form-control" placeholder="Employee's Name" value="{{ Auth::user()->name }}" required autofocus/>
+                                    	<input type="text" name="empname" class="form-control" placeholder="User's Name" value="{{ Auth::user()->name }}" required autofocus/>
                                     </div>
                                     <div class="form-group">
                                     	@lang('lang.ur_off_email_id'): <strong name="empemail">{{ Auth::user()->email }}</strong>
@@ -91,6 +91,11 @@
                                                 @endif
                                             @endforeach
                                         </select>
+                                        <i class="fa fa-sort noclick"></i>
+                                    </div>
+                                    <div class="form-group posrel">
+                                        <label for="">@lang('lang.date_of_birth'):</label>
+                                        <input type="date" name="empdob" id="empdob" value="{{ Auth::user()->dob }}" class="form-control">
                                         <i class="fa fa-sort noclick"></i>
                                     </div>
                                     <div class="form-group">

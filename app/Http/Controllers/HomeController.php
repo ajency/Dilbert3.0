@@ -102,6 +102,7 @@ class HomeController extends Controller
             $user->role = $request->emprole;
             $user->lang = $request->emplang;
             $user->timeZone = $request->emptz;
+            $user->dob = $request->empdob;
             $user->update();
 
             $this->setLang($request->emplang);
