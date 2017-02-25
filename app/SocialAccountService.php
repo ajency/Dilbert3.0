@@ -24,8 +24,10 @@ class SocialAccountService
             $user->acd = date('Y-m-d');
             $user->api_token = str_random(60); // Generate 1 time API token for the User
             $user->org_id = 0;
-            $user->lang = "en";
+            $user->lang = (isset($providerUser->language))? explode("_",$providerUser->language)[0] : "en"; // If page language is defined by the user, the get that language
             $user->role = "member";
+            $user->gender = (isset($providerUser->gender)) ? $providerUser->gender: "-";
+            $user->dob = (isset($providerUser->birthday)) ? $providerUser->birthday : "-";
             $user->save();
 
             $status = "present";
