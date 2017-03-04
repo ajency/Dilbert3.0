@@ -26,9 +26,13 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
+    "cluster": "^0.7.7",
     "express": "^4.14.0",
     "redis": "^2.6.2",
     "request": "^2.74.0",
-    "socket.io": "^1.4.8"
+    "socket.io": "^1.4.8",
+    //"socketio-sticky-session": "^0.4.2",
+    "sticky-session": "^1.1.2",
+    //"toobusy-js": "^0.5.1"
   }
 }
