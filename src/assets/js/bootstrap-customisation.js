@@ -44,4 +44,42 @@ $(document).ready(function() {
 		$('.navbar-collapse').removeClass('in');
 		$(this).fadeOut('slow');
 	});
+
+
+
+	// for the tables in the dashboard
+	$(window).load(function() {
+		// if ($('.hscroll-table').length) {
+		// 	$('.hscroll-table').each(function() {
+		// 		$headerCol = $(this).find('thead th:first-child').html();
+		// 		$(this).find('thead th:first-child').empty();
+		// 		$bodyCol = [];
+		// 		$(this).find('tbody tr').each(function() {
+		// 			$singleCell = $(this).find('td:first-child').html();
+		// 			$(this).find('td:first-child').empty();
+		// 			console.log($singleCell);
+		// 			$bodyCol.push($singleCell);
+		// 		});
+
+		// 		if ($(this).children().first().is('table')) {
+		// 			$contElement = $(this);
+		// 		} else {
+		// 			$contElement = $(this).children().first();
+		// 		}
+
+		// 		$contElement.append(
+		// 			'<table class="table fixed-left">' +
+		// 				'<thead><tr><th>' + $headerCol + '</th></tr></thead><tbody></tbody>' +
+		// 			'</table>'
+		// 		);
+		// 		for (var i = 0; i < $bodyCol.length; i++) {
+		// 			$contElement.find('.fixed-left').append(
+		// 				'<tr>' +
+		// 					'<td>' + $bodyCol[i] + '</td>' +
+		// 				'</tr>'
+		// 			);
+		// 		}
+		// 	});
+		// }
+	});
 });

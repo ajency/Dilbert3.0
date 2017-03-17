@@ -542,24 +542,24 @@ select.form-control {
 	border: 1px solid lighten(@bodyGrey, 42%);
 	border-radius: 3px;
 	@media screen and (max-width: 737px) {
-		&:after {
-			content: '';
-			position: absolute;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			width: 50px;
-			opacity: 0.1;
-			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+1,1+100 */
-			background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
-			background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 1%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 1%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
-			pointer-events: none;
-		}
-		&.hide-in-week-view:after {
-			right: 90px;
-		}
+		// &:after {
+		// 	content: '';
+		// 	position: absolute;
+		// 	right: 0;
+		// 	top: 0;
+		// 	bottom: 0;
+		// 	width: 50px;
+		// 	opacity: 0.1;
+		// 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+1,1+100 */
+		// 	background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
+		// 	background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 1%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+		// 	background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 1%,rgba(0,0,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		// 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
+		// 	pointer-events: none;
+		// }
+		// &.hide-in-week-view:after {
+		// 	right: 90px;
+		// }
 	}
 	.table {
 		margin-bottom: 0;
@@ -674,6 +674,14 @@ select.form-control {
 		bottom: 0;
 		width: 91px;
 		border-left: 1px solid lighten(@bodyGrey, 42%);
+	}
+	.fixed-left {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 91px;
+		border-right: 1px solid lighten(@bodyGrey, 42%);
 	}
 	.eq {
 		width: 75px;
