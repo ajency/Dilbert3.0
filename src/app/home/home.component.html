@@ -57,7 +57,7 @@
                 <div class="card-body">
                     <div class="table-view month hscroll-table hide-in-week-view">
                         <div class="table-responsive">
-                            <table class="table first-table">
+                            <table class="table first-table fixed-left">
                                 <thead>
                                     <tr>
                                         <th class="employee-id" (click)="sortBy('name')">
@@ -72,6 +72,29 @@
                                                 <span class="th-date">Employees <a href="#" class="sort-col"><i class="fa fa-sort"></i></a></span>
                                             </span>
                                         </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="userData.length == 0" > 
+                                        <td class="noData"> No data</td>       
+                                    </tr>
+                                    <tr class="" *ngFor="let item of userData">
+                                        <td class="employee-id">
+                                            <a href="/dashboard/{{item.email}}" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
+                                                <!-- <span class="th-day small-title">&nbsp;</span> -->
+                                                <span class="th-total">{{item.name}}</span>
+                                                <!-- <span class="th-spilt">
+                                                    <span class="th-work">9:45</span> -
+                                                    <span class="th-break">19:15</span>
+                                                </span> -->
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table first-t able sec-table">
+                                <thead>
+                                    <tr>
                                         <th *ngFor="let item of weekBucket;let key = index">
                                             <span class="th-label small-title" (click)="sortBy('date',item,key)">
                                                 <span class="th-date"> {{item | date : 'dd MMM'}}<a href="#" class="sort-col" ><i class="fa fa-sort"></i></a></span>
@@ -89,19 +112,9 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngIf="userData.length == 0" > 
-                                        <td colspan="3" class="noData"> No data to display</td>       
+                                        <td colspan="2" class="noData"> No data to display</td>       
                                     </tr>
                                     <tr class="" *ngFor="let item of userData">
-                                        <td class="employee-id">
-                                            <a href="/dashboard/{{item.email}}" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
-                                                <!-- <span class="th-day small-title">&nbsp;</span> -->
-                                                <span class="th-total">{{item.name}}</span>
-                                                <!-- <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span> -->
-                                            </a>
-                                        </td>
                                         <ng-container *ngIf="item.summary.length == 0">
                                             <td [colSpan]="7" class="noData">
                                                 <span class="th-total">No Data Acquired</span>
