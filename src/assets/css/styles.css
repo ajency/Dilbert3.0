@@ -1234,7 +1234,6 @@ select.form-control {
 }
 .company-summary .table-view .sec-table th:last-child,
 .company-summary .table-view .sec-table td:last-child {
-  min-width: 150px;
   border-left: 1px solid #ebebeb;
 }
 .company-summary .employee-name {
