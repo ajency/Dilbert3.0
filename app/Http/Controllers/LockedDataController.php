@@ -434,6 +434,10 @@ class LockedDataController extends Controller
 									$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
 					        	}
 
+					        	if((int)date('w', strtotime($datas[0]["work_date"]) != 1) { // If the 1st data is not Monday, then
+
+					        	}
+
 					        	foreach ($datas as $data) {
 					        		if (sizeof($content) == 0) {
 					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
