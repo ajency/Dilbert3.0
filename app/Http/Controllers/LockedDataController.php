@@ -434,20 +434,39 @@ class LockedDataController extends Controller
 									$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
 					        	}
 
-					        	if((int)date('w', strtotime($datas[0]["work_date"]) != 1) { // If the 1st data is not Monday, then
 
+					        	if ((int)date('w', strtotime($datas[0]["work_date"])) != '1') { // If the 1st data is not Monday, then
+					        		/*$output->writeln("1st day is not Monday");
+					        		$output->writeln($user->name);
+					        		$output->writeln($datas[0]["work_date"]);*/
+					        		//$extra_data = [];
+					        		for ($i = 1; $i < (int)date('w', strtotime($datas[0]["work_date"])); $i++) {
+					        			$day_diff = (string)((int)date('w', strtotime($datas[0]["work_date"])) - $i); // 1st data's date - loop count
+					        			//$output->writeln($day_diff);
+					        			$dates = date('Y-m-d', strtotime("-" . $day_diff . " day", strtotime($datas[0]["work_date"])));
+					        			//$output->writeln($dates);
+					        			$extra_data = array("user_id" => $user->id, "work_date" => $dates, "start_time" => null, "end_time" => null, "total_time" => "00:00", "status" => "Not Joined");
+					        			//array_push($extra_data, $data);
+					        			$datas->push($extra_data);
+					        			//$output->writeln($extra_data);
+					        			//$datas->sortBy(function($model){ return $model->work_date; });
+					        		}
+					        		//array_splice($datas, 0, 0, $extra_data);// array_splice('main_array', 'index where data to be inserted', 'no. of data to be deleted from start (+ve no) or from end (-ve no) that array', '<value/array>')
+					        		$datas = $datas->sortBy(function($model){ // Sort Data based on work_date
+					        			return $model["work_date"];
+					        		});
 					        	}
 
 					        	foreach ($datas as $data) {
 					        		if (sizeof($content) == 0) {
-					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
 					        			$content["data"] = array($data);
-					        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1) { // If a date is coming under same week ,then add it to that array
+					        		} else if($content["week"] == (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1) { // If a date is coming under same week ,then add it to that array
 					        			array_push($content["data"], $data);
 					        		} else {
 					        			//array_push($summary["summary"], $content);
 					        			$summary["summary"] = $content;
-					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
+					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
 					        			$content["data"] = array($data);
 					        		}
 					        		//$data->week = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1; /* Get the week of that date */
