@@ -115,7 +115,7 @@ class HomeController extends Controller
 
     public function viewEmployees(Request $request) { /* Display all the employees under that organization */
 
-        $users = User::where('org_id', auth()->user()->org_id)->orderBy('name', 'asc')->get();
+        $users = User::where(['org_id' => auth()->user()->org_id, 'is_active' => true])->orderBy('name', 'asc')->get();
         $logo = Organization::find(auth()->user()->org_id)->get();
         $logo = $logo[0]->domain;
         $orgLogo = Organization::where('id', auth()->user()->org_id)->first();
@@ -127,7 +127,7 @@ class HomeController extends Controller
     public function changeRoles(Request $request, $user_email) { /* Admin/Owner can change his/her(if multiple admins exist) or others roles that was assigned before*/
         $count = 0;
         
-        $user = User::where('email',$user_email)->first();
+        $user = User::where(['email' => $user_email, 'is_active' => true])->first();
         
         $permissions = Permission::with('roles')->where('name',"edit-users")->get(); // Get role-names who have Admin or Super Admin access using Permissions
 
@@ -144,7 +144,7 @@ class HomeController extends Controller
             $user->roles()->detach($old_role->id); /* Delete that user's old role */
             $user->roles()->attach($new_role->id); /* Assign new role to that user */
 
-            User::where('email',$user_email)->update(['role' => $request->role]);
+            User::where(['email',$user_email, 'is_active' => true])->update(['role' => $request->role]);
 
             return response()->json(['status' => 'Success']);
         } else if(auth()->user()->can('edit-users') && auth()->user()->email === $user_email) { /* Only one admin */

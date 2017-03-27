@@ -38,7 +38,7 @@ class SocialAuthController extends Controller {
                     $org = Organization::where('domain', '=',$account->user["domain"])->get();
                     $user = $arraySocial[0];
                     $status = $arraySocial[1];
-                    if($status == "exist") {
+                    if($status == "exist") { // UserID & the Org linking to user exist
                         auth()->login($user);
                         $this->setLang(auth()->user()->lang);
                         return redirect()->to('/home')->with('reload', "true");

@@ -97,7 +97,9 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
         if(filter_var($emp_email, FILTER_VALIDATE_EMAIL)) { // Check if the URL subsection has email address
             $org_id = App\User::where('email',auth()->user()->email)->get();
             
-            $emp_details = App\User::where('email',$emp_email)->first();
+            #$emp_details = App\User::where('email',$emp_email)->first();
+            $emp_details = App\User::where(['email' => $emp_email, 'is_active' => true])->first();
+            
             if(count($emp_details) > 0){
                 $logo = App\Organization::find($org_id[0]->org_id)->get();
                 $logo = $logo[0]->domain;

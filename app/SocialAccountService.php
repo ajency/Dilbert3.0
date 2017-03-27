@@ -28,6 +28,7 @@ class SocialAccountService
             $user->role = "member";
             $user->gender = (isset($providerUser->gender)) ? $providerUser->gender: "-";
             $user->dob = (isset($providerUser->birthday)) ? $providerUser->birthday : "-";
+            //$user->is_active = true;
             $user->save();
 
             $status = "present";
