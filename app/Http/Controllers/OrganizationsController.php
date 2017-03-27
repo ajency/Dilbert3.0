@@ -112,7 +112,7 @@ class OrganizationsController extends Controller
         try {
             $org = Organization::where('domain',$request->orgdomain)->get();
             if(count($org) > 0) { //domain exist in database
-                $org_id = User::where('email',$request->userid)->update(['org_id' => $org[0]->id, 'timeZone' => $request->jointz]);
+                $org_id = User::where('email',$request->userid)->update(['org_id' => $org[0]->id, 'timeZone' => $request->jointz, 'is_active' => true]); // Link the organization, set timeZone & activate the User
                 $user = User::where('email',$request->userid)->get();
 
                 /* Link user to members's role & respective permissions */

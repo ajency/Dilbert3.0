@@ -50,6 +50,8 @@ Route::get('/logout/google', 'SocialAuthController@logout');
 Route::get('/org', 'OrganizationsController@index');
 Route::post('/org/save','OrganizationsController@save');// Creates Organization
 Route::get('/orgpresent','OrganizationsController@domainPresent');// Assigns to that Organization
+
+// Complaint Box
 Route::post('/query','ComplaintController@issueFaced');
 
 //user info
@@ -99,7 +101,7 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
             
             #$emp_details = App\User::where('email',$emp_email)->first();
             $emp_details = App\User::where(['email' => $emp_email, 'is_active' => true])->first();
-            
+
             if(count($emp_details) > 0){
                 $logo = App\Organization::find($org_id[0]->org_id)->get();
                 $logo = $logo[0]->domain;
