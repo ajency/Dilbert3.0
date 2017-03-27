@@ -165,12 +165,14 @@ class HomeController extends Controller
         if(auth()->user()->can('edit-users') && auth()->user()->id != $user_id) {
             /* If user is authorized to delete & if he is not deleting his account*/
             $userName = User::where('id',$user_id)->first()->name;
-            User::where('id',$user_id)->delete();
+            //User::where('id',$user_id)->delete();
+            User::where('id',$user_id)->update(['is_active' => false]);
             //return response()->json(['status' => 'Success']);
             return back()->with(['status' => 'success', 'user' => $userName]);
         } else if(auth()->user()->can('edit-users') && ($count > 1 && auth()->user()->id == $user_id)) {
             /* If user is authorized to delete & if he is deleting his account but no of admin/super-admin/owner is > 1 then*/
-            User::where('id',$user_id)->delete();
+            //User::where('id',$user_id)->delete();
+            User::where('id',$user_id)->update(['is_active' => false]);
             auth()->logout();// logout of session
             return redirect('/login');//return response()->json(['status' => 'Success']);
         } else if(auth()->user()->can('edit-users') && auth()->user()->id == $user_id) { /* Only one admin */

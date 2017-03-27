@@ -417,7 +417,7 @@ class LockedDataController extends Controller
 			        else if(empty($request->end_date))
 			        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();*/
 			        else {
-			        	$users = User::orderBy('name')->get();
+			        	$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get user's that are active
 
 			        	foreach ($users as $key => $user) {
 				        	$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
