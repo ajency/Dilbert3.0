@@ -12,21 +12,19 @@ var sticky = require('sticky-session');
 /* Redis Buffer system packages */
 var redis = require('redis');
 
-var laravel_server = "http://localhost:80"; // Live & test server
-//var laravel_server = "http://localhost:8000"; // Localhost
+//var laravel_server = "http://localhost:80"; // Live & test server
+var laravel_server = "http://localhost:8000"; // Localhost
 
 //var redisClient = redis.createClient();// for subscribing to redis connection & listen to broadcast -> avoids redis queue
 //var pub = redis.createClient(); // create client publish connection -> for redis buffer storage
 
-var connections = []; // new Map();
+//var connections = []; // new Map();
 var connectionCounter = 0;
 wss.on('connection', function connection(ws) {
   var IP_address = ws._socket.remoteAddress;
-  connections[connectionCounter++] = ws;
+  //connections[connectionCounter++] = ws;
+  connectionCounter++; // Get the users connected to the Socket server
   ws.on('message', function incoming(data) {
-    console.log('received: %s', data);
-    console.log(ws.upgradeReq.headers['sec-websocket-key']);
-    console.log(IP_address);
     if(data.user_id != -1) {
       // client data on state change
       var user = JSON.stringify({
@@ -56,10 +54,10 @@ wss.on('connection', function connection(ws) {
       });
     }
         
-      /*pub.rpush('test-channels', user, function(err, reply) { // Push data to the queue
+      pub.rpush('test-channels', user, function(err, reply) { // Push data to the queue
         //console.log("Reply of set ");
         //console.log(reply);
-      });*/
+      });
 
     request(laravel_server + "/api/fire", function (error, response, body) { // load that page for event call
       if (!error && response.statusCode == 200) {
@@ -77,6 +75,7 @@ wss.on('connection', function connection(ws) {
   });
 
   ws.on('close', function(data){
+    connectionCounter--; // users left connected to the server
     var t = new Date(); // for now -> get current time
     if(t.getHours() < 10)
         var hr = '0' + t.getHours().toString();
@@ -100,10 +99,10 @@ wss.on('connection', function connection(ws) {
       'socket_id': ws.upgradeReq.headers['sec-websocket-key'],//connections.indexOf(ws),
     });
 
-    /*pub.rpush('test-channels', user, function(err, reply) { // Push data to the queue
+    pub.rpush('test-channels', user, function(err, reply) { // Push data to the queue
       //console.log("Reply of set ");
       //console.log(reply);
-    });*/
+    });
 
     request(laravel_server + "/api/fire", function (error, response, body) { // load that page for event call
       if (!error && response.statusCode == 200) {
@@ -125,17 +124,6 @@ wss.on('connection', function connection(ws) {
     //redisClient.quit();
   });
 });
-
-
-
-/*ws.on('open', function open() {
-  ws.send('something');
-});
-
-ws.on('message', function incoming(data, flags) {
-  // flags.binary will be set if a binary data is received.
-  // flags.masked will be set if the data was masked.
-});*/
 
 server.listen(3000, function(){
     console.log('Listening on Port 3000');
