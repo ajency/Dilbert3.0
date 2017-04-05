@@ -12,11 +12,11 @@ var sticky = require('sticky-session');
 /* Redis Buffer system packages */
 var redis = require('redis');
 
-//var laravel_server = "http://localhost:80"; // Live & test server
-var laravel_server = "http://localhost:8000"; // Localhost
+var laravel_server = "http://localhost:80"; // Live & test server
+//var laravel_server = "http://localhost:8000"; // Localhost
 
-//var redisClient = redis.createClient();// for subscribing to redis connection & listen to broadcast -> avoids redis queue
-//var pub = redis.createClient(); // create client publish connection -> for redis buffer storage
+var redisClient = redis.createClient();// for subscribing to redis connection & listen to broadcast -> avoids redis queue
+var pub = redis.createClient(); // create client publish connection -> for redis buffer storage
 
 //var connections = []; // new Map();
 var connectionCounter = 0;
