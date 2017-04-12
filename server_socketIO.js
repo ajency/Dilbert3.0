@@ -2,6 +2,7 @@ var app = require('express')();
 var server = require('http').Server(app);
 var request = require('request');
 var io = require('socket.io')(server); // Websocket Package
+require('heapdump');
 
 /* Sticky session balancer based on a cluster module */
 var cluster = require('cluster'); // Only required if you want the worker id
@@ -15,8 +16,37 @@ var sticky = require('sticky-session');
 var redis = new Redis();*/
 var redis = require('redis');
 
-var laravel_server = "http://localhost:80";
-//var laravel_server = "http://localhost:8000";
+//var laravel_server = "http://localhost:80";
+var laravel_server = "http://localhost:8000";
+
+function display_memoryUsage() {
+  try {
+    if(global.gc) {
+      global.gc();
+      console.log('Manual gc', process.memoryUsage());
+    } else {
+      console.log("You must run program with 'node --expose-gc index.js' or 'npm start'");
+      //process.exit();
+    }
+  } catch (e) {
+    console.log("You must run program with 'node --expose-gc index.js' or 'npm start'");
+    process.exit();
+  }
+}
+
+app.get('/clear', function(req, res) {
+  if(global.gc) {
+    global.gc();
+    console.log('Before');
+    display_memoryUsage();
+    process.kill(process.pid, 'SIGUSR2');
+    console.log('After');
+    display_memoryUsage();
+    res.status(200).json({'message':'success'});
+  } else {
+    res.status(400).json({'message':'failed'});
+  }
+});
 
 if (!sticky.listen(server, 3000)) {
   // Master code
@@ -27,6 +57,7 @@ if (!sticky.listen(server, 3000)) {
   });*/
   server.once('listening', function() {
     console.log('Listening on Port 3000');
+    display_memoryUsage();
   });
 } else {
   // Worker Code
@@ -34,7 +65,8 @@ if (!sticky.listen(server, 3000)) {
 
   io.on('connection', function (socket) {
     console.log("Users connected " + Object.keys(io.sockets.connected).length.toString());
-    
+    display_memoryUsage();
+
     var IP_address = socket.handshake.address;
     var idx = IP_address.lastIndexOf(':');
     
@@ -87,12 +119,18 @@ if (!sticky.listen(server, 3000)) {
       request(options, function (error, response, body) { // load that page
         if (!error && response.statusCode == 200) {
             console.log("fire");
-         } else {
+        } else {
           if (response) {
             console.log("not fired " + response.statusCode.toString());
           }
           console.log("not fired " + error );//+ response.statusCode.toString());
-         }
+        }
+        if (!global.gc) {
+          console.log('Garbage collection is not exposed');
+        } else {
+          global.gc();
+        }
+        console.log('Manual gc', process.memoryUsage());
       });
     });
 
@@ -135,6 +173,8 @@ if (!sticky.listen(server, 3000)) {
    
     socket.on('disconnect', function() { // when client closes the chrome app
       console.log("Connected users left " + Object.keys(io.sockets.connected).length.toString());
+      display_memoryUsage();
+
       var t = new Date(); // for now -> get current time
       if(t.getHours() < 10)
           var hr = '0' + t.getHours().toString();
