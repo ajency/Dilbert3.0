@@ -16,8 +16,8 @@ var sticky = require('sticky-session');
 var redis = new Redis();*/
 var redis = require('redis');
 
-//var laravel_server = "http://localhost:80";
-var laravel_server = "http://localhost:8000";
+var laravel_server = "http://localhost:80";
+//var laravel_server = "http://localhost:8000";
 
 function display_memoryUsage() {
   try {
