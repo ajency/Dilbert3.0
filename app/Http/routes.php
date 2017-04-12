@@ -245,14 +245,19 @@ Route::group(['prefix' => 'api'], function () {
     });
     
     Route::get('/data/save','LockedDataController@save'); // generate summary of logs & save in locked_data
+    
+    // for both app & website
     Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
     //Route::get('/data/users/{emp_id}','LockedDataController@other_users_log_summary'); // get other employee's log summary
     
+    // For the Website - Angular2x
     Route::get('/data/username','SocialAuthController@getName'); // Get Name w.r.t that Email ID
     Route::get('/data/users','LockedDataController@other_users_log_summary'); // get other employee's log summary
     Route::get('/data/employees','LockedDataController@employees_log_summary'); // get all the employees log summary
     
     Route::get('/data/role','RolePermissionController@role'); // Create new set of roles for the first time
+    Route::get('/update/data/user','LogHistoryController@update_user_log_summary'); // MOdficiation or update of the  User Log
+    //Route::post('/update/data/user','LogHistoryController@update_user_log_summary'); // MOdficiation or update of the  User Log
 });
 
 Route::get('/trial','LogsController@trial');
