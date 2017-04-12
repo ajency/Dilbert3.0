@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class LogHistoryController extends Controller
 {
-    public function save_log_history($details) {
+    public function save_log_history($details) { // Update all the changes on LogHistory table
     	$newLogHistory = new LogHistory;
 		$newLogHistory->user_id = $details['user_id']; // User's Id whose data is modified
 		$newLogHistory->modified_by = $details['modified_by']; // User's Id who is modifying the data
@@ -39,9 +39,7 @@ class LogHistoryController extends Controller
     public function update_user_log_summary(Request $request) { // Update the Modifications on User logs/Locked_data
     	$output = new ConsoleOutput();
 
-    	$old_value = '';
-    	$new_value = '';
-    	if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header
+    	if($request->exists('user_email') && !empty($request->user_email) && $request->header('X-API-KEY')!= null && $request->exists('emp_email')  && $request->exists('work_date')  && $request->exists('start_time')  && $request->exists('end_time') ) { // if api key is present in Header & all the params are filled
         	$user_cnt = User::where(['email' => $request->user_email, 'api_token' => $request->header('X-API-KEY')])->count();
         	//$user_cnt = User::where('id', $request->user_id)->count();
         	if($user_cnt > 0) {
@@ -51,7 +49,7 @@ class LogHistoryController extends Controller
 
 	        		$details = array('user_id' => $emp_details->id, 'modified_by' => $user->id, 'table_modified' => 'Locked_Data');
 
-	        		$user_update = Locked_Data::where(['user_id' => $emp_details->id, 'work_date' => $request->work_date])->get();
+	        		$user_update = Locked_Data::where(['user_id' => $emp_details->id, 'work_date' => $request->work_date])->first();
 	        		
 	        		if($user_update->start_time != date("Y-m-d H:i:s",strtotime($request->work_date.' '.$request->start_time))){ // If the Start_time in DB is different from that from the $request, then update the start_time
 	        			$details['column_modified'] = 'start_time';
@@ -70,7 +68,7 @@ class LogHistoryController extends Controller
 	        		}
 
 	        		if($user_update->end_time != null) // If end_time is not NULL, the User is offline
-	        			$user_update->total_time = (new LockedDataController)->getTimeDifference($user_update->start_time, $user_update->end_time)));
+	        			$user_update->total_time = (new LockedDataController)->getTimeDifference($user_update->start_time, $user_update->end_time);
 					else // else end_time is NULL, the User is online
 						$user_update->total_time = null;
 	        		$user_update->update();
