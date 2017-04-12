@@ -16,7 +16,7 @@ class CreateLogHistoriesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('modified_by');
-            $table->date('modified_on');
+            $table->dateTime('modified_on');
             $table->string('table_modified');
             $table->string('column_modified');
             $table->string('old_value');
