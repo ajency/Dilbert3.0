@@ -8,7 +8,7 @@ import { AppUtilService } from '../providers/app-util.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  userData: any[] = [];
+  userData: any[];
   todaysData: any;
   oldData: any[] = [];
   yesterdaysData: any;

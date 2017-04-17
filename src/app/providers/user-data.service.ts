@@ -9,8 +9,8 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/throw';
 import { AppUtilService } from '../providers/app-util.service';
 
-//const apiURL = 'http://dilbertapp.ajency.in/api/data';
-const apiURL = 'http://dilbert.ajency.in/api/data';
+const apiURL = 'http://dilbertapp.ajency.in/api/data';
+//const apiURL = 'http://dilbert.ajency.in/api/data';
 @Injectable()
 export class UserDataService {
   headers: any;

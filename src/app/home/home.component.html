@@ -6,7 +6,8 @@
                 <h1 class="dashboard-title">Ajency.in Work Summary</h1>
                 <h4 class="sub-title dash">Track Time. Record Work. Boost Productivity.</h4>
             </div>
-
+            <!-- Popup to modify the Log content of specific user -->
+            <app-popup></app-popup>
             <div class="company-summary card">
                 <div class="card-header">
                     <div class="pull-left">
@@ -88,69 +89,73 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngIf="userData.length == 0" > 
-                                        <td colspan="3" class="noData"> No data to display</td>       
-                                    </tr>
-                                    <tr class="" *ngFor="let item of userData">
-                                        <td class="employee-id">
-                                            <a href="/dashboard/{{item.email}}" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
-                                                <!-- <span class="th-day small-title">&nbsp;</span> -->
-                                                <span class="th-total">{{item.name}}</span>
-                                                <!-- <span class="th-spilt">
-                                                    <span class="th-work">9:45</span> -
-                                                    <span class="th-break">19:15</span>
-                                                </span> -->
-                                            </a>
-                                        </td>
-                                        <ng-container *ngIf="item.summary.length == 0">
-                                            <td [colSpan]="7" class="noData">
-                                                <span class="th-total">No Data Acquired</span>
-                                            </td>
-                                        </ng-container>
-                                        <ng-container *ngIf="item.summary.length != 0">
-                                            <td *ngFor="let workday of item.summary.data">
-                                                <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                    <!-- <span class="th-day small-title">Oct 10</span> -->
-                                                    <div *ngIf="workday.status === null || (workday.status && workday.status.toLowerCase() === 'present')">
-                                                        <span class="th-total">{{workday.total_time != null ? workday.total_time : "n/a" }}</span>
-                                                        <span class="th-spilt">
-                                                            <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
-                                                            <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
-                                                        </span>
-                                                    </div>
-                                                    <div *ngIf="!(workday.status === null || (workday.status && workday.status.toLowerCase() === 'present'))">
-                                                        <span class="th-total">{{workday.status}}</span>
-                                                        <span class="th-spilt">
-                                                            <span class="th-work"></span> - <span class="th-break"></span>
-                                                        </span>
-                                                    </div>
-                                                </a>
-                                            </td>
-                                            <!--<td *ngFor="let workday of item.emptySpaces">
-                                            </td>-->
-                                            <td [colSpan]="6 - item.summary.data.length" *ngIf="item.summary.data.length !== 6"></td>
-                                            <td class="sunday">
-                                                <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                    <span class="th-day small-title">Oct 10</span>
-                                                    <span class="th-total">9:30</span>
-                                                    <span class="th-spilt">
+                                    <ng-container *ngIf="userData && userData.length != 0">
+                                        <tr class="" *ngFor="let item of userData">
+                                            <td class="employee-id">
+                                                <a href="/dashboard/{{item.email}}" class="employee-name" data-toggle="tooltip" data-html="true" data-placement="bottom" title="More details of this employee">
+                                                    <!-- <span class="th-day small-title">&nbsp;</span> -->
+                                                    <span class="th-total">{{item.name}}</span>
+                                                    <!-- <span class="th-spilt">
                                                         <span class="th-work">9:45</span> -
                                                         <span class="th-break">19:15</span>
-                                                    </span>
-                                                </a> -->
+                                                    </span> -->
+                                                </a>
                                             </td>
-                                        </ng-container>
-                                        <td>
-                                            <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
-                                                <!-- <span class="th-day visi-hide">Week's Total</span> -->
-                                                <span class="th-total">{{item.total_time}}</span>
-                                                <span class="th-spilt">
-                                                    <span class="th-work">39:13</span> -
-                                                    <span class="th-break">6:13</span>
-                                                </span>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            <ng-container *ngIf="item.summary.length == 0">
+                                                <td [colSpan]="7" class="noData">
+                                                    <span class="th-total">No Data Acquired</span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container *ngIf="item.summary.length != 0">
+                                                <td *ngFor="let workday of item.summary.data">
+                                                    <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                        <!-- <span class="th-day small-title">Oct 10</span> -->
+                                                        <div *ngIf="workday.status === null || (workday.status && workday.status.toLowerCase() === 'present')">
+                                                            <span class="th-total">{{workday.total_time != null ? workday.total_time : "n/a" }}</span>
+                                                            <span class="th-spilt">
+                                                                <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
+                                                                <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div *ngIf="!(workday.status === null || (workday.status && workday.status.toLowerCase() === 'present'))">
+                                                            <span class="th-total">{{workday.status}}</span>
+                                                            <span class="th-spilt">
+                                                                <span class="th-work"></span> - <span class="th-break"></span>
+                                                            </span>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                <!--<td *ngFor="let workday of item.emptySpaces">
+                                                </td>-->
+                                                <td [colSpan]="6 - item.summary.data.length" *ngIf="item.summary.data.length !== 6"></td>
+                                                <td class="sunday">
+                                                    <!-- <a href="#" class="single-day" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                        <span class="th-day small-title">Oct 10</span>
+                                                        <span class="th-total">9:30</span>
+                                                        <span class="th-spilt">
+                                                            <span class="th-work">9:45</span> -
+                                                            <span class="th-break">19:15</span>
+                                                        </span>
+                                                    </a> -->
+                                                </td>
+                                            </ng-container>
+                                            <td>
+                                                <a href="#" class="single-day total current" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Tooltip">
+                                                    <!-- <span class="th-day visi-hide">Week's Total</span> -->
+                                                    <span class="th-total">{{item.total_time}}</span>
+                                                    <span class="th-spilt">
+                                                        <span class="th-work">39:13</span> -
+                                                        <span class="th-break">6:13</span>
+                                                    </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="userData && userData.length == 0">
+                                        <tr>
+                                            <td colspan="9" class="noData">No data to display</td>       
+                                        </tr>
+                                    </ng-container>
                                 </tbody>
                             </table>
                         </div>
@@ -200,4 +205,4 @@
     </div>
 </div>
 
-<div class="fixed-bottom-color"></div>
+<!--<div class="fixed-bottom-color"></div>-->

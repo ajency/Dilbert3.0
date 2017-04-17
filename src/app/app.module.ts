@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { UserDataService } from './providers/user-data.service';
 import { AppUtilService } from './providers/app-util.service';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
