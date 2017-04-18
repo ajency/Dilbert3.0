@@ -5,6 +5,8 @@ namespace App\Events;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 use App\User;
 use App\Organization;
@@ -31,7 +33,8 @@ class EventChrome extends Event implements ShouldBroadcast {
         // $output = new ConsoleOutput();
 
         // $output->writeln("Socket id - Event Chrome");
-        
+
+        File::append($_SERVER['OUTPUT_FILE_PATH'], json_encode($redis_list)."\n");
         if(isset($redis_list->auth) && isset($redis_list->socket_id)){ // unauthorized data entry
             //$output->writeln("Invalid Authentication");
             $this->data = array(

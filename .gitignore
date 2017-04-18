@@ -10,3 +10,4 @@ Homestead.json
 *.sublime-workspace
 .vscode
 .DS_Store
+/log
