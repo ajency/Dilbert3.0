@@ -34,7 +34,7 @@ class EventChrome extends Event implements ShouldBroadcast {
 
         // $output->writeln("Socket id - Event Chrome");
 
-        File::append($_SERVER['OUTPUT_FILE_PATH'], json_encode($redis_list)."\n");
+        //File::append($_SERVER['OUTPUT_FILE_PATH'], json_encode($redis_list)."\n");
         if(isset($redis_list->auth) && isset($redis_list->socket_id)){ // unauthorized data entry
             //$output->writeln("Invalid Authentication");
             $this->data = array(
