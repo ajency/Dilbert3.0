@@ -139,18 +139,18 @@ class HomeController extends Controller
             /* If user is authorized to edit & ((if he is not editing his permission) or(if he is editing his permissions but no of admin/super-admin/owner is > 1)) then*/
             $old_role = Role::where('name',$user->role)->first();//delete the old role
             $new_role = Role::where('name',$request->role)->first();// create new role
-
+            
             //$user->roles()->sync($new_role->id); // id only
             $user->roles()->detach($old_role->id); /* Delete that user's old role */
             $user->roles()->attach($new_role->id); /* Assign new role to that user */
-
-            User::where(['email',$user_email, 'is_active' => true])->update(['role' => $request->role]);
-
-            return response()->json(['status' => 'Success']);
+            
+            User::where(['email' => $user_email, 'is_active' => true])->update(['role' => $request->role]);
+            
+            return response()->json(['status' => 'Success'], 200);
         } else if(auth()->user()->can('edit-users') && auth()->user()->email === $user_email) { /* Only one admin */
-            return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin']);
+            return response()->json(['status' => 'Invalid', 'msg' => 'Only 1 Admin'], 403);
         } else { /* User doesn't have permission to edit anyone's roles & permissions */
-            return response()->json(['status' => 'Error', 'msg' => 'Permission Denied']);
+            return response()->json(['status' => 'Error', 'msg' => 'Permission Denied'], 401);
         }
     }
 
