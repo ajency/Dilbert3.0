@@ -58,7 +58,7 @@ Route::post('/query','ComplaintController@issueFaced');
 Route::get('/user','HomeController@profile');
 Route::patch('/user/edit','HomeController@newprof');
 Route::get('/employees','HomeController@viewEmployees');
-Route::post('/employees/update/{user_id}','HomeController@changeRoles');
+Route::post('/employees/update/{user_email}','HomeController@changeRoles');
 Route::get('/employees/delete/{user_id}','HomeController@deleteUsers');
 
 // view different organizations

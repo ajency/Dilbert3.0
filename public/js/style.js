@@ -67,7 +67,7 @@ function confirmDelEmp(index) {
 	var table = document.getElementById("tableEmployee");
 	var pos = $(index).closest('tr').index();
 
-	var confirmation = confirm("Are you sure you really want to delete this employee named '" + $(table.rows.item(pos + 1).cells[0]).text() + "'? Deleting this employee's details will delete all the data associated with it. This move cannot be reversed.");
+	var confirmation = confirm("Are you sure you really want to delete this employee named '" + $(table.rows.item(pos + 1).cells[1]).text().replace(/\n/g, "") + "'? Deleting this employee's details will delete all the data associated with it. This move cannot be reversed.");
 	if(confirmation == true){
 		/*var validation = prompt("Please confirm your decision by entering the name of the employee. ");
 		
