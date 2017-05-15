@@ -113,8 +113,8 @@
                                                         <div *ngIf="workday.status === null || (workday.status && workday.status.toLowerCase() === 'present')">
                                                             <span class="th-total">{{workday.total_time != null ? workday.total_time : "n/a" }}</span>
                                                             <span class="th-spilt">
-                                                                <span class="th-work">{{workday.start_time | date:'hh:mm'}}</span> -
-                                                                <span class="th-break">{{workday.end_time | date:'hh:mm'}}</span>
+                                                                <span class="th-work">{{workday.start_time | date:'HH:mm'}}</span> -
+                                                                <span class="th-break">{{workday.end_time | date:'HH:mm'}}</span>
                                                             </span>
                                                         </div>
                                                         <div *ngIf="!(workday.status === null || (workday.status && workday.status.toLowerCase() === 'present'))">
@@ -144,8 +144,9 @@
                                                     <!-- <span class="th-day visi-hide">Week's Total</span> -->
                                                     <span class="th-total">{{item.total_time}}</span>
                                                     <span class="th-spilt">
-                                                        <span class="th-work">39:13</span> -
-                                                        <span class="th-break">6:13</span>
+                                                        <span class="th-break"></span>
+                                                        <!--<span class="th-work">39:13</span> -
+                                                        <span class="th-break">6:13</span>-->
                                                     </span>
                                                 </a>
                                             </td>
