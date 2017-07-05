@@ -88,6 +88,12 @@ class EventChrome extends Event implements ShouldBroadcast {
                 $x = strtotime($sign . $hr . " hour " . $sign . $min . " min", strtotime(date('Y-m-d H:i:s'))); 
                 $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
 
+                // $startTimeRestriction = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime("04:00:00")) // Restrict the Start Time from 09:30 AM IST
+                
+                if (strtotime($timeZone) < strtotime("09:30:00")) { // If the time is less than 09:30 AM, then set the time to 09:30 AM
+                    $timeZone = date("H:i", strtotime("09:30:00"));
+                }
+
                 //$output->writeln("User count");
                 //$output->writeln(count($user));
 
@@ -222,6 +228,10 @@ class EventChrome extends Event implements ShouldBroadcast {
                 /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
                 $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s'))); 
                 $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
+
+                if (strtotime($timeZone) < strtotime("09:30:00")) { // If the time is less than 09:30 AM, then set the time to 09:30 AM
+                    $timeZone = date("H:i", strtotime("09:30:00"));
+                }
 
                 User::where('id', $user_id)->update(['socket_id' => '']); /* Clear Socket ID */
 
