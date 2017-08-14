@@ -19,6 +19,9 @@ use Request;
 use Redis;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+// use Mail;
+use Illuminate\Support\Facades\Mail;
+
 class EventChrome extends Event implements ShouldBroadcast {
     use SerializesModels;
 
@@ -30,7 +33,7 @@ class EventChrome extends Event implements ShouldBroadcast {
      */
     public function __construct($redis_list) {
 
-        // $output = new ConsoleOutput();
+        $output = new ConsoleOutput();
 
         // $output->writeln("Socket id - Event Chrome");
 
@@ -131,19 +134,21 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                             /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
                             if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
-
                                 //check if the time is past 11am
-                                if(date("H") >= 11 & date("i") > 0) {
-                                  //if past 11am send a mail
-                                  $data = array(date("H:i:s"));
-                                	Mail::send('lateMail', $data, function($message)
-                                	{
-                                    $message->from('dilbert@ajency.in');
-                                    $message->to('sharang@ajency.in');
-                                    $message->cc('sujit@ajency.in');
-                                    $message->subject('Late Login');
+                                $hours = date("H",strtotime($log->work_date.' '.$log->cos));
+                                $minutes = date("i",strtotime($log->work_date.' '.$log->cos));
+
+                                if($hours >= 11 & $minutes > 0) {
+                                  // if past 11am send a mail
+                                  $u = User::where('id',$log->user_id)->get()->first();
+                                  $firstName = explode(" ",$u->name);
+
+                                	Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
+                                    $message->from('dilbert@ajency.in','Dilbert');
+                                    $message->to('sharang@ajency.in')->cc(['sujit@ajency.in','sharangsamonkar@gmail.com'])/*->cc(['anuj@ajency.in','tanvi@ajency.in'])*/->subject('Late login - '.$u->name);
                                 	});
                                 }
+                                $output->writeln("Mail Sent");
 
                                 $locking_today_data = new Locked_Data;
                                 $locking_today_data->user_id = $log->user_id;
@@ -151,6 +156,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $locking_today_data->start_time = date("Y-m-d H:i:s",strtotime($log->work_date.' '.$log->cos));
                                 $locking_today_data->status = "Present"; // mark the status as Present
                                 $locking_today_data->save();
+                                $output->writeln("Saved Data\n");
                             }
 
                             if($redis_list->to_state == "New Session" || $redis_list->to_state == "active") { // If it is a New Session or Active Session
