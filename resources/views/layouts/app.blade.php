@@ -142,6 +142,7 @@
                                     @elseif(Auth::user()->role == "moderator")
                                         <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                                     @endif
+                                    <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li>
                                     <li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
                                     <!-- Tuckshop -->
                                     <!-- <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li> -->
