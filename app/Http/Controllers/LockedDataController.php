@@ -541,6 +541,7 @@ class LockedDataController extends Controller
 
 		public function allEmployeesMonthlyData(Request $request) {
 			try {
+				header('content-type: application/json');
 				if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
 					$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
 					if($user_cnt > 0) {
@@ -599,7 +600,7 @@ class LockedDataController extends Controller
 								$empData[$c]['data'] = $data;
 								$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
 							}
-							return response()->json_encode($empData);
+							return response()->json($empData);
 						}
 						else {
 							return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
