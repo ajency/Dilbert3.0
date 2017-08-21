@@ -549,7 +549,6 @@ class LockedDataController extends Controller
 						$year = $request->year;
 						$startDate = date($year."-".$month."-1");
 						$startDate = new \DateTime($startDate);	//converting them to date object
-						$output->writeln($startDate->format('Y-m-d'));
 						$endDate = date($year."-".$month."-".cal_days_in_month(CAL_GREGORIAN,$month,$year));
 						$endDate = new \DateTime($endDate);
 						$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get user's that are active
@@ -574,7 +573,6 @@ class LockedDataController extends Controller
 
 							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
 								$dc++;
-								$output->writeln('week');
 								$data[$dc]['week'] = $weekNo;
 								$data[$dc]['weekStart'] = $weekStart->format('Y-m-d');
 								$data[$dc]['weekEnd'] = $weekEnd->format('Y-m-d');
@@ -598,7 +596,7 @@ class LockedDataController extends Controller
 									$weekEnd = $endDate;
 							}
 							$empData[$c]['data'] = $data;
-							$empData[$c]['monthTotal'] = $monthTotal;
+							$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
 						}
 						return response()->json($empData);
 					}
