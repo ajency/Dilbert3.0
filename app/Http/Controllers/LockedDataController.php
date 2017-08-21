@@ -540,77 +540,81 @@ class LockedDataController extends Controller
     }
 
 		public function allEmployeesMonthlyData(Request $request) {
-			if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
-				$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
-				if($user_cnt > 0) {
-					$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
-        	if ($user->can('edit-personal')) {// verifies if user has permission
-						$month = $request->month;
-						$year = $request->year;
-						$startDate = date($year."-".$month."-1");
-						$startDate = new \DateTime($startDate);	//converting them to date object
-						$endDate = date($year."-".$month."-".cal_days_in_month(CAL_GREGORIAN,$month,$year));
-						$endDate = new \DateTime($endDate);
-						$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get user's that are active
-						$empData = [];
-						$c = -1;
-						foreach($users as $key => $user) {
-							$c++;
-							$empData[$c]['name'] = $user->name;
-							$empData[$c]['email'] = $user->email;
-							//getting the month data
-							$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
-							//week wise data of the employee
-							$data = [];
-							$weekTotal = 0;
-							$monthTotal = 0;
-							$dc = -1;
-							//set the initial weekStart and weekEnd;
-							$weekStart = $startDate;
-							$weekNo = (int)$weekStart->format('W');
-							$weekEnd = new \DateTime();
-							$weekEnd = $weekEnd->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
-
-							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
-								$dc++;
-								$data[$dc]['week'] = $weekNo;
-								$data[$dc]['weekStart'] = $weekStart->format('Y-m-d');
-								$data[$dc]['weekEnd'] = $weekEnd->format('Y-m-d');
-								foreach($datas as $d) {
-									$workDate = new \DateTime($d['work_date']);
-									if($workDate >= $weekStart && $workDate <= $weekEnd) {
-										//add the hours to week and month total
-										$time = explode(':',$d['total_time']);
-										$weekTotal = $weekTotal + (int)$time[0]*60 + (int)$time[1];
-									}
-								}
-								//convert the week total minutes to hours
-								$data[$dc]['weekTotal'] = floor($weekTotal/60).":".$weekTotal%60;
-								$monthTotal = $monthTotal + $weekTotal;
-								$weekNo++;
-								$weekStart = $weekStart->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
-								$weekStart->modify('+1 days');
-								$weekEnd->modify('+7 days');
+			try {
+				if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+					$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
+					if($user_cnt > 0) {
+						$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
+	        	if ($user->can('edit-personal')) {// verifies if user has permission
+							$month = $request->month;
+							$year = $request->year;
+							$startDate = date($year."-".$month."-1");
+							$startDate = new \DateTime($startDate);	//converting them to date object
+							$endDate = date($year."-".$month."-".cal_days_in_month(CAL_GREGORIAN,$month,$year));
+							$endDate = new \DateTime($endDate);
+							$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get user's that are active
+							$empData = [];
+							$c = -1;
+							foreach($users as $key => $user) {
+								$c++;
+								$empData[$c]['name'] = $user->name;
+								$empData[$c]['email'] = $user->email;
+								//getting the month data
+								$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
+								//week wise data of the employee
+								$data = [];
 								$weekTotal = 0;
-								if((int)$weekEnd->format('m') != (int)$month)
-									$weekEnd = $endDate;
+								$monthTotal = 0;
+								$dc = -1;
+								//set the initial weekStart and weekEnd;
+								$weekStart = $startDate;
+								$weekNo = (int)$weekStart->format('W');
+								$weekEnd = new \DateTime();
+								$weekEnd = $weekEnd->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
+
+								while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
+									$dc++;
+									$data[$dc]['week'] = $weekNo;
+									$data[$dc]['weekStart'] = $weekStart->format('Y-m-d');
+									$data[$dc]['weekEnd'] = $weekEnd->format('Y-m-d');
+									foreach($datas as $d) {
+										$workDate = new \DateTime($d['work_date']);
+										if($workDate >= $weekStart && $workDate <= $weekEnd) {
+											//add the hours to week and month total
+											$time = explode(':',$d['total_time']);
+											$weekTotal = $weekTotal + (int)$time[0]*60 + (int)$time[1];
+										}
+									}
+									//convert the week total minutes to hours
+									$data[$dc]['weekTotal'] = floor($weekTotal/60).":".$weekTotal%60;
+									$monthTotal = $monthTotal + $weekTotal;
+									$weekNo++;
+									$weekStart = $weekStart->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
+									$weekStart->modify('+1 days');
+									$weekEnd->modify('+7 days');
+									$weekTotal = 0;
+									if((int)$weekEnd->format('m') != (int)$month)
+										$weekEnd = $endDate;
+								}
+								$empData[$c]['data'] = $data;
+								$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
 							}
-							$empData[$c]['data'] = $data;
-							$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
+							return response()->json($empData);
 						}
-						return response()->json($empData);
+						else {
+							return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
+						}
 					}
 					else {
-						return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
+						return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 					}
-				}
-				else {
-					return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
-				}
-			} else {
-					//$output->writeln("In else");
-	    		return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
-	    }
-
+				} else {
+						//$output->writeln("In else");
+		    		return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
+		    }
+			}
+			catch(Exception $e) {
+				return response()->json(['status' => 'Error','msg' => $e->getMessage()]);
+			}
 		}
 }
