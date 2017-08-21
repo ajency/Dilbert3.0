@@ -545,42 +545,17 @@ class LockedDataController extends Controller
 				if($user_cnt > 0) {
 					$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
         	if ($user->can('edit-personal')) {// verifies if user has permission
-
 						$month = $request->month;
 						$year = $request->year;
 						$startDate = date($year."-".$month."-1");
-						$startDate = new DateTime($startDate);	//converting them to date object
+						$startDate = new \DateTime($startDate);	//converting them to date object
+						$output->writeln($startDate->format('Y-m-d'));
 						$endDate = date($year."-".$month."-".cal_days_in_month(CAL_GREGORIAN,$month,$year));
-						$endDate = new DateTime($endDate);
-						// $startDate = new DateTime($startDate);
-						// $endDate = new DateTime($endDate);
-						// $startWeekNo = (int)$startDate->format("W");
-						// $endWeekNo = (int)$endDate->format("W");
-						//acquire the entire months data from the database
-						// $datas = Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('user_id', 'ASC')->orderBy('work_date', 'ASC')->get();
+						$endDate = new \DateTime($endDate);
 						$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get user's that are active
 						$empData = [];
 						$c = -1;
 						foreach($users as $key => $user) {
-
-							// for($wn = $startWeekNo;$wn <= $endWeekNo;$wn++) {
-							// 	//get the start and end date for that week
-							// 	if($wn == $startWeekNo)
-							// 		$sd = $startDate->format('Y-m-d');
-							// 	else {
-							// 		$sd = new DateTime();
-							// 		$sd = $sd->setISODate($year,$wn)->format('Y-m-d');
-							// 	}
-							// 	if($wn == $endWeekNo)
-							// 		$ed = $endDate->format('Y-m-d');
-							// 	else {
-							// 		$ed = new DateTime();
-							// 		$ed = $ed->setISODate($year,$month);
-							// 		$ed = $ed->modify('+6 days')->format('Y-m-d');
-							// 	}
-							// 	$data = [];
-							// 	$locked_logs
-							// }
 							$c++;
 							$empData[$c]['name'] = $user->name;
 							$empData[$c]['email'] = $user->email;
@@ -594,28 +569,32 @@ class LockedDataController extends Controller
 							//set the initial weekStart and weekEnd;
 							$weekStart = $startDate;
 							$weekNo = (int)$weekStart->format('W');
-							$weekEnd = new DateTime();
+							$weekEnd = new \DateTime();
 							$weekEnd = $weekEnd->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
 
 							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
+								$dc++;
+								$output->writeln('week');
 								$data[$dc]['week'] = $weekNo;
-								$data[$dc]['weekStart'] = $weekStart;
-								$data[$dc]['weekEnd'] = $weekEnd;
+								$data[$dc]['weekStart'] = $weekStart->format('Y-m-d');
+								$data[$dc]['weekEnd'] = $weekEnd->format('Y-m-d');
 								foreach($datas as $d) {
-									$workDate = new DateTime($d['work_date']);
+									$workDate = new \DateTime($d['work_date']);
 									if($workDate >= $weekStart && $workDate <= $weekEnd) {
 										//add the hours to week and month total
 										$time = explode(':',$d['total_time']);
 										$weekTotal = $weekTotal + (int)$time[0]*60 + (int)$time[1];
 									}
 								}
+								//convert the week total minutes to hours
+								$data[$dc]['weekTotal'] = floor($weekTotal/60).":".$weekTotal%60;
 								$monthTotal = $monthTotal + $weekTotal;
 								$weekNo++;
-								$weekStart = $weekEnd;
+								$weekStart = $weekStart->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
 								$weekStart->modify('+1 days');
 								$weekEnd->modify('+7 days');
 								$weekTotal = 0;
-								if((int)$weekEnd->format('m') != (int)$month))
+								if((int)$weekEnd->format('m') != (int)$month)
 									$weekEnd = $endDate;
 							}
 							$empData[$c]['data'] = $data;
