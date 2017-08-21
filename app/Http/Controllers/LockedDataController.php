@@ -599,7 +599,7 @@ class LockedDataController extends Controller
 								$empData[$c]['data'] = $data;
 								$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
 							}
-							return response()->json($empData);
+							return response()->json_encode($empData);
 						}
 						else {
 							return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
