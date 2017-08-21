@@ -31,7 +31,7 @@ class LockedDataController extends Controller
 
 		if($lastDate === null) {// Data is entered for the 1st time in Table
 			$user_ids = Log::select('user_id', 'work_date')->groupBy('user_id', 'work_date')->get();//Distinct user id's & dates w.r.t to those users
-			
+
 			foreach($user_ids as $user) {// loop through each user's data
 				$log_first = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->first();// Get 1st timing of that day's log
 				$log_last = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get last timing of that day's log
@@ -49,7 +49,7 @@ class LockedDataController extends Controller
 			Redis::flushdb();
 			return  response()->json(['status' => 'Success']);
 		} else if(date('l', strtotime($lastDate->work_date)) != "Saturday" || date_diff(date_create($lastDate->work_date), date_create(date("Y-m-d")))->format("%R%a") != "+1") { //if (previous date is not saturday) or (last summary date & today's date difference is not +1)
-			
+
 			$user_ids = Log::select('user_id')->groupBy('user_id')->get();//Only Distinct user id's
 
 			foreach($user_ids as $user) {// Get each user ID whose logs are entered in Log table
@@ -59,7 +59,7 @@ class LockedDataController extends Controller
 				if((int)date_diff(date_create($lastLogDatesUser), date_create($lastLockedDatesUser))->format("%R%a") == 0) {// If  the date is same means the content of that user is up-to-date
 					$log_first = Log::where(['user_id'=> $user->user_id,'work_date' => $lastLogDatesUser])->first();
 					$log_last = Log::where(['user_id'=> $user->user_id,'work_date' => $lastLogDatesUser])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();
-					
+
 					$summary = Locked_Data::where(['user_id' => $user->user_id, 'work_date' => $lastLockedDatesUser])->first();
 					$summary->user_id = $user->user_id;
 					$summary->work_date = $lastLockedDatesUser;//strftime("%Y-%m-%d", strtotime("$lastDate->work_date +1 day"));
@@ -72,9 +72,9 @@ class LockedDataController extends Controller
 
 					foreach($user_logs as $user_log) {// Loop through all the dates
 						if(date('l', strtotime($user_log->work_date)) != "Sunday") {
-							$log_first = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->first();// Get the 1st time of that day's log 
+							$log_first = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->first();// Get the 1st time of that day's log
 							$log_last = Log::where(['user_id'=> $user_log->user_id,'work_date' => $user_log->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get the last time of that day's log
-							if(Locked_Data::where(['user_id' => $user_log->user_id, 'work_date' => $user_log->work_date])->count() > 0) { //If that date exist in Locked_data, then update the content 
+							if(Locked_Data::where(['user_id' => $user_log->user_id, 'work_date' => $user_log->work_date])->count() > 0) { //If that date exist in Locked_data, then update the content
 								$summary = Locked_Data::where(['user_id' => $user_log->user_id, 'work_date' => $user_log->work_date])->first();
 								$summary->user_id = $user_log->user_id;
 								$summary->work_date = $user_log->work_date;
@@ -82,7 +82,7 @@ class LockedDataController extends Controller
 								$summary->end_time = date("Y-m-d H:i:s",strtotime($lastLockedDatesUser.' '.$log_last->cos));//$log_last->cos;
 								$summary->total_time = $this->getTimeDifference($log_first->cos, $log_last->cos);
 								$summary->update();
-							} else { //Else the data doesn't exist in Locked_Data, hence Insert the new Logs 
+							} else { //Else the data doesn't exist in Locked_Data, hence Insert the new Logs
 								$summary = new Locked_Data;
 								$summary->user_id = $user_log->user_id;
 								$summary->work_date = $user_log->work_date;
@@ -113,7 +113,7 @@ class LockedDataController extends Controller
 
 		if($lastDate === null) {// Data is entered for the 1st time in Table
 			$user_ids = Log::select('user_id', 'work_date')->groupBy('user_id', 'work_date')->get();//Distinct user id's & dates w.r.t to those users
-			
+
 			foreach($user_ids as $user) {// loop through each user's data
 				$log_first = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->first();// Get 1st timing of that day's log
 				$log_last = Log::where(['user_id' => $user->user_id, 'work_date' => $user->work_date])->orderBy('cos', 'desc')->orderBy('id', 'desc')->first();// Get last timing of that day's log
@@ -159,8 +159,8 @@ class LockedDataController extends Controller
 					$summary->status = "Leave";
 					$summary->save();
 				}
-			}		
-			
+			}
+
 			Redis::flushall();// Clear all the buffer
 			Redis::flushdb();// Clear all the queue
 			return  response()->json(['status' => 'Success']);
@@ -178,7 +178,7 @@ class LockedDataController extends Controller
     	$output = new ConsoleOutput();
         //$output->writeln("Personal Lock Data info");
 
-        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){        	
+        if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
         	$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
         	//$output->writeln($user_cnt);
         	if($user_cnt > 0) {
@@ -188,7 +188,7 @@ class LockedDataController extends Controller
 	        		$content = []; $json = [];
 
 	        		//$output->writeln("Confirmed");
-			        
+
 	        		if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
 	        			if($request->start_date == $request->end_date) { // If start date & end-date is same, then fetch only that date's data
 	        				$startDate = $endDate = $request->start_date;
@@ -217,7 +217,7 @@ class LockedDataController extends Controller
 			        	return Locked_Data::where([['user_id',$request->user_id], ['work_date', '>=', $request->start_date],])->get();
 			        else{
 			        	$datas = Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
-			        	
+
 			        	if(sizeof($datas) > 0) {
 			        		//$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
 
@@ -226,7 +226,7 @@ class LockedDataController extends Controller
 								$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
 				        	}
 
-				        	
+
 				        	foreach ($datas as $data) {
 				        		if (sizeof($content) == 0) {
 				        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
@@ -273,9 +273,9 @@ class LockedDataController extends Controller
         	if($user_cnt > 0) {
 	        	$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
 	        	if ($user->can('edit-personal')) {// This permission can access self & other user's data//if ($user->can('edit-users')) {// verifies if user has permission to read other's data
-	        		
+
 	        		$content = []; $json = [];
-	        		
+
 			        if(!empty($request->start_date) && !empty($request->end_date)) {/* If start & end date is not empty */
 	        			if($request->start_date == $request->end_date) {
 	        				$startDate = $endDate = $request->start_date;
@@ -307,7 +307,7 @@ class LockedDataController extends Controller
 				        	return Locked_Data::where('work_date', '>=', $request->start_date)->orderBy('user_id')->get();*/
 				        else {
 				        	$datas = Locked_Data::where('user_id',$emp_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
-				        	
+
 				        	if(sizeof($datas) > 0) {
 				        		//$output->writeln($datas[sizeof($datas) - 1]["work_date"]);
 
@@ -316,7 +316,7 @@ class LockedDataController extends Controller
 									$datas[sizeof($datas) - 1]["total_time"] = $this->getTimeDifference($datas[sizeof($datas) - 1]["start_time"], date('Y-m-d H:i:s',strtotime('+5 hour +30 minute')));
 					        	}
 
-					        	
+
 					        	foreach ($datas as $data) {
 					        		if (sizeof($content) == 0) {
 					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data->work_date))->format("%a") / 7) + 1;
@@ -334,7 +334,7 @@ class LockedDataController extends Controller
 				        	}
 				        	return response()->json($json);
 				        }
-				        	
+
 		        	}  else {
 				    	return response()->json(['status' => 'Error', 'msg' => 'Invalid ID'], 401);
 				    }
@@ -345,7 +345,7 @@ class LockedDataController extends Controller
 				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
 	    } else {
-			//$output->writeln("In else");	    	
+			//$output->writeln("In else");
 	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
 	    }
     }
@@ -376,7 +376,7 @@ class LockedDataController extends Controller
 				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
 	    } else {
-			//$output->writeln("In else");	    	
+			//$output->writeln("In else");
 	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
 	    }
     }*/
@@ -403,7 +403,7 @@ class LockedDataController extends Controller
 	        			}
 
 	        			if((int)date('w', strtotime($request->end_date) - 1) % 7 < 6) {/* Get end date of that respective week i.e. of Saturday */
-	        				$days = (7 - (int)date('w', strtotime($request->end_date))) . " day"; // convert date to week format [0-6] /* Get last date of that week */  
+	        				$days = (7 - (int)date('w', strtotime($request->end_date))) . " day"; // convert date to week format [0-6] /* Get last date of that week */
 	        				$endDate = date('Y-m-d',strtotime($days, strtotime($request->end_date)));
 	        			} else {
 	        				$endDate = $request->end_date; /* This is the last date of the week */
@@ -421,7 +421,7 @@ class LockedDataController extends Controller
 
 			        	foreach ($users as $key => $user) {
 				        	$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
-							
+
 							$summary = []; $content = [];
 							$summary['name'] = $user->name;
 			        		$summary['email'] = $user->email;
@@ -489,7 +489,7 @@ class LockedDataController extends Controller
 				return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
 			}
 	    } else {
-			//$output->writeln("In else");	    	
+			//$output->writeln("In else");
 	    	return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
 	    }
     }
@@ -501,7 +501,7 @@ class LockedDataController extends Controller
     		$t1 = explode(':', $t1[1]);
     	} else /* If $time1 is in Time Format */
     		$t1 = explode(':', $time1);
-    	
+
     	if(substr_count($time2, ' ') > 0) { /* If $time2 is in DateTime Format */
 	    	$t2 = explode(' ', $time2);
 	    	$t2 = explode(':', $t2[1]);
@@ -538,4 +538,102 @@ class LockedDataController extends Controller
 
     	return $total;
     }
+
+		public function allEmployeesMonthlyData(Request $request) {
+			if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
+				$user_cnt = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->count();
+				if($user_cnt > 0) {
+					$user = User::where(['id' => $request->user_id, 'api_token' => $request->header('X-API-KEY')])->first();
+        	if ($user->can('edit-personal')) {// verifies if user has permission
+
+						$month = $request->month;
+						$year = $request->year;
+						$startDate = date($year."-".$month."-1");
+						$startDate = new DateTime($startDate);	//converting them to date object
+						$endDate = date($year."-".$month."-".cal_days_in_month(CAL_GREGORIAN,$month,$year));
+						$endDate = new DateTime($endDate);
+						// $startDate = new DateTime($startDate);
+						// $endDate = new DateTime($endDate);
+						// $startWeekNo = (int)$startDate->format("W");
+						// $endWeekNo = (int)$endDate->format("W");
+						//acquire the entire months data from the database
+						// $datas = Locked_Data::where('user_id',$request->user_id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('user_id', 'ASC')->orderBy('work_date', 'ASC')->get();
+						$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get user's that are active
+						$empData = [];
+						$c = -1;
+						foreach($users as $key => $user) {
+
+							// for($wn = $startWeekNo;$wn <= $endWeekNo;$wn++) {
+							// 	//get the start and end date for that week
+							// 	if($wn == $startWeekNo)
+							// 		$sd = $startDate->format('Y-m-d');
+							// 	else {
+							// 		$sd = new DateTime();
+							// 		$sd = $sd->setISODate($year,$wn)->format('Y-m-d');
+							// 	}
+							// 	if($wn == $endWeekNo)
+							// 		$ed = $endDate->format('Y-m-d');
+							// 	else {
+							// 		$ed = new DateTime();
+							// 		$ed = $ed->setISODate($year,$month);
+							// 		$ed = $ed->modify('+6 days')->format('Y-m-d');
+							// 	}
+							// 	$data = [];
+							// 	$locked_logs
+							// }
+							$c++;
+							$empData[$c]['name'] = $user->name;
+							$empData[$c]['email'] = $user->email;
+							//getting the month data
+							$datas = Locked_Data::where('user_id',$user->id)->whereBetween('work_date',[$startDate, $endDate])->orderBy('work_date', 'ASC')->get();
+							//week wise data of the employee
+							$data = [];
+							$weekTotal = 0;
+							$monthTotal = 0;
+							$dc = -1;
+							//set the initial weekStart and weekEnd;
+							$weekStart = $startDate;
+							$weekNo = (int)$weekStart->format('W');
+							$weekEnd = new DateTime();
+							$weekEnd = $weekEnd->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
+
+							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
+								$data[$dc]['week'] = $weekNo;
+								$data[$dc]['weekStart'] = $weekStart;
+								$data[$dc]['weekEnd'] = $weekEnd;
+								foreach($datas as $d) {
+									$workDate = new DateTime($d['work_date']);
+									if($workDate >= $weekStart && $workDate <= $weekEnd) {
+										//add the hours to week and month total
+										$time = explode(':',$d['total_time']);
+										$weekTotal = $weekTotal + (int)$time[0]*60 + (int)$time[1];
+									}
+								}
+								$monthTotal = $monthTotal + $weekTotal;
+								$weekNo++;
+								$weekStart = $weekEnd;
+								$weekStart->modify('+1 days');
+								$weekEnd->modify('+7 days');
+								$weekTotal = 0;
+								if((int)$weekEnd->format('m') != (int)$month))
+									$weekEnd = $endDate;
+							}
+							$empData[$c]['data'] = $data;
+							$empData[$c]['monthTotal'] = $monthTotal;
+						}
+						return response()->json($empData);
+					}
+					else {
+						return response()->json(['status' => 'Error', 'msg' => 'Invalid Parameters'], 403);
+					}
+				}
+				else {
+					return response()->json(['status' => 'Error', 'msg' => 'Invalid User ID'], 401);
+				}
+			} else {
+					//$output->writeln("In else");
+	    		return response()->json(['status' => 'Error', 'msg' => 'Required parameters not satisfied'], 400);
+	    }
+
+		}
 }
