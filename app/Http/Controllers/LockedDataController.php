@@ -594,7 +594,7 @@ class LockedDataController extends Controller
 								$weekEnd->modify('+7 days');
 								$weekTotal = 0;
 								if((int)$weekEnd->format('m') != (int)$month)
-									$weekEnd = $endDate;
+									$weekEnd = clone $endDate;
 							}
 							$empData[$c]['data'] = $data;
 							$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
