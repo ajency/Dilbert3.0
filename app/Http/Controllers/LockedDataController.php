@@ -586,7 +586,13 @@ class LockedDataController extends Controller
 									}
 								}
 								//convert the week total minutes to hours
-								$data[$dc]['weekTotal'] = floor($weekTotal/60).":".$weekTotal%60;
+								$hours = (string)floor($weekTotal/60);
+								$minutes = (string)$weekTotal%60;
+								if(strlen($hours) == 1)
+									$hours = "0".$hours;
+								if(strlen($minutes) == 1)
+									$minutes = "0".$minutes;
+								$data[$dc]['weekTotal'] = $hours.":".$minutes;
 								$monthTotal = $monthTotal + $weekTotal;
 								$weekNo++;
 								$weekStart = $weekStart->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
@@ -597,7 +603,13 @@ class LockedDataController extends Controller
 									$weekEnd = clone $endDate;
 							}
 							$empData[$c]['data'] = $data;
-							$empData[$c]['monthTotal'] = floor($monthTotal/60).":".$monthTotal%60;
+							$hours = (string)floor($monthTotal/60);
+							$minutes = (string)$monthTotal%60;
+							if(strlen($hours) == 1)
+								$hours = "0".$hours;
+							if(strlen($minutes) == 1)
+								$minutes = "0".$minutes;
+							$empData[$c]['monthTotal'] = $hours.":".$minutes;
 						}
 						return response()->json($empData);
 					}
