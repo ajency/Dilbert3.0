@@ -566,11 +566,10 @@ class LockedDataController extends Controller
 							$monthTotal = 0;
 							$dc = -1;
 							//set the initial weekStart and weekEnd;
-							$weekStart = $startDate;
+							$weekStart = clone $startDate;
 							$weekNo = (int)$weekStart->format('W');
 							$weekEnd = new \DateTime();
 							$weekEnd = $weekEnd->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
-
 							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
 								$dc++;
 								$data[$dc]['week'] = $weekNo;
@@ -579,7 +578,7 @@ class LockedDataController extends Controller
 								foreach($datas as $d) {
 									$workDate = new \DateTime($d['work_date']);
 									if($workDate >= $weekStart && $workDate <= $weekEnd) {
-										if($d['total_time'] != 'NULL') {
+										if($d['total_time'] != null || $d['total_time'] != '') {
 											//add the hours to week and month total
 											$time = explode(':',$d['total_time']);
 											$weekTotal = $weekTotal + (int)$time[0]*60 + (int)$time[1];
