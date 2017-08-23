@@ -568,8 +568,13 @@ class LockedDataController extends Controller
 							//set the initial weekStart and weekEnd;
 							$weekStart = clone $startDate;
 							$weekNo = (int)$weekStart->format('W');
+							if($weekStart->format('m') == 1 && $weekNo == 52){
+								//corner case: when 1st is on a sunday it assigns weekNo as 52 and not 1 (weeks go from mon-sun)
+								$weekNo = 1;
+								$weekStart = $weekStart->setISODate($year,$weekNo);
+							}
 							$weekEnd = new \DateTime();
-							$weekEnd = $weekEnd->setISODate($year,(int)$weekStart->format('W'))->modify('+6 days');
+							$weekEnd = $weekEnd->setISODate($year,$weekNo)->modify('+6 days');
 							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
 								$dc++;
 								$data[$dc]['week'] = $weekNo;
