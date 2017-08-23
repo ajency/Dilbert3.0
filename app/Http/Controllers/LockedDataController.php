@@ -578,8 +578,8 @@ class LockedDataController extends Controller
 							while((int)$weekStart->format('m') == (int)$month && (int)$weekEnd->format('m') == (int)$month) {
 								$dc++;
 								$data[$dc]['week'] = $weekNo;
-								$data[$dc]['weekStart'] = $weekStart->format('Y-m-d');
-								$data[$dc]['weekEnd'] = $weekEnd->format('Y-m-d');
+								$data[$dc]['weekStart'] = $weekStart->format('d M Y');
+								$data[$dc]['weekEnd'] = $weekEnd->format('d M Y');
 								foreach($datas as $d) {
 									$workDate = new \DateTime($d['work_date']);
 									if($workDate >= $weekStart && $workDate <= $weekEnd) {
