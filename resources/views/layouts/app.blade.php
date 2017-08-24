@@ -71,12 +71,13 @@
                         <ul class="dropdown-menu" role="menu">
                             @if(Auth::user()->can('edit-users'))
                             <li><a href="{{ url('/employees') }}" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> @lang('lang.view_emp_det') </a></li>
-                            <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li>
+                            <!-- <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li> -->
                             <li><a href="{{ url('/orgs') }}" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
                             <li><a href="{{ url('/roles') }}" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> @lang('lang.roles_n_permissions') </a></li>
                             @elseif(Auth::user()->role == "moderator")
                             <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                             @endif
+                            <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li>
                             <li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
                             <!-- Tuckshop -->
                             <!-- <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li> -->
@@ -135,12 +136,13 @@
                                 <ul class="dropdown-menu" role="menu">
                                     @if(Auth::user()->can('edit-users'))
                                         <li><a href="{{ url('/employees') }}" id="editProfile"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> @lang('lang.view_emp_det') </a></li>
-                                        <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li>
+                                        <!-- <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li> -->
                                         <li><a href="{{ url('/orgs') }}" id="editProfile"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Organizations </a></li>
                                         <li><a href="{{ url('/roles') }}" id="editRoles"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span> @lang('lang.roles_n_permissions') </a></li>
                                     @elseif(Auth::user()->role == "moderator")
                                         <li><a href="#" id="editProfile"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> View Team members</a></li><!-- <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> -->
                                     @endif
+                                    <li><a href="{{ url('/summary') }}" id="viewUsers"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> View Summary </a></li>
                                     <li><a href="{{ url('/user') }}" id="editProfile"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @lang('lang.edit_profile') </a></li>
                                     <!-- Tuckshop -->
                                     <!-- <li><a href="#" id="tuckshopLink" data-showdiv="tuckshop_alert"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Tuckshop</a></li> -->
