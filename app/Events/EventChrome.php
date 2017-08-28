@@ -139,6 +139,8 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $minutes = date("i",strtotime($log->work_date.' '.$log->cos));
 
                                 if($hours >= 11 & $minutes > 0) {
+                                  //add a late login violation
+                                  // addViolation('late_login');
                                   // if past 11am send a mail
                                   $u = User::where('id',$log->user_id)->get()->first();
                                   $firstName = explode(" ",$u->name);

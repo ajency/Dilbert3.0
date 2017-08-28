@@ -245,6 +245,7 @@ Route::group(['prefix' => 'api'], function () {
     });
 
     Route::get('/data/save','LockedDataController@save'); // generate summary of logs & save in locked_data
+    Route::get('/weeklyCheck','LockedDataController@weeklyHoursCheck'); //to check if weekly min hours are met
 
     // for both app & website
     Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
@@ -259,7 +260,5 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('/update/data/user','LogHistoryController@update_user_log_summary'); // MOdficiation or update of the  User Log
     //Route::post('/update/data/user','LogHistoryController@update_user_log_summary'); // MOdficiation or update of the  User Log
 });
-
-Route::get('/trial','LogsController@trial');
 
 Route::get('/per','LogsController@viewAbc');

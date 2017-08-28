@@ -176,7 +176,7 @@ class LockedDataController extends Controller
 	}
 
     public function user_log_summary(Request $request) {// display specific user's locked data in JSON
-    	$output = new ConsoleOutput();
+    	// $output = new ConsoleOutput();
         //$output->writeln("Personal Lock Data info");
 
         if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
@@ -266,7 +266,7 @@ class LockedDataController extends Controller
     }
 
     public function other_users_log_summary(Request $request) {// Get other specific users's Logged details -> for week/mpnth view
-    	$output = new ConsoleOutput();
+    	// $output = new ConsoleOutput();
         //$output->writeln("Other user's Lock Data info");
 
         if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
@@ -383,7 +383,7 @@ class LockedDataController extends Controller
     }*/
 
     public function employees_log_summary(Request $request) {
-    	$output = new ConsoleOutput();
+    	// $output = new ConsoleOutput();
         //$output->writeln("Employees Lock Data info");
 
         if(!empty($request->user_id) && $request->header('X-API-KEY')!= null) { // if api key is present in Header){
@@ -546,4 +546,47 @@ class LockedDataController extends Controller
 				return $value[0]->value;
 			//else you could return a error
     }
+
+		public function weeklyHoursCheck() {
+			// // $date = new \DateTime(date('Y-m-d'));
+			// $date = new \DateTime('2017-06-18');/////////////////test date
+			// //calculate the minimum number of hours for the week
+			// //mon to fri check the number of days
+			// $workDays = Log::select('work_date')->whereBetween('work_date',[$date->modify('-6 days')->format('Y-m-d'),$date->modify('+4 days')->format('Y-m-d')])->groupBy('work_date')->get();
+			// $workDays = count($workDays);
+			// //check the saturday
+			// $date->modify('+1 days');
+			// $output->writeln($date->format('Y-m-d'));
+			// //if first saturday of the month
+			// $firstSat = new \DateTime(date('Y-m-d',strtotime("first saturday of ".$date->format('F')." ".$date->format('Y'))));
+			// if($firstSat->format('Y-m-d') == $date->format('Y-m-d'))
+			// 	$workDays++;
+			// else {
+			// 	$sats = Locked_Data::select('user_id','start_time')->where('work_date',$date)->whereNotNull('start_time')->get();	//number of people on Saturday
+			// 	if(count($sats) > 10)	//compensatory saturday
+			// 		$workDays++;
+			// }
+			// //work hours for the week
+			// $hrs = $workDays * 9;
+			$date = new \DateTime(date('Y-m-d'));
+			//check for each user who violates the minimum work hours
+			//get all the active users
+			$users = User::where(['is_active' => true])->orderBy('name')->get(); // Get users that are active
+			foreach($users as $user) {
+				$userHours = Locked_Data::where('user_id',$user['id'])->whereBetween('work_date',[$date->modify('-6 days')->format('Y-m-d'),$date->modify('+6 days')->format('Y-m-d')])->whereNotNull('start_time')->get();	//number of days present
+				$minHours = count($userHours) * 9;
+				$totalHours = 0;
+				foreach($userHours as $uh) {
+					if($uh['total_time'] != null && $uh['total_time'] != '') {
+						$time = explode(':',$uh['total_time']);
+						$totalHours = $totalHours + (int)$time[0]*60 + (int)$time[1];
+					}
+				}
+				$totalHours = $totalHours/60;
+				if($totalHours >= $minHours) {
+					//add weekly hours violation
+					//addViolation('weekly_hours');
+				}
+			}
+		}
 }
