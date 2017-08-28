@@ -30,7 +30,7 @@ Route::get('/', function () {
         return view('welcome',compact('locale'));
     else{
         $org_id = User::where('email',auth()->user()->email)->get();
-        
+
         $logo = Organization::find($org_id[0]->org_id)->get();
         $logo = $logo[0]->domain;
         return view('welcome',compact('logo','locale'));
@@ -83,13 +83,13 @@ Route::get('/dashboard', function() { /* Angular2 PWA page route */
 
     if(!auth()->guest()) { /* If user is Authorized, then access Dashboard, else Redirect to Login page */
         $org_id = App\User::where('email',auth()->user()->email)->get();
-            
+
         $logo = App\Organization::find($org_id[0]->org_id)->get();
         $logo = $logo[0]->domain;
         $logs = App\Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
-        
+
         return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_domain" => $logo)));
-    } else 
+    } else
         return redirect('/login');
 });
 
@@ -98,7 +98,7 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
     if(!auth()->guest()) { /* If user is Authorized, then access Dashboard, else Redirect to Login page */
         if(filter_var($emp_email, FILTER_VALIDATE_EMAIL)) { // Check if the URL subsection has email address
             $org_id = App\User::where('email',auth()->user()->email)->get();
-            
+
             #$emp_details = App\User::where('email',$emp_email)->first();
             $emp_details = App\User::where(['email' => $emp_email, 'is_active' => true])->first();
 
@@ -106,7 +106,7 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
                 $logo = App\Organization::find($org_id[0]->org_id)->get();
                 $logo = $logo[0]->domain;
                 $logs = App\Log::where([['user_id', $emp_details->id],['work_date', date('Y-m-d')],])->get();// get data based on today's date
-                
+
                 /*return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_id" => auth()->user()->org_id, "emp_id" => $emp_details->id, "emp_name" => $emp_details->name, "emp_email" => $emp_email, "other_emp" => "true")));*/
                 return view('angular.index', compact('logo','logs'))->with('leads',json_encode(array("id" => auth()->user()->id, "user_name" => auth()->user()->name, "api_token" => auth()->user()->api_token, "org_domain" => $logo)));
             } else { // This email address doesn't exist
@@ -116,19 +116,19 @@ Route::get('/dashboard/{emp_email}', function($emp_email) { /* Angular2 PWA page
         } else { // it is not an Email Address
             abort(404);
         }
-    } else 
+    } else
         return redirect('/login');
 });
 
 Route::get('/summary', function() {
     if(!auth()->guest()) { /* If user is Authorized, then access Summary page, else Redirect to Login page */
         $org_id = App\User::where('email',auth()->user()->email)->get();
-            
+
         $logo = App\Organization::find($org_id[0]->org_id)->get();
         $logo = $logo[0]->domain;
         $logs = App\Log::where([['user_id',auth()->user()->id],['work_date',date('Y-m-d')],])->get();// get data based on today's date
         return view('angular.summary', compact('logo','logs'));
-    } else 
+    } else
         return redirect('/login');
 });
 
@@ -143,14 +143,14 @@ Route::group(['prefix' => 'api'], function () {
         $output = new ConsoleOutput();
 
         $output->writeln("At fire");
-        
+
         if(\Request::exists('data_from') && \Request::only('data_from') !== "") { /* request has come from Chrome App */
             $output->writeln("requested from chrome");
 
             if($request->header( 'X-API-KEY' ) !== "" && $request->to_state === "New Session") {
                 $output->writeln("Login Redis");
                 $redis_list = $request;
-                
+
                 $redis_list->ip = request()->ip(); /* Get IP address using Request */
                 event(new App\Events\EventChrome($redis_list));
             } else if ($request->to_state === "offline") {
@@ -163,7 +163,7 @@ Route::group(['prefix' => 'api'], function () {
 
         } else { /* Request has come from nodeJS */
             $output->writeln("requested from nodeJS");
-            
+
             if(\Request::header( 'X-API-KEY' ) !== "") { // if api key is present in Header
                 $output->writeln("Header Present");
                 $output->writeln(\Request::header( 'X-API-KEY' ));
@@ -176,10 +176,10 @@ Route::group(['prefix' => 'api'], function () {
                     $user = User::where(['id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
                     //$user = User::where(['gen_id' => $request_user_id, 'api_token' => \Request::header( 'X-API-KEY' )])->get();
                     $output->writeln("User ID:".$request_user_id);
-                    
+
                     if(count($user) > 0) { // if the user exist
                         $output->writeln("APi key Present");
-                        
+
                         $redis_keys = Redis::keys('*');
 
                         $output->writeln("Length");
@@ -195,17 +195,17 @@ Route::group(['prefix' => 'api'], function () {
                         event(new App\Events\EventChrome($redis_list));
                     } else if($request_user_id == 0) { // If user_id = 0, then the user related to that socket_id has gone offline
                         $output->writeln("APi key not present");
-                        
+
                         $request_user_socket = $redis_list->socket_id;
-                        
+
                         $output->writeln("User socket ID:".$request_user_socket);
 
                         $user = User::where('socket_id', $request_user_socket)->get();
                         //$output->writeln("Getting count");
-                        $output->writeln(count($user));                
+                        $output->writeln(count($user));
                         if(count($user)) {
                             $output->writeln("User ID before save:".$user[0]->id);
-                            
+
                             $redis_keys = Redis::keys('*');
 
                             $output->writeln("Length");
@@ -222,7 +222,7 @@ Route::group(['prefix' => 'api'], function () {
 
                             event(new App\Events\EventChrome($redis_list));
                         } else { /* No such socket-ID exist */
-                            Redis::lpop('test-channels');// remove the current-log element from queue    
+                            Redis::lpop('test-channels');// remove the current-log element from queue
                         }
                     } else { // Invalid authentication
                         $redis_list = array("auth" => 0, "socket_id" => $redis_list->socket_id); // auth is set to 0 to define that user + APi key combination doesn't exist
@@ -239,27 +239,25 @@ Route::group(['prefix' => 'api'], function () {
                 } else {
                     Redis::lpop('test-channels');// remove the current-log element from queue
                     $output->writeln("No API auth");
-                }       
+                }
             }
         }
     });
-    
+
     Route::get('/data/save','LockedDataController@save'); // generate summary of logs & save in locked_data
-    
+
     // for both app & website
     Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
     //Route::get('/data/users/{emp_id}','LockedDataController@other_users_log_summary'); // get other employee's log summary
-    
+
     // For the Website - Angular2x
     Route::get('/data/username','SocialAuthController@getName'); // Get Name w.r.t that Email ID
     Route::get('/data/users','LockedDataController@other_users_log_summary'); // get other employee's log summary
     Route::get('/data/employees','LockedDataController@employees_log_summary'); // get all the employees log summary
-    
+
     Route::get('/data/role','RolePermissionController@role'); // Create new set of roles for the first time
     Route::get('/update/data/user','LogHistoryController@update_user_log_summary'); // MOdficiation or update of the  User Log
     //Route::post('/update/data/user','LogHistoryController@update_user_log_summary'); // MOdficiation or update of the  User Log
 });
-
-Route::get('/trial','LogsController@trial');
 
 Route::get('/per','LogsController@viewAbc');
