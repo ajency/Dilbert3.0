@@ -246,6 +246,7 @@ Route::group(['prefix' => 'api'], function () {
 
     Route::get('/data/save','LockedDataController@save'); // generate summary of logs & save in locked_data
     Route::get('/weeklyCheck','LockedDataController@weeklyHoursCheck'); //to check if weekly min hours are met
+    Route::get('/dailyHoursCheck','LockedDataController@dailyHoursCheck');  //to check if daily min hours are met
 
     // for both app & website
     Route::get('/data/user','LockedDataController@user_log_summary');// get user log summary
