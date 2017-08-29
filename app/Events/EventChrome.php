@@ -178,7 +178,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                         );
                     }
                 } else {
-                    $output->writeln("Organization doesn't exist");
+                    // $output->writeln("Organization doesn't exist");
                     Redis::lpop('test-channels');// remove the current-log element from queue
                     $this->data = array(
                         'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "Sorry!! IP list not found for verification", 'error_display' => "No"
@@ -186,7 +186,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                 }
                 
             } else { //no socket ID
-                $output->writeln("Socket id not confirmed");
+                // $output->writeln("Socket id not confirmed");
                 Redis::lpop('test-channels');// remove the current-log element from queue
                 $this->data = array(
                     'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "No socket ID registered", 'error_display' => "No"
@@ -236,19 +236,23 @@ class EventChrome extends Event implements ShouldBroadcast {
                 User::where('id', $user_id)->update(['socket_id' => '']); /* Clear Socket ID */
 
                 //$output->writeln("Socket id + !user id -> New Log");
-                $log = new Log;
-                $log->user_id = $user_id;
-                $log->work_date = date("Y-m-d");
-                $log->cos = $timeZone;
-                $log->from_state = $redis_list->from_state;
-                $log->to_state = $redis_list->to_state;
-                $log->ip_addr = $redis_list->ip_addr;
-                $log->save();
+                $org_ipList = Organization::where('id',$user[0]->org_id)->first(); // Get the Details of that Organization
+                $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */ /* Get all the IP List assigned by that Organization */
+                if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
+                  $log = new Log;
+                  $log->user_id = $user_id;
+                  $log->work_date = date("Y-m-d");
+                  $log->cos = $timeZone;
+                  $log->from_state = $redis_list->from_state;
+                  $log->to_state = $redis_list->to_state;
+                  $log->ip_addr = $redis_list->ip_addr;
+                  $log->save();
 
-                if(Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry
-                    /* Update Summary/ Locaked_Data Table with new Offline state */
-                    $userLocked_data = Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->get();
-                    Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);
+                  if(Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry
+                      /* Update Summary/ Locaked_Data Table with new Offline state */
+                      $userLocked_data = Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->get();
+                      Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->update(["end_time" => date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone)), "total_time" => (new LockedDataController)->getTimeDifference($userLocked_data[0]->start_time, strftime(date("Y-m-d H:i:s",strtotime($log->work_date.' '.$timeZone))))]);
+                  }
                 }
                 //$output->writeln("Log out log updated");
 
