@@ -135,17 +135,17 @@ class EventChrome extends Event implements ShouldBroadcast {
                             /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
                             if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
                                 //check if the time is past 11am
-                                $hours = date("H",strtotime($log->work_date.' '.$log->cos));
-                                $minutes = date("i",strtotime($log->work_date.' '.$log->cos));
-
-                                if($hours >= 11 & $minutes > 0) {
+                                $loginTime = new \DateTime($log->work_date.' '.$log->cos);
+                                $cutoffTime = new \DateTime($log->work_date.' 11:00:00');
+                                if($loginTime > $cutoffTime) {
+                                  $output->writeln("Late Login");
                                   // if past 11am send a mail
                                   $u = User::where('id',$log->user_id)->get()->first();
                                   $firstName = explode(" ",$u->name);
-
+                                  $output->writeln($u->email);
                                 	Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
                                     $message->from('dilbert@ajency.in','Dilbert');
-                                    $message->to('sharang@ajency.in')/*->cc(['anuj@ajency.in','tanvi@ajency.in'])*/->subject('Late login - '.$u->name);
+                                    $message->to($u->email)->cc(['avanti@ajency.in','anuj@ajency.in','tanvi@ajency.in'])->subject('Late alert');
                                 	});
                                 }
                                 $output->writeln("Mail Sent");
