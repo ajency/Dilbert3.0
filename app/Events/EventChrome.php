@@ -140,11 +140,21 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                                 if($hours >= 11 & $minutes > 0) {
                                   //add a late login violation
-                                  // addViolation('late_login');
-                                  // if past 11am send a mail
+                                //   $usr = User::where('id',$redis_list->user_id)->get();
                                   $u = User::where('id',$log->user_id)->get()->first();
+                                  $who_meta = array('name' => $u->name,
+              									'email' => $u->email,
+              									'organisation_id' => $u->org_id
+              								);
+              					  $violation_data = array('who_id' => $u->id,
+              							'who_type' => $u->role,
+              							'who_meta' => $who_meta
+              							);
+                                  $rule_key_fields = array('start_time' => $timeZone);
+                                  $rule_rhs = array('organisation_start_time' => (new LockedDataController)->getParamValue($u->org_id,'organisation_start_time'));
+                                  // addViolation('late_login',$data);
+                                  // if past 11am send a mail
                                   $firstName = explode(" ",$u->name);
-
                                 	Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
                                     $message->from('dilbert@ajency.in','Dilbert');
                                     $message->to('sharang@ajency.in')/*->cc(['anuj@ajency.in','tanvi@ajency.in'])*/->subject('Late login - '.$u->name);

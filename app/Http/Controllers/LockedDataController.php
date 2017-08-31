@@ -575,7 +575,7 @@ class LockedDataController extends Controller
 			foreach($users as $user) {
 				$userHours = Locked_Data::where('user_id',$user['id'])->whereBetween('work_date',[$date->modify('-6 days')->format('Y-m-d'),$date->modify('+6 days')->format('Y-m-d')])->whereNotNull('start_time')->get();	//number of days present
 				$minHours = count($userHours) * 9;
-				//minimum workhours a week is 45
+				//minimum workhours for a week is 45
 				if($minHours > 45)
 					$minHours = 45;
 				$totalHours = 0;
@@ -585,11 +585,22 @@ class LockedDataController extends Controller
 						$totalHours = $totalHours + (int)$time[0]*60 + (int)$time[1];
 					}
 				}
+				$thh = (int)$totalHours/60;
+				$thm = $totalHorus%60;
 				$totalHours = $totalHours/60;
-				if($totalHours >= $minHours) {
-					//add weekly hours violation
-					//addViolation('weekly_hours');
-				}
+				// if($totalHours <= $minHours) {
+				// 	$who_meta = array('name' => $user['name'],
+				// 					'email' => $user['email'],
+				// 					'organisation_id' => $user['org_id'],
+				// 					'total_hours' => $thh.":".$thm
+				// 				);
+				// 	$data = array('who_id' => $user['id'],
+				// 			'who_type' => $user['role'],
+				// 			'who_meta' => $who_meta
+				// 			);
+				// 	//add weekly hours violation
+				// 	//addViolation('weekly_hours',$data);
+				// }
 			}
 		}
 
@@ -597,12 +608,21 @@ class LockedDataController extends Controller
 			//users who are present today
 			$users = Locked_Data::where('work_date',date('Y-m-d'))->get();
 			foreach($users as $user) {
-				if($user['total_time'] != null && $user['total_time'] != '' && $user['total_time'] != '00:00') {
+				if($user['total_time'] != null && $user['total_time'] != '') {
 					$totalTime = explode(':',$user['total_time']);
-					if((($totalTime[0] * 60) + $totalTime[1])/60 < 5) {
-						//less than 5 hours violation
-						// addViolation('min_daily_hours');
-					}
+					// if((($totalTime[0] * 60) + $totalTime[1])/60 < 5) {
+					// 	$who_meta = array('name' => $user['name'],
+					// 					'email' => $user['email'],
+					// 					'organisation_id' => $user['org_id'],
+					// 					'daily_hours' => $totalTime[0].":".$totalTime[1]
+					// 				);
+					// 	$data = array('who_id' => $user['id'],
+					// 			'who_type' => $user['role'],
+					// 			'who_meta' => $who_meta
+					// 			);
+					// 	//less than 5 hours violation
+					// 	// addViolation('min_daily_hours',$data);
+					// }
 				}
 			}
 		}
