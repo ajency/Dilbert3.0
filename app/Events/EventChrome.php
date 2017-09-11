@@ -19,6 +19,9 @@ use Request;
 use Redis;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+// use Mail;
+use Illuminate\Support\Facades\Mail;
+
 class EventChrome extends Event implements ShouldBroadcast {
     use SerializesModels;
 
@@ -29,8 +32,8 @@ class EventChrome extends Event implements ShouldBroadcast {
      * @return void
      */
     public function __construct($redis_list) {
-        
-        // $output = new ConsoleOutput();
+
+        $output = new ConsoleOutput();
 
         // $output->writeln("Socket id - Event Chrome");
 
@@ -85,11 +88,11 @@ class EventChrome extends Event implements ShouldBroadcast {
                 }
 
                 /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
-                $x = strtotime($sign . $hr . " hour " . $sign . $min . " min", strtotime(date('Y-m-d H:i:s'))); 
+                $x = strtotime($sign . $hr . " hour " . $sign . $min . " min", strtotime(date('Y-m-d H:i:s')));
                 $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
 
                 // $startTimeRestriction = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime("04:00:00")) // Restrict the Start Time from 09:30 AM IST
-                
+
                 if (strtotime($timeZone) < strtotime("09:30:00")) { // If the time is less than 09:30 AM, then set the time to 09:30 AM
                     $timeZone = date("H:i", strtotime("09:30:00"));
                 }
@@ -108,7 +111,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                     }
                     //$output->writeln("Socket id + user id -> update");
                 }
-                
+
                 //$output->writeln("Organization process complete");
                 $org_ipList = Organization::where('id',$user[0]->org_id)->first(); // Get the Details of that Organization
 
@@ -131,12 +134,29 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                             /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
                             if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
+                                //check if the time is past 11am
+                                $loginTime = new \DateTime($log->work_date.' '.$log->cos);
+                                $cutoffTime = new \DateTime($log->work_date.' 11:00:00');
+                                if($loginTime > $cutoffTime) {
+                                  $output->writeln("Late Login");
+                                  // if past 11am send a mail
+                                  $u = User::where('id',$log->user_id)->get()->first();
+                                  $firstName = explode(" ",$u->name);
+                                  $output->writeln($u->email);
+                                	Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
+                                    $message->from('dilbert@ajency.in','Dilbert');
+                                    $message->to($u->email)->cc(['avanti@ajency.in','anuj@ajency.in','tanvi@ajency.in'])->subject('Late alert');
+                                	});
+                                }
+                                $output->writeln("Mail Sent");
+
                                 $locking_today_data = new Locked_Data;
                                 $locking_today_data->user_id = $log->user_id;
                                 $locking_today_data->work_date = $log->work_date;
                                 $locking_today_data->start_time = date("Y-m-d H:i:s",strtotime($log->work_date.' '.$log->cos));
                                 $locking_today_data->status = "Present"; // mark the status as Present
                                 $locking_today_data->save();
+                                $output->writeln("Saved Data\n");
                             }
 
                             if($redis_list->to_state == "New Session" || $redis_list->to_state == "active") { // If it is a New Session or Active Session
@@ -169,7 +189,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $this->data = array(
                                     'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "External IP address", 'error_display' => "No"
                                 );
-                            }    
+                            }
                         }
                     } else { /* Data/Log exist in the table */
                         Redis::lpop('test-channels');
@@ -182,9 +202,9 @@ class EventChrome extends Event implements ShouldBroadcast {
                     Redis::lpop('test-channels');// remove the current-log element from queue
                     $this->data = array(
                         'socket_status' => "no_socket_id", 'id' => $redis_list->user_id, 'socket_id' => "error", 'error_msg' => "Sorry!! IP list not found for verification", 'error_display' => "No"
-                    );    
+                    );
                 }
-                
+
             } else { //no socket ID
                 // $output->writeln("Socket id not confirmed");
                 Redis::lpop('test-channels');// remove the current-log element from queue
@@ -195,16 +215,16 @@ class EventChrome extends Event implements ShouldBroadcast {
         } else if(isset($redis_list->socket_id) && isset($redis_list->user_id) && $redis_list->user_id == 0){  // User closed chrome app or app got disconnected
             // user closed chrome app
             //$output->writeln("Socket id + !user id");
-            
+
             $user = User::where('socket_id', $redis_list->socket_id)->get();//update(['socket_id' => '']);
             //$output->writeln("Socket id + !user id -> get");
-            
+
             if(count($user)){ // User exist
                 $user_id = $user[0]->id;
 
                 // Get User's TimeZone
                 $userTimeZone = $user[0]->timeZone;
-                
+
                 // Get the TimeZone value from the whole content
                 $tempTimeZone = explode(':',explode(')',explode('GMT', $userTimeZone)[1])[0]); // Split using GMT, ) & : from [<Country> ({+/-}hr:min)]
 
@@ -226,7 +246,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                 }
 
                 /* Get current System UTC+0:0 time & increment w.r.t that employee's Timezone */
-                $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s'))); 
+                $x = strtotime($sign.$hr." hour ".$sign.$min." min", strtotime(date('Y-m-d H:i:s')));
                 $timeZone = date("H:i", $x); // Get the new Time in Hr:Min format
 
                 if (strtotime($timeZone) < strtotime("09:30:00")) { // If the time is less than 09:30 AM, then set the time to 09:30 AM
@@ -280,11 +300,11 @@ class EventChrome extends Event implements ShouldBroadcast {
     public function broadcastOn() {
         //$output = new ConsoleOutput();
         //$output->writeln("Prepare for broadcast");
-        
+
         $redis = Redis::connection();
 
         //$output->writeln("Broadcasting");
-        
+
         return ['test-channel'];
     }
 }
