@@ -145,7 +145,7 @@ class EventChrome extends Event implements ShouldBroadcast {
 
                                 try {
                                     //check if the time is past 11am
-                                    $loginTime = new \DdateTime($log->work_date.' '.$log->cos);
+                                    $loginTime = new \DateTime($log->work_date.' '.$log->cos);
                                     $cutoffTime = new \DateTime($log->work_date.' 11:00:00');
                                     if($loginTime > $cutoffTime) {
                                         $output->writeln("Late Login");
