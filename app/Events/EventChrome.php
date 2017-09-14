@@ -143,21 +143,28 @@ class EventChrome extends Event implements ShouldBroadcast {
                                 $locking_today_data->save();
                                 $output->writeln("Saved Data\n");
 
-                                //check if the time is past 11am
-                                $loginTime = new \DateTime($log->work_date.' '.$log->cos);
-                                $cutoffTime = new \DateTime($log->work_date.' 11:00:00');
-                                if($loginTime > $cutoffTime) {
-                                    $output->writeln("Late Login");
-                                    // if past 11am send a mail
-                                    $u = User::where('id',$log->user_id)->get()->first();
-                                    $firstName = explode(" ",$u->name);
-                                    $output->writeln($u->email);
-                                    Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
-                                        $message->from('dilbert@ajency.in','Dilbert');
-                                        $message->to($u->email)->cc(['avanti@ajency.in','anuj@ajency.in','tanvi@ajency.in'])->subject('Late alert');
-                                    });
+                                try {
+                                    //check if the time is past 11am
+                                    $loginTime = new \DdateTime($log->work_date.' '.$log->cos);
+                                    $cutoffTime = new \DateTime($log->work_date.' 11:00:00');
+                                    if($loginTime > $cutoffTime) {
+                                        $output->writeln("Late Login");
+                                        // if past 11am send a mail
+                                        $u = User::where('id',$log->user_id)->get()->first();
+                                        $firstName = explode(" ",$u->name);
+                                        $output->writeln($u->email);
+                                        Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
+                                            $message->from('dilbert@ajency.in','Dilbert');
+                                            $message->to($u->email)->cc(['sharang@ajency.in'])->subject('Late alert');
+                                        });
+                                    }
+                                    $output->writeln("Mail Sent");
+                                } catch(Exception $e) {
+                                    $debug = fopen("debug.txt","a");
+                                    $output->writeln("exception caught");
+                                    fwrite($debug,$e->getMessage());
+                                    fclose($debug);
                                 }
-                                $output->writeln("Mail Sent");
                             }
 
                             if($redis_list->to_state == "New Session" || $redis_list->to_state == "active") { // If it is a New Session or Active Session
