@@ -154,7 +154,7 @@ class EventChrome extends Event implements ShouldBroadcast {
                                     $output->writeln($u->email);
                                     Mail::send('lateMail', ['user' => $u->name,'firstname' => $firstName[0],'logintime' => date("H:i",strtotime($log->cos))], function($message) use($u) {
                                         $message->from('dilbert@ajency.in','Dilbert');
-                                        $message->to($u->email)->cc(['avanti@ajency.in','anuj@ajency.in','tanvi@ajency.in'])->subject('Late alert');
+                                        $message->to($u->email)->cc('sharang@ajency.in')->subject('Late alert');
                                     });
                                 }
                                 $output->writeln("Mail Sent");
