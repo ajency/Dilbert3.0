@@ -121,16 +121,17 @@ class EventChrome extends Event implements ShouldBroadcast {
                         //$output->writeln(count($org_ipList));
                         $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */ /* Get all the IP List assigned by that Organization */
 
-                        if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
-                            $log = new Log;
+                        // log regardless of the ip but dont put in Locked_Data
+                        $log = new Log;
+                        $log->work_date = date("Y-m-d");
+                        $log->cos = $timeZone;
+                        $log->user_id = $redis_list->user_id;
+                        $log->from_state = $redis_list->from_state;
+                        $log->to_state = $redis_list->to_state;
+                        $log->ip_addr = $redis_list->ip_addr;
+                        $log->save();
 
-                            $log->work_date = date("Y-m-d");
-                            $log->cos = $timeZone;
-                            $log->user_id = $redis_list->user_id;
-                            $log->from_state = $redis_list->from_state;
-                            $log->to_state = $redis_list->to_state;
-                            $log->ip_addr = $redis_list->ip_addr;
-                            $log->save();
+                        if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
 
                             /* If the user logged in for the 1st time, then add that log to Locked_Data table, just to track @ what time u logged in */
                             if(Locked_Data::where(['user_id' => $log->user_id, 'work_date' => $log->work_date])->count() <= 0) { // If count is 0, then it's today's 1st entry
@@ -259,15 +260,17 @@ class EventChrome extends Event implements ShouldBroadcast {
                 //$output->writeln("Socket id + !user id -> New Log");
                 $org_ipList = Organization::where('id',$user[0]->org_id)->first(); // Get the Details of that Organization
                 $org_ipList = unserialize($org_ipList->ip_lists);/* Unserialize from JSON to array */ /* Get all the IP List assigned by that Organization */
+                // log regardless of ip
+                $log = new Log;
+                $log->user_id = $user_id;
+                $log->work_date = date("Y-m-d");
+                $log->cos = $timeZone;
+                $log->from_state = $redis_list->from_state;
+                $log->to_state = $redis_list->to_state;
+                $log->ip_addr = $redis_list->ip_addr;
+                $log->save();
+
                 if(count($org_ipList) > 0 && in_array($redis_list->ip_addr, $org_ipList)) { /* If ip addresses > 0 & user's ip exists in the list, then save the log */
-                  $log = new Log;
-                  $log->user_id = $user_id;
-                  $log->work_date = date("Y-m-d");
-                  $log->cos = $timeZone;
-                  $log->from_state = $redis_list->from_state;
-                  $log->to_state = $redis_list->to_state;
-                  $log->ip_addr = $redis_list->ip_addr;
-                  $log->save();
 
                   if(Locked_Data::where(['user_id' => $user_id, 'work_date' => $log->work_date])->count() > 0) { // If count > 0, then it's today's is not 1st entry
                       /* Update Summary/ Locaked_Data Table with new Offline state */
