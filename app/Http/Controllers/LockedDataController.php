@@ -483,14 +483,11 @@ class LockedDataController extends Controller
 								$today = new DateTime(date('Y-m-d'));
 								while($start <= $end && $start <= $today) {
 									$data = [
-										"created_at" => null,
-										"end_time" => null,
-										"id" => null,
-										"start_time" => null,
-										"total_time" => "00:00",
-										"updated_at" => null,
 										"user_id" => $user->id,
 										"work_date" => $start->format('Y-m-d'),
+										"start_time" => null,
+										"end_time" => null,
+										"total_time" => "00:00",
 										"status" => "Not Joined"
 									];
 									array_push($summary["summary"],$data);
