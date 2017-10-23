@@ -474,6 +474,7 @@ class LockedDataController extends Controller
 										array_push($content["data"],$data1);
 										$firstDate->modify('+1 days');
 									}
+									$firstDate->modify('+1 days');
 					        		if (sizeof($content) == 0) {
 					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
 					        			$content["data"] = array($data);
