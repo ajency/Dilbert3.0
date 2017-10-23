@@ -22,6 +22,7 @@ use App\Events\EventChrome;
 use Redis;
 use Config;
 use Illuminate\Support\Facades\Session;
+use DateTime;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -475,7 +476,26 @@ class LockedDataController extends Controller
 					        	//array_push($summary, $content);
 					        	$summary["summary"] = $content;
 				        	}else {
-				        		$summary["summary"] = [];//json_encode(new stdClass);
+								$summary["summary"] = [];//json_encode(new stdClass);
+								$start = new DateTime($startDate);
+								$end = new DateTime($endDate);
+								$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
+								while($start <= $end) {
+									$data = [
+										"created_at" => null,
+										"end_time" => null,
+										"id" => null,
+										"start_time" => null,
+										"total_time" => "00:00",
+										"updated_at" => null,
+										"user_id" => $user->id,
+										"work_date" => $start->format('Y-m-d'),
+										"status" => "Not Joined"
+									];
+									array_push($summary["summary"],$data);
+									$start->modify('+1 days');
+								}
+
 				        	}
 				        	array_push($json, $summary);
 				        	//return response()->json($json);
