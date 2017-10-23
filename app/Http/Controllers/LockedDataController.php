@@ -458,8 +458,22 @@ class LockedDataController extends Controller
 					        			return $model["work_date"];
 					        		});
 					        	}
+								$firstDate = new DateTime($datas[0]["work_date"]);
 
 					        	foreach ($datas as $data) {
+									$workDt = new DateTime($data["work_date"]);
+									while($firstDate != $workDt) {
+										$data1 = [
+											"user_id" => $user->id,
+											"work_date" => $firstDate->format('Y-m-d'),
+											"start_time" => null,
+											"end_time" => null,
+											"total_time" => "00:00",
+											"status" => "Holiday"
+										];
+										array_push($content["data"],$data1);
+										$firstDate->modify('+1 days');
+									}
 					        		if (sizeof($content) == 0) {
 					        			$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
 					        			$content["data"] = array($data);
