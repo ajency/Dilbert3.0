@@ -491,11 +491,10 @@ class LockedDataController extends Controller
 					        	//array_push($summary, $content);
 					        	$summary["summary"] = $content;
 				        	}else {
-								$summary["summary"]["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
+								$summary["summary"]["week"] = (int)(date_diff(date_create($startDate),date_create($startDate))->format("%a") / 7) + 1;
 								$summary["summary"]["data"] = [];//json_encode(new stdClass);
 								$start = new DateTime($startDate);
 								$end = new DateTime($endDate);
-								$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
 								$today = new DateTime(date('Y-m-d'));
 								while($start < $end && $start < $today) {
 									$data = [
