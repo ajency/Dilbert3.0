@@ -447,7 +447,7 @@ class LockedDataController extends Controller
 					        			//$output->writeln($day_diff);
 					        			$dates = date('Y-m-d', strtotime("-" . $day_diff . " day", strtotime($datas[0]["work_date"])));
 					        			//$output->writeln($dates);
-					        			$extra_data = array("user_id" => $user->id, "work_date" => $dates, "start_time" => null, "end_time" => null, "total_time" => "00:00", "status" => "Not Joined");
+					        			$extra_data = array("user_id" => $user->id, "work_date" => $dates, "start_time" => null, "end_time" => null, "total_time" => "00:00", "status" => "Holiday");
 					        			//array_push($extra_data, $data);
 					        			$datas->push($extra_data);
 					        			//$output->writeln($extra_data);
