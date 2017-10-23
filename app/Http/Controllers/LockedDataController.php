@@ -458,10 +458,16 @@ class LockedDataController extends Controller
 					        			return $model["work_date"];
 					        		});
 					        	}
-								$firstDate = new DateTime($datas[0]["work_date"]);
+								foreach ($datas as $data) { // $datas[0]["work_date"] and first value of $data["work_date"] dint match
+									$firstDate = new DateTime($data["work_date"]);
+									break;
+								}
+								$output->writeln($firstDate->format('Y-m-d'));
 
 					        	foreach ($datas as $data) {
+									$output->writeln($data["work_date"]);
 									$workDt = new DateTime($data["work_date"]);
+									// $content["data"] = [];
 									while($firstDate != $workDt) {
 										$data1 = [
 											"user_id" => $user->id,
@@ -471,7 +477,13 @@ class LockedDataController extends Controller
 											"total_time" => "00:00",
 											"status" => "Holiday"
 										];
-										array_push($content["data"],$data1);
+										// $output->writeln("content".$content['data']);
+										if(count($content) == 0) {
+											$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
+											$content["data"] = $data1;
+										}
+										else
+											array_push($content["data"],$data1);
 										$firstDate->modify('+1 days');
 									}
 									$firstDate->modify('+1 days');
