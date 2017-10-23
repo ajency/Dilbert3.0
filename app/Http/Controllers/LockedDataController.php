@@ -480,7 +480,8 @@ class LockedDataController extends Controller
 								$start = new DateTime($startDate);
 								$end = new DateTime($endDate);
 								$content["week"] = (int)(date_diff(date_create($startDate),date_create($data["work_date"]))->format("%a") / 7) + 1;
-								while($start <= $end) {
+								$today = new DateTime(date('Y-m-d'));
+								while($start <= $end && $start <= $today) {
 									$data = [
 										"created_at" => null,
 										"end_time" => null,
